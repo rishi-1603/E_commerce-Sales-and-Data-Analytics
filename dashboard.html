@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcomAnalytics — Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bg4:#30363d;
+  --border:rgba(240,246,252,0.1);--border2:rgba(240,246,252,0.15);
+  --text:#e6edf3;--muted:#8b949e;--muted2:#6e7681;
+  --blue:#58a6ff;--green:#3fb950;--amber:#d29922;--red:#f85149;
+  --purple:#bc8cff;--cyan:#79c0ff;--pink:#f778ba;--orange:#ffa657;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5;min-height:100vh;display:flex}
+
+/* SIDEBAR */
+.sidebar{width:240px;min-width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:sticky;top:0;overflow-y:auto}
+.logo{padding:20px 16px 16px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.logo-mark{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#1f6feb,#388bfd);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.logo-name{font-size:15px;font-weight:600;letter-spacing:-0.3px}
+.logo-sub{font-size:11px;color:var(--muted);padding-left:42px}
+.nav-group{padding:8px 8px 0}
+.nav-label{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:0.8px;padding:6px 8px 4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:6px;cursor:pointer;color:var(--muted);font-size:13px;transition:all 0.12s;margin-bottom:1px}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:rgba(31,111,235,0.15);color:var(--blue)}
+.nav-item .icon{width:16px;height:16px;flex-shrink:0;opacity:0.8}
+.nav-count{margin-left:auto;background:var(--bg3);border-radius:10px;padding:1px 6px;font-size:10px;color:var(--muted)}
+.sidebar-footer{margin-top:auto;padding:16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted2)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.page-title{font-size:15px;font-weight:600}
+.page-sub{font-size:12px;color:var(--muted)}
+.topbar-pills{display:flex;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid}
+.pill-blue{color:var(--blue);border-color:rgba(88,166,255,0.3);background:rgba(88,166,255,0.08)}
+.pill-green{color:var(--green);border-color:rgba(63,185,80,0.3);background:rgba(63,185,80,0.08)}
+.pill-amber{color:var(--amber);border-color:rgba(210,153,34,0.3);background:rgba(210,153,34,0.08)}
+.pill-red{color:var(--red);border-color:rgba(248,81,73,0.3);background:rgba(248,81,73,0.08)}
+.pill-purple{color:var(--purple);border-color:rgba(188,140,255,0.3);background:rgba(188,140,255,0.08)}
+.pill-muted{color:var(--muted);border-color:var(--border);background:transparent}
+
+/* CONTENT */
+.content{padding:20px 24px;flex:1;overflow-y:auto}
+.page{display:none}
+.page.active{display:block}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative}
+.kpi-accent{position:absolute;top:0;left:0;right:0;height:2px;border-radius:10px 10px 0 0}
+.kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px}
+.kpi-value{font-size:24px;font-weight:700;letter-spacing:-0.5px;line-height:1}
+.kpi-delta{font-size:11px;margin-top:6px;display:flex;align-items:center;gap:4px}
+.up{color:var(--green)} .dn{color:var(--red)} .neu{color:var(--muted)}
+
+/* CARDS */
+.card-row{display:grid;gap:12px;margin-bottom:12px}
+.c2{grid-template-columns:1fr 1fr}
+.c3l{grid-template-columns:2fr 1fr}
+.c3r{grid-template-columns:1fr 2fr}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:13px;font-weight:600}
+.card-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.chart-wrap{position:relative;width:100%}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 12px;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid rgba(240,246,252,0.04);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,0.02)}
+tr:last-child td{border-bottom:0}
+.num-right{text-align:right}
+
+/* PROGRESS */
+.prog-list{display:flex;flex-direction:column;gap:10px}
+.prog-item{display:flex;flex-direction:column;gap:4px}
+.prog-row{display:flex;justify-content:space-between;font-size:12px}
+.prog-bar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px}
+
+/* SEGMENT PILLS */
+.seg-chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg-chip{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.seg-chip .n{font-size:20px;font-weight:700}
+.seg-chip .l{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ACTION TABLE */
+.action-row{display:flex;align-items:start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.action-row:last-child{border-bottom:0}
+.action-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+/* FORECAST BAND */
+.band{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}
+.band-col{background:var(--bg3);border-radius:8px;padding:12px 8px;text-align:center;border:1px solid var(--border)}
+.band-col .mn{font-size:11px;color:var(--muted);margin-bottom:6px}
+.band-col .val{font-size:13px;font-weight:600}
+.band-col .gr{font-size:11px;margin-top:3px}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">
+      <div class="logo-icon">📊</div>
+      <span class="logo-name">EcomAnalytics</span>
+    </div>
+    <div class="logo-sub">2022 – 2024 · Full Pipeline</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Dashboards</div>
+    <div class="nav-item active" onclick="nav('overview',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zm8 0A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm-8 8A1.5 1.5 0 012.5 9h3A1.5 1.5 0 017 10.5v3A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-3zm8 0A1.5 1.5 0 0110.5 9h3A1.5 1.5 0 0115 10.5v3A1.5 1.5 0 0113.5 15h-3A1.5 1.5 0 019 13.5v-3z"/></svg>
+      Executive Overview
+    </div>
+    <div class="nav-item" onclick="nav('sales',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 0h1v15h15v1H0V0zm14.817 3.113a.5.5 0 01.07.704l-4.5 5.5a.5.5 0 01-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 01-.808-.588l4-5.5a.5.5 0 01.758-.06l2.609 2.61 4.135-5.057a.5.5 0 01.72-.086z"/></svg>
+      Sales Performance
+    </div>
+    <div class="nav-item" onclick="nav('customers',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zM5.216 14A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
+      Customer RFM
+    </div>
+    <div class="nav-item" onclick="nav('churn',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 00-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 01-1.1 0L7.1 5.995A.905.905 0 018 5zm.002 6a1 1 0 110 2 1 1 0 010-2z"/></svg>
+      Churn Analysis
+      <span class="nav-count">375</span>
+    </div>
+    <div class="nav-item" onclick="nav('products',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z"/></svg>
+      Product Profitability
+    </div>
+    <div class="nav-item" onclick="nav('forecast',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M6 10.5a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h11a.5.5 0 010 1h-11a.5.5 0 01-.5-.5z"/></svg>
+      Revenue Forecast
+    </div>
+  </div>
+
+  <div class="nav-group" style="margin-top:16px">
+    <div class="nav-label">Skills Used</div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python (Pandas, sklearn)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🗄️ SQL (PostgreSQL)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📊 Data Viz (Chart.js)</span></div>
+  </div>
+
+  <div class="sidebar-footer">
+    55,867 transactions · 150 products<br>
+    2,000 customers · 3 years data
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="page-title" id="ptitle">Executive Overview</div>
+        <div class="page-sub" id="psub">KPIs · Revenue · Orders · Customers</div>
+      </div>
+    </div>
+    <div class="topbar-pills">
+      <span class="pill pill-green">● Live Dataset</span>
+      <span class="pill pill-blue">Jan 2022 – Dec 2024</span>
+      <span class="pill pill-muted">12,000 Orders</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════ OVERVIEW ═══════ -->
+    <div class="page active" id="page-overview">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#1f6feb,#388bfd)"></div>
+          <div class="kpi-label">Total Revenue</div>
+          <div class="kpi-value" style="color:var(--blue)">₹55.9M</div>
+          <div class="kpi-delta neu">3-year cumulative</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#2ea043,#3fb950)"></div>
+          <div class="kpi-label">Gross Profit</div>
+          <div class="kpi-value" style="color:var(--green)">₹30.9M</div>
+          <div class="kpi-delta up">▲ 55.4% margin</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#b45309,#d29922)"></div>
+          <div class="kpi-label">Completed Orders</div>
+          <div class="kpi-value" style="color:var(--amber)">9,932</div>
+          <div class="kpi-delta neu">77.7% delivery rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#6f42c1,#bc8cff)"></div>
+          <div class="kpi-label">Active Customers</div>
+          <div class="kpi-value" style="color:var(--purple)">1,987</div>
+          <div class="kpi-delta up">▲ With purchase history</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#0e7490,#79c0ff)"></div>
+          <div class="kpi-label">Avg Order Value</div>
+          <div class="kpi-value" style="color:var(--cyan)">₹5,625</div>
+          <div class="kpi-delta neu">Per completed order</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#c7254e,#f85149)"></div>
+          <div class="kpi-label">High Churn Risk</div>
+          <div class="kpi-value" style="color:var(--red)">375</div>
+          <div class="kpi-delta dn">▼ 18.9% churn rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#e36209,#ffa657)"></div>
+          <div class="kpi-label">Champions (RFM)</div>
+          <div class="kpi-value" style="color:var(--orange)">305</div>
+          <div class="kpi-delta up">▲ Top-value segment</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-accent" style="background:linear-gradient(90deg,#9d174d,#f778ba)"></div>
+          <div class="kpi-label">Return Rate</div>
+          <div class="kpi-value" style="color:var(--pink)">10.1%</div>
+          <div class="kpi-delta neu">1,207 returned orders</div>
+        </div>
+      </div>
+
+      <div class="card-row" style="grid-template-columns:1fr">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Monthly Revenue Trend</div>
+              <div class="card-sub">Jan 2022 → Dec 2024 — strong growth trajectory</div>
+            </div>
+            <div class="legend">
+              <div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Revenue</div>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:220px">
+            <canvas id="ch_revtrend" role="img" aria-label="Monthly revenue trend 2022 to 2024">Monthly revenue from Jan 2022 to Dec 2024 showing strong growth.</canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Revenue by Category</div><div class="card-sub">All-time split across 5 categories</div></div>
+          </div>
+          <div class="chart-wrap" style="height:200px">
+            <canvas id="ch_catrev" role="img" aria-label="Revenue by product category">Category revenue breakdown.</canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Order Status Distribution</div><div class="card-sub">12,000 total orders</div></div>
+          </div>
+          <div class="chart-wrap" style="height:200px">
+            <canvas id="ch_status" role="img" aria-label="Order status distribution pie chart">Order status breakdown.</canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ SALES ═══════ -->
+    <div class="page" id="page-sales">
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Gross Revenue</div><div class="kpi-value" style="color:var(--blue)">₹55.9M</div><div class="kpi-delta neu">All 3 years</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Best Category</div><div class="kpi-value" style="color:var(--green)">Electronics</div><div class="kpi-delta up">▲ 59.3% margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Delivered Orders</div><div class="kpi-value" style="color:var(--amber)">9,325</div><div class="kpi-delta up">▲ 77.7% rate</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Cancellations</div><div class="kpi-value" style="color:var(--red)">861</div><div class="kpi-delta dn">▼ 7.2% cancel rate</div></div>
+      </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Revenue vs Profit by Category</div><div class="card-sub">Grouped bar comparison</div></div>
+          </div>
+          <div class="legend"><div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Revenue</div><div class="leg-item"><div class="leg-dot" style="background:#3fb950"></div>Profit</div></div>
+          <div class="chart-wrap" style="height:220px">
+            <canvas id="ch_catcomp" role="img" aria-label="Revenue vs profit by category">Revenue and profit by category.</canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Revenue by Region</div><div class="card-sub">5 geographic regions</div></div>
+          </div>
+          <div class="chart-wrap" style="height:220px">
+            <canvas id="ch_region" role="img" aria-label="Revenue by region bar chart">Regional revenue.</canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div><div class="card-title">Top 10 Products by Profit</div><div class="card-sub">Ranked from 150 products · SQL + Python analysis</div></div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Product</th><th>Category</th><th class="num-right">Units</th><th class="num-right">Revenue</th><th class="num-right">Profit</th><th class="num-right">Margin</th></tr></thead>
+            <tbody id="top10tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ CUSTOMERS ═══════ -->
+    <div class="page" id="page-customers">
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Champions</div><div class="kpi-value" style="color:var(--green)">305</div><div class="kpi-delta up">▲ High R·F·M score</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Loyal Customers</div><div class="kpi-value" style="color:var(--blue)">508</div><div class="kpi-delta neu">Largest segment</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">At Risk</div><div class="kpi-value" style="color:var(--red)">226</div><div class="kpi-delta dn">▼ Needs re-engagement</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">About to Sleep</div><div class="kpi-value" style="color:var(--amber)">321</div><div class="kpi-delta dn">▼ Cooling down</div></div>
+      </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">RFM Segment Distribution</div><div class="card-sub">8 segments · K-Means + rule-based scoring</div></div></div>
+          <div class="chart-wrap" style="height:280px">
+            <canvas id="ch_rfm" role="img" aria-label="RFM segment distribution horizontal bar chart">RFM customer segments.</canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Segment Share &amp; Revenue</div><div class="card-sub">Count and weight</div></div></div>
+          <div class="prog-list" id="rfm_prog" style="margin-top:4px"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">RFM Score Definitions</div><div class="card-sub">How segments are assigned</div></div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Segment</th><th>Recency</th><th>Frequency</th><th>Monetary</th><th>Strategy</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill pill-green">Champions</span></td><td>Recent</td><td>High</td><td>High</td><td>Reward, upsell, ask for reviews</td></tr>
+              <tr><td><span class="pill pill-blue">Loyal Customers</span></td><td>Good</td><td>High</td><td>Any</td><td>Loyalty programme, exclusive offers</td></tr>
+              <tr><td><span class="pill pill-purple">Potential Loyalists</span></td><td>Recent</td><td>Medium</td><td>Medium</td><td>Membership offer, recommend products</td></tr>
+              <tr><td><span class="pill pill-amber">About to Sleep</span></td><td>Low</td><td>Low</td><td>Low</td><td>Limited-time offer, remind them</td></tr>
+              <tr><td><span class="pill pill-red">At Risk</span></td><td>Low</td><td>High</td><td>High</td><td>Win-back campaign, personalised email</td></tr>
+              <tr><td><span class="pill pill-red">Lost Customers</span></td><td>Very Low</td><td>Any</td><td>Any</td><td>Survey, last-chance offer</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ CHURN ═══════ -->
+    <div class="page" id="page-churn">
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Low Risk</div><div class="kpi-value" style="color:var(--green)">447</div><div class="kpi-delta up">▲ Active buyers</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">High Risk / Churned</div><div class="kpi-value" style="color:var(--red)">375</div><div class="kpi-delta dn">▼ 180+ days silent</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Model AUC</div><div class="kpi-value" style="color:var(--blue)">1.000</div><div class="kpi-delta up">▲ Random Forest</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Churn Rate</div><div class="kpi-value" style="color:var(--purple)">18.9%</div><div class="kpi-delta dn">▼ Industry avg ~20%</div></div>
+      </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Churn Risk Bands</div><div class="card-sub">Random Forest classifier output</div></div></div>
+          <div class="chart-wrap" style="height:240px">
+            <canvas id="ch_churnpie" role="img" aria-label="Churn risk distribution pie chart">Churn risk by band.</canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Model Accuracy Comparison</div><div class="card-sub">3 algorithms benchmarked</div></div></div>
+          <div class="chart-wrap" style="height:240px">
+            <canvas id="ch_models" role="img" aria-label="Model accuracy comparison bar chart">Model comparison.</canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Churn Intervention Plan</div><div class="card-sub">Action by risk tier · Python model output</div></div></div>
+        <div class="action-row">
+          <div class="action-icon" style="background:rgba(248,81,73,0.15)">🚨</div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-red" style="margin-right:8px">High Risk — 375 customers</span></div><div style="font-size:12px;color:var(--muted)">Win-back campaign: personalised email with 20% discount voucher. Trigger within 7 days. Expected recovery rate: 15–25%.</div></div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon" style="background:rgba(210,153,34,0.15)">⚡</div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-amber" style="margin-right:8px">Medium Risk — 0 customers</span></div><div style="font-size:12px;color:var(--muted)">Re-engagement drip sequence. Loyalty points reminder. Product recommendations based on purchase history.</div></div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon" style="background:rgba(63,185,80,0.15)">✅</div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-green" style="margin-right:8px">Low Risk — 447 customers</span></div><div style="font-size:12px;color:var(--muted)">Cross-sell and upsell campaigns. Introduce loyalty tier. Request reviews and referrals.</div></div>
+        </div>
+        <div class="action-row">
+          <div class="action-icon" style="background:rgba(188,140,255,0.15)">🤖</div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-purple" style="margin-right:8px">Key Features (ML)</span></div><div style="font-size:12px;color:var(--muted)">Top predictors: recency_days, total_orders, order_frequency, avg_order_value, unique_categories purchased.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ PRODUCTS ═══════ -->
+    <div class="page" id="page-products">
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Total SKUs</div><div class="kpi-value" style="color:var(--blue)">150</div><div class="kpi-delta neu">5 categories</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Stars (BCG)</div><div class="kpi-value" style="color:var(--green)">36</div><div class="kpi-delta up">▲ High vol + margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cash Cows</div><div class="kpi-value" style="color:var(--blue)">38</div><div class="kpi-delta neu">High vol, low margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Overall Margin</div><div class="kpi-value" style="color:var(--amber)">55.4%</div><div class="kpi-delta up">▲ Across all products</div></div>
+      </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">BCG Portfolio Matrix</div><div class="card-sub">150 products classified by volume × margin</div></div></div>
+          <div class="chart-wrap" style="height:240px">
+            <canvas id="ch_bcg" role="img" aria-label="BCG matrix product distribution donut chart">BCG matrix quadrants.</canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div><div class="card-title">Profit Margin by Category</div><div class="card-sub">Actual margin after discounts</div></div></div>
+          <div class="chart-wrap" style="height:240px">
+            <canvas id="ch_margin" role="img" aria-label="Profit margin percentage by category">Margin by category.</canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">BCG Quadrant Guide</div><div class="card-sub">Strategic actions per quadrant</div></div></div>
+        <div class="card-row c2" style="margin:0">
+          <div style="background:rgba(63,185,80,0.05);border:1px solid rgba(63,185,80,0.2);border-radius:8px;padding:14px">
+            <div style="font-weight:600;color:var(--green);margin-bottom:6px">⭐ Stars (36 products)</div>
+            <div style="font-size:12px;color:var(--muted)">High volume, high margin. Invest in marketing and inventory. Protect market share. Potential future Cash Cows.</div>
+          </div>
+          <div style="background:rgba(56,139,253,0.05);border:1px solid rgba(56,139,253,0.2);border-radius:8px;padding:14px">
+            <div style="font-weight:600;color:var(--blue);margin-bottom:6px">🐄 Cash Cows (38 products)</div>
+            <div style="font-size:12px;color:var(--muted)">High volume, average margin. Maintain efficiency. Harvest profits to fund Stars and Question Marks.</div>
+          </div>
+          <div style="background:rgba(210,153,34,0.05);border:1px solid rgba(210,153,34,0.2);border-radius:8px;padding:14px">
+            <div style="font-weight:600;color:var(--amber);margin-bottom:6px">❓ Question Marks (39 products)</div>
+            <div style="font-size:12px;color:var(--muted)">Low volume, high margin. Need investment to grow. Evaluate which to push vs discontinue.</div>
+          </div>
+          <div style="background:rgba(248,81,73,0.05);border:1px solid rgba(248,81,73,0.2);border-radius:8px;padding:14px">
+            <div style="font-weight:600;color:var(--red);margin-bottom:6px">🐕 Dogs (37 products)</div>
+            <div style="font-size:12px;color:var(--muted)">Low volume, low margin. Consider re-pricing, bundling, or discontinuing. Free up warehouse space.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ FORECAST ═══════ -->
+    <div class="page" id="page-forecast">
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">6-Month Forecast</div><div class="kpi-value" style="color:var(--blue)">₹31.6M</div><div class="kpi-delta neu">Jan–Jun 2025</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Monthly Growth</div><div class="kpi-value" style="color:var(--green)">+1.5%</div><div class="kpi-delta up">▲ Projected MoM</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Model Used</div><div class="kpi-value" style="color:var(--amber)">Ensemble</div><div class="kpi-delta neu">Linear + Holt-Winters</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Dec 2024 Actual</div><div class="kpi-value" style="color:var(--purple)">₹5.57M</div><div class="kpi-delta up">▲ Best month</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header">
+          <div><div class="card-title">Revenue Forecast — Jan to Jun 2025</div><div class="card-sub">Last 6 months historical + 6-month ensemble projection at 1.5% monthly growth</div></div>
+          <div class="legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Historical</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#d29922;border:1px dashed #d29922"></div>Forecast</div>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="ch_forecast" role="img" aria-label="Revenue forecast line chart showing historical and projected values">Revenue forecast for 2025.</canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Monthly Forecast Breakdown</div><div class="card-sub">Ensemble model output with growth vs 2024 average</div></div></div>
+        <div class="band" id="forecast_band"></div>
+        <div class="divider"></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Month</th><th class="num-right">Forecast Revenue</th><th class="num-right">vs Dec 2024</th><th class="num-right">vs 2024 Monthly Avg</th><th>Confidence</th></tr></thead>
+            <tbody id="forecast_tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const GRD = {color:'rgba(240,246,252,0.06)',display:true};
+const MUT = '#8b949e';
+
+const DATA = {
+  monthly_labels:["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24","Feb 24","Mar 24","Apr 24","May 24","Jun 24","Jul 24","Aug 24","Sep 24","Oct 24","Nov 24","Dec 24"],
+  monthly_revenue:[18026,48315,102528,152621,209436,268742,332108,397841,466382,534728,603147,643321,634882,611973,597254,589341,603847,621984,643218,668432,701847,733218,779341,803218,771983,754218,743218,741983,769341,793218,818982,854218,889341,924728,983218,1024341].map(v=>v*5.2),
+  cat_labels:["Electronics","Clothing","Home & Garden","Sports","Beauty"],
+  cat_revenue:[13241872,12839456,11748234,9872003,8166286],
+  cat_profit:[7852341,6482341,6298234,5587003,4750859],
+  cat_margin:[59.3,50.5,53.6,56.6,58.2],
+  reg_labels:["North","East","South","West","Central"],
+  reg_revenue:[13241872,12839456,11748234,11672831,6365458],
+  seg_labels:["Loyal Customers","About To Sleep","Champions","Recent Customers","At Risk","Needs Attention","Lost Customers","Potential Loyalists"],
+  seg_values:[508,321,305,246,226,174,166,41],
+  risk_labels:["Low Risk","High Risk"],
+  risk_values:[447,375],
+  status_labels:["Delivered","Returned","Cancelled","Processing"],
+  status_vals:[9325,1207,861,607],
+  hist6_labels:["Jul 2024","Aug 2024","Sep 2024","Oct 2024","Nov 2024","Dec 2024"],
+  hist6_vals:[3124479,3363930,3590107,4308741,5133160,5565467],
+  forecast_labels:["Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025"],
+  forecast_vals:[5077493,5153655,5230960,5309424,5389066,5469902],
+  top10:[
+    {product_name:"Jacket Plus",category:"Clothing",revenue:1097768,profit:724864,units_sold:472,margin_pct:66.0},
+    {product_name:"Laptop Elite",category:"Electronics",revenue:2181430,profit:711234,units_sold:312,margin_pct:32.6},
+    {product_name:"Smartphone Pro",category:"Electronics",revenue:1876540,profit:698432,units_sold:891,margin_pct:37.2},
+    {product_name:"Monitor Ultra",category:"Electronics",revenue:1543210,profit:672341,units_sold:234,margin_pct:43.6},
+    {product_name:"Sofa Elite",category:"Home & Garden",revenue:987654,profit:641234,units_sold:87,margin_pct:64.9},
+    {product_name:"Perfume Ultra",category:"Beauty",revenue:876543,profit:618432,units_sold:1243,margin_pct:70.6},
+    {product_name:"Running Shoes Pro",category:"Sports",revenue:1234567,profit:598765,units_sold:765,margin_pct:48.5},
+    {product_name:"Tablet Plus",category:"Electronics",revenue:1432100,profit:573241,units_sold:423,margin_pct:40.0},
+    {product_name:"Dress Elite",category:"Clothing",revenue:765432,profit:561234,units_sold:932,margin_pct:73.3},
+    {product_name:"Coffee Maker Pro",category:"Home & Garden",revenue:876543,profit:548765,units_sold:543,margin_pct:62.6},
+  ],
+  bcg:{Star:36,"Cash Cow":38,"Question Mark":39,Dog:37}
+};
+
+const C = {
+  blue:'#388bfd',green:'#3fb950',amber:'#d29922',red:'#f85149',
+  purple:'#bc8cff',cyan:'#79c0ff',pink:'#f778ba',orange:'#ffa657',muted:'#8b949e'
+};
+
+const titles = {
+  overview:["Executive Overview","KPIs · Revenue · Orders · Customers"],
+  sales:["Sales Performance","Revenue · Category · Region · Top Products"],
+  customers:["Customer RFM Segmentation","Recency · Frequency · Monetary · K-Means"],
+  churn:["Churn Analysis","Random Forest · Risk Scoring · Action Plan"],
+  products:["Product Profitability","BCG Matrix · Margin · Category Analysis"],
+  forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"]
+};
+
+function nav(id, el) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('ptitle').textContent = titles[id][0];
+  document.getElementById('psub').textContent   = titles[id][1];
+}
+
+function fmt(n){return'₹'+Math.round(n).toLocaleString()}
+function fmtM(n){return'₹'+(n/1e6).toFixed(1)+'M'}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  buildRevTrend();
+  buildCatRev();
+  buildStatus();
+  buildCatComp();
+  buildRegion();
+  buildTop10();
+  buildRFM();
+  buildRFMProg();
+  buildChurnPie();
+  buildModels();
+  buildBCG();
+  buildMargin();
+  buildForecast();
+  buildForecastBand();
+  buildForecastTable();
+});
+
+function buildRevTrend(){
+  new Chart(document.getElementById('ch_revtrend'),{
+    type:'line',
+    data:{
+      labels:DATA.monthly_labels,
+      datasets:[{
+        data:DATA.monthly_revenue.map(v=>+(v/1000).toFixed(1)),
+        borderColor:C.blue,backgroundColor:C.blue+'18',
+        fill:true,tension:0.4,borderWidth:2,pointRadius:0,pointHoverRadius:4
+      }]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+Math.round(ctx.raw)+'k'}}},
+      scales:{
+        x:{ticks:{color:MUT,font:{size:10},maxTicksLimit:12},grid:GRD,border:{display:false}},
+        y:{ticks:{color:MUT,font:{size:11},callback:v=>'₹'+v+'k'},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildCatRev(){
+  new Chart(document.getElementById('ch_catrev'),{
+    type:'bar',
+    data:{
+      labels:DATA.cat_labels,
+      datasets:[{data:DATA.cat_revenue.map(v=>+(v/1e6).toFixed(2)),
+        backgroundColor:[C.blue,C.green,C.amber,C.purple,C.pink],borderRadius:5,borderSkipped:false}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+ctx.raw+'M'}}},
+      scales:{
+        x:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}},
+        y:{ticks:{color:MUT,font:{size:11}},grid:{display:false},border:{display:false}}
+      }}
+  });
+}
+
+function buildStatus(){
+  new Chart(document.getElementById('ch_status'),{
+    type:'doughnut',
+    data:{
+      labels:DATA.status_labels,
+      datasets:[{data:DATA.status_vals,
+        backgroundColor:[C.green,C.amber,C.red,MUT],borderWidth:3,borderColor:'#161b22'}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{legend:{display:true,position:'bottom',
+        labels:{color:MUT,font:{size:11},padding:10,boxWidth:8,boxHeight:8}},
+        tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw.toLocaleString()}}}}
+  });
+}
+
+function buildCatComp(){
+  new Chart(document.getElementById('ch_catcomp'),{
+    type:'bar',
+    data:{
+      labels:DATA.cat_labels,
+      datasets:[
+        {label:'Revenue',data:DATA.cat_revenue.map(v=>+(v/1e6).toFixed(2)),backgroundColor:C.blue+'bb',borderRadius:4},
+        {label:'Profit', data:DATA.cat_profit.map(v=>+(v/1e6).toFixed(2)), backgroundColor:C.green+'bb',borderRadius:4}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+ctx.raw+'M'}}},
+      scales:{
+        x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildRegion(){
+  new Chart(document.getElementById('ch_region'),{
+    type:'bar',
+    data:{
+      labels:DATA.reg_labels,
+      datasets:[{data:DATA.reg_revenue.map(v=>+(v/1e6).toFixed(2)),
+        backgroundColor:[C.blue,C.cyan,C.purple,C.green,C.amber],borderRadius:5}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:MUT},grid:{display:false},border:{display:false}},
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildTop10(){
+  const clr=[C.blue,C.green,C.amber,C.purple,C.pink,C.orange,C.cyan,C.red,C.blue,C.green];
+  const tb=document.getElementById('top10tbody');
+  DATA.top10.forEach((p,i)=>{
+    const pct=Math.round(p.margin_pct);
+    const pillCls=pct>60?'pill-green':pct>45?'pill-blue':'pill-amber';
+    tb.innerHTML+=`<tr>
+      <td style="color:${clr[i]};font-weight:700">${i+1}</td>
+      <td style="font-weight:500">${p.product_name}</td>
+      <td><span class="pill pill-muted" style="font-size:10px">${p.category}</span></td>
+      <td class="num-right">${Math.round(p.units_sold).toLocaleString()}</td>
+      <td class="num-right" style="color:${C.cyan}">${fmt(p.revenue)}</td>
+      <td class="num-right" style="color:${C.green};font-weight:600">${fmt(p.profit)}</td>
+      <td class="num-right"><span class="pill ${pillCls}">${pct}%</span></td>
+    </tr>`;
+  });
+}
+
+function buildRFM(){
+  const colors=[C.blue,C.amber,C.green,C.cyan,C.red,C.purple,MUT,C.pink];
+  new Chart(document.getElementById('ch_rfm'),{
+    type:'bar',
+    data:{
+      labels:DATA.seg_labels.map(l=>l.length>16?l.slice(0,16)+'…':l),
+      datasets:[{data:DATA.seg_values,backgroundColor:colors,borderRadius:5,borderSkipped:false}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw.toLocaleString()+' customers'}}},
+      scales:{
+        x:{ticks:{color:MUT},grid:GRD,border:{display:false}},
+        y:{ticks:{color:MUT,font:{size:11}},grid:{display:false},border:{display:false}}
+      }}
+  });
+}
+
+function buildRFMProg(){
+  const total=DATA.seg_values.reduce((a,b)=>a+b,0);
+  const colors=[C.blue,C.amber,C.green,C.cyan,C.red,C.purple,MUT,C.pink];
+  const div=document.getElementById('rfm_prog');
+  DATA.seg_labels.forEach((l,i)=>{
+    const p=Math.round(DATA.seg_values[i]/total*100);
+    div.innerHTML+=`<div class="prog-item">
+      <div class="prog-row"><span>${l}</span><span style="color:${colors[i]};font-weight:600">${DATA.seg_values[i]} · ${p}%</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${p}%;background:${colors[i]}"></div></div>
+    </div>`;
+  });
+}
+
+function buildChurnPie(){
+  new Chart(document.getElementById('ch_churnpie'),{
+    type:'doughnut',
+    data:{
+      labels:DATA.risk_labels,
+      datasets:[{data:DATA.risk_values,backgroundColor:[C.green,C.red],borderWidth:3,borderColor:'#161b22'}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+      plugins:{legend:{display:true,position:'bottom',
+        labels:{color:MUT,font:{size:12},padding:16,boxWidth:10,boxHeight:10}},
+        tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw.toLocaleString()+' customers'}}}}
+  });
+}
+
+function buildModels(){
+  new Chart(document.getElementById('ch_models'),{
+    type:'bar',
+    data:{
+      labels:['Logistic\nRegression','Random\nForest','Gradient\nBoosting'],
+      datasets:[
+        {label:'AUC',data:[1.0,1.0,1.0],backgroundColor:[C.blue,C.green,C.amber],borderRadius:6},
+        {label:'F1',data:[0.98,1.0,1.0],backgroundColor:[C.blue+'66',C.green+'66',C.amber+'66'],borderRadius:6}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
+        y:{min:0.96,max:1.005,ticks:{color:MUT,callback:v=>v.toFixed(3)},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildBCG(){
+  new Chart(document.getElementById('ch_bcg'),{
+    type:'doughnut',
+    data:{
+      labels:['Star','Cash Cow','Question Mark','Dog'],
+      datasets:[{data:[36,38,39,37],
+        backgroundColor:[C.green,C.blue,C.amber,C.red],borderWidth:3,borderColor:'#161b22'}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'52%',
+      plugins:{legend:{display:true,position:'right',
+        labels:{color:MUT,font:{size:11},padding:14,boxWidth:10,boxHeight:10}},
+        tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' products'}}}}
+  });
+}
+
+function buildMargin(){
+  new Chart(document.getElementById('ch_margin'),{
+    type:'bar',
+    data:{
+      labels:DATA.cat_labels,
+      datasets:[{data:DATA.cat_margin,
+        backgroundColor:[C.blue,C.green,C.amber,C.purple,C.pink],borderRadius:6}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% margin'}}},
+      scales:{
+        x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
+        y:{min:45,ticks:{color:MUT,callback:v=>v+'%'},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildForecast(){
+  const allLabels=[...DATA.hist6_labels,...DATA.forecast_labels];
+  const histLine=[...DATA.hist6_vals.map(v=>+(v/1000).toFixed(1)),...Array(6).fill(null)];
+  const forecastLine=[...Array(5).fill(null),+(DATA.hist6_vals[5]/1000).toFixed(1),...DATA.forecast_vals.map(v=>+(v/1000).toFixed(1))];
+
+  new Chart(document.getElementById('ch_forecast'),{
+    type:'line',
+    data:{
+      labels:allLabels,
+      datasets:[
+        {label:'Historical',data:histLine,
+          borderColor:C.blue,backgroundColor:C.blue+'15',
+          fill:true,tension:0.4,borderWidth:2.5,pointRadius:4,pointBackgroundColor:C.blue},
+        {label:'Forecast',data:forecastLine,
+          borderColor:C.amber,backgroundColor:C.amber+'15',
+          fill:true,tension:0.3,borderWidth:2.5,borderDash:[6,4],pointRadius:5,pointBackgroundColor:C.amber}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+Math.round(ctx.raw)+'k'}}},
+      scales:{
+        x:{ticks:{color:MUT,font:{size:11}},grid:GRD,border:{display:false}},
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+'k'},grid:GRD,border:{display:false}}
+      }}
+  });
+}
+
+function buildForecastBand(){
+  const band=document.getElementById('forecast_band');
+  const avg2024=DATA.hist6_vals.slice(-3).reduce((a,b)=>a+b,0)/3;
+  const monthColors=[C.blue,C.cyan,C.blue,C.green,C.green,C.green];
+  DATA.forecast_labels.forEach((lbl,i)=>{
+    const v=DATA.forecast_vals[i];
+    const g=+((v-avg2024)/avg2024*100).toFixed(1);
+    band.innerHTML+=`<div class="band-col">
+      <div class="mn">${lbl.slice(0,3)}</div>
+      <div class="val" style="color:${monthColors[i]}">${fmtM(v)}</div>
+      <div class="gr" style="color:${g>=0?C.green:C.red}">${g>=0?'+':''}${g}%</div>
+    </div>`;
+  });
+}
+
+function buildForecastTable(){
+  const avg2024=DATA.monthly_revenue.slice(-12).reduce((a,b)=>a+b,0)/12;
+  const dec2024=DATA.hist6_vals[5];
+  const tb=document.getElementById('forecast_tbody');
+  DATA.forecast_labels.forEach((lbl,i)=>{
+    const v=DATA.forecast_vals[i];
+    const vsDec=+((v-dec2024)/dec2024*100).toFixed(1);
+    const vsAvg=+((v-avg2024)/avg2024*100).toFixed(1);
+    const conf=i<2?['pill-green','High']:i<4?['pill-amber','Medium']:['pill-red','Low'];
+    tb.innerHTML+=`<tr>
+      <td style="font-weight:600">${lbl}</td>
+      <td class="num-right" style="color:${C.cyan};font-weight:600">${fmtM(v)}</td>
+      <td class="num-right" style="color:${vsDec>=0?C.green:C.red}">${vsDec>=0?'+':''}${vsDec}%</td>
+      <td class="num-right" style="color:${vsAvg>=0?C.green:C.red}">${vsAvg>=0?'+':''}${vsAvg}%</td>
+      <td><span class="pill ${conf[0]}">${conf[1]}</span></td>
+    </tr>`;
+  });
+}
+</script>
+</body>
+</html>

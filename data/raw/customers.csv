@@ -1,0 +1,2001 @@
+customer_id,first_name,last_name,email,region,segment,acquisition_channel,registration_date,age,gender
+CUST00001,Sneha,Sharma,user1@email.com,East,B2C,Paid Search,2024-09-20,65,Male
+CUST00002,Sophia,Davis,user2@email.com,North,B2C,Organic Search,2024-11-17,19,Male
+CUST00003,Pooja,Miller,user3@email.com,Central,B2C,Paid Search,2022-12-06,63,Other
+CUST00004,Meera,Shah,user4@email.com,West,B2C,Affiliate,2024-04-26,18,Male
+CUST00005,Amit,Verma,user5@email.com,South,B2C,Affiliate,2023-10-19,39,Male
+CUST00006,Suresh,Kumar,user6@email.com,East,B2B,Direct,2022-05-25,34,Male
+CUST00007,Shreya,Kumar,user7@email.com,West,B2C,Social Media,2023-12-15,58,Other
+CUST00008,Kiran,Joshi,user8@email.com,North,B2C,Paid Search,2023-07-16,36,Male
+CUST00009,Isabella,Kumar,user9@email.com,West,B2C,Referral,2022-12-28,41,Male
+CUST00010,Kavya,Joshi,user10@email.com,East,B2B,Referral,2023-07-30,59,Male
+CUST00011,James,Gupta,user11@email.com,Central,B2B,Paid Search,2024-08-04,47,Female
+CUST00012,Mia,Davis,user12@email.com,South,B2C,Affiliate,2023-02-24,21,Male
+CUST00013,Ava,Smith,user13@email.com,West,B2C,Paid Search,2022-02-19,54,Other
+CUST00014,Arjun,Garcia,user14@email.com,West,B2B,Referral,2023-05-04,47,Male
+CUST00015,Vikram,Shah,user15@email.com,Central,B2C,Referral,2023-02-16,55,Female
+CUST00016,Suresh,Johnson,user16@email.com,South,Enterprise,Paid Search,2024-06-25,50,Female
+CUST00017,William,Patel,user17@email.com,North,B2C,Paid Search,2022-05-22,61,Female
+CUST00018,Rahul,Williams,user18@email.com,West,B2C,Email,2024-07-15,51,Female
+CUST00019,Isabella,Sharma,user19@email.com,North,B2C,Direct,2024-05-09,35,Other
+CUST00020,Sneha,Reddy,user20@email.com,West,B2C,Organic Search,2023-06-13,64,Other
+CUST00021,Sanjay,Gupta,user21@email.com,Central,Enterprise,Affiliate,2023-02-14,58,Female
+CUST00022,Sanjay,Taylor,user22@email.com,South,B2C,Affiliate,2024-09-19,28,Other
+CUST00023,Mia,Sharma,user23@email.com,Central,B2C,Organic Search,2024-04-03,25,Female
+CUST00024,Pooja,Patel,user24@email.com,South,B2B,Organic Search,2023-04-23,23,Other
+CUST00025,Liam,Singh,user25@email.com,Central,B2B,Paid Search,2024-01-25,60,Female
+CUST00026,Ananya,Verma,user26@email.com,Central,B2B,Email,2024-05-04,31,Other
+CUST00027,Oliver,Reddy,user27@email.com,West,Enterprise,Referral,2022-11-09,41,Female
+CUST00028,Nikhil,Kumar,user28@email.com,South,B2C,Social Media,2024-03-15,19,Other
+CUST00029,Pooja,Wilson,user29@email.com,South,B2C,Referral,2024-05-10,58,Male
+CUST00030,Rahul,Patel,user30@email.com,East,B2C,Paid Search,2022-12-22,35,Other
+CUST00031,Arjun,Davis,user31@email.com,South,B2B,Direct,2024-01-25,54,Female
+CUST00032,Ava,Garcia,user32@email.com,West,B2C,Organic Search,2023-01-13,60,Female
+CUST00033,Meera,Brown,user33@email.com,West,B2B,Organic Search,2023-07-05,61,Other
+CUST00034,Sneha,Patel,user34@email.com,West,B2B,Affiliate,2024-09-30,24,Male
+CUST00035,Arjun,Davis,user35@email.com,West,B2C,Paid Search,2022-10-25,35,Female
+CUST00036,Isabella,Singh,user36@email.com,West,B2B,Affiliate,2023-01-24,53,Male
+CUST00037,James,Davis,user37@email.com,North,Enterprise,Affiliate,2022-03-20,33,Male
+CUST00038,Anjali,Garcia,user38@email.com,South,B2B,Organic Search,2023-09-24,28,Female
+CUST00039,Suresh,Verma,user39@email.com,West,B2C,Referral,2022-01-04,64,Other
+CUST00040,Oliver,Garcia,user40@email.com,South,B2C,Paid Search,2024-10-25,21,Other
+CUST00041,Priya,Smith,user41@email.com,North,B2C,Email,2024-04-22,50,Other
+CUST00042,Priya,Miller,user42@email.com,North,B2B,Organic Search,2022-09-02,56,Male
+CUST00043,Isabella,Shah,user43@email.com,West,B2C,Direct,2024-11-14,33,Other
+CUST00044,Priya,Taylor,user44@email.com,North,B2C,Direct,2024-07-12,54,Other
+CUST00045,Mia,Verma,user45@email.com,South,B2C,Social Media,2023-05-07,33,Female
+CUST00046,Vikram,Reddy,user46@email.com,West,B2C,Affiliate,2023-09-07,22,Male
+CUST00047,Deepa,Wilson,user47@email.com,North,B2C,Paid Search,2023-12-13,50,Female
+CUST00048,Mia,Johnson,user48@email.com,North,B2B,Social Media,2022-07-25,36,Male
+CUST00049,Liam,Davis,user49@email.com,East,B2C,Affiliate,2023-11-12,59,Other
+CUST00050,Emma,Davis,user50@email.com,East,Enterprise,Organic Search,2022-01-13,26,Female
+CUST00051,Noah,Kumar,user51@email.com,Central,B2C,Social Media,2022-06-29,56,Male
+CUST00052,Arjun,Verma,user52@email.com,Central,B2C,Affiliate,2023-06-17,21,Male
+CUST00053,Meera,Verma,user53@email.com,North,B2C,Affiliate,2024-09-12,26,Other
+CUST00054,Ananya,Jones,user54@email.com,Central,B2B,Direct,2023-02-11,18,Male
+CUST00055,Noah,Mehta,user55@email.com,Central,B2C,Social Media,2022-04-27,55,Other
+CUST00056,Meera,Mehta,user56@email.com,North,B2C,Affiliate,2022-08-19,20,Female
+CUST00057,Emma,Shah,user57@email.com,North,B2C,Direct,2022-11-23,44,Other
+CUST00058,Mia,Shah,user58@email.com,South,Enterprise,Affiliate,2022-08-29,29,Female
+CUST00059,Ananya,Smith,user59@email.com,West,B2B,Affiliate,2022-02-08,65,Male
+CUST00060,Ananya,Kumar,user60@email.com,West,B2B,Affiliate,2023-02-19,48,Male
+CUST00061,Liam,Jones,user61@email.com,East,B2C,Affiliate,2022-11-07,32,Male
+CUST00062,Emma,Joshi,user62@email.com,West,B2C,Affiliate,2022-02-06,22,Female
+CUST00063,James,Miller,user63@email.com,West,B2C,Affiliate,2023-06-30,52,Female
+CUST00064,Sneha,Verma,user64@email.com,South,B2C,Social Media,2022-02-12,20,Male
+CUST00065,Meera,Johnson,user65@email.com,East,B2C,Direct,2024-07-15,25,Female
+CUST00066,Arjun,Verma,user66@email.com,North,B2B,Organic Search,2024-06-14,51,Other
+CUST00067,Arjun,Johnson,user67@email.com,West,B2C,Referral,2024-11-07,39,Other
+CUST00068,Emma,Kumar,user68@email.com,East,B2C,Referral,2023-05-03,44,Female
+CUST00069,Oliver,Reddy,user69@email.com,Central,B2C,Email,2023-09-18,60,Female
+CUST00070,Sophia,Gupta,user70@email.com,Central,B2C,Email,2024-11-18,53,Male
+CUST00071,Divya,Joshi,user71@email.com,West,B2B,Direct,2023-04-18,59,Female
+CUST00072,Nikhil,Jones,user72@email.com,South,B2C,Affiliate,2023-12-24,65,Male
+CUST00073,Rahul,Reddy,user73@email.com,Central,B2C,Direct,2024-10-20,39,Male
+CUST00074,Emma,Reddy,user74@email.com,South,B2B,Paid Search,2022-12-31,19,Male
+CUST00075,Anjali,Taylor,user75@email.com,North,B2C,Referral,2023-01-16,54,Male
+CUST00076,Anjali,Williams,user76@email.com,South,B2C,Referral,2023-08-20,18,Male
+CUST00077,Pooja,Gupta,user77@email.com,Central,B2C,Direct,2023-10-23,33,Male
+CUST00078,Vikram,Jones,user78@email.com,Central,Enterprise,Direct,2023-12-11,38,Female
+CUST00079,Liam,Miller,user79@email.com,West,B2B,Direct,2024-08-09,46,Male
+CUST00080,Nikhil,Verma,user80@email.com,South,B2B,Social Media,2024-01-08,51,Female
+CUST00081,Pooja,Verma,user81@email.com,West,B2C,Social Media,2024-08-31,33,Female
+CUST00082,Amit,Davis,user82@email.com,North,B2C,Paid Search,2023-06-06,42,Other
+CUST00083,Oliver,Joshi,user83@email.com,North,B2C,Social Media,2022-08-26,52,Female
+CUST00084,Priya,Joshi,user84@email.com,West,B2C,Affiliate,2023-10-08,55,Other
+CUST00085,Isabella,Wilson,user85@email.com,West,B2C,Social Media,2022-01-31,37,Female
+CUST00086,Shreya,Davis,user86@email.com,Central,B2B,Email,2023-10-13,32,Female
+CUST00087,Anjali,Sharma,user87@email.com,West,B2C,Referral,2023-11-09,43,Other
+CUST00088,Liam,Jones,user88@email.com,South,Enterprise,Direct,2022-09-14,19,Female
+CUST00089,Kiran,Sharma,user89@email.com,North,B2C,Paid Search,2024-07-08,47,Male
+CUST00090,Rohit,Williams,user90@email.com,East,B2C,Social Media,2022-03-20,39,Female
+CUST00091,William,Brown,user91@email.com,East,B2B,Email,2023-03-09,19,Other
+CUST00092,Priya,Johnson,user92@email.com,South,B2C,Affiliate,2024-04-17,59,Male
+CUST00093,Pooja,Joshi,user93@email.com,North,B2C,Paid Search,2022-02-18,26,Female
+CUST00094,Sneha,Wilson,user94@email.com,South,B2C,Social Media,2024-11-05,41,Male
+CUST00095,Deepa,Kumar,user95@email.com,South,Enterprise,Organic Search,2024-07-30,55,Male
+CUST00096,Kiran,Williams,user96@email.com,West,Enterprise,Paid Search,2023-04-30,22,Other
+CUST00097,Pooja,Kumar,user97@email.com,East,B2B,Direct,2024-09-01,25,Other
+CUST00098,Kavya,Davis,user98@email.com,West,B2C,Organic Search,2022-03-05,50,Other
+CUST00099,Aarav,Brown,user99@email.com,West,B2C,Social Media,2023-06-15,58,Female
+CUST00100,Meera,Gupta,user100@email.com,Central,Enterprise,Social Media,2022-08-26,57,Other
+CUST00101,Nikhil,Brown,user101@email.com,Central,B2C,Affiliate,2024-01-22,33,Male
+CUST00102,Noah,Jones,user102@email.com,South,B2B,Direct,2023-03-10,57,Other
+CUST00103,Amit,Sharma,user103@email.com,West,B2B,Paid Search,2023-08-12,49,Male
+CUST00104,Ava,Verma,user104@email.com,East,B2C,Direct,2023-07-06,62,Female
+CUST00105,Aarav,Miller,user105@email.com,South,B2C,Referral,2024-05-13,44,Female
+CUST00106,William,Shah,user106@email.com,West,B2C,Email,2024-05-12,46,Male
+CUST00107,Divya,Shah,user107@email.com,West,B2C,Social Media,2022-05-25,60,Other
+CUST00108,Anjali,Davis,user108@email.com,Central,B2C,Referral,2023-07-28,53,Female
+CUST00109,Oliver,Jones,user109@email.com,East,B2C,Paid Search,2023-07-01,25,Other
+CUST00110,Amit,Kumar,user110@email.com,Central,Enterprise,Referral,2022-10-27,29,Male
+CUST00111,Sophia,Garcia,user111@email.com,East,B2B,Affiliate,2022-12-03,51,Other
+CUST00112,Sneha,Joshi,user112@email.com,East,B2C,Paid Search,2023-03-16,37,Male
+CUST00113,Vikram,Verma,user113@email.com,North,Enterprise,Direct,2024-04-09,36,Other
+CUST00114,James,Garcia,user114@email.com,North,B2B,Direct,2022-07-16,36,Female
+CUST00115,Nikhil,Smith,user115@email.com,South,Enterprise,Social Media,2024-01-14,48,Male
+CUST00116,Suresh,Garcia,user116@email.com,North,B2C,Referral,2022-04-12,21,Male
+CUST00117,Ava,Wilson,user117@email.com,East,B2C,Paid Search,2022-08-20,25,Other
+CUST00118,Deepa,Taylor,user118@email.com,Central,B2C,Direct,2023-10-09,42,Female
+CUST00119,Divya,Wilson,user119@email.com,West,B2C,Direct,2023-11-19,21,Other
+CUST00120,William,Joshi,user120@email.com,South,B2C,Organic Search,2022-06-04,28,Male
+CUST00121,Shreya,Singh,user121@email.com,South,B2C,Email,2022-09-28,62,Other
+CUST00122,Divya,Patel,user122@email.com,South,B2C,Social Media,2023-12-31,62,Female
+CUST00123,Emma,Shah,user123@email.com,East,B2B,Referral,2022-04-21,55,Other
+CUST00124,Meera,Kumar,user124@email.com,Central,B2C,Paid Search,2022-11-04,35,Male
+CUST00125,Priya,Gupta,user125@email.com,East,B2C,Affiliate,2022-04-21,54,Female
+CUST00126,Sneha,Jones,user126@email.com,East,B2C,Social Media,2023-11-14,50,Other
+CUST00127,Nikhil,Singh,user127@email.com,Central,B2C,Email,2024-02-07,65,Female
+CUST00128,Rohit,Sharma,user128@email.com,North,B2C,Referral,2024-07-26,54,Other
+CUST00129,William,Verma,user129@email.com,Central,B2C,Affiliate,2022-02-02,29,Female
+CUST00130,James,Jones,user130@email.com,East,B2C,Direct,2024-03-17,45,Other
+CUST00131,Rahul,Garcia,user131@email.com,East,B2C,Social Media,2024-02-03,60,Male
+CUST00132,Amit,Brown,user132@email.com,West,B2C,Email,2022-09-07,53,Male
+CUST00133,Rahul,Smith,user133@email.com,East,B2C,Affiliate,2023-12-08,43,Other
+CUST00134,Emma,Davis,user134@email.com,West,B2C,Paid Search,2022-01-02,51,Female
+CUST00135,William,Garcia,user135@email.com,West,B2B,Paid Search,2024-08-25,35,Other
+CUST00136,Mia,Reddy,user136@email.com,West,B2B,Email,2022-07-23,25,Male
+CUST00137,Deepa,Shah,user137@email.com,South,B2C,Organic Search,2024-09-05,53,Female
+CUST00138,Pooja,Kumar,user138@email.com,West,Enterprise,Referral,2022-05-25,27,Female
+CUST00139,Sanjay,Verma,user139@email.com,West,B2B,Email,2023-03-30,33,Female
+CUST00140,Vikram,Williams,user140@email.com,South,Enterprise,Direct,2024-05-06,65,Male
+CUST00141,Rohit,Brown,user141@email.com,East,Enterprise,Direct,2022-04-19,35,Male
+CUST00142,Sophia,Reddy,user142@email.com,Central,B2C,Referral,2023-03-16,49,Male
+CUST00143,Shreya,Garcia,user143@email.com,East,B2C,Affiliate,2023-11-25,52,Female
+CUST00144,Mia,Smith,user144@email.com,South,Enterprise,Paid Search,2023-12-09,54,Female
+CUST00145,Isabella,Brown,user145@email.com,North,B2C,Email,2022-12-29,63,Female
+CUST00146,Emma,Mehta,user146@email.com,West,Enterprise,Paid Search,2023-08-23,50,Other
+CUST00147,Isabella,Kumar,user147@email.com,West,B2C,Email,2023-05-31,18,Other
+CUST00148,Meera,Mehta,user148@email.com,North,B2C,Social Media,2022-08-12,39,Other
+CUST00149,James,Singh,user149@email.com,East,B2B,Affiliate,2023-09-10,52,Female
+CUST00150,James,Garcia,user150@email.com,Central,B2C,Organic Search,2023-05-07,33,Other
+CUST00151,Mia,Reddy,user151@email.com,South,B2B,Email,2024-11-29,24,Other
+CUST00152,Nikhil,Gupta,user152@email.com,East,Enterprise,Organic Search,2022-06-06,38,Male
+CUST00153,Kavya,Johnson,user153@email.com,West,B2C,Direct,2023-04-01,44,Other
+CUST00154,Ava,Gupta,user154@email.com,South,B2C,Direct,2024-11-25,42,Other
+CUST00155,Pooja,Garcia,user155@email.com,Central,B2C,Email,2024-11-27,58,Female
+CUST00156,Rohit,Sharma,user156@email.com,West,Enterprise,Referral,2023-12-15,52,Male
+CUST00157,Nikhil,Johnson,user157@email.com,Central,B2C,Email,2022-04-25,62,Female
+CUST00158,Isabella,Reddy,user158@email.com,South,Enterprise,Affiliate,2023-12-11,48,Male
+CUST00159,Suresh,Wilson,user159@email.com,East,B2C,Referral,2023-01-04,36,Male
+CUST00160,Suresh,Verma,user160@email.com,North,B2C,Referral,2024-10-19,65,Male
+CUST00161,Sophia,Garcia,user161@email.com,East,B2B,Paid Search,2024-07-31,56,Female
+CUST00162,James,Joshi,user162@email.com,Central,B2C,Affiliate,2022-12-07,64,Other
+CUST00163,Liam,Mehta,user163@email.com,North,Enterprise,Referral,2024-11-23,20,Female
+CUST00164,Priya,Wilson,user164@email.com,East,B2B,Organic Search,2023-11-16,36,Female
+CUST00165,Ananya,Joshi,user165@email.com,South,B2B,Social Media,2023-10-08,51,Other
+CUST00166,Liam,Gupta,user166@email.com,East,Enterprise,Email,2023-02-28,36,Other
+CUST00167,Ava,Kumar,user167@email.com,West,Enterprise,Paid Search,2023-06-11,32,Other
+CUST00168,Suresh,Davis,user168@email.com,East,B2C,Email,2024-11-13,18,Female
+CUST00169,Sneha,Jones,user169@email.com,East,B2C,Referral,2024-04-13,34,Other
+CUST00170,Liam,Johnson,user170@email.com,North,B2C,Email,2023-08-15,19,Other
+CUST00171,Amit,Taylor,user171@email.com,South,B2C,Referral,2024-05-22,47,Other
+CUST00172,James,Brown,user172@email.com,North,B2C,Organic Search,2023-04-15,37,Female
+CUST00173,Sneha,Shah,user173@email.com,Central,B2C,Email,2022-06-30,41,Other
+CUST00174,Meera,Wilson,user174@email.com,South,B2B,Referral,2024-04-19,24,Female
+CUST00175,Meera,Verma,user175@email.com,North,B2C,Paid Search,2024-08-14,46,Female
+CUST00176,Isabella,Johnson,user176@email.com,North,Enterprise,Social Media,2023-01-02,52,Other
+CUST00177,Priya,Williams,user177@email.com,East,B2C,Organic Search,2023-07-12,47,Male
+CUST00178,Arjun,Taylor,user178@email.com,North,B2C,Social Media,2024-10-26,33,Male
+CUST00179,Arjun,Singh,user179@email.com,Central,B2C,Paid Search,2024-05-27,32,Female
+CUST00180,Ava,Taylor,user180@email.com,North,B2C,Paid Search,2022-08-18,26,Other
+CUST00181,Ava,Gupta,user181@email.com,North,B2C,Organic Search,2023-01-25,26,Male
+CUST00182,Ava,Shah,user182@email.com,Central,B2C,Paid Search,2023-07-11,34,Male
+CUST00183,Sophia,Brown,user183@email.com,Central,B2C,Organic Search,2022-07-16,48,Female
+CUST00184,Sanjay,Wilson,user184@email.com,North,B2C,Paid Search,2023-07-17,57,Male
+CUST00185,Sanjay,Reddy,user185@email.com,West,B2C,Organic Search,2024-10-20,21,Female
+CUST00186,Meera,Kumar,user186@email.com,West,B2B,Email,2023-09-16,22,Male
+CUST00187,Deepa,Mehta,user187@email.com,North,B2C,Direct,2023-05-16,58,Other
+CUST00188,Oliver,Smith,user188@email.com,West,Enterprise,Direct,2024-05-01,36,Female
+CUST00189,Deepa,Brown,user189@email.com,North,B2B,Organic Search,2024-02-25,59,Other
+CUST00190,Sophia,Joshi,user190@email.com,West,B2C,Paid Search,2024-05-06,44,Female
+CUST00191,Suresh,Brown,user191@email.com,North,B2C,Social Media,2023-12-06,60,Female
+CUST00192,Vikram,Garcia,user192@email.com,North,B2C,Organic Search,2023-08-05,23,Female
+CUST00193,Sophia,Johnson,user193@email.com,South,B2C,Direct,2022-05-31,53,Other
+CUST00194,Emma,Kumar,user194@email.com,West,B2C,Referral,2023-05-28,45,Other
+CUST00195,Divya,Taylor,user195@email.com,East,B2C,Direct,2022-03-21,50,Male
+CUST00196,Emma,Garcia,user196@email.com,South,B2B,Social Media,2022-08-29,53,Female
+CUST00197,William,Verma,user197@email.com,Central,B2C,Email,2022-06-28,53,Other
+CUST00198,Emma,Davis,user198@email.com,North,B2C,Referral,2024-08-11,62,Female
+CUST00199,Ananya,Verma,user199@email.com,East,Enterprise,Social Media,2022-02-14,18,Male
+CUST00200,Kiran,Williams,user200@email.com,North,B2C,Referral,2022-08-11,19,Male
+CUST00201,Arjun,Williams,user201@email.com,West,B2C,Paid Search,2024-04-04,41,Female
+CUST00202,William,Wilson,user202@email.com,Central,B2C,Organic Search,2023-05-19,27,Male
+CUST00203,Priya,Singh,user203@email.com,East,B2C,Email,2024-08-17,49,Other
+CUST00204,Meera,Verma,user204@email.com,South,B2B,Organic Search,2023-11-18,40,Female
+CUST00205,Divya,Wilson,user205@email.com,West,B2C,Social Media,2022-06-22,20,Male
+CUST00206,Deepa,Patel,user206@email.com,North,B2C,Paid Search,2023-09-07,26,Female
+CUST00207,Amit,Kumar,user207@email.com,North,B2C,Email,2023-03-26,29,Male
+CUST00208,Shreya,Shah,user208@email.com,Central,B2C,Referral,2023-08-14,40,Male
+CUST00209,Isabella,Patel,user209@email.com,West,B2C,Organic Search,2023-09-09,38,Other
+CUST00210,Kiran,Williams,user210@email.com,West,B2C,Email,2023-10-29,19,Female
+CUST00211,Ava,Taylor,user211@email.com,West,B2B,Social Media,2022-09-24,23,Female
+CUST00212,Pooja,Brown,user212@email.com,Central,B2C,Organic Search,2022-06-14,43,Female
+CUST00213,Pooja,Smith,user213@email.com,South,B2C,Referral,2023-06-12,25,Other
+CUST00214,Arjun,Johnson,user214@email.com,East,B2B,Affiliate,2024-03-03,59,Male
+CUST00215,Sneha,Mehta,user215@email.com,East,B2C,Direct,2023-01-03,27,Other
+CUST00216,Ananya,Garcia,user216@email.com,West,B2B,Affiliate,2022-04-28,55,Female
+CUST00217,Mia,Wilson,user217@email.com,Central,B2C,Referral,2024-11-24,38,Male
+CUST00218,Rahul,Garcia,user218@email.com,West,B2C,Affiliate,2023-11-15,35,Other
+CUST00219,Kavya,Miller,user219@email.com,North,B2C,Email,2022-03-29,20,Male
+CUST00220,Liam,Reddy,user220@email.com,North,B2C,Affiliate,2023-07-27,23,Other
+CUST00221,Sanjay,Williams,user221@email.com,West,B2C,Affiliate,2024-07-11,65,Male
+CUST00222,Mia,Wilson,user222@email.com,South,B2C,Email,2023-11-30,50,Male
+CUST00223,Nikhil,Kumar,user223@email.com,East,Enterprise,Organic Search,2022-04-07,50,Other
+CUST00224,Priya,Shah,user224@email.com,West,Enterprise,Direct,2022-09-26,51,Other
+CUST00225,Kavya,Johnson,user225@email.com,East,B2C,Affiliate,2022-09-04,39,Other
+CUST00226,Priya,Smith,user226@email.com,North,B2C,Direct,2024-07-17,61,Female
+CUST00227,Rohit,Taylor,user227@email.com,South,B2C,Direct,2023-03-18,60,Male
+CUST00228,Divya,Williams,user228@email.com,South,B2C,Organic Search,2023-06-28,37,Other
+CUST00229,James,Smith,user229@email.com,South,B2C,Affiliate,2023-08-09,65,Other
+CUST00230,Rahul,Brown,user230@email.com,Central,B2C,Social Media,2024-03-28,37,Male
+CUST00231,Amit,Garcia,user231@email.com,South,B2C,Paid Search,2022-11-29,27,Male
+CUST00232,Isabella,Kumar,user232@email.com,Central,B2B,Affiliate,2023-04-05,65,Other
+CUST00233,Emma,Smith,user233@email.com,Central,B2C,Email,2022-02-28,27,Male
+CUST00234,Liam,Taylor,user234@email.com,South,B2B,Organic Search,2022-10-08,44,Female
+CUST00235,Sophia,Shah,user235@email.com,West,B2C,Affiliate,2024-11-16,65,Female
+CUST00236,Shreya,Shah,user236@email.com,East,Enterprise,Affiliate,2022-12-30,48,Male
+CUST00237,Emma,Wilson,user237@email.com,West,B2C,Social Media,2023-07-26,42,Other
+CUST00238,Meera,Gupta,user238@email.com,South,B2B,Paid Search,2024-03-30,34,Male
+CUST00239,Anjali,Johnson,user239@email.com,Central,Enterprise,Referral,2024-09-23,51,Male
+CUST00240,Rahul,Gupta,user240@email.com,East,B2C,Direct,2023-03-19,27,Female
+CUST00241,Mia,Shah,user241@email.com,West,B2B,Organic Search,2022-05-23,44,Male
+CUST00242,Sanjay,Johnson,user242@email.com,South,B2C,Organic Search,2023-09-08,41,Male
+CUST00243,Amit,Kumar,user243@email.com,East,B2B,Paid Search,2022-02-13,20,Female
+CUST00244,Oliver,Mehta,user244@email.com,West,B2C,Organic Search,2024-01-04,23,Male
+CUST00245,Arjun,Mehta,user245@email.com,Central,Enterprise,Direct,2023-02-02,51,Female
+CUST00246,William,Reddy,user246@email.com,South,B2C,Organic Search,2022-06-22,33,Female
+CUST00247,Ava,Taylor,user247@email.com,West,B2C,Affiliate,2024-09-19,49,Other
+CUST00248,Aarav,Miller,user248@email.com,Central,B2C,Paid Search,2024-04-12,36,Female
+CUST00249,Deepa,Johnson,user249@email.com,South,B2C,Paid Search,2022-01-03,60,Other
+CUST00250,Sanjay,Johnson,user250@email.com,North,Enterprise,Direct,2022-05-13,50,Other
+CUST00251,Aarav,Williams,user251@email.com,West,B2C,Email,2024-05-10,41,Female
+CUST00252,Kavya,Singh,user252@email.com,East,B2C,Referral,2022-01-26,58,Male
+CUST00253,Sophia,Smith,user253@email.com,South,B2C,Direct,2024-06-22,39,Other
+CUST00254,Liam,Jones,user254@email.com,West,B2C,Affiliate,2022-09-29,26,Male
+CUST00255,Priya,Reddy,user255@email.com,South,B2C,Paid Search,2023-12-12,20,Female
+CUST00256,Sanjay,Williams,user256@email.com,Central,B2C,Organic Search,2023-04-27,59,Male
+CUST00257,Kavya,Patel,user257@email.com,East,B2C,Affiliate,2023-03-21,41,Female
+CUST00258,Sophia,Jones,user258@email.com,West,B2C,Paid Search,2023-09-14,49,Other
+CUST00259,Kavya,Miller,user259@email.com,East,B2B,Referral,2024-02-12,45,Male
+CUST00260,Deepa,Gupta,user260@email.com,Central,B2C,Organic Search,2023-10-31,23,Female
+CUST00261,Divya,Reddy,user261@email.com,West,B2C,Email,2024-10-23,28,Other
+CUST00262,Kavya,Jones,user262@email.com,North,B2B,Social Media,2023-11-21,57,Female
+CUST00263,James,Patel,user263@email.com,North,B2C,Email,2023-03-03,41,Other
+CUST00264,Ananya,Sharma,user264@email.com,South,B2B,Referral,2024-11-21,46,Male
+CUST00265,Rahul,Shah,user265@email.com,East,B2C,Direct,2022-07-16,20,Other
+CUST00266,Emma,Jones,user266@email.com,East,B2C,Affiliate,2022-08-27,22,Other
+CUST00267,Sanjay,Johnson,user267@email.com,West,B2C,Social Media,2022-08-02,33,Male
+CUST00268,Sophia,Gupta,user268@email.com,West,B2C,Direct,2022-02-10,25,Female
+CUST00269,Oliver,Jones,user269@email.com,South,Enterprise,Social Media,2023-02-09,62,Female
+CUST00270,Sneha,Mehta,user270@email.com,North,B2C,Referral,2022-11-07,46,Male
+CUST00271,Isabella,Smith,user271@email.com,East,B2B,Direct,2024-11-25,52,Female
+CUST00272,Isabella,Gupta,user272@email.com,South,B2B,Direct,2023-04-11,32,Male
+CUST00273,Ava,Mehta,user273@email.com,South,B2B,Organic Search,2022-11-09,41,Other
+CUST00274,Kavya,Jones,user274@email.com,Central,B2C,Organic Search,2024-06-08,22,Female
+CUST00275,Oliver,Garcia,user275@email.com,Central,B2C,Email,2023-09-11,54,Male
+CUST00276,Amit,Singh,user276@email.com,West,B2C,Direct,2022-07-14,40,Male
+CUST00277,James,Wilson,user277@email.com,South,B2B,Paid Search,2024-05-06,45,Other
+CUST00278,Liam,Kumar,user278@email.com,Central,B2C,Paid Search,2022-03-28,28,Female
+CUST00279,Kavya,Miller,user279@email.com,East,B2B,Social Media,2022-12-17,30,Other
+CUST00280,Rohit,Mehta,user280@email.com,East,B2C,Organic Search,2024-05-05,50,Other
+CUST00281,Kiran,Wilson,user281@email.com,South,B2C,Direct,2022-09-19,64,Other
+CUST00282,Liam,Wilson,user282@email.com,North,B2B,Organic Search,2023-06-09,23,Male
+CUST00283,William,Wilson,user283@email.com,East,B2C,Affiliate,2024-09-23,54,Female
+CUST00284,James,Sharma,user284@email.com,West,B2B,Direct,2024-08-18,36,Other
+CUST00285,Anjali,Shah,user285@email.com,West,B2C,Organic Search,2023-04-15,62,Male
+CUST00286,Nikhil,Brown,user286@email.com,West,B2C,Social Media,2022-09-03,56,Male
+CUST00287,Isabella,Smith,user287@email.com,East,Enterprise,Paid Search,2023-05-01,41,Other
+CUST00288,Sneha,Smith,user288@email.com,South,B2C,Social Media,2024-05-22,46,Male
+CUST00289,Sneha,Patel,user289@email.com,East,Enterprise,Affiliate,2022-08-07,57,Female
+CUST00290,Isabella,Gupta,user290@email.com,East,Enterprise,Referral,2023-01-21,38,Male
+CUST00291,Anjali,Miller,user291@email.com,West,B2C,Social Media,2022-09-05,49,Male
+CUST00292,Suresh,Miller,user292@email.com,West,Enterprise,Paid Search,2022-05-20,55,Female
+CUST00293,Priya,Reddy,user293@email.com,West,B2C,Affiliate,2022-03-17,59,Other
+CUST00294,Divya,Davis,user294@email.com,North,B2B,Email,2024-01-02,26,Female
+CUST00295,William,Williams,user295@email.com,East,B2C,Organic Search,2023-07-23,54,Other
+CUST00296,Kavya,Davis,user296@email.com,East,B2C,Direct,2022-10-30,46,Other
+CUST00297,Liam,Taylor,user297@email.com,Central,B2C,Organic Search,2023-03-11,43,Female
+CUST00298,Shreya,Johnson,user298@email.com,South,B2C,Direct,2023-06-11,43,Other
+CUST00299,Priya,Patel,user299@email.com,South,B2B,Affiliate,2022-03-04,48,Other
+CUST00300,Vikram,Taylor,user300@email.com,Central,B2C,Direct,2023-12-11,38,Male
+CUST00301,Deepa,Reddy,user301@email.com,Central,B2C,Affiliate,2023-09-03,50,Other
+CUST00302,Oliver,Wilson,user302@email.com,East,B2C,Organic Search,2024-01-31,41,Female
+CUST00303,Sneha,Brown,user303@email.com,Central,B2C,Referral,2024-11-12,62,Other
+CUST00304,Deepa,Garcia,user304@email.com,East,Enterprise,Affiliate,2022-02-11,55,Other
+CUST00305,Sophia,Patel,user305@email.com,Central,B2C,Direct,2022-12-20,58,Other
+CUST00306,William,Williams,user306@email.com,South,B2B,Paid Search,2024-08-20,20,Other
+CUST00307,Arjun,Sharma,user307@email.com,West,B2C,Paid Search,2022-06-20,44,Other
+CUST00308,Meera,Miller,user308@email.com,Central,Enterprise,Affiliate,2022-11-13,65,Other
+CUST00309,Oliver,Mehta,user309@email.com,Central,B2C,Social Media,2022-04-07,60,Female
+CUST00310,Suresh,Smith,user310@email.com,South,B2C,Direct,2024-03-27,39,Other
+CUST00311,Emma,Verma,user311@email.com,Central,B2C,Paid Search,2023-07-05,35,Other
+CUST00312,Pooja,Reddy,user312@email.com,East,B2B,Referral,2023-04-09,63,Female
+CUST00313,Anjali,Johnson,user313@email.com,Central,Enterprise,Affiliate,2023-05-08,64,Female
+CUST00314,Sneha,Wilson,user314@email.com,Central,B2C,Email,2023-03-24,40,Male
+CUST00315,Priya,Reddy,user315@email.com,North,B2C,Email,2023-03-28,59,Female
+CUST00316,Arjun,Joshi,user316@email.com,Central,B2C,Direct,2024-01-15,62,Female
+CUST00317,Sneha,Taylor,user317@email.com,Central,B2C,Organic Search,2022-08-02,60,Other
+CUST00318,James,Shah,user318@email.com,North,B2C,Social Media,2022-12-17,63,Female
+CUST00319,Emma,Mehta,user319@email.com,North,Enterprise,Paid Search,2022-06-06,44,Other
+CUST00320,Anjali,Joshi,user320@email.com,East,B2C,Referral,2024-01-09,21,Male
+CUST00321,Kiran,Shah,user321@email.com,Central,B2B,Affiliate,2024-10-10,20,Male
+CUST00322,Noah,Gupta,user322@email.com,North,Enterprise,Email,2023-10-12,49,Male
+CUST00323,Noah,Patel,user323@email.com,North,B2C,Direct,2023-03-26,24,Female
+CUST00324,Nikhil,Davis,user324@email.com,Central,B2C,Paid Search,2023-03-19,50,Female
+CUST00325,Arjun,Kumar,user325@email.com,East,B2C,Email,2023-02-28,59,Female
+CUST00326,Aarav,Smith,user326@email.com,East,B2C,Affiliate,2022-10-17,30,Male
+CUST00327,Isabella,Williams,user327@email.com,West,B2C,Organic Search,2024-08-07,43,Other
+CUST00328,Ananya,Mehta,user328@email.com,West,B2C,Paid Search,2022-05-29,18,Female
+CUST00329,Pooja,Jones,user329@email.com,East,Enterprise,Social Media,2023-08-19,55,Other
+CUST00330,Aarav,Verma,user330@email.com,East,B2C,Organic Search,2024-06-08,60,Male
+CUST00331,Divya,Gupta,user331@email.com,West,B2C,Referral,2023-12-24,37,Other
+CUST00332,James,Reddy,user332@email.com,East,B2C,Paid Search,2022-07-02,26,Female
+CUST00333,Nikhil,Taylor,user333@email.com,East,B2C,Direct,2022-08-26,48,Other
+CUST00334,Liam,Joshi,user334@email.com,South,B2C,Direct,2024-10-28,23,Other
+CUST00335,Sanjay,Johnson,user335@email.com,North,Enterprise,Organic Search,2023-11-25,21,Other
+CUST00336,Arjun,Wilson,user336@email.com,Central,B2C,Social Media,2024-02-25,51,Female
+CUST00337,Emma,Joshi,user337@email.com,Central,B2C,Direct,2022-06-30,46,Male
+CUST00338,Vikram,Miller,user338@email.com,West,B2C,Organic Search,2023-12-06,53,Female
+CUST00339,Ava,Reddy,user339@email.com,North,B2C,Affiliate,2024-11-11,18,Other
+CUST00340,Kiran,Singh,user340@email.com,North,B2C,Referral,2022-12-05,22,Other
+CUST00341,Mia,Singh,user341@email.com,West,B2C,Email,2022-04-04,29,Male
+CUST00342,Sophia,Brown,user342@email.com,East,Enterprise,Email,2024-09-23,46,Female
+CUST00343,Rahul,Davis,user343@email.com,South,B2C,Social Media,2023-08-07,25,Male
+CUST00344,Suresh,Miller,user344@email.com,South,B2B,Paid Search,2024-04-14,18,Male
+CUST00345,Nikhil,Davis,user345@email.com,West,B2C,Affiliate,2023-04-09,32,Male
+CUST00346,Kavya,Mehta,user346@email.com,East,B2C,Referral,2023-12-17,25,Male
+CUST00347,Meera,Taylor,user347@email.com,North,B2C,Organic Search,2024-10-22,24,Other
+CUST00348,Nikhil,Taylor,user348@email.com,North,B2C,Organic Search,2022-02-22,43,Female
+CUST00349,Shreya,Joshi,user349@email.com,North,B2C,Social Media,2022-12-31,32,Other
+CUST00350,Amit,Wilson,user350@email.com,Central,B2B,Affiliate,2024-06-13,38,Male
+CUST00351,Noah,Mehta,user351@email.com,Central,B2C,Social Media,2023-04-14,35,Male
+CUST00352,Kiran,Gupta,user352@email.com,West,B2C,Organic Search,2024-05-14,40,Other
+CUST00353,Suresh,Miller,user353@email.com,East,B2C,Email,2024-11-08,27,Female
+CUST00354,Ananya,Davis,user354@email.com,West,B2C,Paid Search,2023-08-08,37,Other
+CUST00355,Ava,Jones,user355@email.com,North,B2C,Email,2022-08-13,53,Other
+CUST00356,Suresh,Shah,user356@email.com,East,B2C,Referral,2022-07-28,23,Female
+CUST00357,Rahul,Davis,user357@email.com,South,B2C,Email,2023-07-31,61,Other
+CUST00358,Priya,Singh,user358@email.com,South,B2B,Direct,2024-07-25,64,Other
+CUST00359,Arjun,Garcia,user359@email.com,South,B2B,Social Media,2024-05-18,37,Male
+CUST00360,Mia,Joshi,user360@email.com,North,B2B,Affiliate,2022-11-26,48,Male
+CUST00361,Oliver,Joshi,user361@email.com,West,Enterprise,Direct,2024-07-27,38,Female
+CUST00362,Nikhil,Davis,user362@email.com,East,B2C,Social Media,2023-08-15,50,Female
+CUST00363,Sneha,Garcia,user363@email.com,East,Enterprise,Social Media,2023-12-25,38,Female
+CUST00364,Kiran,Shah,user364@email.com,South,B2C,Direct,2022-03-13,55,Other
+CUST00365,Divya,Mehta,user365@email.com,South,B2C,Email,2023-10-11,54,Male
+CUST00366,Shreya,Smith,user366@email.com,East,B2B,Email,2024-02-15,64,Other
+CUST00367,Nikhil,Gupta,user367@email.com,East,B2C,Referral,2024-02-02,52,Female
+CUST00368,Mia,Davis,user368@email.com,North,B2C,Affiliate,2022-10-13,22,Other
+CUST00369,William,Sharma,user369@email.com,West,B2C,Referral,2022-03-17,32,Male
+CUST00370,Aarav,Joshi,user370@email.com,Central,B2C,Organic Search,2022-08-23,57,Other
+CUST00371,Mia,Taylor,user371@email.com,West,B2C,Organic Search,2024-11-01,18,Other
+CUST00372,Meera,Sharma,user372@email.com,North,B2C,Social Media,2024-05-06,52,Female
+CUST00373,Sanjay,Brown,user373@email.com,South,B2C,Organic Search,2022-01-27,51,Male
+CUST00374,Arjun,Taylor,user374@email.com,Central,B2C,Social Media,2023-01-10,35,Female
+CUST00375,Kavya,Williams,user375@email.com,West,B2C,Referral,2022-05-03,32,Female
+CUST00376,Liam,Singh,user376@email.com,North,B2C,Email,2024-11-28,42,Other
+CUST00377,Priya,Sharma,user377@email.com,South,B2C,Affiliate,2024-01-10,45,Other
+CUST00378,Kiran,Kumar,user378@email.com,Central,Enterprise,Paid Search,2023-05-30,31,Other
+CUST00379,Anjali,Verma,user379@email.com,North,Enterprise,Referral,2024-05-30,35,Other
+CUST00380,Emma,Patel,user380@email.com,South,Enterprise,Social Media,2024-05-25,19,Male
+CUST00381,Vikram,Williams,user381@email.com,North,B2C,Direct,2024-06-30,33,Other
+CUST00382,Emma,Davis,user382@email.com,East,B2C,Referral,2023-08-28,26,Other
+CUST00383,Sanjay,Johnson,user383@email.com,North,B2C,Paid Search,2022-05-02,22,Female
+CUST00384,William,Taylor,user384@email.com,Central,B2C,Affiliate,2024-07-29,38,Male
+CUST00385,Rohit,Jones,user385@email.com,West,B2C,Direct,2024-09-12,42,Female
+CUST00386,Emma,Wilson,user386@email.com,West,B2C,Direct,2022-10-16,36,Male
+CUST00387,Rahul,Verma,user387@email.com,South,B2C,Affiliate,2022-04-25,58,Male
+CUST00388,Amit,Johnson,user388@email.com,North,B2C,Social Media,2023-08-29,46,Female
+CUST00389,Sneha,Mehta,user389@email.com,North,B2C,Email,2023-02-24,53,Other
+CUST00390,Meera,Kumar,user390@email.com,North,B2C,Direct,2024-03-07,23,Other
+CUST00391,Ava,Smith,user391@email.com,West,B2C,Email,2024-07-18,42,Male
+CUST00392,Noah,Shah,user392@email.com,Central,B2C,Referral,2024-05-19,42,Male
+CUST00393,Rohit,Reddy,user393@email.com,East,B2C,Organic Search,2022-08-04,28,Female
+CUST00394,Meera,Reddy,user394@email.com,West,B2B,Social Media,2023-03-05,34,Male
+CUST00395,Anjali,Taylor,user395@email.com,Central,B2C,Organic Search,2024-08-28,26,Female
+CUST00396,Suresh,Smith,user396@email.com,Central,B2C,Affiliate,2022-01-11,39,Female
+CUST00397,Meera,Taylor,user397@email.com,South,B2C,Direct,2023-06-04,62,Male
+CUST00398,Amit,Gupta,user398@email.com,West,Enterprise,Social Media,2024-01-15,65,Other
+CUST00399,Anjali,Wilson,user399@email.com,South,B2C,Social Media,2024-09-10,43,Female
+CUST00400,Mia,Wilson,user400@email.com,South,B2C,Direct,2022-06-26,29,Other
+CUST00401,Aarav,Jones,user401@email.com,South,B2C,Social Media,2024-05-04,62,Male
+CUST00402,Emma,Garcia,user402@email.com,South,B2C,Paid Search,2023-09-28,34,Other
+CUST00403,Oliver,Brown,user403@email.com,West,B2C,Direct,2022-08-28,48,Other
+CUST00404,Shreya,Miller,user404@email.com,West,B2C,Affiliate,2023-09-15,41,Other
+CUST00405,Deepa,Singh,user405@email.com,North,B2B,Referral,2024-04-14,60,Female
+CUST00406,James,Taylor,user406@email.com,North,B2C,Referral,2022-09-16,61,Other
+CUST00407,William,Smith,user407@email.com,West,B2C,Organic Search,2023-09-13,34,Male
+CUST00408,Sophia,Miller,user408@email.com,Central,B2C,Direct,2024-03-04,32,Female
+CUST00409,Suresh,Jones,user409@email.com,Central,B2C,Paid Search,2023-08-05,40,Male
+CUST00410,Sneha,Reddy,user410@email.com,West,Enterprise,Organic Search,2024-01-20,25,Other
+CUST00411,Kavya,Reddy,user411@email.com,East,B2C,Paid Search,2022-08-09,51,Female
+CUST00412,Anjali,Kumar,user412@email.com,West,B2B,Email,2023-06-26,38,Male
+CUST00413,Priya,Kumar,user413@email.com,North,B2B,Referral,2023-04-12,24,Other
+CUST00414,Mia,Shah,user414@email.com,Central,B2C,Paid Search,2022-09-13,39,Other
+CUST00415,Nikhil,Shah,user415@email.com,West,B2C,Paid Search,2023-10-25,58,Other
+CUST00416,Suresh,Sharma,user416@email.com,Central,B2B,Email,2023-11-03,55,Female
+CUST00417,Aarav,Joshi,user417@email.com,South,B2C,Referral,2023-08-28,22,Other
+CUST00418,Ava,Davis,user418@email.com,South,B2C,Paid Search,2022-06-08,47,Male
+CUST00419,Emma,Garcia,user419@email.com,Central,Enterprise,Social Media,2023-02-12,56,Female
+CUST00420,Suresh,Wilson,user420@email.com,North,B2C,Affiliate,2024-08-07,47,Other
+CUST00421,Liam,Reddy,user421@email.com,Central,B2C,Referral,2022-09-26,26,Female
+CUST00422,Pooja,Reddy,user422@email.com,North,B2C,Referral,2022-07-03,27,Other
+CUST00423,Meera,Taylor,user423@email.com,South,B2C,Email,2023-08-27,29,Female
+CUST00424,Shreya,Gupta,user424@email.com,Central,B2C,Social Media,2024-09-14,26,Male
+CUST00425,Liam,Jones,user425@email.com,Central,B2C,Social Media,2023-05-04,18,Female
+CUST00426,Arjun,Williams,user426@email.com,Central,B2C,Email,2022-08-01,44,Other
+CUST00427,Meera,Jones,user427@email.com,West,B2C,Direct,2024-02-03,19,Male
+CUST00428,Priya,Verma,user428@email.com,South,B2C,Paid Search,2023-03-30,47,Other
+CUST00429,Shreya,Miller,user429@email.com,North,B2C,Social Media,2024-02-09,52,Female
+CUST00430,Liam,Patel,user430@email.com,West,B2C,Email,2024-04-22,24,Other
+CUST00431,William,Shah,user431@email.com,East,B2B,Organic Search,2024-10-12,46,Female
+CUST00432,Isabella,Singh,user432@email.com,West,B2B,Organic Search,2023-06-26,33,Male
+CUST00433,Oliver,Johnson,user433@email.com,Central,B2C,Paid Search,2024-07-02,57,Male
+CUST00434,Liam,Joshi,user434@email.com,North,B2C,Direct,2022-11-17,35,Other
+CUST00435,Ananya,Smith,user435@email.com,East,B2C,Social Media,2024-04-16,50,Other
+CUST00436,Vikram,Brown,user436@email.com,North,Enterprise,Affiliate,2022-05-28,59,Male
+CUST00437,Pooja,Mehta,user437@email.com,East,B2B,Affiliate,2022-07-26,61,Female
+CUST00438,Vikram,Wilson,user438@email.com,East,B2C,Email,2024-01-31,46,Male
+CUST00439,Ava,Singh,user439@email.com,West,B2C,Social Media,2024-09-11,62,Female
+CUST00440,Anjali,Smith,user440@email.com,Central,B2C,Affiliate,2023-12-08,64,Male
+CUST00441,James,Johnson,user441@email.com,North,B2B,Email,2023-12-14,31,Female
+CUST00442,Anjali,Verma,user442@email.com,East,B2B,Social Media,2022-11-26,53,Other
+CUST00443,Kiran,Garcia,user443@email.com,East,B2B,Affiliate,2022-07-22,21,Male
+CUST00444,James,Jones,user444@email.com,North,B2C,Affiliate,2022-06-04,28,Female
+CUST00445,Aarav,Brown,user445@email.com,South,Enterprise,Paid Search,2023-12-11,59,Female
+CUST00446,Isabella,Verma,user446@email.com,North,B2C,Social Media,2022-09-04,23,Female
+CUST00447,Noah,Gupta,user447@email.com,North,B2C,Social Media,2024-10-29,64,Other
+CUST00448,Meera,Singh,user448@email.com,North,B2C,Email,2022-12-30,22,Male
+CUST00449,Pooja,Miller,user449@email.com,West,B2C,Referral,2024-07-11,39,Male
+CUST00450,Oliver,Mehta,user450@email.com,West,B2C,Email,2023-10-19,23,Other
+CUST00451,Sneha,Smith,user451@email.com,East,B2B,Paid Search,2022-06-09,42,Male
+CUST00452,Emma,Mehta,user452@email.com,North,B2C,Organic Search,2024-09-23,57,Other
+CUST00453,Nikhil,Johnson,user453@email.com,South,B2C,Paid Search,2022-09-12,44,Other
+CUST00454,Isabella,Joshi,user454@email.com,North,B2B,Paid Search,2023-11-19,25,Other
+CUST00455,Kavya,Brown,user455@email.com,East,B2B,Paid Search,2023-08-20,35,Other
+CUST00456,Pooja,Davis,user456@email.com,Central,B2C,Direct,2022-05-11,36,Other
+CUST00457,Isabella,Reddy,user457@email.com,South,B2C,Direct,2022-02-11,30,Other
+CUST00458,Divya,Patel,user458@email.com,South,B2C,Organic Search,2023-09-01,33,Female
+CUST00459,Deepa,Singh,user459@email.com,Central,B2B,Organic Search,2024-09-18,41,Female
+CUST00460,Suresh,Wilson,user460@email.com,West,B2C,Referral,2022-07-25,29,Female
+CUST00461,Aarav,Wilson,user461@email.com,North,B2C,Paid Search,2022-04-24,20,Male
+CUST00462,Sanjay,Reddy,user462@email.com,Central,B2B,Email,2023-09-11,62,Female
+CUST00463,James,Davis,user463@email.com,Central,B2C,Social Media,2022-05-09,23,Female
+CUST00464,Sanjay,Joshi,user464@email.com,South,B2C,Email,2022-05-03,55,Other
+CUST00465,Emma,Singh,user465@email.com,East,B2C,Referral,2024-10-06,33,Male
+CUST00466,Rahul,Brown,user466@email.com,North,B2C,Direct,2023-01-15,21,Female
+CUST00467,Sophia,Gupta,user467@email.com,North,B2C,Paid Search,2024-10-31,62,Male
+CUST00468,Anjali,Johnson,user468@email.com,Central,B2C,Affiliate,2022-09-12,64,Female
+CUST00469,Kavya,Mehta,user469@email.com,East,B2B,Organic Search,2022-09-17,19,Female
+CUST00470,Rohit,Miller,user470@email.com,North,B2C,Direct,2023-10-29,58,Male
+CUST00471,Nikhil,Miller,user471@email.com,East,B2C,Affiliate,2024-02-10,54,Male
+CUST00472,Ananya,Verma,user472@email.com,North,B2B,Referral,2023-07-26,64,Male
+CUST00473,Sophia,Miller,user473@email.com,North,B2C,Affiliate,2022-12-21,18,Male
+CUST00474,Anjali,Johnson,user474@email.com,West,Enterprise,Paid Search,2022-03-13,20,Other
+CUST00475,Meera,Shah,user475@email.com,East,B2C,Referral,2024-10-15,38,Female
+CUST00476,Kiran,Johnson,user476@email.com,North,B2C,Organic Search,2022-05-01,29,Male
+CUST00477,Priya,Williams,user477@email.com,North,B2B,Affiliate,2024-03-12,36,Female
+CUST00478,Rahul,Davis,user478@email.com,West,B2C,Paid Search,2023-05-24,36,Other
+CUST00479,Sophia,Taylor,user479@email.com,South,B2C,Direct,2023-04-18,49,Male
+CUST00480,William,Shah,user480@email.com,South,B2C,Email,2024-04-29,19,Male
+CUST00481,Kavya,Sharma,user481@email.com,East,B2C,Referral,2024-04-21,42,Other
+CUST00482,Sneha,Joshi,user482@email.com,Central,Enterprise,Email,2023-04-23,49,Male
+CUST00483,Oliver,Verma,user483@email.com,North,B2C,Paid Search,2022-08-10,51,Female
+CUST00484,Nikhil,Singh,user484@email.com,Central,B2C,Paid Search,2023-08-02,58,Female
+CUST00485,Kiran,Wilson,user485@email.com,North,B2C,Paid Search,2022-04-27,33,Female
+CUST00486,Isabella,Smith,user486@email.com,West,B2B,Referral,2023-02-10,38,Female
+CUST00487,Rohit,Shah,user487@email.com,North,Enterprise,Paid Search,2023-12-05,55,Male
+CUST00488,Sneha,Gupta,user488@email.com,West,B2C,Email,2022-08-30,25,Other
+CUST00489,William,Joshi,user489@email.com,West,B2C,Social Media,2023-07-11,25,Male
+CUST00490,Ava,Reddy,user490@email.com,Central,B2C,Affiliate,2022-09-02,38,Male
+CUST00491,Oliver,Shah,user491@email.com,East,B2C,Organic Search,2022-05-22,61,Female
+CUST00492,Liam,Gupta,user492@email.com,North,Enterprise,Affiliate,2023-02-09,46,Other
+CUST00493,Pooja,Kumar,user493@email.com,West,B2C,Affiliate,2024-05-04,26,Male
+CUST00494,Priya,Shah,user494@email.com,South,B2C,Email,2022-01-19,41,Other
+CUST00495,James,Singh,user495@email.com,Central,B2C,Affiliate,2024-09-06,22,Male
+CUST00496,Arjun,Jones,user496@email.com,South,B2C,Affiliate,2022-04-11,39,Male
+CUST00497,Nikhil,Patel,user497@email.com,South,Enterprise,Email,2022-03-08,64,Female
+CUST00498,Aarav,Williams,user498@email.com,West,B2C,Paid Search,2024-02-10,29,Female
+CUST00499,Nikhil,Mehta,user499@email.com,North,B2C,Direct,2023-03-11,33,Other
+CUST00500,Anjali,Brown,user500@email.com,Central,B2C,Organic Search,2023-04-04,35,Female
+CUST00501,Meera,Joshi,user501@email.com,Central,B2C,Affiliate,2022-08-02,52,Male
+CUST00502,Ava,Johnson,user502@email.com,West,B2C,Email,2023-08-18,40,Other
+CUST00503,Amit,Williams,user503@email.com,East,B2C,Social Media,2024-02-20,56,Male
+CUST00504,Noah,Verma,user504@email.com,North,B2B,Email,2022-02-15,51,Female
+CUST00505,Pooja,Gupta,user505@email.com,North,B2C,Paid Search,2024-06-26,35,Other
+CUST00506,William,Shah,user506@email.com,Central,B2B,Affiliate,2022-03-28,42,Female
+CUST00507,Ananya,Shah,user507@email.com,Central,B2C,Referral,2022-09-27,62,Female
+CUST00508,Aarav,Johnson,user508@email.com,Central,B2C,Direct,2024-07-07,30,Female
+CUST00509,Divya,Gupta,user509@email.com,West,B2C,Organic Search,2024-04-22,32,Other
+CUST00510,Aarav,Miller,user510@email.com,West,B2C,Direct,2022-12-06,30,Male
+CUST00511,Oliver,Gupta,user511@email.com,East,B2C,Paid Search,2023-06-14,55,Other
+CUST00512,William,Kumar,user512@email.com,Central,B2B,Organic Search,2022-08-09,41,Other
+CUST00513,Suresh,Wilson,user513@email.com,North,B2C,Social Media,2024-10-25,26,Male
+CUST00514,Ava,Garcia,user514@email.com,East,B2C,Direct,2023-11-10,62,Other
+CUST00515,Pooja,Wilson,user515@email.com,South,B2C,Referral,2023-07-09,62,Female
+CUST00516,Ananya,Sharma,user516@email.com,Central,B2C,Affiliate,2022-07-17,54,Male
+CUST00517,Deepa,Smith,user517@email.com,Central,B2C,Direct,2022-10-10,24,Female
+CUST00518,Amit,Singh,user518@email.com,South,B2C,Social Media,2022-08-07,28,Other
+CUST00519,Liam,Smith,user519@email.com,West,B2C,Paid Search,2022-05-18,33,Other
+CUST00520,Kavya,Verma,user520@email.com,North,B2B,Organic Search,2022-04-16,42,Female
+CUST00521,Ananya,Brown,user521@email.com,West,B2B,Social Media,2023-10-14,52,Female
+CUST00522,Liam,Garcia,user522@email.com,Central,B2C,Referral,2022-06-07,32,Male
+CUST00523,Rahul,Patel,user523@email.com,East,B2C,Social Media,2023-12-03,24,Male
+CUST00524,Ananya,Williams,user524@email.com,South,B2B,Direct,2023-06-15,23,Female
+CUST00525,Deepa,Garcia,user525@email.com,North,B2C,Referral,2024-07-11,28,Other
+CUST00526,Ananya,Patel,user526@email.com,North,B2C,Paid Search,2023-11-06,44,Other
+CUST00527,Sophia,Davis,user527@email.com,East,B2C,Social Media,2024-05-10,33,Male
+CUST00528,Suresh,Wilson,user528@email.com,Central,B2B,Paid Search,2022-03-19,21,Female
+CUST00529,Meera,Singh,user529@email.com,East,B2B,Referral,2022-01-06,56,Female
+CUST00530,Sneha,Sharma,user530@email.com,South,B2C,Social Media,2022-11-07,23,Female
+CUST00531,Divya,Williams,user531@email.com,West,B2C,Referral,2022-06-29,34,Male
+CUST00532,Shreya,Williams,user532@email.com,South,B2C,Email,2024-09-24,41,Male
+CUST00533,Priya,Verma,user533@email.com,West,B2C,Paid Search,2023-11-24,35,Other
+CUST00534,Vikram,Kumar,user534@email.com,North,B2C,Affiliate,2022-04-06,52,Female
+CUST00535,Pooja,Davis,user535@email.com,North,B2B,Affiliate,2024-07-05,51,Female
+CUST00536,Emma,Garcia,user536@email.com,Central,B2B,Email,2024-04-11,37,Male
+CUST00537,Noah,Patel,user537@email.com,Central,B2C,Direct,2023-09-06,54,Other
+CUST00538,Vikram,Kumar,user538@email.com,West,B2C,Paid Search,2024-08-21,31,Male
+CUST00539,Priya,Brown,user539@email.com,North,Enterprise,Email,2022-07-16,30,Other
+CUST00540,Liam,Taylor,user540@email.com,East,B2C,Referral,2022-08-18,22,Male
+CUST00541,Shreya,Williams,user541@email.com,Central,B2C,Social Media,2023-08-26,51,Female
+CUST00542,Ava,Taylor,user542@email.com,Central,B2C,Email,2022-01-20,25,Female
+CUST00543,Vikram,Wilson,user543@email.com,Central,B2C,Organic Search,2022-08-21,24,Other
+CUST00544,Ava,Reddy,user544@email.com,Central,B2B,Email,2022-06-06,34,Female
+CUST00545,Anjali,Wilson,user545@email.com,Central,B2C,Paid Search,2024-10-14,35,Female
+CUST00546,Deepa,Taylor,user546@email.com,West,B2C,Social Media,2022-08-12,62,Male
+CUST00547,Sophia,Garcia,user547@email.com,East,B2B,Organic Search,2022-03-18,39,Female
+CUST00548,Rohit,Garcia,user548@email.com,North,Enterprise,Paid Search,2023-04-29,26,Female
+CUST00549,William,Smith,user549@email.com,East,B2B,Direct,2023-11-20,59,Male
+CUST00550,Nikhil,Joshi,user550@email.com,West,B2B,Affiliate,2022-10-19,51,Female
+CUST00551,Sanjay,Gupta,user551@email.com,North,B2C,Direct,2022-03-29,43,Male
+CUST00552,Noah,Wilson,user552@email.com,North,B2C,Affiliate,2024-03-25,30,Male
+CUST00553,Priya,Jones,user553@email.com,North,Enterprise,Referral,2023-01-23,30,Female
+CUST00554,Liam,Jones,user554@email.com,Central,B2C,Organic Search,2023-07-27,61,Male
+CUST00555,Kavya,Garcia,user555@email.com,Central,B2C,Affiliate,2023-01-11,48,Other
+CUST00556,Kavya,Johnson,user556@email.com,South,B2B,Social Media,2024-05-06,65,Other
+CUST00557,Divya,Sharma,user557@email.com,West,B2C,Affiliate,2022-05-21,54,Male
+CUST00558,James,Shah,user558@email.com,South,B2C,Email,2022-12-10,50,Male
+CUST00559,Aarav,Garcia,user559@email.com,South,B2C,Direct,2024-11-25,18,Male
+CUST00560,Deepa,Reddy,user560@email.com,East,B2C,Email,2023-01-28,40,Female
+CUST00561,Arjun,Jones,user561@email.com,East,B2C,Affiliate,2023-01-27,57,Female
+CUST00562,Sneha,Sharma,user562@email.com,Central,Enterprise,Affiliate,2024-06-26,41,Other
+CUST00563,Deepa,Taylor,user563@email.com,East,B2C,Organic Search,2024-10-02,48,Male
+CUST00564,Rohit,Smith,user564@email.com,East,B2C,Referral,2023-06-07,59,Female
+CUST00565,Vikram,Miller,user565@email.com,South,B2B,Affiliate,2022-10-20,56,Female
+CUST00566,Amit,Mehta,user566@email.com,North,B2C,Social Media,2024-10-23,34,Female
+CUST00567,Suresh,Patel,user567@email.com,Central,B2B,Direct,2023-09-21,30,Female
+CUST00568,Emma,Davis,user568@email.com,West,Enterprise,Referral,2022-12-12,40,Other
+CUST00569,Isabella,Gupta,user569@email.com,Central,B2C,Organic Search,2023-04-12,48,Male
+CUST00570,Sophia,Davis,user570@email.com,South,Enterprise,Social Media,2023-02-06,59,Male
+CUST00571,Kavya,Shah,user571@email.com,East,B2C,Social Media,2022-12-12,41,Female
+CUST00572,Divya,Jones,user572@email.com,North,B2C,Affiliate,2024-06-28,58,Other
+CUST00573,Deepa,Singh,user573@email.com,West,B2B,Direct,2024-06-20,25,Other
+CUST00574,Sanjay,Reddy,user574@email.com,West,B2C,Affiliate,2023-08-16,27,Male
+CUST00575,Amit,Brown,user575@email.com,Central,B2B,Email,2022-11-08,27,Female
+CUST00576,William,Singh,user576@email.com,West,B2C,Paid Search,2022-10-08,38,Other
+CUST00577,Aarav,Jones,user577@email.com,East,B2C,Affiliate,2022-04-01,28,Other
+CUST00578,Anjali,Singh,user578@email.com,South,B2C,Referral,2022-09-04,45,Female
+CUST00579,Anjali,Williams,user579@email.com,North,B2C,Paid Search,2023-10-29,64,Female
+CUST00580,Noah,Smith,user580@email.com,Central,B2C,Referral,2022-01-22,18,Other
+CUST00581,Pooja,Johnson,user581@email.com,East,B2C,Email,2023-01-22,50,Other
+CUST00582,Ananya,Singh,user582@email.com,North,B2C,Social Media,2023-04-21,47,Other
+CUST00583,Deepa,Miller,user583@email.com,East,B2C,Referral,2024-03-19,26,Female
+CUST00584,Kavya,Joshi,user584@email.com,South,Enterprise,Affiliate,2024-02-01,43,Male
+CUST00585,Pooja,Mehta,user585@email.com,South,B2B,Direct,2022-12-21,50,Male
+CUST00586,Kavya,Patel,user586@email.com,West,B2B,Social Media,2022-07-11,52,Other
+CUST00587,Deepa,Patel,user587@email.com,North,B2C,Organic Search,2022-03-17,21,Other
+CUST00588,Meera,Jones,user588@email.com,West,B2C,Social Media,2022-06-29,48,Other
+CUST00589,Arjun,Sharma,user589@email.com,East,B2C,Organic Search,2022-08-26,60,Other
+CUST00590,Deepa,Taylor,user590@email.com,South,B2C,Organic Search,2023-02-24,50,Other
+CUST00591,Sneha,Reddy,user591@email.com,North,B2B,Email,2024-08-17,30,Other
+CUST00592,William,Verma,user592@email.com,Central,Enterprise,Social Media,2022-11-07,63,Female
+CUST00593,Ananya,Patel,user593@email.com,Central,B2C,Paid Search,2023-04-04,62,Female
+CUST00594,Pooja,Sharma,user594@email.com,North,B2C,Organic Search,2023-05-29,54,Other
+CUST00595,Vikram,Singh,user595@email.com,Central,B2C,Referral,2024-02-07,24,Female
+CUST00596,Pooja,Jones,user596@email.com,East,B2C,Organic Search,2024-09-27,24,Male
+CUST00597,Isabella,Reddy,user597@email.com,East,B2B,Social Media,2022-03-03,45,Other
+CUST00598,Sneha,Patel,user598@email.com,North,B2B,Referral,2022-06-30,59,Male
+CUST00599,Kavya,Jones,user599@email.com,Central,B2C,Referral,2023-05-26,23,Female
+CUST00600,Ananya,Kumar,user600@email.com,West,B2C,Email,2023-06-17,35,Female
+CUST00601,Ava,Brown,user601@email.com,South,B2C,Referral,2024-01-13,64,Male
+CUST00602,Sneha,Brown,user602@email.com,Central,B2C,Direct,2022-09-05,61,Female
+CUST00603,Deepa,Williams,user603@email.com,East,B2C,Affiliate,2022-10-09,61,Other
+CUST00604,Anjali,Garcia,user604@email.com,North,B2B,Email,2022-07-22,20,Male
+CUST00605,James,Smith,user605@email.com,North,B2B,Referral,2023-02-11,51,Other
+CUST00606,Sophia,Wilson,user606@email.com,South,Enterprise,Referral,2024-06-14,39,Other
+CUST00607,Oliver,Taylor,user607@email.com,North,B2C,Referral,2024-03-23,33,Female
+CUST00608,Emma,Williams,user608@email.com,South,B2B,Direct,2023-06-22,57,Male
+CUST00609,James,Gupta,user609@email.com,Central,B2B,Affiliate,2022-01-19,49,Male
+CUST00610,William,Garcia,user610@email.com,East,B2C,Social Media,2022-04-27,21,Other
+CUST00611,Shreya,Williams,user611@email.com,West,B2B,Organic Search,2022-12-12,47,Female
+CUST00612,Nikhil,Singh,user612@email.com,West,B2C,Organic Search,2024-06-09,49,Other
+CUST00613,Aarav,Kumar,user613@email.com,West,B2C,Direct,2024-10-11,53,Male
+CUST00614,Ava,Taylor,user614@email.com,Central,B2C,Direct,2022-05-22,53,Male
+CUST00615,Emma,Jones,user615@email.com,East,B2C,Organic Search,2024-10-13,32,Female
+CUST00616,Shreya,Taylor,user616@email.com,Central,B2C,Referral,2023-05-31,41,Other
+CUST00617,Sneha,Kumar,user617@email.com,South,B2C,Social Media,2023-12-04,58,Female
+CUST00618,Sanjay,Johnson,user618@email.com,North,B2C,Paid Search,2024-04-30,49,Male
+CUST00619,Sneha,Verma,user619@email.com,Central,B2C,Organic Search,2023-09-28,43,Male
+CUST00620,Liam,Joshi,user620@email.com,East,B2C,Email,2023-12-11,20,Other
+CUST00621,Kiran,Kumar,user621@email.com,West,B2C,Direct,2024-11-10,50,Male
+CUST00622,Aarav,Miller,user622@email.com,North,B2C,Email,2024-02-14,55,Female
+CUST00623,William,Gupta,user623@email.com,Central,B2C,Affiliate,2024-02-29,26,Male
+CUST00624,Emma,Taylor,user624@email.com,Central,B2B,Direct,2023-08-25,42,Female
+CUST00625,Mia,Shah,user625@email.com,East,B2C,Social Media,2024-08-04,36,Female
+CUST00626,Vikram,Brown,user626@email.com,Central,B2B,Referral,2022-07-27,50,Female
+CUST00627,Isabella,Smith,user627@email.com,Central,B2C,Paid Search,2024-04-30,31,Other
+CUST00628,Emma,Johnson,user628@email.com,South,Enterprise,Referral,2023-03-28,29,Other
+CUST00629,Oliver,Smith,user629@email.com,North,B2B,Direct,2024-04-22,48,Other
+CUST00630,Emma,Brown,user630@email.com,Central,B2C,Affiliate,2024-06-05,45,Male
+CUST00631,Sneha,Sharma,user631@email.com,West,B2C,Referral,2024-03-23,21,Male
+CUST00632,William,Gupta,user632@email.com,East,B2C,Paid Search,2023-02-19,21,Other
+CUST00633,Arjun,Davis,user633@email.com,North,B2C,Email,2023-04-04,24,Other
+CUST00634,Sophia,Davis,user634@email.com,South,B2B,Direct,2024-11-15,42,Male
+CUST00635,Ava,Reddy,user635@email.com,North,Enterprise,Email,2024-03-04,44,Other
+CUST00636,Shreya,Patel,user636@email.com,North,B2B,Paid Search,2023-05-01,57,Female
+CUST00637,Mia,Johnson,user637@email.com,Central,B2C,Direct,2022-12-17,30,Other
+CUST00638,Divya,Jones,user638@email.com,South,Enterprise,Organic Search,2022-10-28,29,Male
+CUST00639,Sneha,Williams,user639@email.com,North,B2C,Direct,2024-03-09,34,Male
+CUST00640,Kiran,Verma,user640@email.com,North,B2C,Referral,2022-09-07,27,Male
+CUST00641,Mia,Smith,user641@email.com,Central,B2C,Referral,2022-08-27,57,Other
+CUST00642,Anjali,Wilson,user642@email.com,Central,B2C,Affiliate,2023-04-13,63,Female
+CUST00643,Pooja,Gupta,user643@email.com,Central,B2C,Direct,2024-03-27,28,Female
+CUST00644,Shreya,Williams,user644@email.com,North,B2C,Paid Search,2024-04-23,60,Female
+CUST00645,Kavya,Reddy,user645@email.com,South,Enterprise,Direct,2023-05-30,51,Female
+CUST00646,Liam,Sharma,user646@email.com,North,B2C,Email,2024-05-22,33,Other
+CUST00647,Mia,Taylor,user647@email.com,South,Enterprise,Referral,2024-08-11,38,Female
+CUST00648,Suresh,Verma,user648@email.com,Central,B2B,Organic Search,2022-06-26,51,Female
+CUST00649,Ava,Miller,user649@email.com,West,B2C,Social Media,2024-03-09,59,Male
+CUST00650,Sanjay,Singh,user650@email.com,North,B2C,Affiliate,2023-05-13,52,Other
+CUST00651,James,Singh,user651@email.com,South,B2C,Affiliate,2022-01-12,31,Other
+CUST00652,Liam,Kumar,user652@email.com,South,B2C,Referral,2023-10-21,65,Female
+CUST00653,Liam,Singh,user653@email.com,South,B2C,Referral,2024-10-01,39,Male
+CUST00654,Rahul,Patel,user654@email.com,South,B2B,Direct,2022-05-16,22,Other
+CUST00655,Mia,Verma,user655@email.com,West,B2C,Referral,2022-12-20,43,Female
+CUST00656,Aarav,Williams,user656@email.com,North,B2C,Referral,2023-05-07,64,Other
+CUST00657,William,Wilson,user657@email.com,North,B2B,Organic Search,2022-04-09,40,Other
+CUST00658,Divya,Reddy,user658@email.com,Central,B2C,Affiliate,2022-06-14,46,Female
+CUST00659,Liam,Sharma,user659@email.com,West,B2C,Paid Search,2023-09-06,26,Other
+CUST00660,Ava,Davis,user660@email.com,East,Enterprise,Paid Search,2023-08-31,37,Other
+CUST00661,Kavya,Sharma,user661@email.com,Central,B2B,Paid Search,2024-10-03,25,Male
+CUST00662,Kiran,Taylor,user662@email.com,West,B2C,Organic Search,2022-01-08,37,Male
+CUST00663,Arjun,Brown,user663@email.com,Central,B2C,Paid Search,2023-06-19,32,Other
+CUST00664,Arjun,Kumar,user664@email.com,South,B2C,Direct,2023-01-28,21,Other
+CUST00665,James,Davis,user665@email.com,North,B2C,Organic Search,2023-12-18,34,Male
+CUST00666,Sophia,Wilson,user666@email.com,West,Enterprise,Social Media,2022-11-03,26,Other
+CUST00667,Pooja,Kumar,user667@email.com,East,B2C,Paid Search,2024-10-15,38,Female
+CUST00668,Amit,Taylor,user668@email.com,East,B2C,Paid Search,2023-12-02,54,Other
+CUST00669,Ava,Smith,user669@email.com,West,B2C,Social Media,2023-07-21,33,Male
+CUST00670,Meera,Verma,user670@email.com,East,B2C,Referral,2024-09-22,39,Female
+CUST00671,Nikhil,Johnson,user671@email.com,East,B2C,Organic Search,2023-12-21,29,Other
+CUST00672,Rahul,Verma,user672@email.com,South,B2B,Paid Search,2024-07-31,34,Other
+CUST00673,Rahul,Singh,user673@email.com,North,B2B,Referral,2024-08-31,19,Other
+CUST00674,Suresh,Wilson,user674@email.com,South,Enterprise,Direct,2024-06-18,34,Other
+CUST00675,Anjali,Mehta,user675@email.com,East,B2C,Affiliate,2024-04-18,55,Other
+CUST00676,Vikram,Jones,user676@email.com,Central,B2C,Email,2023-03-29,41,Other
+CUST00677,Emma,Shah,user677@email.com,Central,B2C,Affiliate,2022-01-17,50,Male
+CUST00678,Ananya,Gupta,user678@email.com,Central,Enterprise,Referral,2023-11-25,27,Other
+CUST00679,Kavya,Patel,user679@email.com,South,B2B,Paid Search,2024-01-22,22,Female
+CUST00680,Pooja,Patel,user680@email.com,South,B2C,Affiliate,2023-07-28,41,Female
+CUST00681,Mia,Jones,user681@email.com,North,B2C,Referral,2023-12-31,38,Male
+CUST00682,James,Verma,user682@email.com,East,B2C,Direct,2024-03-20,29,Female
+CUST00683,Suresh,Johnson,user683@email.com,Central,B2C,Affiliate,2024-10-12,22,Other
+CUST00684,Suresh,Shah,user684@email.com,Central,B2C,Affiliate,2023-01-26,40,Female
+CUST00685,Noah,Taylor,user685@email.com,North,B2C,Paid Search,2024-01-19,46,Male
+CUST00686,Rahul,Miller,user686@email.com,East,B2C,Paid Search,2022-12-24,28,Female
+CUST00687,Oliver,Kumar,user687@email.com,South,B2C,Social Media,2024-07-24,64,Male
+CUST00688,Emma,Garcia,user688@email.com,West,B2C,Paid Search,2024-01-19,59,Female
+CUST00689,Pooja,Patel,user689@email.com,South,B2C,Paid Search,2022-02-04,26,Other
+CUST00690,Priya,Wilson,user690@email.com,South,B2C,Social Media,2024-03-07,29,Other
+CUST00691,Deepa,Wilson,user691@email.com,North,B2B,Referral,2023-09-22,60,Female
+CUST00692,Arjun,Jones,user692@email.com,Central,Enterprise,Affiliate,2022-05-14,48,Male
+CUST00693,Liam,Brown,user693@email.com,Central,B2C,Direct,2022-12-07,29,Other
+CUST00694,Sanjay,Verma,user694@email.com,South,B2B,Social Media,2024-10-21,47,Other
+CUST00695,Rahul,Shah,user695@email.com,West,B2C,Organic Search,2024-07-06,19,Male
+CUST00696,Isabella,Miller,user696@email.com,West,B2B,Direct,2024-03-23,24,Male
+CUST00697,Noah,Taylor,user697@email.com,Central,B2C,Affiliate,2024-01-10,52,Other
+CUST00698,Rahul,Garcia,user698@email.com,South,Enterprise,Direct,2022-07-02,18,Other
+CUST00699,Meera,Miller,user699@email.com,West,B2C,Organic Search,2024-10-05,62,Other
+CUST00700,Pooja,Garcia,user700@email.com,West,B2C,Affiliate,2023-10-29,65,Other
+CUST00701,Sneha,Brown,user701@email.com,South,B2C,Affiliate,2024-06-13,32,Male
+CUST00702,Deepa,Davis,user702@email.com,West,B2C,Organic Search,2023-03-17,63,Other
+CUST00703,Kiran,Miller,user703@email.com,North,B2C,Email,2022-01-12,59,Male
+CUST00704,Meera,Johnson,user704@email.com,North,B2C,Referral,2023-05-06,55,Female
+CUST00705,Isabella,Davis,user705@email.com,West,B2C,Direct,2023-02-10,35,Other
+CUST00706,William,Joshi,user706@email.com,West,B2C,Direct,2023-09-10,48,Male
+CUST00707,Shreya,Davis,user707@email.com,West,B2C,Social Media,2023-07-30,54,Female
+CUST00708,Sophia,Mehta,user708@email.com,North,B2B,Email,2023-09-11,62,Male
+CUST00709,Arjun,Miller,user709@email.com,West,B2B,Affiliate,2022-06-05,53,Other
+CUST00710,Oliver,Patel,user710@email.com,South,B2C,Referral,2024-11-29,18,Male
+CUST00711,Anjali,Taylor,user711@email.com,West,B2C,Social Media,2022-08-14,32,Female
+CUST00712,Deepa,Patel,user712@email.com,West,Enterprise,Email,2022-05-05,57,Other
+CUST00713,Divya,Taylor,user713@email.com,North,Enterprise,Affiliate,2024-03-20,29,Other
+CUST00714,Nikhil,Sharma,user714@email.com,South,B2B,Affiliate,2024-02-07,51,Female
+CUST00715,Priya,Taylor,user715@email.com,Central,B2C,Paid Search,2022-10-30,57,Male
+CUST00716,Priya,Johnson,user716@email.com,South,B2C,Paid Search,2024-11-13,23,Female
+CUST00717,Kavya,Williams,user717@email.com,West,B2C,Direct,2023-09-13,18,Other
+CUST00718,Mia,Singh,user718@email.com,Central,B2C,Affiliate,2022-04-17,53,Other
+CUST00719,Kavya,Verma,user719@email.com,South,B2C,Paid Search,2023-06-25,47,Female
+CUST00720,Aarav,Verma,user720@email.com,South,B2C,Organic Search,2024-06-12,53,Male
+CUST00721,Divya,Smith,user721@email.com,North,B2B,Social Media,2024-02-21,52,Other
+CUST00722,Oliver,Jones,user722@email.com,West,B2C,Affiliate,2023-01-24,33,Female
+CUST00723,Emma,Jones,user723@email.com,Central,B2B,Email,2023-12-14,25,Female
+CUST00724,Suresh,Shah,user724@email.com,South,B2B,Email,2022-04-15,40,Other
+CUST00725,Aarav,Verma,user725@email.com,South,B2C,Email,2024-04-12,61,Other
+CUST00726,Rahul,Davis,user726@email.com,South,B2C,Social Media,2023-06-16,31,Other
+CUST00727,Ananya,Joshi,user727@email.com,West,B2B,Paid Search,2023-02-22,65,Male
+CUST00728,Arjun,Shah,user728@email.com,South,B2B,Affiliate,2023-02-17,57,Female
+CUST00729,William,Kumar,user729@email.com,North,Enterprise,Referral,2022-08-31,60,Female
+CUST00730,Aarav,Davis,user730@email.com,North,B2B,Social Media,2024-08-11,57,Female
+CUST00731,Noah,Wilson,user731@email.com,East,B2C,Affiliate,2024-02-04,50,Female
+CUST00732,Pooja,Wilson,user732@email.com,South,B2C,Affiliate,2023-09-11,45,Female
+CUST00733,Priya,Miller,user733@email.com,East,B2C,Referral,2024-04-20,29,Female
+CUST00734,Oliver,Miller,user734@email.com,West,B2C,Organic Search,2022-07-06,18,Other
+CUST00735,Suresh,Wilson,user735@email.com,North,B2C,Direct,2022-11-24,34,Male
+CUST00736,Rohit,Shah,user736@email.com,East,B2C,Direct,2024-05-02,39,Female
+CUST00737,Anjali,Brown,user737@email.com,South,B2C,Affiliate,2022-10-13,41,Female
+CUST00738,Rohit,Jones,user738@email.com,South,B2C,Direct,2023-09-15,61,Male
+CUST00739,Sophia,Verma,user739@email.com,South,B2C,Affiliate,2022-06-05,42,Male
+CUST00740,Ava,Mehta,user740@email.com,West,B2B,Paid Search,2022-08-15,44,Female
+CUST00741,Noah,Miller,user741@email.com,Central,B2B,Affiliate,2022-07-28,49,Female
+CUST00742,Shreya,Wilson,user742@email.com,North,B2C,Referral,2023-01-25,28,Male
+CUST00743,Liam,Verma,user743@email.com,West,B2B,Organic Search,2022-12-01,46,Other
+CUST00744,Rohit,Johnson,user744@email.com,East,B2C,Affiliate,2023-06-04,34,Female
+CUST00745,Meera,Kumar,user745@email.com,East,B2B,Direct,2022-01-31,30,Other
+CUST00746,James,Davis,user746@email.com,South,Enterprise,Social Media,2024-06-13,40,Female
+CUST00747,Sanjay,Garcia,user747@email.com,West,B2B,Email,2024-11-11,57,Female
+CUST00748,James,Mehta,user748@email.com,South,B2C,Social Media,2023-12-22,44,Other
+CUST00749,Kiran,Williams,user749@email.com,North,B2C,Social Media,2024-08-09,32,Female
+CUST00750,James,Reddy,user750@email.com,East,B2C,Email,2023-05-08,35,Female
+CUST00751,Sophia,Wilson,user751@email.com,Central,Enterprise,Email,2023-07-19,28,Male
+CUST00752,Vikram,Shah,user752@email.com,East,Enterprise,Referral,2022-02-05,65,Male
+CUST00753,Ananya,Williams,user753@email.com,North,B2C,Email,2022-11-24,53,Male
+CUST00754,William,Williams,user754@email.com,Central,B2B,Organic Search,2022-02-10,24,Female
+CUST00755,Vikram,Singh,user755@email.com,West,B2C,Paid Search,2024-08-18,65,Female
+CUST00756,James,Mehta,user756@email.com,South,B2C,Paid Search,2023-11-20,19,Male
+CUST00757,Kavya,Smith,user757@email.com,West,B2C,Affiliate,2024-10-27,52,Female
+CUST00758,Nikhil,Mehta,user758@email.com,Central,B2C,Direct,2024-05-02,47,Other
+CUST00759,Noah,Wilson,user759@email.com,West,B2C,Referral,2024-09-14,52,Female
+CUST00760,Anjali,Davis,user760@email.com,South,B2B,Email,2023-06-24,37,Female
+CUST00761,Rohit,Mehta,user761@email.com,East,B2C,Direct,2023-10-03,26,Female
+CUST00762,Anjali,Davis,user762@email.com,North,B2C,Email,2023-03-22,48,Female
+CUST00763,William,Brown,user763@email.com,East,B2C,Affiliate,2022-01-15,18,Other
+CUST00764,Arjun,Brown,user764@email.com,Central,B2C,Paid Search,2023-08-04,28,Other
+CUST00765,Suresh,Williams,user765@email.com,South,B2C,Email,2024-09-30,58,Male
+CUST00766,William,Taylor,user766@email.com,East,B2C,Referral,2024-03-13,52,Female
+CUST00767,Arjun,Singh,user767@email.com,South,B2C,Organic Search,2023-10-04,58,Female
+CUST00768,Nikhil,Verma,user768@email.com,Central,B2C,Social Media,2024-08-17,19,Male
+CUST00769,Shreya,Sharma,user769@email.com,South,Enterprise,Social Media,2022-03-19,35,Male
+CUST00770,Sophia,Sharma,user770@email.com,South,B2C,Organic Search,2023-11-13,49,Male
+CUST00771,Meera,Reddy,user771@email.com,West,Enterprise,Email,2023-06-16,62,Male
+CUST00772,Rahul,Mehta,user772@email.com,North,B2C,Email,2023-05-29,22,Other
+CUST00773,Ananya,Joshi,user773@email.com,East,B2B,Affiliate,2024-01-01,18,Male
+CUST00774,Suresh,Jones,user774@email.com,South,B2B,Organic Search,2023-01-22,30,Female
+CUST00775,Sanjay,Joshi,user775@email.com,West,B2C,Social Media,2022-05-26,38,Male
+CUST00776,Sophia,Patel,user776@email.com,Central,B2C,Social Media,2024-09-04,48,Other
+CUST00777,Arjun,Johnson,user777@email.com,North,B2B,Paid Search,2023-04-10,25,Male
+CUST00778,Meera,Smith,user778@email.com,North,B2C,Social Media,2024-09-10,55,Male
+CUST00779,Ava,Shah,user779@email.com,North,Enterprise,Direct,2023-09-07,62,Female
+CUST00780,Vikram,Johnson,user780@email.com,North,B2C,Email,2024-07-15,23,Other
+CUST00781,Amit,Patel,user781@email.com,North,B2C,Paid Search,2024-08-19,62,Other
+CUST00782,Vikram,Garcia,user782@email.com,South,B2C,Direct,2022-06-16,59,Female
+CUST00783,Sophia,Joshi,user783@email.com,North,B2C,Social Media,2023-11-13,64,Male
+CUST00784,Noah,Patel,user784@email.com,West,B2B,Direct,2023-01-25,36,Other
+CUST00785,Arjun,Wilson,user785@email.com,South,B2C,Social Media,2024-02-01,64,Female
+CUST00786,Isabella,Taylor,user786@email.com,Central,B2C,Direct,2023-03-04,27,Female
+CUST00787,Liam,Verma,user787@email.com,Central,B2C,Organic Search,2023-04-05,58,Other
+CUST00788,Sophia,Gupta,user788@email.com,North,B2C,Social Media,2023-08-12,57,Male
+CUST00789,Sophia,Singh,user789@email.com,Central,B2B,Paid Search,2023-05-14,51,Other
+CUST00790,William,Davis,user790@email.com,South,B2C,Social Media,2024-02-12,44,Other
+CUST00791,Sneha,Kumar,user791@email.com,Central,B2C,Organic Search,2023-05-16,26,Male
+CUST00792,Arjun,Kumar,user792@email.com,West,B2C,Organic Search,2022-02-18,54,Other
+CUST00793,Emma,Garcia,user793@email.com,Central,B2C,Direct,2023-08-27,34,Male
+CUST00794,Pooja,Taylor,user794@email.com,North,B2C,Paid Search,2023-07-24,59,Female
+CUST00795,Nikhil,Patel,user795@email.com,East,B2C,Email,2022-05-05,41,Other
+CUST00796,Liam,Taylor,user796@email.com,East,B2C,Referral,2022-04-01,22,Female
+CUST00797,Arjun,Miller,user797@email.com,North,B2C,Paid Search,2022-05-02,52,Female
+CUST00798,Arjun,Miller,user798@email.com,South,B2C,Paid Search,2022-10-22,53,Other
+CUST00799,Meera,Kumar,user799@email.com,Central,B2C,Email,2024-05-17,62,Other
+CUST00800,Noah,Kumar,user800@email.com,South,B2B,Direct,2023-10-26,43,Other
+CUST00801,Emma,Gupta,user801@email.com,Central,Enterprise,Email,2023-06-09,40,Female
+CUST00802,Amit,Johnson,user802@email.com,West,B2B,Email,2024-05-04,64,Female
+CUST00803,Pooja,Wilson,user803@email.com,Central,B2C,Affiliate,2024-08-03,53,Other
+CUST00804,Kavya,Jones,user804@email.com,West,Enterprise,Organic Search,2023-01-30,64,Male
+CUST00805,Deepa,Sharma,user805@email.com,Central,B2C,Social Media,2023-03-18,18,Female
+CUST00806,Arjun,Smith,user806@email.com,North,B2B,Referral,2022-12-11,35,Other
+CUST00807,Shreya,Wilson,user807@email.com,Central,B2C,Organic Search,2024-03-05,47,Female
+CUST00808,Vikram,Verma,user808@email.com,East,B2B,Paid Search,2022-08-31,32,Female
+CUST00809,Rahul,Wilson,user809@email.com,West,B2C,Paid Search,2023-04-12,64,Male
+CUST00810,Ava,Garcia,user810@email.com,South,B2C,Referral,2023-05-20,62,Other
+CUST00811,Deepa,Reddy,user811@email.com,North,B2B,Direct,2022-05-29,42,Male
+CUST00812,Mia,Smith,user812@email.com,East,B2B,Email,2022-03-28,44,Male
+CUST00813,Sophia,Taylor,user813@email.com,North,B2C,Referral,2022-12-19,42,Male
+CUST00814,Sanjay,Patel,user814@email.com,East,B2C,Paid Search,2023-04-19,38,Other
+CUST00815,Vikram,Patel,user815@email.com,West,Enterprise,Affiliate,2022-12-09,56,Other
+CUST00816,Rahul,Shah,user816@email.com,West,B2C,Email,2024-02-24,27,Male
+CUST00817,Rahul,Garcia,user817@email.com,Central,B2B,Direct,2023-06-07,43,Female
+CUST00818,Suresh,Miller,user818@email.com,West,B2B,Paid Search,2022-05-13,26,Female
+CUST00819,Arjun,Garcia,user819@email.com,West,B2C,Paid Search,2024-05-18,53,Other
+CUST00820,Pooja,Shah,user820@email.com,North,B2C,Email,2024-03-25,38,Other
+CUST00821,Rahul,Kumar,user821@email.com,West,B2C,Social Media,2024-06-13,30,Female
+CUST00822,Deepa,Sharma,user822@email.com,East,B2C,Social Media,2023-06-20,57,Female
+CUST00823,Vikram,Jones,user823@email.com,North,Enterprise,Paid Search,2024-08-26,30,Other
+CUST00824,Vikram,Singh,user824@email.com,North,B2B,Paid Search,2023-08-04,57,Male
+CUST00825,Aarav,Smith,user825@email.com,North,B2C,Email,2023-03-23,19,Female
+CUST00826,Sophia,Davis,user826@email.com,South,B2C,Direct,2022-11-21,34,Other
+CUST00827,Deepa,Mehta,user827@email.com,North,B2C,Referral,2024-01-21,51,Male
+CUST00828,Ananya,Patel,user828@email.com,East,B2C,Referral,2023-02-01,57,Female
+CUST00829,Nikhil,Sharma,user829@email.com,North,B2C,Social Media,2022-03-24,60,Other
+CUST00830,Isabella,Kumar,user830@email.com,North,B2C,Referral,2023-07-14,42,Male
+CUST00831,Sanjay,Kumar,user831@email.com,East,B2C,Direct,2023-08-15,52,Male
+CUST00832,Arjun,Miller,user832@email.com,West,B2C,Referral,2022-10-17,19,Male
+CUST00833,Mia,Miller,user833@email.com,East,B2C,Email,2023-01-20,65,Male
+CUST00834,Kavya,Johnson,user834@email.com,East,B2C,Paid Search,2022-01-29,50,Female
+CUST00835,James,Verma,user835@email.com,West,B2B,Affiliate,2022-04-07,19,Other
+CUST00836,Pooja,Mehta,user836@email.com,East,B2B,Referral,2023-03-12,26,Male
+CUST00837,Sanjay,Taylor,user837@email.com,South,B2C,Direct,2023-08-17,27,Female
+CUST00838,Mia,Taylor,user838@email.com,East,B2C,Paid Search,2023-05-01,31,Other
+CUST00839,Kiran,Davis,user839@email.com,South,B2B,Social Media,2022-08-04,62,Other
+CUST00840,Mia,Mehta,user840@email.com,West,Enterprise,Affiliate,2024-03-24,27,Other
+CUST00841,Mia,Gupta,user841@email.com,East,B2C,Direct,2024-05-27,64,Male
+CUST00842,Amit,Mehta,user842@email.com,North,B2B,Email,2022-10-14,44,Female
+CUST00843,Sophia,Verma,user843@email.com,South,B2B,Organic Search,2023-11-20,26,Male
+CUST00844,William,Taylor,user844@email.com,Central,B2C,Direct,2022-02-10,57,Male
+CUST00845,Pooja,Shah,user845@email.com,North,B2C,Referral,2024-07-15,48,Male
+CUST00846,Isabella,Taylor,user846@email.com,West,B2B,Social Media,2024-02-20,29,Female
+CUST00847,Anjali,Mehta,user847@email.com,South,B2C,Organic Search,2024-02-03,44,Male
+CUST00848,Meera,Shah,user848@email.com,South,B2B,Organic Search,2023-02-24,29,Female
+CUST00849,Anjali,Smith,user849@email.com,West,B2B,Email,2024-08-16,43,Male
+CUST00850,Sophia,Williams,user850@email.com,East,B2C,Referral,2024-08-02,54,Other
+CUST00851,Sanjay,Patel,user851@email.com,Central,B2C,Email,2024-04-12,20,Male
+CUST00852,Shreya,Williams,user852@email.com,North,B2C,Direct,2024-03-16,58,Male
+CUST00853,Divya,Jones,user853@email.com,West,B2B,Affiliate,2022-10-22,36,Female
+CUST00854,Meera,Reddy,user854@email.com,Central,Enterprise,Referral,2022-09-16,51,Male
+CUST00855,Liam,Jones,user855@email.com,North,B2B,Organic Search,2023-12-22,29,Other
+CUST00856,Vikram,Williams,user856@email.com,West,B2C,Organic Search,2024-04-28,29,Female
+CUST00857,Noah,Joshi,user857@email.com,West,B2C,Social Media,2024-07-06,62,Other
+CUST00858,Oliver,Kumar,user858@email.com,North,B2C,Email,2022-09-12,58,Female
+CUST00859,Sanjay,Williams,user859@email.com,Central,B2C,Paid Search,2022-05-13,42,Other
+CUST00860,Priya,Gupta,user860@email.com,East,B2C,Referral,2023-08-15,27,Male
+CUST00861,Ananya,Patel,user861@email.com,West,B2C,Referral,2022-08-13,46,Female
+CUST00862,Ananya,Kumar,user862@email.com,South,Enterprise,Organic Search,2024-08-31,57,Female
+CUST00863,Nikhil,Garcia,user863@email.com,West,B2C,Organic Search,2022-01-19,56,Female
+CUST00864,Arjun,Wilson,user864@email.com,West,B2C,Email,2023-01-05,23,Other
+CUST00865,Aarav,Shah,user865@email.com,Central,B2C,Referral,2024-07-21,53,Male
+CUST00866,Ananya,Mehta,user866@email.com,North,B2C,Organic Search,2022-03-17,27,Male
+CUST00867,Kiran,Taylor,user867@email.com,East,B2C,Organic Search,2024-11-02,21,Male
+CUST00868,Ananya,Gupta,user868@email.com,East,B2C,Referral,2023-10-10,62,Other
+CUST00869,Ava,Davis,user869@email.com,South,Enterprise,Referral,2024-06-08,55,Female
+CUST00870,Rahul,Reddy,user870@email.com,East,B2C,Email,2022-02-25,22,Female
+CUST00871,Rahul,Reddy,user871@email.com,West,B2C,Referral,2024-05-05,35,Female
+CUST00872,Meera,Miller,user872@email.com,South,B2C,Direct,2024-03-29,21,Male
+CUST00873,Sophia,Miller,user873@email.com,North,B2C,Referral,2024-06-06,56,Other
+CUST00874,Meera,Taylor,user874@email.com,East,B2C,Direct,2023-03-23,57,Female
+CUST00875,Deepa,Wilson,user875@email.com,West,B2C,Referral,2022-07-21,49,Female
+CUST00876,Noah,Taylor,user876@email.com,South,B2B,Paid Search,2022-10-07,18,Male
+CUST00877,Nikhil,Kumar,user877@email.com,South,B2B,Email,2022-02-07,44,Male
+CUST00878,Kavya,Davis,user878@email.com,South,B2C,Paid Search,2023-06-03,62,Female
+CUST00879,Ava,Singh,user879@email.com,East,B2C,Direct,2023-01-31,38,Male
+CUST00880,Emma,Smith,user880@email.com,East,B2C,Direct,2022-06-26,57,Male
+CUST00881,Arjun,Smith,user881@email.com,East,Enterprise,Email,2022-09-30,48,Male
+CUST00882,Vikram,Garcia,user882@email.com,South,B2C,Affiliate,2024-09-29,52,Female
+CUST00883,Ava,Brown,user883@email.com,North,B2B,Social Media,2023-12-20,54,Other
+CUST00884,Amit,Davis,user884@email.com,Central,B2C,Direct,2024-11-19,61,Female
+CUST00885,Rahul,Mehta,user885@email.com,East,B2B,Social Media,2023-07-04,42,Other
+CUST00886,Liam,Gupta,user886@email.com,Central,B2C,Paid Search,2024-04-09,56,Male
+CUST00887,Oliver,Smith,user887@email.com,North,B2C,Organic Search,2023-04-24,49,Male
+CUST00888,Nikhil,Reddy,user888@email.com,South,B2C,Paid Search,2023-08-01,25,Female
+CUST00889,William,Joshi,user889@email.com,North,B2C,Organic Search,2022-02-28,48,Other
+CUST00890,Arjun,Smith,user890@email.com,West,B2B,Direct,2022-08-28,37,Female
+CUST00891,William,Kumar,user891@email.com,Central,B2C,Paid Search,2022-08-11,31,Other
+CUST00892,Nikhil,Williams,user892@email.com,Central,B2C,Social Media,2022-02-26,20,Other
+CUST00893,Isabella,Singh,user893@email.com,East,B2C,Organic Search,2024-07-12,24,Other
+CUST00894,Sophia,Reddy,user894@email.com,North,B2C,Social Media,2024-10-20,58,Male
+CUST00895,Arjun,Joshi,user895@email.com,East,B2C,Social Media,2023-05-14,46,Other
+CUST00896,Rohit,Mehta,user896@email.com,South,B2C,Organic Search,2022-07-02,57,Other
+CUST00897,Sneha,Joshi,user897@email.com,Central,B2C,Social Media,2024-03-09,35,Male
+CUST00898,Kiran,Shah,user898@email.com,South,B2C,Direct,2023-03-17,39,Other
+CUST00899,Priya,Mehta,user899@email.com,North,B2C,Referral,2023-11-21,21,Male
+CUST00900,Priya,Singh,user900@email.com,West,B2C,Referral,2023-08-19,56,Other
+CUST00901,Liam,Jones,user901@email.com,Central,B2C,Social Media,2024-09-04,30,Other
+CUST00902,Ava,Davis,user902@email.com,North,Enterprise,Affiliate,2024-11-08,47,Other
+CUST00903,Rahul,Jones,user903@email.com,North,B2C,Referral,2022-07-24,59,Other
+CUST00904,Anjali,Shah,user904@email.com,South,B2C,Direct,2023-12-24,34,Female
+CUST00905,Ananya,Smith,user905@email.com,East,B2C,Organic Search,2023-09-02,22,Female
+CUST00906,Kavya,Garcia,user906@email.com,West,B2B,Social Media,2022-06-25,40,Other
+CUST00907,Vikram,Miller,user907@email.com,North,B2C,Referral,2024-06-11,24,Female
+CUST00908,James,Singh,user908@email.com,East,B2C,Email,2024-05-13,55,Female
+CUST00909,Deepa,Shah,user909@email.com,Central,B2C,Email,2023-01-06,42,Male
+CUST00910,Arjun,Wilson,user910@email.com,West,B2B,Email,2023-06-14,54,Female
+CUST00911,Oliver,Shah,user911@email.com,South,B2C,Organic Search,2024-04-25,65,Other
+CUST00912,Liam,Garcia,user912@email.com,North,B2C,Email,2024-06-10,38,Other
+CUST00913,Liam,Jones,user913@email.com,South,B2C,Email,2022-06-01,22,Other
+CUST00914,Emma,Taylor,user914@email.com,West,B2C,Referral,2022-06-18,60,Male
+CUST00915,Arjun,Mehta,user915@email.com,Central,Enterprise,Referral,2022-05-21,18,Male
+CUST00916,Vikram,Jones,user916@email.com,Central,B2C,Direct,2024-10-23,54,Female
+CUST00917,Arjun,Smith,user917@email.com,East,B2C,Referral,2022-10-31,37,Female
+CUST00918,Rahul,Wilson,user918@email.com,North,B2C,Direct,2023-06-19,43,Male
+CUST00919,Priya,Johnson,user919@email.com,Central,Enterprise,Organic Search,2023-04-02,63,Other
+CUST00920,Sneha,Reddy,user920@email.com,North,B2C,Referral,2023-07-13,55,Female
+CUST00921,Amit,Williams,user921@email.com,West,B2C,Direct,2024-08-29,31,Other
+CUST00922,Anjali,Mehta,user922@email.com,South,B2C,Affiliate,2022-09-27,41,Female
+CUST00923,Divya,Mehta,user923@email.com,South,B2C,Referral,2022-08-28,19,Male
+CUST00924,Emma,Brown,user924@email.com,South,B2C,Referral,2024-01-27,44,Female
+CUST00925,Mia,Brown,user925@email.com,Central,B2C,Direct,2024-07-27,45,Other
+CUST00926,Suresh,Johnson,user926@email.com,South,B2C,Direct,2023-12-01,18,Other
+CUST00927,Isabella,Shah,user927@email.com,Central,B2C,Direct,2024-02-13,54,Female
+CUST00928,Priya,Wilson,user928@email.com,West,B2B,Organic Search,2022-02-21,55,Female
+CUST00929,Vikram,Miller,user929@email.com,East,B2C,Organic Search,2022-05-05,51,Other
+CUST00930,Pooja,Garcia,user930@email.com,North,B2C,Direct,2022-05-18,55,Female
+CUST00931,Priya,Smith,user931@email.com,Central,B2B,Email,2024-08-10,47,Other
+CUST00932,Kiran,Smith,user932@email.com,West,B2C,Affiliate,2023-12-30,36,Female
+CUST00933,Priya,Taylor,user933@email.com,East,B2B,Direct,2022-09-18,34,Male
+CUST00934,Anjali,Wilson,user934@email.com,South,B2C,Referral,2024-09-04,36,Other
+CUST00935,Aarav,Reddy,user935@email.com,West,B2C,Direct,2024-08-27,22,Female
+CUST00936,Vikram,Taylor,user936@email.com,East,B2C,Social Media,2023-01-27,18,Other
+CUST00937,Deepa,Gupta,user937@email.com,Central,B2B,Referral,2022-06-23,46,Female
+CUST00938,Rohit,Shah,user938@email.com,West,B2C,Direct,2022-09-30,20,Female
+CUST00939,Vikram,Taylor,user939@email.com,South,B2B,Affiliate,2022-05-12,44,Female
+CUST00940,Emma,Jones,user940@email.com,South,B2C,Referral,2023-01-05,40,Male
+CUST00941,Rohit,Kumar,user941@email.com,North,B2C,Email,2024-09-24,48,Female
+CUST00942,Sophia,Davis,user942@email.com,South,B2C,Referral,2024-01-10,42,Female
+CUST00943,Vikram,Miller,user943@email.com,West,B2C,Affiliate,2023-02-12,46,Female
+CUST00944,Amit,Miller,user944@email.com,North,B2C,Direct,2024-11-20,58,Female
+CUST00945,Deepa,Verma,user945@email.com,East,B2C,Affiliate,2023-11-02,24,Female
+CUST00946,Kiran,Williams,user946@email.com,West,B2B,Referral,2024-10-13,33,Other
+CUST00947,Kiran,Joshi,user947@email.com,Central,B2C,Referral,2024-11-09,29,Female
+CUST00948,Aarav,Sharma,user948@email.com,North,B2C,Organic Search,2024-04-30,51,Male
+CUST00949,Nikhil,Johnson,user949@email.com,South,B2B,Social Media,2024-11-30,30,Male
+CUST00950,Deepa,Singh,user950@email.com,North,Enterprise,Referral,2022-02-06,31,Other
+CUST00951,Sneha,Kumar,user951@email.com,North,B2B,Paid Search,2024-09-18,42,Other
+CUST00952,Kiran,Gupta,user952@email.com,North,B2C,Social Media,2024-10-03,36,Female
+CUST00953,Mia,Singh,user953@email.com,West,Enterprise,Social Media,2024-10-23,45,Other
+CUST00954,William,Smith,user954@email.com,East,B2C,Organic Search,2024-11-03,35,Male
+CUST00955,Suresh,Smith,user955@email.com,North,B2C,Affiliate,2023-08-18,34,Male
+CUST00956,Rahul,Garcia,user956@email.com,South,B2C,Paid Search,2023-11-16,59,Female
+CUST00957,Vikram,Davis,user957@email.com,West,B2C,Referral,2022-06-18,24,Female
+CUST00958,Sneha,Patel,user958@email.com,North,B2C,Referral,2023-02-07,34,Female
+CUST00959,Noah,Garcia,user959@email.com,South,B2C,Organic Search,2022-01-30,20,Other
+CUST00960,Rohit,Mehta,user960@email.com,East,Enterprise,Direct,2023-08-30,18,Other
+CUST00961,Anjali,Brown,user961@email.com,West,B2B,Affiliate,2024-02-02,22,Other
+CUST00962,Aarav,Williams,user962@email.com,West,B2C,Direct,2022-12-17,40,Female
+CUST00963,Divya,Williams,user963@email.com,North,B2C,Referral,2024-11-25,23,Female
+CUST00964,Isabella,Smith,user964@email.com,North,B2B,Affiliate,2024-04-10,36,Other
+CUST00965,Ananya,Davis,user965@email.com,North,Enterprise,Referral,2022-11-12,30,Female
+CUST00966,Noah,Kumar,user966@email.com,East,B2C,Referral,2023-08-30,46,Other
+CUST00967,Vikram,Patel,user967@email.com,South,B2C,Direct,2022-10-22,33,Female
+CUST00968,Rahul,Davis,user968@email.com,East,B2C,Affiliate,2023-08-27,46,Male
+CUST00969,Amit,Patel,user969@email.com,East,B2B,Organic Search,2022-02-27,43,Male
+CUST00970,Ava,Miller,user970@email.com,West,Enterprise,Affiliate,2022-11-25,52,Male
+CUST00971,Pooja,Singh,user971@email.com,North,B2B,Email,2024-06-18,59,Male
+CUST00972,Mia,Taylor,user972@email.com,North,B2C,Referral,2024-01-03,26,Male
+CUST00973,James,Patel,user973@email.com,East,B2B,Organic Search,2022-09-25,47,Other
+CUST00974,Liam,Wilson,user974@email.com,North,B2B,Organic Search,2022-09-23,25,Female
+CUST00975,Ava,Taylor,user975@email.com,South,B2C,Paid Search,2024-07-13,45,Female
+CUST00976,Suresh,Smith,user976@email.com,North,Enterprise,Direct,2024-11-19,52,Male
+CUST00977,Liam,Joshi,user977@email.com,North,B2C,Social Media,2023-05-15,22,Male
+CUST00978,Vikram,Brown,user978@email.com,South,B2C,Direct,2023-03-02,28,Female
+CUST00979,Mia,Wilson,user979@email.com,North,B2C,Affiliate,2023-01-14,58,Other
+CUST00980,William,Gupta,user980@email.com,North,B2B,Organic Search,2023-08-08,18,Male
+CUST00981,Mia,Singh,user981@email.com,Central,B2B,Email,2022-10-06,62,Female
+CUST00982,Arjun,Mehta,user982@email.com,East,B2C,Email,2022-07-17,33,Male
+CUST00983,Oliver,Patel,user983@email.com,Central,B2C,Email,2024-08-06,57,Male
+CUST00984,Liam,Reddy,user984@email.com,East,B2C,Direct,2024-09-01,33,Male
+CUST00985,Sanjay,Kumar,user985@email.com,Central,B2C,Affiliate,2022-07-02,52,Other
+CUST00986,Nikhil,Joshi,user986@email.com,East,B2C,Organic Search,2022-12-07,27,Other
+CUST00987,Anjali,Gupta,user987@email.com,South,B2C,Organic Search,2024-01-07,21,Other
+CUST00988,Divya,Joshi,user988@email.com,West,B2C,Direct,2023-07-20,47,Male
+CUST00989,Sophia,Patel,user989@email.com,Central,B2C,Affiliate,2022-06-12,19,Female
+CUST00990,Sneha,Singh,user990@email.com,South,B2B,Direct,2024-03-10,55,Female
+CUST00991,Arjun,Smith,user991@email.com,South,B2B,Social Media,2023-10-13,32,Male
+CUST00992,Sophia,Brown,user992@email.com,South,B2C,Paid Search,2023-01-04,22,Female
+CUST00993,Anjali,Patel,user993@email.com,West,B2C,Direct,2024-06-27,47,Male
+CUST00994,Kavya,Mehta,user994@email.com,West,B2B,Referral,2023-08-25,40,Female
+CUST00995,Amit,Mehta,user995@email.com,North,B2C,Organic Search,2022-11-11,35,Male
+CUST00996,Isabella,Jones,user996@email.com,West,B2C,Affiliate,2022-06-22,39,Male
+CUST00997,Deepa,Gupta,user997@email.com,Central,Enterprise,Direct,2023-04-04,53,Male
+CUST00998,Meera,Miller,user998@email.com,West,B2B,Paid Search,2022-05-15,55,Female
+CUST00999,Rohit,Sharma,user999@email.com,West,B2B,Paid Search,2023-12-20,33,Female
+CUST01000,Kiran,Shah,user1000@email.com,Central,Enterprise,Direct,2023-11-06,18,Female
+CUST01001,Priya,Garcia,user1001@email.com,Central,B2C,Direct,2022-03-10,43,Female
+CUST01002,Nikhil,Garcia,user1002@email.com,South,B2C,Affiliate,2022-06-02,18,Other
+CUST01003,Arjun,Mehta,user1003@email.com,East,B2C,Referral,2023-09-24,23,Male
+CUST01004,Emma,Reddy,user1004@email.com,South,B2B,Affiliate,2024-01-16,54,Other
+CUST01005,Aarav,Jones,user1005@email.com,West,B2B,Affiliate,2024-06-25,63,Female
+CUST01006,Ava,Johnson,user1006@email.com,West,B2B,Organic Search,2022-10-15,58,Male
+CUST01007,Noah,Smith,user1007@email.com,Central,B2C,Email,2023-08-21,35,Other
+CUST01008,Shreya,Wilson,user1008@email.com,South,B2B,Organic Search,2024-08-09,57,Female
+CUST01009,Sanjay,Johnson,user1009@email.com,North,B2C,Social Media,2022-03-27,47,Other
+CUST01010,Kavya,Johnson,user1010@email.com,South,B2C,Referral,2022-03-05,22,Other
+CUST01011,Vikram,Smith,user1011@email.com,South,B2C,Referral,2022-11-15,48,Other
+CUST01012,Isabella,Joshi,user1012@email.com,South,B2C,Social Media,2024-06-20,50,Other
+CUST01013,Rohit,Patel,user1013@email.com,North,B2C,Email,2023-10-19,49,Other
+CUST01014,Liam,Kumar,user1014@email.com,West,B2B,Referral,2024-03-29,52,Female
+CUST01015,Deepa,Johnson,user1015@email.com,North,B2C,Email,2023-12-04,23,Male
+CUST01016,Noah,Gupta,user1016@email.com,East,Enterprise,Organic Search,2023-08-30,24,Male
+CUST01017,Sneha,Mehta,user1017@email.com,West,B2C,Paid Search,2023-03-05,51,Other
+CUST01018,Divya,Brown,user1018@email.com,Central,Enterprise,Email,2022-02-05,40,Female
+CUST01019,Sophia,Sharma,user1019@email.com,East,B2C,Organic Search,2023-11-21,32,Other
+CUST01020,Amit,Brown,user1020@email.com,Central,B2C,Referral,2024-09-28,38,Female
+CUST01021,Emma,Miller,user1021@email.com,Central,B2C,Social Media,2024-07-10,54,Male
+CUST01022,Ananya,Verma,user1022@email.com,South,B2C,Social Media,2023-04-22,21,Male
+CUST01023,Divya,Jones,user1023@email.com,South,B2C,Paid Search,2023-07-03,63,Other
+CUST01024,Ananya,Gupta,user1024@email.com,South,B2C,Organic Search,2023-03-20,20,Female
+CUST01025,Vikram,Jones,user1025@email.com,East,B2C,Paid Search,2024-06-11,53,Other
+CUST01026,Emma,Smith,user1026@email.com,East,B2C,Email,2022-02-23,52,Male
+CUST01027,Divya,Kumar,user1027@email.com,North,B2C,Email,2024-04-08,27,Female
+CUST01028,Vikram,Sharma,user1028@email.com,Central,Enterprise,Social Media,2023-05-13,59,Other
+CUST01029,Anjali,Reddy,user1029@email.com,Central,B2C,Affiliate,2023-04-05,54,Other
+CUST01030,Amit,Kumar,user1030@email.com,West,Enterprise,Paid Search,2023-11-18,61,Other
+CUST01031,Divya,Sharma,user1031@email.com,West,B2C,Paid Search,2022-07-01,46,Female
+CUST01032,Amit,Patel,user1032@email.com,Central,B2C,Direct,2022-05-24,51,Male
+CUST01033,Arjun,Sharma,user1033@email.com,North,B2C,Email,2023-03-08,61,Other
+CUST01034,Sanjay,Williams,user1034@email.com,South,B2C,Direct,2022-05-16,56,Other
+CUST01035,Mia,Johnson,user1035@email.com,West,B2C,Affiliate,2022-03-29,45,Female
+CUST01036,Kavya,Sharma,user1036@email.com,East,B2C,Social Media,2023-08-23,46,Other
+CUST01037,Arjun,Jones,user1037@email.com,West,B2B,Social Media,2022-05-17,28,Other
+CUST01038,Sophia,Brown,user1038@email.com,South,B2B,Direct,2023-10-21,23,Male
+CUST01039,Divya,Garcia,user1039@email.com,Central,Enterprise,Organic Search,2022-11-19,55,Female
+CUST01040,Aarav,Brown,user1040@email.com,East,B2C,Direct,2022-05-18,47,Other
+CUST01041,William,Mehta,user1041@email.com,South,B2C,Email,2024-06-01,36,Other
+CUST01042,Priya,Reddy,user1042@email.com,Central,B2C,Direct,2024-02-02,65,Female
+CUST01043,Aarav,Sharma,user1043@email.com,South,B2C,Referral,2022-12-15,58,Female
+CUST01044,James,Reddy,user1044@email.com,West,B2C,Referral,2022-07-12,59,Male
+CUST01045,Sneha,Verma,user1045@email.com,West,Enterprise,Organic Search,2022-02-14,56,Other
+CUST01046,Kiran,Garcia,user1046@email.com,Central,B2C,Social Media,2023-07-16,58,Other
+CUST01047,Oliver,Kumar,user1047@email.com,East,B2C,Direct,2024-01-10,19,Female
+CUST01048,Kiran,Patel,user1048@email.com,South,B2C,Referral,2022-09-10,26,Female
+CUST01049,Priya,Verma,user1049@email.com,East,B2C,Social Media,2022-09-11,21,Female
+CUST01050,Sanjay,Singh,user1050@email.com,Central,B2C,Referral,2023-03-30,29,Male
+CUST01051,William,Gupta,user1051@email.com,Central,B2C,Social Media,2024-07-19,61,Female
+CUST01052,Emma,Johnson,user1052@email.com,North,B2C,Social Media,2023-02-26,27,Male
+CUST01053,Sanjay,Reddy,user1053@email.com,East,B2B,Email,2022-08-01,39,Male
+CUST01054,Arjun,Mehta,user1054@email.com,Central,B2C,Paid Search,2022-06-09,53,Other
+CUST01055,Isabella,Davis,user1055@email.com,Central,B2B,Affiliate,2024-03-27,25,Female
+CUST01056,Mia,Singh,user1056@email.com,North,B2B,Organic Search,2023-12-17,48,Female
+CUST01057,Oliver,Johnson,user1057@email.com,South,B2B,Direct,2023-04-30,51,Female
+CUST01058,Oliver,Reddy,user1058@email.com,North,B2B,Organic Search,2022-09-25,32,Male
+CUST01059,Oliver,Shah,user1059@email.com,East,B2C,Paid Search,2022-08-10,23,Female
+CUST01060,Rahul,Sharma,user1060@email.com,West,B2B,Organic Search,2022-06-23,30,Male
+CUST01061,Ava,Miller,user1061@email.com,Central,B2C,Organic Search,2022-02-20,34,Male
+CUST01062,Divya,Sharma,user1062@email.com,North,B2B,Direct,2022-04-13,31,Other
+CUST01063,Ananya,Johnson,user1063@email.com,North,B2C,Affiliate,2022-11-07,65,Female
+CUST01064,Kavya,Johnson,user1064@email.com,South,B2B,Affiliate,2024-06-19,64,Other
+CUST01065,Sanjay,Wilson,user1065@email.com,North,B2C,Direct,2023-01-11,18,Other
+CUST01066,Oliver,Joshi,user1066@email.com,East,B2C,Affiliate,2022-12-04,52,Male
+CUST01067,Mia,Joshi,user1067@email.com,Central,B2B,Email,2022-06-03,41,Other
+CUST01068,Ananya,Jones,user1068@email.com,North,B2C,Social Media,2024-07-04,42,Female
+CUST01069,Sanjay,Shah,user1069@email.com,West,B2C,Social Media,2022-11-29,25,Female
+CUST01070,Sanjay,Mehta,user1070@email.com,West,B2B,Referral,2022-06-21,36,Other
+CUST01071,Rahul,Smith,user1071@email.com,West,B2C,Social Media,2022-03-05,47,Other
+CUST01072,Emma,Jones,user1072@email.com,South,B2C,Social Media,2023-04-30,45,Male
+CUST01073,Noah,Garcia,user1073@email.com,East,B2C,Referral,2022-04-19,49,Other
+CUST01074,Suresh,Jones,user1074@email.com,Central,B2C,Organic Search,2022-06-13,25,Male
+CUST01075,Suresh,Wilson,user1075@email.com,North,B2B,Paid Search,2023-09-06,22,Female
+CUST01076,Amit,Joshi,user1076@email.com,Central,B2B,Email,2022-11-06,25,Male
+CUST01077,Sophia,Garcia,user1077@email.com,East,B2B,Affiliate,2023-10-22,55,Other
+CUST01078,William,Williams,user1078@email.com,East,B2C,Direct,2023-03-01,43,Female
+CUST01079,Rohit,Mehta,user1079@email.com,West,B2C,Social Media,2024-03-05,49,Female
+CUST01080,James,Mehta,user1080@email.com,North,B2C,Organic Search,2022-12-25,22,Female
+CUST01081,Aarav,Gupta,user1081@email.com,West,B2C,Social Media,2024-11-19,27,Female
+CUST01082,Deepa,Kumar,user1082@email.com,North,B2C,Direct,2024-08-24,49,Female
+CUST01083,Divya,Garcia,user1083@email.com,West,B2C,Direct,2022-11-10,39,Other
+CUST01084,Aarav,Patel,user1084@email.com,West,B2B,Organic Search,2024-04-29,42,Female
+CUST01085,Isabella,Williams,user1085@email.com,West,B2C,Organic Search,2023-05-04,29,Other
+CUST01086,Isabella,Reddy,user1086@email.com,South,B2C,Paid Search,2024-10-21,37,Other
+CUST01087,Anjali,Kumar,user1087@email.com,Central,B2C,Referral,2023-08-28,53,Other
+CUST01088,Kiran,Garcia,user1088@email.com,West,B2C,Paid Search,2024-04-17,50,Male
+CUST01089,Rohit,Garcia,user1089@email.com,Central,Enterprise,Direct,2023-08-31,61,Female
+CUST01090,Amit,Patel,user1090@email.com,North,B2C,Paid Search,2023-03-18,41,Female
+CUST01091,Aarav,Smith,user1091@email.com,West,B2C,Social Media,2024-06-26,40,Female
+CUST01092,Priya,Shah,user1092@email.com,South,B2C,Social Media,2023-06-30,55,Male
+CUST01093,Isabella,Reddy,user1093@email.com,North,B2C,Organic Search,2022-04-12,52,Female
+CUST01094,Nikhil,Brown,user1094@email.com,Central,B2C,Email,2022-02-28,35,Male
+CUST01095,Kiran,Sharma,user1095@email.com,East,B2C,Email,2023-12-31,38,Other
+CUST01096,Ava,Garcia,user1096@email.com,North,B2C,Paid Search,2022-06-01,39,Female
+CUST01097,Ava,Smith,user1097@email.com,South,B2C,Social Media,2024-02-21,45,Male
+CUST01098,James,Singh,user1098@email.com,Central,B2C,Social Media,2024-02-11,21,Female
+CUST01099,Suresh,Shah,user1099@email.com,Central,B2B,Organic Search,2024-06-09,63,Other
+CUST01100,Kiran,Smith,user1100@email.com,East,B2C,Affiliate,2022-05-28,51,Female
+CUST01101,Arjun,Johnson,user1101@email.com,North,B2C,Social Media,2023-10-26,50,Female
+CUST01102,Emma,Davis,user1102@email.com,East,B2C,Email,2023-11-04,34,Other
+CUST01103,Nikhil,Davis,user1103@email.com,South,B2B,Referral,2024-03-11,63,Other
+CUST01104,Kiran,Garcia,user1104@email.com,South,B2C,Affiliate,2022-10-17,65,Female
+CUST01105,Mia,Davis,user1105@email.com,Central,B2B,Email,2023-02-21,54,Other
+CUST01106,Priya,Miller,user1106@email.com,South,B2C,Paid Search,2024-08-31,33,Male
+CUST01107,William,Reddy,user1107@email.com,West,B2C,Affiliate,2024-11-30,22,Other
+CUST01108,Isabella,Brown,user1108@email.com,East,B2B,Referral,2022-11-13,28,Female
+CUST01109,Pooja,Williams,user1109@email.com,South,B2C,Paid Search,2024-07-22,19,Male
+CUST01110,Nikhil,Garcia,user1110@email.com,Central,Enterprise,Email,2023-04-28,59,Male
+CUST01111,Ananya,Verma,user1111@email.com,South,B2C,Affiliate,2022-11-10,35,Other
+CUST01112,Ananya,Patel,user1112@email.com,West,B2B,Organic Search,2024-05-05,23,Female
+CUST01113,Divya,Singh,user1113@email.com,West,B2B,Referral,2024-07-23,60,Male
+CUST01114,Liam,Mehta,user1114@email.com,South,B2C,Referral,2023-09-09,50,Male
+CUST01115,Emma,Wilson,user1115@email.com,Central,B2C,Organic Search,2024-03-21,33,Other
+CUST01116,William,Smith,user1116@email.com,East,B2B,Referral,2022-07-09,42,Other
+CUST01117,Mia,Brown,user1117@email.com,South,B2C,Paid Search,2023-01-02,31,Female
+CUST01118,Meera,Verma,user1118@email.com,Central,B2C,Direct,2023-11-14,41,Other
+CUST01119,Amit,Davis,user1119@email.com,West,B2C,Paid Search,2022-06-25,35,Male
+CUST01120,Anjali,Johnson,user1120@email.com,East,B2C,Direct,2023-07-18,20,Other
+CUST01121,Ava,Patel,user1121@email.com,South,B2C,Email,2024-10-25,37,Other
+CUST01122,Noah,Kumar,user1122@email.com,Central,B2B,Affiliate,2023-07-18,46,Female
+CUST01123,Mia,Williams,user1123@email.com,East,B2C,Affiliate,2022-01-13,33,Female
+CUST01124,Isabella,Gupta,user1124@email.com,West,B2C,Affiliate,2022-11-23,59,Female
+CUST01125,Rohit,Singh,user1125@email.com,West,B2C,Email,2022-02-22,39,Other
+CUST01126,Noah,Kumar,user1126@email.com,South,B2C,Direct,2023-10-19,22,Female
+CUST01127,Deepa,Davis,user1127@email.com,East,B2C,Organic Search,2023-10-16,21,Other
+CUST01128,Ananya,Jones,user1128@email.com,South,B2C,Paid Search,2024-09-23,58,Female
+CUST01129,Kiran,Singh,user1129@email.com,North,B2C,Direct,2023-05-03,63,Other
+CUST01130,Isabella,Taylor,user1130@email.com,West,B2B,Social Media,2022-07-22,46,Female
+CUST01131,Rohit,Gupta,user1131@email.com,Central,B2B,Affiliate,2022-07-27,36,Male
+CUST01132,Meera,Johnson,user1132@email.com,South,B2C,Email,2022-05-12,54,Male
+CUST01133,Aarav,Davis,user1133@email.com,Central,B2C,Organic Search,2022-02-02,47,Male
+CUST01134,Oliver,Gupta,user1134@email.com,North,B2C,Email,2023-02-11,56,Female
+CUST01135,Rahul,Johnson,user1135@email.com,South,Enterprise,Organic Search,2022-08-20,18,Other
+CUST01136,Meera,Jones,user1136@email.com,West,B2C,Referral,2024-03-27,31,Male
+CUST01137,Divya,Garcia,user1137@email.com,West,B2C,Affiliate,2023-02-18,31,Other
+CUST01138,Liam,Reddy,user1138@email.com,South,B2C,Email,2022-12-01,27,Male
+CUST01139,Rohit,Shah,user1139@email.com,Central,B2C,Paid Search,2023-03-27,41,Other
+CUST01140,James,Jones,user1140@email.com,North,B2C,Paid Search,2024-11-28,38,Other
+CUST01141,Emma,Joshi,user1141@email.com,West,B2B,Referral,2023-09-10,56,Female
+CUST01142,Sneha,Davis,user1142@email.com,North,B2C,Paid Search,2022-04-24,48,Female
+CUST01143,Emma,Taylor,user1143@email.com,North,B2C,Direct,2024-07-30,57,Female
+CUST01144,Suresh,Johnson,user1144@email.com,South,Enterprise,Direct,2023-04-15,20,Other
+CUST01145,Rohit,Gupta,user1145@email.com,Central,B2C,Social Media,2022-10-06,47,Male
+CUST01146,Amit,Miller,user1146@email.com,West,B2C,Organic Search,2022-05-20,38,Male
+CUST01147,Anjali,Verma,user1147@email.com,East,Enterprise,Social Media,2022-07-18,34,Other
+CUST01148,Sanjay,Smith,user1148@email.com,West,B2B,Social Media,2023-02-14,65,Female
+CUST01149,Shreya,Jones,user1149@email.com,North,B2C,Organic Search,2022-08-23,32,Male
+CUST01150,Anjali,Verma,user1150@email.com,South,B2B,Email,2022-02-25,25,Female
+CUST01151,Nikhil,Johnson,user1151@email.com,Central,B2C,Email,2022-03-05,25,Other
+CUST01152,Sneha,Johnson,user1152@email.com,North,B2C,Social Media,2022-08-18,29,Male
+CUST01153,Liam,Verma,user1153@email.com,Central,B2B,Direct,2024-03-01,31,Other
+CUST01154,Sanjay,Wilson,user1154@email.com,South,B2C,Organic Search,2022-01-07,33,Female
+CUST01155,Sneha,Smith,user1155@email.com,North,B2C,Referral,2024-11-17,25,Female
+CUST01156,Kiran,Kumar,user1156@email.com,East,B2C,Organic Search,2023-08-04,47,Other
+CUST01157,Anjali,Jones,user1157@email.com,East,B2C,Organic Search,2024-10-21,39,Male
+CUST01158,Deepa,Jones,user1158@email.com,East,Enterprise,Referral,2024-10-16,54,Male
+CUST01159,Isabella,Patel,user1159@email.com,East,B2C,Organic Search,2022-11-25,65,Male
+CUST01160,Deepa,Williams,user1160@email.com,North,B2C,Paid Search,2024-04-29,33,Female
+CUST01161,Aarav,Joshi,user1161@email.com,South,B2C,Email,2022-05-19,36,Other
+CUST01162,Vikram,Kumar,user1162@email.com,East,B2C,Email,2024-10-13,65,Female
+CUST01163,Deepa,Mehta,user1163@email.com,East,B2C,Affiliate,2024-11-30,41,Other
+CUST01164,Anjali,Jones,user1164@email.com,West,B2C,Direct,2022-11-07,56,Female
+CUST01165,William,Brown,user1165@email.com,East,B2C,Email,2022-05-21,58,Female
+CUST01166,Priya,Miller,user1166@email.com,East,Enterprise,Referral,2022-05-25,32,Other
+CUST01167,Mia,Garcia,user1167@email.com,Central,B2C,Direct,2022-08-29,23,Female
+CUST01168,Meera,Singh,user1168@email.com,West,B2C,Paid Search,2023-12-29,61,Female
+CUST01169,Sanjay,Brown,user1169@email.com,East,B2C,Direct,2023-01-22,22,Male
+CUST01170,Sneha,Miller,user1170@email.com,West,B2C,Email,2024-03-08,60,Other
+CUST01171,Liam,Verma,user1171@email.com,East,B2C,Organic Search,2024-06-02,50,Male
+CUST01172,Sophia,Jones,user1172@email.com,South,B2B,Affiliate,2022-06-26,43,Male
+CUST01173,Meera,Reddy,user1173@email.com,East,B2C,Email,2022-05-10,60,Female
+CUST01174,Ava,Verma,user1174@email.com,East,Enterprise,Affiliate,2024-08-27,29,Male
+CUST01175,Rahul,Taylor,user1175@email.com,East,B2B,Organic Search,2022-10-15,45,Other
+CUST01176,Aarav,Williams,user1176@email.com,North,B2C,Referral,2022-01-28,48,Female
+CUST01177,Isabella,Taylor,user1177@email.com,West,B2C,Affiliate,2023-09-22,57,Female
+CUST01178,Oliver,Williams,user1178@email.com,East,B2C,Paid Search,2024-11-12,18,Male
+CUST01179,Liam,Sharma,user1179@email.com,South,B2B,Paid Search,2022-06-23,48,Other
+CUST01180,James,Shah,user1180@email.com,West,B2B,Affiliate,2022-08-14,52,Male
+CUST01181,Divya,Jones,user1181@email.com,South,B2C,Organic Search,2022-05-14,25,Male
+CUST01182,Sophia,Jones,user1182@email.com,West,B2C,Affiliate,2022-08-25,46,Other
+CUST01183,Arjun,Reddy,user1183@email.com,Central,B2B,Email,2023-01-12,21,Female
+CUST01184,Sneha,Brown,user1184@email.com,West,B2B,Referral,2022-01-13,55,Other
+CUST01185,Divya,Patel,user1185@email.com,West,B2C,Direct,2024-05-11,55,Other
+CUST01186,Mia,Garcia,user1186@email.com,South,B2B,Direct,2024-08-07,19,Female
+CUST01187,Amit,Davis,user1187@email.com,North,B2C,Referral,2024-06-14,44,Female
+CUST01188,Anjali,Taylor,user1188@email.com,East,B2C,Email,2022-07-01,19,Male
+CUST01189,Sophia,Joshi,user1189@email.com,West,B2C,Paid Search,2023-03-24,50,Male
+CUST01190,Mia,Smith,user1190@email.com,Central,B2B,Referral,2024-07-01,60,Female
+CUST01191,Noah,Reddy,user1191@email.com,West,Enterprise,Affiliate,2022-07-23,61,Other
+CUST01192,Ava,Garcia,user1192@email.com,South,B2C,Social Media,2023-07-14,62,Other
+CUST01193,Emma,Garcia,user1193@email.com,South,B2C,Paid Search,2022-05-14,56,Female
+CUST01194,Ava,Brown,user1194@email.com,West,B2C,Paid Search,2022-06-06,53,Male
+CUST01195,Kavya,Verma,user1195@email.com,East,B2C,Paid Search,2022-01-29,50,Male
+CUST01196,Amit,Brown,user1196@email.com,North,B2C,Organic Search,2022-04-09,53,Male
+CUST01197,Rohit,Smith,user1197@email.com,East,B2B,Affiliate,2024-01-26,53,Female
+CUST01198,Isabella,Miller,user1198@email.com,Central,B2C,Referral,2022-08-23,21,Female
+CUST01199,Liam,Kumar,user1199@email.com,North,B2B,Direct,2023-12-12,24,Other
+CUST01200,Sanjay,Kumar,user1200@email.com,South,B2C,Affiliate,2022-03-07,31,Female
+CUST01201,Sophia,Reddy,user1201@email.com,West,B2B,Email,2022-09-01,64,Male
+CUST01202,James,Johnson,user1202@email.com,East,B2B,Organic Search,2022-08-28,30,Female
+CUST01203,William,Sharma,user1203@email.com,South,B2B,Email,2023-10-08,39,Female
+CUST01204,Ananya,Singh,user1204@email.com,East,B2C,Affiliate,2024-02-24,44,Female
+CUST01205,Emma,Shah,user1205@email.com,South,B2B,Direct,2024-09-04,44,Male
+CUST01206,Ava,Brown,user1206@email.com,West,Enterprise,Email,2022-08-03,51,Other
+CUST01207,Aarav,Jones,user1207@email.com,South,B2B,Referral,2023-07-16,51,Male
+CUST01208,Amit,Smith,user1208@email.com,West,Enterprise,Paid Search,2022-05-12,45,Male
+CUST01209,William,Patel,user1209@email.com,South,Enterprise,Organic Search,2023-09-03,58,Other
+CUST01210,Noah,Miller,user1210@email.com,East,B2C,Referral,2024-10-22,62,Other
+CUST01211,Sophia,Smith,user1211@email.com,East,B2C,Social Media,2023-04-18,51,Other
+CUST01212,Oliver,Williams,user1212@email.com,West,B2C,Direct,2022-08-17,57,Other
+CUST01213,Nikhil,Johnson,user1213@email.com,West,B2B,Social Media,2024-10-09,23,Male
+CUST01214,Amit,Williams,user1214@email.com,South,B2C,Direct,2024-04-14,36,Male
+CUST01215,Sanjay,Davis,user1215@email.com,East,B2C,Affiliate,2022-05-25,58,Male
+CUST01216,Aarav,Davis,user1216@email.com,Central,B2C,Affiliate,2022-02-06,37,Other
+CUST01217,Sanjay,Kumar,user1217@email.com,North,B2B,Social Media,2023-10-19,58,Other
+CUST01218,Sneha,Patel,user1218@email.com,North,B2C,Direct,2023-07-05,65,Male
+CUST01219,Amit,Shah,user1219@email.com,Central,B2C,Referral,2023-12-05,60,Other
+CUST01220,Pooja,Johnson,user1220@email.com,East,B2C,Affiliate,2024-07-14,63,Other
+CUST01221,Vikram,Williams,user1221@email.com,Central,B2B,Organic Search,2024-11-10,38,Other
+CUST01222,Arjun,Johnson,user1222@email.com,West,B2C,Referral,2024-06-23,45,Female
+CUST01223,Rahul,Patel,user1223@email.com,West,B2B,Email,2022-05-08,31,Female
+CUST01224,Kavya,Miller,user1224@email.com,West,B2C,Direct,2022-05-02,43,Female
+CUST01225,Anjali,Brown,user1225@email.com,West,B2C,Email,2024-06-26,64,Female
+CUST01226,Vikram,Miller,user1226@email.com,South,B2C,Email,2022-09-10,26,Other
+CUST01227,Isabella,Miller,user1227@email.com,North,B2C,Email,2024-03-08,48,Male
+CUST01228,Shreya,Johnson,user1228@email.com,North,B2C,Email,2022-09-01,25,Male
+CUST01229,Kiran,Reddy,user1229@email.com,North,B2C,Organic Search,2023-07-29,41,Female
+CUST01230,Divya,Reddy,user1230@email.com,West,B2C,Paid Search,2023-08-05,27,Other
+CUST01231,Priya,Reddy,user1231@email.com,East,B2C,Affiliate,2023-10-18,65,Female
+CUST01232,Sneha,Davis,user1232@email.com,East,B2C,Organic Search,2022-01-04,44,Female
+CUST01233,Divya,Wilson,user1233@email.com,West,Enterprise,Affiliate,2024-06-09,42,Female
+CUST01234,Vikram,Mehta,user1234@email.com,Central,B2C,Affiliate,2024-07-29,46,Other
+CUST01235,Vikram,Smith,user1235@email.com,North,B2B,Referral,2023-11-29,57,Female
+CUST01236,Pooja,Williams,user1236@email.com,East,B2C,Referral,2023-08-25,46,Other
+CUST01237,James,Singh,user1237@email.com,South,B2B,Direct,2023-03-07,58,Other
+CUST01238,Shreya,Kumar,user1238@email.com,Central,B2C,Direct,2023-04-25,52,Other
+CUST01239,Kiran,Miller,user1239@email.com,South,B2B,Direct,2022-03-24,19,Male
+CUST01240,Mia,Davis,user1240@email.com,South,Enterprise,Social Media,2024-10-19,31,Male
+CUST01241,Nikhil,Singh,user1241@email.com,Central,B2C,Email,2024-06-19,55,Male
+CUST01242,Isabella,Sharma,user1242@email.com,East,B2C,Email,2024-02-03,19,Other
+CUST01243,Suresh,Verma,user1243@email.com,North,B2C,Organic Search,2023-05-09,52,Male
+CUST01244,Vikram,Gupta,user1244@email.com,East,B2B,Paid Search,2023-03-20,37,Female
+CUST01245,Ananya,Patel,user1245@email.com,Central,Enterprise,Paid Search,2024-11-20,19,Other
+CUST01246,Divya,Williams,user1246@email.com,North,B2C,Email,2022-04-01,38,Female
+CUST01247,Liam,Kumar,user1247@email.com,North,B2C,Affiliate,2023-08-07,56,Other
+CUST01248,Anjali,Miller,user1248@email.com,Central,B2C,Organic Search,2023-01-03,35,Male
+CUST01249,Nikhil,Davis,user1249@email.com,West,B2C,Organic Search,2023-05-10,44,Other
+CUST01250,Mia,Sharma,user1250@email.com,East,B2C,Direct,2022-12-30,61,Male
+CUST01251,William,Davis,user1251@email.com,South,B2C,Email,2023-01-18,46,Male
+CUST01252,Sanjay,Joshi,user1252@email.com,South,B2C,Paid Search,2024-09-14,33,Other
+CUST01253,Mia,Davis,user1253@email.com,West,B2C,Affiliate,2023-10-21,47,Other
+CUST01254,James,Gupta,user1254@email.com,North,B2C,Email,2023-03-26,35,Other
+CUST01255,Liam,Williams,user1255@email.com,East,B2B,Paid Search,2023-01-25,55,Other
+CUST01256,Priya,Gupta,user1256@email.com,Central,B2C,Social Media,2023-03-14,23,Female
+CUST01257,Liam,Mehta,user1257@email.com,Central,Enterprise,Email,2022-07-11,31,Other
+CUST01258,Ava,Smith,user1258@email.com,East,B2C,Affiliate,2024-02-24,63,Female
+CUST01259,Pooja,Smith,user1259@email.com,East,B2C,Direct,2023-03-01,39,Male
+CUST01260,James,Sharma,user1260@email.com,Central,B2C,Organic Search,2022-07-27,61,Male
+CUST01261,Shreya,Garcia,user1261@email.com,West,B2C,Affiliate,2023-10-04,59,Other
+CUST01262,Shreya,Sharma,user1262@email.com,West,B2C,Social Media,2022-05-01,42,Other
+CUST01263,Suresh,Gupta,user1263@email.com,North,B2C,Social Media,2023-07-11,30,Female
+CUST01264,Pooja,Sharma,user1264@email.com,East,B2C,Referral,2022-01-15,40,Male
+CUST01265,Liam,Taylor,user1265@email.com,East,B2B,Paid Search,2022-05-20,32,Female
+CUST01266,Priya,Verma,user1266@email.com,West,Enterprise,Referral,2023-07-18,56,Male
+CUST01267,Arjun,Williams,user1267@email.com,North,B2B,Direct,2022-01-12,50,Female
+CUST01268,Shreya,Joshi,user1268@email.com,Central,B2C,Direct,2022-09-22,54,Male
+CUST01269,Kiran,Mehta,user1269@email.com,North,B2C,Direct,2022-04-12,32,Other
+CUST01270,Arjun,Sharma,user1270@email.com,Central,B2C,Referral,2023-03-03,53,Female
+CUST01271,Meera,Patel,user1271@email.com,East,B2C,Email,2022-01-04,35,Male
+CUST01272,Sanjay,Jones,user1272@email.com,West,B2C,Affiliate,2024-11-22,20,Other
+CUST01273,Priya,Verma,user1273@email.com,West,B2C,Social Media,2022-12-15,18,Female
+CUST01274,Amit,Singh,user1274@email.com,Central,B2B,Referral,2022-10-30,32,Other
+CUST01275,Rahul,Shah,user1275@email.com,South,B2C,Social Media,2023-10-21,22,Other
+CUST01276,Sneha,Sharma,user1276@email.com,West,B2C,Organic Search,2024-08-29,55,Other
+CUST01277,Liam,Verma,user1277@email.com,South,B2C,Paid Search,2023-06-04,39,Male
+CUST01278,Sanjay,Shah,user1278@email.com,North,B2B,Direct,2023-06-03,46,Male
+CUST01279,Nikhil,Wilson,user1279@email.com,North,B2C,Organic Search,2024-08-29,20,Female
+CUST01280,Noah,Singh,user1280@email.com,South,B2C,Affiliate,2023-05-02,46,Male
+CUST01281,Deepa,Brown,user1281@email.com,North,B2C,Organic Search,2023-04-14,53,Male
+CUST01282,Isabella,Williams,user1282@email.com,West,B2C,Affiliate,2023-04-04,44,Male
+CUST01283,Ava,Taylor,user1283@email.com,North,B2C,Email,2024-07-20,45,Other
+CUST01284,Sneha,Smith,user1284@email.com,North,B2C,Social Media,2024-08-19,55,Male
+CUST01285,Sneha,Sharma,user1285@email.com,Central,B2B,Direct,2022-06-17,30,Other
+CUST01286,James,Miller,user1286@email.com,East,B2C,Email,2022-07-15,64,Other
+CUST01287,Ananya,Shah,user1287@email.com,South,B2B,Organic Search,2023-11-22,26,Female
+CUST01288,Meera,Miller,user1288@email.com,East,B2C,Direct,2024-06-27,27,Male
+CUST01289,Divya,Taylor,user1289@email.com,East,B2C,Organic Search,2023-12-31,51,Other
+CUST01290,Emma,Mehta,user1290@email.com,North,B2C,Affiliate,2024-10-18,53,Male
+CUST01291,Kavya,Joshi,user1291@email.com,South,B2C,Paid Search,2023-10-18,22,Female
+CUST01292,Emma,Garcia,user1292@email.com,West,B2C,Social Media,2022-10-22,55,Other
+CUST01293,Deepa,Reddy,user1293@email.com,West,B2C,Organic Search,2023-06-06,47,Male
+CUST01294,Pooja,Sharma,user1294@email.com,South,B2C,Email,2024-02-10,57,Male
+CUST01295,Anjali,Smith,user1295@email.com,West,B2C,Paid Search,2023-01-07,18,Female
+CUST01296,Rahul,Johnson,user1296@email.com,North,B2C,Paid Search,2022-01-16,36,Female
+CUST01297,James,Wilson,user1297@email.com,East,B2C,Organic Search,2022-10-29,30,Male
+CUST01298,Ananya,Shah,user1298@email.com,East,B2B,Social Media,2023-03-18,53,Male
+CUST01299,Arjun,Sharma,user1299@email.com,South,B2B,Organic Search,2022-10-05,19,Other
+CUST01300,Suresh,Kumar,user1300@email.com,East,Enterprise,Social Media,2022-08-02,47,Male
+CUST01301,Ava,Johnson,user1301@email.com,South,Enterprise,Affiliate,2023-07-29,57,Female
+CUST01302,Sneha,Mehta,user1302@email.com,South,B2B,Paid Search,2022-04-12,52,Female
+CUST01303,Amit,Taylor,user1303@email.com,West,Enterprise,Paid Search,2023-08-05,20,Other
+CUST01304,Arjun,Davis,user1304@email.com,East,B2B,Social Media,2024-07-01,33,Male
+CUST01305,Ava,Verma,user1305@email.com,South,B2B,Direct,2024-09-04,49,Male
+CUST01306,Ava,Garcia,user1306@email.com,Central,B2C,Direct,2022-05-07,42,Other
+CUST01307,Kavya,Garcia,user1307@email.com,Central,B2C,Social Media,2024-03-01,63,Female
+CUST01308,Oliver,Garcia,user1308@email.com,West,B2C,Direct,2024-03-27,43,Other
+CUST01309,James,Patel,user1309@email.com,South,B2C,Paid Search,2024-06-26,46,Male
+CUST01310,Arjun,Reddy,user1310@email.com,West,B2B,Direct,2023-09-08,28,Female
+CUST01311,Shreya,Singh,user1311@email.com,South,B2B,Social Media,2023-01-31,46,Other
+CUST01312,Pooja,Wilson,user1312@email.com,North,B2C,Direct,2023-07-01,39,Female
+CUST01313,Nikhil,Brown,user1313@email.com,West,B2C,Email,2023-12-02,38,Female
+CUST01314,Aarav,Gupta,user1314@email.com,West,B2C,Referral,2023-08-17,22,Female
+CUST01315,Divya,Miller,user1315@email.com,Central,B2C,Organic Search,2022-05-09,35,Male
+CUST01316,Sneha,Singh,user1316@email.com,East,B2C,Paid Search,2022-06-02,39,Male
+CUST01317,Amit,Verma,user1317@email.com,East,B2B,Affiliate,2024-11-14,61,Female
+CUST01318,Oliver,Taylor,user1318@email.com,South,Enterprise,Affiliate,2022-10-24,63,Other
+CUST01319,Mia,Verma,user1319@email.com,North,B2B,Social Media,2024-04-23,40,Female
+CUST01320,Liam,Wilson,user1320@email.com,North,B2C,Direct,2023-09-23,27,Female
+CUST01321,Pooja,Joshi,user1321@email.com,West,B2C,Direct,2022-12-20,53,Female
+CUST01322,Amit,Singh,user1322@email.com,East,B2B,Email,2023-12-18,62,Female
+CUST01323,Nikhil,Jones,user1323@email.com,Central,B2C,Paid Search,2022-11-22,54,Male
+CUST01324,Sophia,Sharma,user1324@email.com,West,B2B,Affiliate,2023-04-20,40,Female
+CUST01325,Meera,Brown,user1325@email.com,West,B2B,Referral,2022-12-17,52,Female
+CUST01326,Kiran,Sharma,user1326@email.com,Central,B2B,Paid Search,2023-05-22,27,Female
+CUST01327,James,Taylor,user1327@email.com,Central,B2C,Email,2024-06-01,42,Male
+CUST01328,Rahul,Davis,user1328@email.com,West,B2C,Organic Search,2023-08-30,39,Other
+CUST01329,James,Reddy,user1329@email.com,North,B2C,Referral,2023-12-03,53,Male
+CUST01330,Liam,Taylor,user1330@email.com,West,B2C,Paid Search,2022-02-19,22,Female
+CUST01331,Arjun,Shah,user1331@email.com,East,B2C,Organic Search,2023-03-17,47,Male
+CUST01332,Sanjay,Sharma,user1332@email.com,South,B2C,Email,2023-07-27,43,Male
+CUST01333,Vikram,Davis,user1333@email.com,West,B2C,Organic Search,2022-06-22,42,Male
+CUST01334,Isabella,Joshi,user1334@email.com,East,B2C,Referral,2022-07-21,60,Female
+CUST01335,Deepa,Wilson,user1335@email.com,East,B2C,Direct,2022-09-04,63,Other
+CUST01336,Rohit,Joshi,user1336@email.com,North,Enterprise,Email,2023-12-14,22,Female
+CUST01337,Ava,Shah,user1337@email.com,Central,B2C,Direct,2024-07-28,49,Female
+CUST01338,Kiran,Patel,user1338@email.com,North,B2C,Email,2023-12-20,40,Other
+CUST01339,Suresh,Taylor,user1339@email.com,South,B2C,Paid Search,2023-04-08,57,Other
+CUST01340,Nikhil,Williams,user1340@email.com,South,B2C,Organic Search,2023-11-03,43,Other
+CUST01341,Pooja,Gupta,user1341@email.com,East,B2B,Direct,2022-03-09,36,Other
+CUST01342,Oliver,Joshi,user1342@email.com,West,B2C,Affiliate,2022-04-14,53,Male
+CUST01343,Rahul,Kumar,user1343@email.com,Central,B2B,Social Media,2023-07-27,44,Female
+CUST01344,Rohit,Joshi,user1344@email.com,Central,B2C,Organic Search,2022-09-14,22,Other
+CUST01345,Sophia,Jones,user1345@email.com,West,B2C,Email,2024-11-15,30,Female
+CUST01346,Aarav,Verma,user1346@email.com,North,B2B,Paid Search,2022-02-28,38,Other
+CUST01347,Anjali,Jones,user1347@email.com,North,B2C,Referral,2023-12-23,33,Other
+CUST01348,Vikram,Garcia,user1348@email.com,East,B2B,Paid Search,2023-11-11,19,Other
+CUST01349,Ananya,Reddy,user1349@email.com,North,B2C,Email,2022-06-06,28,Male
+CUST01350,William,Sharma,user1350@email.com,East,B2C,Social Media,2024-11-08,29,Male
+CUST01351,Noah,Davis,user1351@email.com,South,B2C,Organic Search,2022-02-23,58,Other
+CUST01352,Emma,Kumar,user1352@email.com,West,B2C,Email,2024-09-22,21,Other
+CUST01353,Priya,Williams,user1353@email.com,South,Enterprise,Social Media,2022-01-08,33,Male
+CUST01354,Aarav,Brown,user1354@email.com,North,Enterprise,Social Media,2022-05-22,30,Other
+CUST01355,Rahul,Shah,user1355@email.com,North,B2B,Affiliate,2024-11-05,60,Male
+CUST01356,Priya,Brown,user1356@email.com,Central,B2C,Social Media,2022-09-17,38,Other
+CUST01357,Arjun,Taylor,user1357@email.com,South,Enterprise,Email,2024-08-31,45,Male
+CUST01358,Arjun,Kumar,user1358@email.com,East,B2C,Organic Search,2022-12-28,43,Other
+CUST01359,Aarav,Williams,user1359@email.com,South,B2C,Organic Search,2023-05-07,60,Female
+CUST01360,Deepa,Johnson,user1360@email.com,North,B2C,Paid Search,2024-10-06,44,Female
+CUST01361,Anjali,Kumar,user1361@email.com,Central,B2B,Affiliate,2024-07-19,54,Male
+CUST01362,Sneha,Taylor,user1362@email.com,East,Enterprise,Referral,2023-01-27,42,Other
+CUST01363,Amit,Gupta,user1363@email.com,East,Enterprise,Referral,2022-07-26,48,Male
+CUST01364,Aarav,Taylor,user1364@email.com,Central,B2C,Direct,2023-06-05,58,Other
+CUST01365,Sanjay,Wilson,user1365@email.com,North,B2C,Direct,2022-12-28,25,Female
+CUST01366,Sophia,Brown,user1366@email.com,South,B2C,Organic Search,2023-01-03,26,Female
+CUST01367,Divya,Joshi,user1367@email.com,South,B2C,Referral,2024-02-14,20,Male
+CUST01368,Nikhil,Smith,user1368@email.com,South,B2C,Referral,2024-07-18,20,Other
+CUST01369,James,Reddy,user1369@email.com,North,B2C,Referral,2023-10-07,39,Female
+CUST01370,Arjun,Davis,user1370@email.com,North,Enterprise,Referral,2023-01-12,33,Other
+CUST01371,Deepa,Williams,user1371@email.com,Central,B2C,Email,2022-12-12,58,Male
+CUST01372,Isabella,Garcia,user1372@email.com,North,Enterprise,Organic Search,2022-04-11,58,Male
+CUST01373,Vikram,Singh,user1373@email.com,South,B2C,Affiliate,2022-11-14,31,Male
+CUST01374,Rahul,Brown,user1374@email.com,West,B2C,Referral,2024-02-28,30,Male
+CUST01375,Ananya,Taylor,user1375@email.com,South,B2C,Direct,2023-10-21,46,Other
+CUST01376,Rohit,Garcia,user1376@email.com,North,Enterprise,Social Media,2022-11-09,43,Female
+CUST01377,Anjali,Jones,user1377@email.com,West,B2C,Referral,2022-09-18,45,Male
+CUST01378,Aarav,Williams,user1378@email.com,West,B2B,Affiliate,2024-01-19,37,Other
+CUST01379,Vikram,Davis,user1379@email.com,South,B2C,Email,2024-04-14,37,Female
+CUST01380,Suresh,Davis,user1380@email.com,Central,B2C,Social Media,2023-03-16,26,Other
+CUST01381,Arjun,Mehta,user1381@email.com,South,B2C,Affiliate,2023-12-30,50,Other
+CUST01382,Anjali,Williams,user1382@email.com,West,Enterprise,Referral,2023-08-05,41,Female
+CUST01383,Divya,Wilson,user1383@email.com,North,B2C,Organic Search,2024-01-31,25,Female
+CUST01384,Ananya,Joshi,user1384@email.com,West,Enterprise,Affiliate,2024-05-28,64,Female
+CUST01385,Oliver,Garcia,user1385@email.com,East,B2C,Referral,2024-03-02,42,Female
+CUST01386,Pooja,Garcia,user1386@email.com,North,Enterprise,Social Media,2023-01-19,58,Other
+CUST01387,Aarav,Mehta,user1387@email.com,East,B2C,Referral,2024-11-16,27,Female
+CUST01388,Deepa,Wilson,user1388@email.com,South,B2C,Affiliate,2023-01-20,23,Other
+CUST01389,Suresh,Wilson,user1389@email.com,North,B2C,Paid Search,2023-08-21,45,Male
+CUST01390,Rohit,Reddy,user1390@email.com,Central,Enterprise,Referral,2023-10-26,42,Other
+CUST01391,Sophia,Brown,user1391@email.com,North,B2C,Direct,2023-04-24,40,Male
+CUST01392,Sophia,Joshi,user1392@email.com,West,B2C,Organic Search,2023-02-22,28,Female
+CUST01393,Sneha,Singh,user1393@email.com,West,B2C,Referral,2022-01-03,36,Other
+CUST01394,Ananya,Gupta,user1394@email.com,East,B2C,Paid Search,2023-11-01,30,Female
+CUST01395,Sanjay,Kumar,user1395@email.com,West,B2C,Paid Search,2022-10-10,29,Male
+CUST01396,Sophia,Gupta,user1396@email.com,South,B2C,Affiliate,2022-04-02,44,Female
+CUST01397,Mia,Taylor,user1397@email.com,North,B2B,Paid Search,2024-08-31,23,Female
+CUST01398,Suresh,Kumar,user1398@email.com,East,B2C,Organic Search,2022-05-14,55,Male
+CUST01399,Anjali,Kumar,user1399@email.com,North,B2C,Affiliate,2024-01-13,18,Other
+CUST01400,Ava,Patel,user1400@email.com,North,B2C,Affiliate,2024-06-23,18,Female
+CUST01401,Sanjay,Verma,user1401@email.com,West,B2C,Social Media,2024-07-25,56,Female
+CUST01402,Kavya,Smith,user1402@email.com,East,B2B,Social Media,2023-06-07,60,Female
+CUST01403,Deepa,Patel,user1403@email.com,East,B2B,Affiliate,2023-08-11,24,Male
+CUST01404,Isabella,Williams,user1404@email.com,South,B2C,Organic Search,2023-12-11,51,Female
+CUST01405,Kavya,Jones,user1405@email.com,Central,B2C,Affiliate,2023-01-22,48,Other
+CUST01406,Emma,Joshi,user1406@email.com,North,Enterprise,Affiliate,2023-10-04,38,Male
+CUST01407,Kavya,Patel,user1407@email.com,East,B2C,Paid Search,2024-09-11,56,Female
+CUST01408,Sophia,Taylor,user1408@email.com,North,B2C,Email,2023-09-14,60,Other
+CUST01409,Sophia,Williams,user1409@email.com,East,B2C,Referral,2022-06-06,27,Other
+CUST01410,Ava,Miller,user1410@email.com,North,B2C,Affiliate,2024-06-07,23,Female
+CUST01411,Shreya,Jones,user1411@email.com,South,B2B,Organic Search,2024-11-11,48,Other
+CUST01412,Pooja,Shah,user1412@email.com,South,B2C,Referral,2024-04-19,62,Male
+CUST01413,Meera,Sharma,user1413@email.com,South,Enterprise,Social Media,2022-06-13,42,Female
+CUST01414,Sophia,Verma,user1414@email.com,West,Enterprise,Referral,2022-12-09,25,Other
+CUST01415,Mia,Davis,user1415@email.com,West,B2C,Referral,2022-07-30,39,Male
+CUST01416,William,Taylor,user1416@email.com,North,B2C,Email,2024-06-13,63,Other
+CUST01417,James,Davis,user1417@email.com,West,B2B,Paid Search,2023-08-16,34,Male
+CUST01418,Rahul,Kumar,user1418@email.com,North,B2C,Direct,2023-03-29,30,Other
+CUST01419,Kiran,Johnson,user1419@email.com,South,B2B,Email,2022-06-30,54,Other
+CUST01420,Divya,Patel,user1420@email.com,Central,B2C,Affiliate,2022-01-03,42,Female
+CUST01421,William,Johnson,user1421@email.com,South,B2C,Direct,2023-05-12,55,Male
+CUST01422,Suresh,Sharma,user1422@email.com,Central,B2B,Social Media,2022-06-15,27,Female
+CUST01423,Anjali,Jones,user1423@email.com,South,B2C,Paid Search,2022-12-07,65,Other
+CUST01424,Deepa,Smith,user1424@email.com,East,B2C,Referral,2022-02-23,25,Female
+CUST01425,Anjali,Joshi,user1425@email.com,West,B2C,Email,2024-06-10,21,Female
+CUST01426,Liam,Joshi,user1426@email.com,South,B2B,Organic Search,2022-08-26,29,Female
+CUST01427,Divya,Gupta,user1427@email.com,North,B2C,Social Media,2023-09-01,45,Other
+CUST01428,Kavya,Williams,user1428@email.com,West,B2C,Referral,2024-01-06,36,Female
+CUST01429,Oliver,Davis,user1429@email.com,West,B2C,Social Media,2022-10-31,55,Male
+CUST01430,Nikhil,Gupta,user1430@email.com,Central,B2C,Referral,2023-04-18,48,Female
+CUST01431,Arjun,Joshi,user1431@email.com,South,B2B,Organic Search,2022-08-13,41,Other
+CUST01432,Sneha,Mehta,user1432@email.com,West,Enterprise,Email,2024-06-13,61,Male
+CUST01433,Sneha,Johnson,user1433@email.com,West,B2C,Organic Search,2022-03-29,25,Other
+CUST01434,Amit,Wilson,user1434@email.com,West,Enterprise,Referral,2024-10-06,64,Female
+CUST01435,Priya,Kumar,user1435@email.com,South,B2C,Social Media,2023-01-16,62,Other
+CUST01436,James,Williams,user1436@email.com,North,B2B,Affiliate,2022-09-25,59,Female
+CUST01437,James,Jones,user1437@email.com,East,B2C,Organic Search,2023-03-04,23,Male
+CUST01438,James,Miller,user1438@email.com,South,B2C,Direct,2024-01-30,54,Female
+CUST01439,Oliver,Kumar,user1439@email.com,Central,B2C,Email,2023-03-02,59,Other
+CUST01440,Divya,Wilson,user1440@email.com,South,B2C,Organic Search,2023-11-05,63,Other
+CUST01441,Suresh,Sharma,user1441@email.com,West,B2C,Direct,2022-10-15,51,Female
+CUST01442,Sanjay,Wilson,user1442@email.com,Central,B2B,Affiliate,2022-04-10,59,Male
+CUST01443,Emma,Kumar,user1443@email.com,South,B2B,Referral,2022-11-19,29,Male
+CUST01444,Nikhil,Smith,user1444@email.com,North,B2C,Direct,2024-05-11,31,Other
+CUST01445,Rahul,Davis,user1445@email.com,East,B2B,Organic Search,2022-09-08,23,Male
+CUST01446,Divya,Johnson,user1446@email.com,Central,B2C,Referral,2024-02-26,18,Male
+CUST01447,Priya,Miller,user1447@email.com,East,B2C,Email,2023-04-12,26,Other
+CUST01448,Oliver,Smith,user1448@email.com,Central,Enterprise,Social Media,2024-02-01,56,Other
+CUST01449,Arjun,Kumar,user1449@email.com,North,B2C,Paid Search,2024-03-04,27,Female
+CUST01450,Vikram,Taylor,user1450@email.com,Central,B2C,Social Media,2022-12-01,35,Male
+CUST01451,Meera,Singh,user1451@email.com,Central,B2C,Email,2024-08-24,59,Male
+CUST01452,Nikhil,Singh,user1452@email.com,East,B2C,Referral,2023-09-14,27,Other
+CUST01453,Rahul,Verma,user1453@email.com,South,B2B,Direct,2022-11-13,60,Other
+CUST01454,Deepa,Gupta,user1454@email.com,West,B2B,Social Media,2024-03-05,45,Female
+CUST01455,Deepa,Shah,user1455@email.com,North,B2C,Direct,2022-02-10,25,Other
+CUST01456,Meera,Singh,user1456@email.com,East,B2C,Social Media,2024-05-01,39,Female
+CUST01457,Isabella,Shah,user1457@email.com,East,B2C,Email,2022-08-16,32,Female
+CUST01458,Ava,Kumar,user1458@email.com,South,B2C,Social Media,2022-06-13,55,Female
+CUST01459,Sanjay,Johnson,user1459@email.com,Central,B2B,Direct,2022-05-29,35,Other
+CUST01460,Noah,Patel,user1460@email.com,South,B2C,Affiliate,2022-06-03,42,Male
+CUST01461,Ava,Davis,user1461@email.com,Central,B2C,Affiliate,2023-06-21,43,Female
+CUST01462,Vikram,Verma,user1462@email.com,North,B2C,Referral,2024-07-09,27,Other
+CUST01463,Vikram,Williams,user1463@email.com,Central,B2B,Organic Search,2022-07-16,64,Other
+CUST01464,Oliver,Shah,user1464@email.com,Central,B2C,Email,2023-07-30,29,Female
+CUST01465,Ava,Jones,user1465@email.com,Central,B2C,Email,2023-07-04,51,Other
+CUST01466,Divya,Singh,user1466@email.com,East,B2C,Social Media,2022-12-22,23,Other
+CUST01467,Rahul,Shah,user1467@email.com,North,B2C,Organic Search,2022-05-04,23,Other
+CUST01468,Shreya,Garcia,user1468@email.com,North,Enterprise,Email,2023-03-21,61,Other
+CUST01469,Anjali,Garcia,user1469@email.com,Central,B2C,Referral,2022-07-31,52,Other
+CUST01470,Suresh,Sharma,user1470@email.com,Central,B2C,Affiliate,2022-07-13,65,Male
+CUST01471,Oliver,Davis,user1471@email.com,East,B2C,Referral,2023-10-23,60,Other
+CUST01472,Deepa,Patel,user1472@email.com,Central,B2C,Paid Search,2024-11-28,61,Other
+CUST01473,Ananya,Singh,user1473@email.com,East,B2B,Direct,2022-12-16,40,Male
+CUST01474,Anjali,Williams,user1474@email.com,South,B2C,Organic Search,2023-10-19,39,Other
+CUST01475,Liam,Davis,user1475@email.com,North,B2C,Email,2023-01-23,36,Female
+CUST01476,Aarav,Wilson,user1476@email.com,West,B2C,Social Media,2022-11-27,59,Other
+CUST01477,Mia,Jones,user1477@email.com,Central,B2B,Organic Search,2022-02-25,40,Male
+CUST01478,Nikhil,Smith,user1478@email.com,East,B2C,Organic Search,2024-08-14,40,Other
+CUST01479,Suresh,Johnson,user1479@email.com,North,B2C,Email,2022-10-17,30,Male
+CUST01480,Sanjay,Mehta,user1480@email.com,West,B2C,Email,2024-04-01,18,Male
+CUST01481,Rohit,Shah,user1481@email.com,West,B2C,Social Media,2024-10-17,41,Female
+CUST01482,Shreya,Verma,user1482@email.com,North,Enterprise,Referral,2022-10-11,46,Male
+CUST01483,Kavya,Brown,user1483@email.com,North,B2C,Affiliate,2022-08-06,63,Male
+CUST01484,Arjun,Reddy,user1484@email.com,North,B2C,Email,2022-06-21,65,Female
+CUST01485,Ananya,Joshi,user1485@email.com,West,Enterprise,Social Media,2022-02-19,25,Female
+CUST01486,Shreya,Garcia,user1486@email.com,South,B2C,Affiliate,2024-01-30,43,Other
+CUST01487,Vikram,Kumar,user1487@email.com,North,B2B,Paid Search,2023-08-28,27,Female
+CUST01488,Aarav,Shah,user1488@email.com,North,B2C,Social Media,2024-02-16,45,Other
+CUST01489,Meera,Garcia,user1489@email.com,East,B2C,Organic Search,2022-01-13,45,Male
+CUST01490,Vikram,Miller,user1490@email.com,South,B2C,Affiliate,2024-08-17,25,Female
+CUST01491,Emma,Brown,user1491@email.com,South,B2C,Affiliate,2023-01-20,24,Other
+CUST01492,Deepa,Gupta,user1492@email.com,South,Enterprise,Direct,2024-02-20,58,Other
+CUST01493,Pooja,Kumar,user1493@email.com,South,B2C,Social Media,2022-08-20,30,Male
+CUST01494,Aarav,Taylor,user1494@email.com,South,B2C,Organic Search,2023-10-25,42,Female
+CUST01495,Divya,Shah,user1495@email.com,South,B2C,Email,2024-03-26,21,Other
+CUST01496,James,Patel,user1496@email.com,East,B2C,Social Media,2023-10-26,35,Female
+CUST01497,Pooja,Smith,user1497@email.com,North,B2C,Organic Search,2023-10-12,21,Other
+CUST01498,Arjun,Reddy,user1498@email.com,West,B2C,Direct,2023-05-15,24,Female
+CUST01499,Rohit,Garcia,user1499@email.com,East,B2C,Organic Search,2022-10-15,24,Other
+CUST01500,Emma,Davis,user1500@email.com,South,B2C,Referral,2022-01-22,41,Other
+CUST01501,Sanjay,Taylor,user1501@email.com,East,B2C,Social Media,2024-07-03,31,Other
+CUST01502,Rahul,Kumar,user1502@email.com,South,B2C,Direct,2023-08-20,25,Male
+CUST01503,Mia,Joshi,user1503@email.com,South,B2B,Organic Search,2024-06-30,22,Other
+CUST01504,Amit,Reddy,user1504@email.com,West,Enterprise,Paid Search,2024-08-19,52,Other
+CUST01505,Priya,Mehta,user1505@email.com,South,B2C,Referral,2022-08-27,34,Other
+CUST01506,Noah,Johnson,user1506@email.com,West,B2C,Organic Search,2023-06-24,45,Male
+CUST01507,Meera,Miller,user1507@email.com,Central,B2B,Paid Search,2024-01-21,56,Female
+CUST01508,Divya,Patel,user1508@email.com,Central,B2C,Referral,2022-07-20,30,Other
+CUST01509,Anjali,Davis,user1509@email.com,Central,Enterprise,Paid Search,2023-09-10,46,Other
+CUST01510,Shreya,Williams,user1510@email.com,West,B2C,Paid Search,2023-08-20,29,Male
+CUST01511,Kiran,Joshi,user1511@email.com,Central,B2C,Affiliate,2022-09-06,50,Female
+CUST01512,Oliver,Miller,user1512@email.com,East,B2C,Paid Search,2024-02-22,36,Other
+CUST01513,Shreya,Kumar,user1513@email.com,South,B2C,Direct,2023-02-22,33,Female
+CUST01514,James,Mehta,user1514@email.com,East,Enterprise,Social Media,2022-03-02,21,Other
+CUST01515,Liam,Joshi,user1515@email.com,Central,B2C,Referral,2023-01-22,40,Other
+CUST01516,Kavya,Smith,user1516@email.com,North,Enterprise,Direct,2024-07-29,34,Other
+CUST01517,Meera,Taylor,user1517@email.com,East,B2C,Organic Search,2022-07-27,58,Male
+CUST01518,Pooja,Verma,user1518@email.com,South,B2C,Organic Search,2023-07-07,52,Other
+CUST01519,Sneha,Williams,user1519@email.com,East,B2B,Referral,2024-06-25,56,Other
+CUST01520,Liam,Jones,user1520@email.com,South,B2C,Paid Search,2022-11-17,55,Other
+CUST01521,Vikram,Jones,user1521@email.com,South,B2B,Email,2023-09-07,41,Male
+CUST01522,Rahul,Garcia,user1522@email.com,South,B2C,Affiliate,2024-01-15,29,Male
+CUST01523,Anjali,Gupta,user1523@email.com,East,B2C,Paid Search,2024-06-03,29,Female
+CUST01524,Arjun,Singh,user1524@email.com,South,B2C,Paid Search,2024-08-02,47,Other
+CUST01525,Sneha,Miller,user1525@email.com,South,B2B,Affiliate,2023-09-18,18,Other
+CUST01526,Suresh,Williams,user1526@email.com,North,B2C,Organic Search,2022-06-04,59,Male
+CUST01527,Pooja,Singh,user1527@email.com,East,B2C,Referral,2022-07-25,56,Male
+CUST01528,Ava,Kumar,user1528@email.com,Central,B2B,Social Media,2022-01-15,63,Male
+CUST01529,Vikram,Garcia,user1529@email.com,Central,B2B,Affiliate,2022-11-11,28,Female
+CUST01530,Anjali,Mehta,user1530@email.com,South,B2C,Referral,2023-05-31,35,Other
+CUST01531,Sneha,Sharma,user1531@email.com,North,B2C,Social Media,2024-04-24,24,Other
+CUST01532,Vikram,Sharma,user1532@email.com,South,B2C,Email,2023-10-08,42,Male
+CUST01533,James,Reddy,user1533@email.com,South,Enterprise,Referral,2023-07-03,42,Other
+CUST01534,Anjali,Gupta,user1534@email.com,North,B2C,Social Media,2022-06-24,40,Male
+CUST01535,Amit,Kumar,user1535@email.com,East,Enterprise,Organic Search,2024-08-14,20,Other
+CUST01536,Ananya,Brown,user1536@email.com,Central,B2C,Paid Search,2022-08-23,61,Female
+CUST01537,Noah,Reddy,user1537@email.com,Central,B2B,Social Media,2022-08-22,24,Female
+CUST01538,Emma,Johnson,user1538@email.com,East,B2B,Referral,2024-02-15,22,Male
+CUST01539,William,Mehta,user1539@email.com,East,B2C,Email,2022-08-19,64,Female
+CUST01540,Sneha,Wilson,user1540@email.com,West,Enterprise,Social Media,2022-04-15,27,Male
+CUST01541,Vikram,Gupta,user1541@email.com,West,B2C,Email,2023-05-17,45,Female
+CUST01542,Deepa,Smith,user1542@email.com,South,B2B,Referral,2023-10-06,33,Female
+CUST01543,Shreya,Garcia,user1543@email.com,Central,B2C,Direct,2023-10-13,52,Male
+CUST01544,Rahul,Wilson,user1544@email.com,West,B2C,Affiliate,2023-08-21,62,Other
+CUST01545,Oliver,Singh,user1545@email.com,South,B2C,Paid Search,2022-12-07,19,Female
+CUST01546,Anjali,Mehta,user1546@email.com,North,B2C,Social Media,2024-05-17,41,Male
+CUST01547,Nikhil,Mehta,user1547@email.com,Central,Enterprise,Email,2023-04-03,33,Male
+CUST01548,Priya,Mehta,user1548@email.com,North,Enterprise,Referral,2022-12-15,27,Female
+CUST01549,Oliver,Brown,user1549@email.com,East,B2C,Organic Search,2022-02-10,60,Other
+CUST01550,Anjali,Taylor,user1550@email.com,South,B2C,Social Media,2022-04-25,27,Male
+CUST01551,Rahul,Sharma,user1551@email.com,Central,B2B,Email,2023-01-16,27,Male
+CUST01552,Sophia,Mehta,user1552@email.com,Central,B2C,Social Media,2023-12-31,48,Female
+CUST01553,Nikhil,Sharma,user1553@email.com,East,B2C,Organic Search,2023-06-09,59,Male
+CUST01554,William,Gupta,user1554@email.com,Central,B2C,Email,2024-07-27,45,Other
+CUST01555,Shreya,Verma,user1555@email.com,Central,B2C,Referral,2023-12-07,32,Female
+CUST01556,Rohit,Singh,user1556@email.com,Central,B2C,Paid Search,2022-09-01,65,Male
+CUST01557,Deepa,Patel,user1557@email.com,South,B2C,Affiliate,2023-09-15,65,Other
+CUST01558,Liam,Singh,user1558@email.com,West,B2C,Referral,2024-07-28,59,Female
+CUST01559,Ananya,Patel,user1559@email.com,East,B2C,Paid Search,2023-08-15,35,Male
+CUST01560,Rahul,Johnson,user1560@email.com,Central,B2B,Social Media,2022-06-12,19,Male
+CUST01561,Ananya,Davis,user1561@email.com,North,B2C,Direct,2023-03-15,18,Female
+CUST01562,Shreya,Joshi,user1562@email.com,North,B2C,Organic Search,2022-10-19,54,Other
+CUST01563,Kiran,Garcia,user1563@email.com,North,B2C,Organic Search,2022-03-11,37,Male
+CUST01564,William,Reddy,user1564@email.com,West,B2C,Social Media,2023-07-09,43,Other
+CUST01565,Vikram,Kumar,user1565@email.com,East,B2C,Referral,2023-07-07,50,Male
+CUST01566,Ava,Mehta,user1566@email.com,North,B2C,Email,2024-02-20,48,Other
+CUST01567,Divya,Gupta,user1567@email.com,South,B2C,Organic Search,2022-02-28,58,Male
+CUST01568,Noah,Joshi,user1568@email.com,South,B2B,Paid Search,2022-12-26,50,Other
+CUST01569,James,Miller,user1569@email.com,East,B2C,Paid Search,2024-08-03,39,Female
+CUST01570,Deepa,Brown,user1570@email.com,North,B2B,Affiliate,2023-07-14,61,Female
+CUST01571,Arjun,Taylor,user1571@email.com,Central,B2C,Paid Search,2023-01-07,54,Other
+CUST01572,Sneha,Sharma,user1572@email.com,South,B2B,Social Media,2024-02-12,53,Male
+CUST01573,Sneha,Jones,user1573@email.com,East,B2C,Social Media,2024-02-15,28,Male
+CUST01574,Kiran,Johnson,user1574@email.com,East,B2C,Paid Search,2023-03-12,63,Female
+CUST01575,Anjali,Verma,user1575@email.com,West,B2C,Paid Search,2023-02-05,25,Other
+CUST01576,Priya,Johnson,user1576@email.com,East,B2C,Affiliate,2024-01-29,57,Other
+CUST01577,Nikhil,Johnson,user1577@email.com,Central,B2B,Social Media,2022-07-20,41,Male
+CUST01578,Meera,Miller,user1578@email.com,West,B2C,Referral,2024-11-25,20,Other
+CUST01579,Priya,Shah,user1579@email.com,Central,B2C,Affiliate,2024-09-27,24,Female
+CUST01580,Ananya,Wilson,user1580@email.com,West,B2B,Paid Search,2023-08-07,42,Female
+CUST01581,Rahul,Johnson,user1581@email.com,West,B2C,Direct,2024-11-05,47,Male
+CUST01582,Ananya,Kumar,user1582@email.com,West,B2B,Paid Search,2022-05-14,43,Female
+CUST01583,Amit,Smith,user1583@email.com,Central,B2C,Referral,2022-04-11,65,Female
+CUST01584,Rohit,Jones,user1584@email.com,North,B2C,Email,2022-06-27,27,Other
+CUST01585,Amit,Wilson,user1585@email.com,North,Enterprise,Affiliate,2022-11-28,42,Male
+CUST01586,Ava,Brown,user1586@email.com,West,B2C,Paid Search,2023-07-16,19,Other
+CUST01587,Rohit,Verma,user1587@email.com,South,B2C,Organic Search,2023-10-19,35,Female
+CUST01588,Divya,Jones,user1588@email.com,West,B2C,Referral,2022-05-07,34,Male
+CUST01589,Rahul,Brown,user1589@email.com,East,Enterprise,Social Media,2022-03-25,28,Male
+CUST01590,Meera,Garcia,user1590@email.com,West,B2C,Affiliate,2023-06-27,28,Other
+CUST01591,Kavya,Wilson,user1591@email.com,West,B2B,Direct,2023-11-10,56,Male
+CUST01592,Sophia,Wilson,user1592@email.com,Central,B2C,Referral,2022-05-01,64,Other
+CUST01593,Aarav,Mehta,user1593@email.com,West,Enterprise,Email,2023-05-07,38,Male
+CUST01594,Meera,Verma,user1594@email.com,Central,B2B,Email,2024-11-12,26,Other
+CUST01595,James,Wilson,user1595@email.com,North,B2C,Referral,2023-11-30,30,Female
+CUST01596,William,Gupta,user1596@email.com,Central,B2C,Social Media,2024-04-28,31,Male
+CUST01597,Kiran,Sharma,user1597@email.com,East,B2B,Organic Search,2024-11-21,37,Female
+CUST01598,Liam,Kumar,user1598@email.com,West,B2C,Email,2024-02-19,44,Female
+CUST01599,Kavya,Davis,user1599@email.com,West,B2C,Affiliate,2023-07-01,39,Male
+CUST01600,Nikhil,Brown,user1600@email.com,East,B2C,Direct,2022-10-01,28,Other
+CUST01601,Suresh,Reddy,user1601@email.com,West,B2C,Referral,2023-11-09,57,Male
+CUST01602,Ava,Kumar,user1602@email.com,North,B2C,Direct,2022-05-17,44,Male
+CUST01603,Sophia,Taylor,user1603@email.com,Central,B2C,Email,2024-02-11,50,Other
+CUST01604,Emma,Reddy,user1604@email.com,West,B2C,Affiliate,2022-02-20,47,Other
+CUST01605,Sneha,Joshi,user1605@email.com,West,Enterprise,Social Media,2023-08-15,47,Female
+CUST01606,Oliver,Williams,user1606@email.com,North,Enterprise,Affiliate,2024-09-28,32,Other
+CUST01607,Rohit,Verma,user1607@email.com,East,B2B,Affiliate,2023-03-17,44,Other
+CUST01608,Aarav,Brown,user1608@email.com,North,B2C,Paid Search,2023-01-11,41,Other
+CUST01609,Amit,Smith,user1609@email.com,South,Enterprise,Email,2024-07-20,33,Other
+CUST01610,Arjun,Taylor,user1610@email.com,West,B2B,Affiliate,2023-08-31,54,Female
+CUST01611,James,Williams,user1611@email.com,South,B2C,Social Media,2022-07-20,51,Male
+CUST01612,Pooja,Kumar,user1612@email.com,South,B2C,Referral,2023-11-11,54,Female
+CUST01613,Mia,Verma,user1613@email.com,Central,B2C,Social Media,2024-09-01,31,Male
+CUST01614,Aarav,Brown,user1614@email.com,North,B2C,Direct,2022-05-25,27,Male
+CUST01615,Oliver,Davis,user1615@email.com,North,B2C,Organic Search,2024-08-18,65,Other
+CUST01616,Nikhil,Johnson,user1616@email.com,South,B2C,Paid Search,2022-07-22,37,Male
+CUST01617,Liam,Shah,user1617@email.com,West,B2B,Referral,2024-04-11,21,Female
+CUST01618,Mia,Mehta,user1618@email.com,North,B2C,Direct,2022-05-09,24,Male
+CUST01619,Mia,Taylor,user1619@email.com,North,B2C,Social Media,2023-12-15,34,Male
+CUST01620,Rahul,Garcia,user1620@email.com,East,Enterprise,Paid Search,2022-05-25,43,Male
+CUST01621,Ava,Sharma,user1621@email.com,West,B2C,Referral,2024-02-02,22,Male
+CUST01622,Suresh,Smith,user1622@email.com,West,B2B,Paid Search,2023-10-15,37,Male
+CUST01623,Emma,Wilson,user1623@email.com,Central,B2B,Organic Search,2022-10-05,39,Female
+CUST01624,Deepa,Taylor,user1624@email.com,Central,B2C,Direct,2024-01-22,65,Female
+CUST01625,Arjun,Taylor,user1625@email.com,North,B2C,Direct,2022-07-08,50,Male
+CUST01626,Isabella,Johnson,user1626@email.com,North,B2B,Organic Search,2022-12-03,38,Male
+CUST01627,Rahul,Mehta,user1627@email.com,East,B2C,Paid Search,2022-12-08,23,Female
+CUST01628,James,Reddy,user1628@email.com,West,B2B,Email,2024-05-06,45,Other
+CUST01629,Mia,Joshi,user1629@email.com,East,B2C,Referral,2023-09-14,63,Female
+CUST01630,Sneha,Wilson,user1630@email.com,Central,B2C,Affiliate,2023-09-03,31,Other
+CUST01631,Meera,Jones,user1631@email.com,West,B2C,Social Media,2024-01-28,38,Other
+CUST01632,Deepa,Williams,user1632@email.com,West,B2C,Social Media,2022-06-17,41,Other
+CUST01633,Nikhil,Gupta,user1633@email.com,North,Enterprise,Social Media,2022-04-10,55,Female
+CUST01634,Deepa,Miller,user1634@email.com,East,B2C,Organic Search,2023-04-01,29,Female
+CUST01635,Ava,Gupta,user1635@email.com,East,B2C,Paid Search,2023-10-30,60,Female
+CUST01636,Vikram,Smith,user1636@email.com,North,B2C,Referral,2023-08-01,18,Other
+CUST01637,Arjun,Jones,user1637@email.com,Central,B2B,Paid Search,2023-05-26,53,Male
+CUST01638,Divya,Taylor,user1638@email.com,South,B2C,Organic Search,2023-08-22,53,Female
+CUST01639,Noah,Singh,user1639@email.com,Central,B2B,Email,2024-08-02,61,Female
+CUST01640,Liam,Smith,user1640@email.com,South,B2C,Affiliate,2023-05-09,49,Female
+CUST01641,Rohit,Brown,user1641@email.com,North,B2C,Paid Search,2022-03-14,56,Female
+CUST01642,Suresh,Shah,user1642@email.com,Central,B2C,Organic Search,2024-07-07,59,Other
+CUST01643,Mia,Jones,user1643@email.com,East,B2C,Email,2022-01-08,20,Other
+CUST01644,Priya,Smith,user1644@email.com,North,B2C,Organic Search,2024-03-30,44,Other
+CUST01645,Rohit,Smith,user1645@email.com,East,B2C,Direct,2023-04-13,38,Female
+CUST01646,Priya,Williams,user1646@email.com,East,B2C,Email,2024-08-09,49,Other
+CUST01647,Liam,Johnson,user1647@email.com,Central,B2C,Paid Search,2022-07-08,21,Male
+CUST01648,Sneha,Smith,user1648@email.com,West,B2C,Organic Search,2022-08-04,30,Other
+CUST01649,Liam,Davis,user1649@email.com,North,Enterprise,Affiliate,2023-07-28,21,Female
+CUST01650,Sneha,Patel,user1650@email.com,East,B2C,Social Media,2022-03-08,62,Other
+CUST01651,Rohit,Gupta,user1651@email.com,South,B2C,Organic Search,2023-08-13,26,Female
+CUST01652,William,Wilson,user1652@email.com,West,B2C,Referral,2022-08-18,25,Other
+CUST01653,Pooja,Wilson,user1653@email.com,West,B2C,Social Media,2024-03-30,38,Other
+CUST01654,Pooja,Singh,user1654@email.com,East,B2B,Referral,2024-01-20,23,Female
+CUST01655,Liam,Shah,user1655@email.com,South,B2C,Organic Search,2024-05-17,49,Male
+CUST01656,Aarav,Joshi,user1656@email.com,West,B2B,Paid Search,2022-11-27,49,Male
+CUST01657,Arjun,Wilson,user1657@email.com,Central,B2C,Social Media,2023-06-13,37,Other
+CUST01658,James,Mehta,user1658@email.com,Central,B2C,Paid Search,2023-12-07,32,Female
+CUST01659,Nikhil,Taylor,user1659@email.com,Central,B2C,Email,2023-08-22,30,Male
+CUST01660,Meera,Gupta,user1660@email.com,East,Enterprise,Direct,2023-03-08,59,Male
+CUST01661,Nikhil,Kumar,user1661@email.com,North,B2C,Email,2022-08-17,29,Female
+CUST01662,Anjali,Miller,user1662@email.com,West,B2C,Organic Search,2022-02-14,53,Male
+CUST01663,Meera,Joshi,user1663@email.com,South,B2C,Email,2023-07-05,50,Female
+CUST01664,Nikhil,Verma,user1664@email.com,East,B2C,Referral,2022-03-24,42,Other
+CUST01665,Arjun,Reddy,user1665@email.com,South,B2C,Direct,2023-10-19,35,Other
+CUST01666,Anjali,Miller,user1666@email.com,West,B2C,Organic Search,2024-08-01,59,Male
+CUST01667,Pooja,Kumar,user1667@email.com,North,B2B,Direct,2022-06-22,35,Male
+CUST01668,Shreya,Kumar,user1668@email.com,East,B2C,Direct,2022-04-13,62,Other
+CUST01669,Suresh,Williams,user1669@email.com,North,B2C,Affiliate,2023-09-21,62,Female
+CUST01670,Arjun,Gupta,user1670@email.com,South,B2C,Social Media,2024-02-09,63,Other
+CUST01671,Sophia,Sharma,user1671@email.com,North,B2C,Referral,2023-03-24,57,Female
+CUST01672,Isabella,Shah,user1672@email.com,South,B2C,Organic Search,2023-04-20,28,Male
+CUST01673,Noah,Jones,user1673@email.com,South,Enterprise,Referral,2023-05-31,48,Female
+CUST01674,Aarav,Gupta,user1674@email.com,East,B2B,Paid Search,2023-06-03,61,Male
+CUST01675,Kavya,Garcia,user1675@email.com,Central,B2C,Affiliate,2024-07-11,33,Female
+CUST01676,Priya,Sharma,user1676@email.com,Central,B2C,Social Media,2022-06-19,32,Other
+CUST01677,Ananya,Mehta,user1677@email.com,North,B2C,Affiliate,2024-02-21,65,Female
+CUST01678,Anjali,Johnson,user1678@email.com,Central,B2C,Email,2023-12-05,34,Female
+CUST01679,Aarav,Johnson,user1679@email.com,East,B2B,Direct,2023-12-14,60,Other
+CUST01680,Sneha,Verma,user1680@email.com,Central,B2B,Organic Search,2024-01-23,27,Female
+CUST01681,Emma,Mehta,user1681@email.com,East,B2C,Paid Search,2022-12-09,54,Other
+CUST01682,Kavya,Joshi,user1682@email.com,North,B2C,Email,2023-11-01,58,Male
+CUST01683,Noah,Davis,user1683@email.com,West,Enterprise,Direct,2023-03-02,29,Female
+CUST01684,Kavya,Smith,user1684@email.com,West,B2C,Social Media,2024-11-20,37,Male
+CUST01685,Kiran,Miller,user1685@email.com,East,B2B,Organic Search,2022-03-05,45,Female
+CUST01686,Ava,Johnson,user1686@email.com,East,B2C,Organic Search,2024-05-30,49,Other
+CUST01687,Nikhil,Mehta,user1687@email.com,Central,Enterprise,Direct,2022-08-17,53,Other
+CUST01688,Divya,Garcia,user1688@email.com,East,B2C,Social Media,2022-09-10,18,Female
+CUST01689,Arjun,Reddy,user1689@email.com,Central,B2C,Email,2022-03-05,37,Male
+CUST01690,Kavya,Sharma,user1690@email.com,North,B2C,Social Media,2023-10-31,36,Other
+CUST01691,William,Davis,user1691@email.com,South,Enterprise,Referral,2024-10-30,35,Male
+CUST01692,Meera,Wilson,user1692@email.com,North,B2C,Organic Search,2022-11-02,48,Female
+CUST01693,Ava,Williams,user1693@email.com,West,B2C,Organic Search,2023-01-22,34,Female
+CUST01694,Divya,Gupta,user1694@email.com,Central,B2C,Social Media,2024-07-16,55,Male
+CUST01695,William,Joshi,user1695@email.com,East,B2C,Direct,2024-11-27,30,Female
+CUST01696,Rahul,Reddy,user1696@email.com,Central,Enterprise,Email,2023-04-19,52,Male
+CUST01697,Ava,Brown,user1697@email.com,North,B2C,Email,2023-08-08,62,Female
+CUST01698,Mia,Johnson,user1698@email.com,West,B2C,Email,2024-02-22,44,Female
+CUST01699,Aarav,Davis,user1699@email.com,North,Enterprise,Email,2023-12-18,23,Male
+CUST01700,Mia,Reddy,user1700@email.com,South,B2C,Social Media,2024-08-13,26,Other
+CUST01701,Noah,Wilson,user1701@email.com,East,B2C,Affiliate,2024-04-23,43,Male
+CUST01702,Emma,Sharma,user1702@email.com,West,B2B,Affiliate,2023-09-18,51,Female
+CUST01703,Rahul,Patel,user1703@email.com,East,B2B,Referral,2022-03-26,24,Female
+CUST01704,Sneha,Reddy,user1704@email.com,Central,B2C,Social Media,2024-07-12,21,Male
+CUST01705,Emma,Miller,user1705@email.com,North,B2B,Direct,2024-06-27,27,Other
+CUST01706,Vikram,Shah,user1706@email.com,South,B2C,Social Media,2024-02-09,64,Male
+CUST01707,Deepa,Joshi,user1707@email.com,North,B2C,Paid Search,2024-01-24,56,Male
+CUST01708,Sneha,Shah,user1708@email.com,South,B2C,Organic Search,2024-03-18,50,Female
+CUST01709,Priya,Kumar,user1709@email.com,East,B2C,Paid Search,2023-08-30,33,Other
+CUST01710,Liam,Taylor,user1710@email.com,West,B2B,Direct,2023-02-09,25,Female
+CUST01711,James,Sharma,user1711@email.com,South,B2C,Referral,2022-08-16,60,Male
+CUST01712,Sanjay,Davis,user1712@email.com,South,B2C,Social Media,2022-09-23,36,Other
+CUST01713,Kiran,Garcia,user1713@email.com,East,B2C,Email,2022-06-05,42,Other
+CUST01714,Nikhil,Brown,user1714@email.com,West,B2C,Social Media,2022-06-16,47,Male
+CUST01715,Suresh,Sharma,user1715@email.com,Central,B2C,Referral,2024-05-26,59,Other
+CUST01716,Nikhil,Patel,user1716@email.com,East,Enterprise,Email,2024-08-20,64,Female
+CUST01717,Aarav,Gupta,user1717@email.com,East,B2C,Affiliate,2023-03-07,50,Male
+CUST01718,Noah,Miller,user1718@email.com,West,B2C,Paid Search,2023-06-26,59,Male
+CUST01719,James,Wilson,user1719@email.com,East,B2C,Affiliate,2023-07-01,26,Female
+CUST01720,Divya,Williams,user1720@email.com,North,Enterprise,Referral,2024-10-19,48,Female
+CUST01721,Deepa,Gupta,user1721@email.com,Central,B2B,Direct,2024-01-03,60,Other
+CUST01722,Vikram,Smith,user1722@email.com,Central,Enterprise,Social Media,2023-02-07,55,Other
+CUST01723,Rahul,Patel,user1723@email.com,North,B2B,Paid Search,2023-09-20,32,Male
+CUST01724,Sneha,Garcia,user1724@email.com,West,B2C,Paid Search,2024-10-30,64,Male
+CUST01725,Noah,Gupta,user1725@email.com,West,B2B,Email,2022-06-13,22,Male
+CUST01726,Rohit,Kumar,user1726@email.com,North,B2B,Organic Search,2024-08-08,46,Female
+CUST01727,James,Sharma,user1727@email.com,South,B2C,Referral,2024-07-31,46,Female
+CUST01728,James,Wilson,user1728@email.com,Central,B2C,Social Media,2022-07-26,49,Female
+CUST01729,Divya,Shah,user1729@email.com,South,B2B,Email,2024-11-20,51,Male
+CUST01730,Kiran,Sharma,user1730@email.com,North,B2C,Affiliate,2022-05-14,26,Male
+CUST01731,William,Brown,user1731@email.com,Central,B2C,Organic Search,2023-07-13,39,Male
+CUST01732,Sophia,Miller,user1732@email.com,West,B2C,Paid Search,2024-11-26,54,Female
+CUST01733,Kavya,Johnson,user1733@email.com,Central,B2B,Affiliate,2024-02-18,26,Male
+CUST01734,Meera,Williams,user1734@email.com,North,B2C,Paid Search,2023-11-13,51,Female
+CUST01735,Sneha,Garcia,user1735@email.com,South,B2C,Direct,2022-06-06,39,Male
+CUST01736,Liam,Reddy,user1736@email.com,East,B2C,Social Media,2022-12-15,22,Male
+CUST01737,Rahul,Davis,user1737@email.com,Central,B2C,Direct,2023-03-24,57,Other
+CUST01738,Suresh,Taylor,user1738@email.com,North,B2C,Organic Search,2023-05-01,55,Female
+CUST01739,James,Sharma,user1739@email.com,North,B2C,Social Media,2023-02-13,30,Female
+CUST01740,Vikram,Joshi,user1740@email.com,Central,B2B,Social Media,2022-04-03,60,Male
+CUST01741,Anjali,Singh,user1741@email.com,Central,Enterprise,Referral,2023-01-02,20,Female
+CUST01742,Meera,Taylor,user1742@email.com,Central,Enterprise,Direct,2022-04-20,48,Male
+CUST01743,Sophia,Patel,user1743@email.com,North,B2C,Direct,2023-02-25,32,Other
+CUST01744,Meera,Garcia,user1744@email.com,East,B2B,Paid Search,2023-06-29,19,Male
+CUST01745,William,Joshi,user1745@email.com,Central,B2C,Email,2022-02-10,61,Other
+CUST01746,Shreya,Garcia,user1746@email.com,North,B2C,Email,2022-01-29,62,Male
+CUST01747,Oliver,Brown,user1747@email.com,Central,B2C,Email,2023-10-30,25,Other
+CUST01748,Kavya,Joshi,user1748@email.com,East,B2C,Organic Search,2023-07-26,33,Male
+CUST01749,Kiran,Sharma,user1749@email.com,South,B2C,Affiliate,2022-05-23,52,Other
+CUST01750,Ava,Sharma,user1750@email.com,South,B2B,Organic Search,2022-03-13,21,Male
+CUST01751,Ananya,Reddy,user1751@email.com,North,B2C,Direct,2023-11-13,59,Male
+CUST01752,Vikram,Taylor,user1752@email.com,West,B2C,Organic Search,2023-03-31,60,Male
+CUST01753,Rohit,Davis,user1753@email.com,South,B2C,Referral,2022-04-29,40,Male
+CUST01754,Oliver,Reddy,user1754@email.com,East,B2B,Social Media,2023-11-21,59,Male
+CUST01755,Noah,Verma,user1755@email.com,East,B2C,Direct,2024-03-29,24,Male
+CUST01756,Noah,Brown,user1756@email.com,Central,B2C,Organic Search,2023-06-23,31,Male
+CUST01757,Pooja,Reddy,user1757@email.com,Central,B2C,Social Media,2024-03-20,64,Male
+CUST01758,Pooja,Jones,user1758@email.com,West,Enterprise,Organic Search,2022-02-25,49,Male
+CUST01759,Rohit,Wilson,user1759@email.com,West,B2C,Organic Search,2023-02-24,21,Female
+CUST01760,Suresh,Garcia,user1760@email.com,North,B2B,Email,2024-08-05,46,Male
+CUST01761,Arjun,Williams,user1761@email.com,South,B2C,Direct,2022-12-15,21,Other
+CUST01762,Priya,Davis,user1762@email.com,East,Enterprise,Direct,2023-04-20,39,Female
+CUST01763,Arjun,Sharma,user1763@email.com,East,B2B,Direct,2024-07-07,45,Female
+CUST01764,Ava,Kumar,user1764@email.com,Central,B2C,Referral,2022-03-30,61,Female
+CUST01765,Nikhil,Brown,user1765@email.com,Central,B2B,Affiliate,2024-04-10,51,Female
+CUST01766,Suresh,Jones,user1766@email.com,South,B2C,Organic Search,2022-09-10,35,Other
+CUST01767,Rahul,Shah,user1767@email.com,Central,B2C,Direct,2023-03-03,43,Male
+CUST01768,Rohit,Johnson,user1768@email.com,East,B2C,Affiliate,2024-08-14,59,Other
+CUST01769,Sneha,Reddy,user1769@email.com,Central,B2C,Affiliate,2022-01-20,34,Male
+CUST01770,Nikhil,Sharma,user1770@email.com,West,B2C,Organic Search,2023-11-21,40,Female
+CUST01771,Isabella,Davis,user1771@email.com,South,B2C,Direct,2024-09-17,23,Female
+CUST01772,Shreya,Smith,user1772@email.com,North,B2C,Social Media,2024-08-06,35,Female
+CUST01773,Vikram,Shah,user1773@email.com,South,B2C,Direct,2024-02-08,59,Male
+CUST01774,Sneha,Patel,user1774@email.com,South,B2C,Affiliate,2022-12-28,46,Other
+CUST01775,Priya,Davis,user1775@email.com,South,B2C,Referral,2023-05-08,34,Female
+CUST01776,Emma,Johnson,user1776@email.com,Central,B2B,Direct,2022-01-26,33,Female
+CUST01777,Rahul,Miller,user1777@email.com,West,B2C,Organic Search,2022-06-19,33,Male
+CUST01778,Kiran,Johnson,user1778@email.com,West,B2C,Email,2023-05-22,36,Male
+CUST01779,Amit,Taylor,user1779@email.com,East,B2C,Email,2022-02-08,59,Female
+CUST01780,Divya,Taylor,user1780@email.com,North,B2C,Organic Search,2024-01-02,36,Male
+CUST01781,Aarav,Kumar,user1781@email.com,Central,B2C,Social Media,2024-07-07,50,Other
+CUST01782,Ava,Wilson,user1782@email.com,East,Enterprise,Email,2024-02-29,55,Male
+CUST01783,Sophia,Mehta,user1783@email.com,West,B2B,Referral,2024-10-17,23,Male
+CUST01784,Kiran,Miller,user1784@email.com,Central,B2C,Referral,2022-12-15,44,Other
+CUST01785,Isabella,Miller,user1785@email.com,North,B2C,Referral,2022-07-08,51,Other
+CUST01786,Amit,Verma,user1786@email.com,South,B2B,Social Media,2023-11-17,33,Female
+CUST01787,Ava,Johnson,user1787@email.com,South,B2C,Referral,2023-01-13,25,Other
+CUST01788,Nikhil,Brown,user1788@email.com,East,B2C,Direct,2023-01-10,50,Male
+CUST01789,James,Garcia,user1789@email.com,Central,B2C,Affiliate,2023-07-17,44,Male
+CUST01790,Liam,Mehta,user1790@email.com,Central,B2C,Email,2024-06-03,61,Other
+CUST01791,Vikram,Taylor,user1791@email.com,East,B2B,Social Media,2024-10-31,38,Male
+CUST01792,Meera,Brown,user1792@email.com,Central,Enterprise,Direct,2022-05-07,49,Other
+CUST01793,Noah,Gupta,user1793@email.com,West,B2C,Organic Search,2022-11-04,44,Female
+CUST01794,Oliver,Garcia,user1794@email.com,North,B2C,Organic Search,2024-05-11,45,Male
+CUST01795,Rahul,Mehta,user1795@email.com,Central,B2B,Email,2022-09-17,45,Female
+CUST01796,Suresh,Davis,user1796@email.com,South,B2B,Organic Search,2022-07-17,39,Female
+CUST01797,Deepa,Taylor,user1797@email.com,North,Enterprise,Organic Search,2024-07-07,22,Other
+CUST01798,Nikhil,Brown,user1798@email.com,West,B2B,Email,2023-07-06,36,Female
+CUST01799,Sophia,Gupta,user1799@email.com,Central,Enterprise,Direct,2022-07-29,23,Male
+CUST01800,Kiran,Wilson,user1800@email.com,East,B2C,Email,2022-01-13,42,Female
+CUST01801,Ananya,Miller,user1801@email.com,Central,B2C,Affiliate,2023-11-13,24,Male
+CUST01802,Anjali,Smith,user1802@email.com,North,B2C,Direct,2023-04-07,55,Other
+CUST01803,Divya,Smith,user1803@email.com,West,B2C,Paid Search,2023-10-25,27,Male
+CUST01804,Meera,Miller,user1804@email.com,East,B2C,Direct,2022-11-24,38,Male
+CUST01805,Divya,Gupta,user1805@email.com,North,B2C,Email,2023-06-24,46,Male
+CUST01806,Divya,Verma,user1806@email.com,Central,B2B,Paid Search,2022-09-21,60,Female
+CUST01807,Sneha,Joshi,user1807@email.com,Central,B2B,Affiliate,2022-08-08,28,Male
+CUST01808,Noah,Patel,user1808@email.com,Central,B2C,Paid Search,2024-07-18,18,Female
+CUST01809,Kavya,Joshi,user1809@email.com,East,Enterprise,Direct,2022-02-10,45,Other
+CUST01810,Sanjay,Mehta,user1810@email.com,West,B2C,Organic Search,2023-11-23,63,Other
+CUST01811,Nikhil,Brown,user1811@email.com,West,B2C,Affiliate,2022-07-06,26,Female
+CUST01812,Sneha,Johnson,user1812@email.com,North,B2B,Paid Search,2024-11-04,64,Male
+CUST01813,Ananya,Miller,user1813@email.com,East,B2C,Referral,2023-05-24,65,Other
+CUST01814,William,Singh,user1814@email.com,East,B2B,Organic Search,2024-11-10,45,Male
+CUST01815,Amit,Joshi,user1815@email.com,Central,B2C,Referral,2024-03-20,20,Other
+CUST01816,Aarav,Shah,user1816@email.com,South,B2C,Affiliate,2024-09-01,32,Other
+CUST01817,Rohit,Garcia,user1817@email.com,South,B2C,Paid Search,2022-10-31,64,Female
+CUST01818,Vikram,Joshi,user1818@email.com,North,Enterprise,Affiliate,2023-03-16,64,Other
+CUST01819,Aarav,Brown,user1819@email.com,North,B2C,Direct,2022-11-29,31,Other
+CUST01820,Priya,Brown,user1820@email.com,East,B2C,Referral,2022-10-04,55,Male
+CUST01821,Kavya,Garcia,user1821@email.com,Central,B2C,Paid Search,2024-09-17,37,Male
+CUST01822,Emma,Garcia,user1822@email.com,West,B2B,Email,2023-03-30,56,Female
+CUST01823,Anjali,Reddy,user1823@email.com,North,B2C,Affiliate,2024-04-24,36,Female
+CUST01824,Amit,Shah,user1824@email.com,West,B2C,Email,2023-11-26,38,Other
+CUST01825,Kavya,Williams,user1825@email.com,South,B2B,Email,2022-06-26,49,Other
+CUST01826,Emma,Shah,user1826@email.com,North,B2C,Direct,2023-10-03,31,Female
+CUST01827,Shreya,Smith,user1827@email.com,East,B2C,Email,2022-04-05,43,Female
+CUST01828,Suresh,Verma,user1828@email.com,North,B2C,Referral,2023-10-23,32,Female
+CUST01829,Liam,Patel,user1829@email.com,East,B2C,Paid Search,2024-09-15,54,Male
+CUST01830,Arjun,Kumar,user1830@email.com,Central,B2C,Paid Search,2024-04-12,56,Other
+CUST01831,Sophia,Sharma,user1831@email.com,West,B2C,Referral,2022-01-31,39,Female
+CUST01832,Rahul,Patel,user1832@email.com,Central,B2C,Direct,2024-05-08,30,Male
+CUST01833,Suresh,Shah,user1833@email.com,East,B2B,Social Media,2024-04-12,39,Female
+CUST01834,Shreya,Shah,user1834@email.com,North,B2C,Organic Search,2022-12-01,51,Male
+CUST01835,Suresh,Garcia,user1835@email.com,North,B2C,Social Media,2024-02-19,19,Male
+CUST01836,William,Shah,user1836@email.com,North,B2C,Organic Search,2024-09-08,42,Other
+CUST01837,Vikram,Verma,user1837@email.com,North,B2C,Direct,2023-09-15,64,Other
+CUST01838,Aarav,Sharma,user1838@email.com,Central,B2C,Paid Search,2023-10-08,24,Other
+CUST01839,Ava,Williams,user1839@email.com,South,B2B,Affiliate,2024-07-02,37,Female
+CUST01840,Sanjay,Sharma,user1840@email.com,East,B2C,Paid Search,2023-10-23,24,Female
+CUST01841,Kiran,Garcia,user1841@email.com,West,B2C,Organic Search,2024-10-16,32,Female
+CUST01842,Rohit,Garcia,user1842@email.com,East,Enterprise,Direct,2024-05-21,50,Male
+CUST01843,Aarav,Garcia,user1843@email.com,West,Enterprise,Affiliate,2023-08-18,52,Other
+CUST01844,Nikhil,Shah,user1844@email.com,Central,Enterprise,Email,2022-06-18,32,Female
+CUST01845,Anjali,Wilson,user1845@email.com,North,B2C,Social Media,2023-07-29,27,Other
+CUST01846,Sneha,Davis,user1846@email.com,South,B2C,Email,2022-05-10,55,Male
+CUST01847,Vikram,Williams,user1847@email.com,Central,B2B,Direct,2022-05-11,64,Other
+CUST01848,Priya,Garcia,user1848@email.com,East,B2C,Referral,2022-12-28,39,Male
+CUST01849,Amit,Wilson,user1849@email.com,Central,B2C,Organic Search,2022-02-26,35,Other
+CUST01850,William,Davis,user1850@email.com,West,B2C,Social Media,2022-11-22,59,Male
+CUST01851,Nikhil,Garcia,user1851@email.com,Central,B2C,Referral,2023-05-15,64,Male
+CUST01852,Meera,Singh,user1852@email.com,West,B2C,Organic Search,2022-06-13,28,Other
+CUST01853,Ananya,Joshi,user1853@email.com,West,B2B,Organic Search,2022-07-08,20,Female
+CUST01854,Ananya,Miller,user1854@email.com,West,B2C,Affiliate,2024-02-09,53,Female
+CUST01855,Aarav,Reddy,user1855@email.com,North,B2C,Social Media,2023-09-13,64,Other
+CUST01856,Sanjay,Smith,user1856@email.com,Central,B2B,Direct,2023-02-26,59,Male
+CUST01857,Divya,Miller,user1857@email.com,South,B2B,Referral,2022-08-08,41,Other
+CUST01858,Rohit,Garcia,user1858@email.com,West,B2C,Social Media,2024-07-28,65,Other
+CUST01859,Ananya,Miller,user1859@email.com,West,B2C,Email,2022-07-30,29,Male
+CUST01860,Rahul,Sharma,user1860@email.com,East,B2B,Paid Search,2024-01-01,62,Male
+CUST01861,Nikhil,Smith,user1861@email.com,North,B2C,Email,2024-04-15,56,Male
+CUST01862,Kavya,Davis,user1862@email.com,South,B2C,Organic Search,2022-04-14,30,Female
+CUST01863,Liam,Brown,user1863@email.com,Central,B2B,Social Media,2023-03-18,57,Female
+CUST01864,Shreya,Davis,user1864@email.com,South,B2C,Paid Search,2023-01-31,24,Other
+CUST01865,Rohit,Gupta,user1865@email.com,East,B2C,Paid Search,2022-12-03,51,Other
+CUST01866,William,Williams,user1866@email.com,East,B2C,Affiliate,2024-09-28,55,Other
+CUST01867,Ava,Taylor,user1867@email.com,West,B2C,Organic Search,2023-03-07,32,Male
+CUST01868,Mia,Taylor,user1868@email.com,South,B2C,Email,2022-05-22,18,Female
+CUST01869,Noah,Patel,user1869@email.com,South,B2C,Email,2022-05-01,45,Other
+CUST01870,Amit,Reddy,user1870@email.com,Central,B2B,Paid Search,2024-01-03,53,Female
+CUST01871,William,Williams,user1871@email.com,West,B2C,Affiliate,2023-08-10,51,Female
+CUST01872,Rahul,Taylor,user1872@email.com,South,Enterprise,Referral,2024-04-04,35,Other
+CUST01873,Liam,Brown,user1873@email.com,Central,B2C,Referral,2022-08-10,34,Other
+CUST01874,Shreya,Brown,user1874@email.com,East,B2C,Affiliate,2022-07-06,41,Female
+CUST01875,Kavya,Brown,user1875@email.com,South,B2C,Paid Search,2024-11-06,42,Female
+CUST01876,Mia,Sharma,user1876@email.com,South,B2C,Direct,2022-10-06,30,Male
+CUST01877,Divya,Smith,user1877@email.com,North,Enterprise,Social Media,2024-06-29,50,Male
+CUST01878,Rohit,Patel,user1878@email.com,East,B2C,Email,2024-07-31,20,Other
+CUST01879,Rohit,Patel,user1879@email.com,Central,B2B,Affiliate,2023-01-29,63,Female
+CUST01880,James,Jones,user1880@email.com,West,B2C,Referral,2024-08-01,59,Other
+CUST01881,Priya,Johnson,user1881@email.com,North,B2C,Referral,2022-06-11,27,Other
+CUST01882,Isabella,Mehta,user1882@email.com,North,B2C,Affiliate,2022-10-02,25,Male
+CUST01883,James,Patel,user1883@email.com,East,B2C,Direct,2023-11-20,35,Male
+CUST01884,Deepa,Sharma,user1884@email.com,East,B2B,Affiliate,2024-10-14,38,Other
+CUST01885,Noah,Wilson,user1885@email.com,East,B2C,Referral,2022-09-20,43,Female
+CUST01886,Emma,Patel,user1886@email.com,North,B2C,Affiliate,2024-11-03,50,Male
+CUST01887,Rahul,Gupta,user1887@email.com,West,B2C,Direct,2023-02-19,30,Other
+CUST01888,Meera,Gupta,user1888@email.com,North,B2C,Direct,2024-02-25,40,Male
+CUST01889,Nikhil,Wilson,user1889@email.com,North,B2C,Email,2023-06-15,23,Male
+CUST01890,Ananya,Singh,user1890@email.com,South,B2C,Referral,2022-05-21,19,Male
+CUST01891,Arjun,Johnson,user1891@email.com,West,B2C,Referral,2022-01-17,33,Female
+CUST01892,James,Joshi,user1892@email.com,South,B2C,Email,2024-11-23,63,Female
+CUST01893,Rohit,Mehta,user1893@email.com,Central,B2C,Paid Search,2022-10-04,30,Female
+CUST01894,Ananya,Reddy,user1894@email.com,East,B2C,Social Media,2022-11-06,23,Female
+CUST01895,Kiran,Johnson,user1895@email.com,East,B2B,Direct,2023-07-06,46,Other
+CUST01896,Priya,Wilson,user1896@email.com,West,B2C,Direct,2022-09-22,31,Other
+CUST01897,Kavya,Reddy,user1897@email.com,South,B2C,Direct,2023-11-05,53,Other
+CUST01898,Rahul,Miller,user1898@email.com,South,B2C,Email,2023-02-22,34,Male
+CUST01899,Sanjay,Gupta,user1899@email.com,West,B2C,Direct,2022-06-29,38,Female
+CUST01900,Suresh,Wilson,user1900@email.com,North,B2C,Organic Search,2024-05-25,58,Female
+CUST01901,Ananya,Brown,user1901@email.com,West,B2C,Referral,2022-01-13,24,Male
+CUST01902,Divya,Gupta,user1902@email.com,West,B2C,Affiliate,2023-07-11,19,Female
+CUST01903,Nikhil,Wilson,user1903@email.com,Central,B2C,Referral,2024-08-15,43,Female
+CUST01904,Rohit,Johnson,user1904@email.com,Central,B2C,Referral,2023-01-14,43,Female
+CUST01905,Mia,Shah,user1905@email.com,Central,B2C,Email,2022-03-04,35,Other
+CUST01906,Kiran,Sharma,user1906@email.com,South,B2C,Social Media,2023-09-15,56,Other
+CUST01907,Arjun,Wilson,user1907@email.com,South,B2C,Social Media,2024-03-25,21,Male
+CUST01908,Ava,Mehta,user1908@email.com,East,B2C,Paid Search,2023-04-26,47,Male
+CUST01909,Vikram,Joshi,user1909@email.com,South,B2C,Organic Search,2024-10-20,29,Male
+CUST01910,Meera,Singh,user1910@email.com,South,B2C,Direct,2022-11-12,41,Male
+CUST01911,Ananya,Johnson,user1911@email.com,North,B2C,Referral,2024-01-12,43,Other
+CUST01912,Mia,Garcia,user1912@email.com,West,B2B,Referral,2022-11-27,33,Male
+CUST01913,Vikram,Smith,user1913@email.com,South,B2C,Social Media,2023-08-26,36,Other
+CUST01914,Deepa,Williams,user1914@email.com,Central,B2C,Email,2023-10-22,60,Other
+CUST01915,Aarav,Shah,user1915@email.com,Central,B2C,Paid Search,2024-06-29,41,Female
+CUST01916,Sanjay,Sharma,user1916@email.com,Central,B2C,Email,2023-06-12,22,Other
+CUST01917,Vikram,Garcia,user1917@email.com,South,B2C,Social Media,2022-12-24,45,Male
+CUST01918,Suresh,Gupta,user1918@email.com,West,B2C,Social Media,2023-06-12,42,Other
+CUST01919,Priya,Verma,user1919@email.com,West,B2C,Email,2024-01-17,61,Other
+CUST01920,Nikhil,Singh,user1920@email.com,East,B2C,Organic Search,2022-06-15,59,Female
+CUST01921,Ananya,Smith,user1921@email.com,South,B2C,Email,2022-01-19,61,Female
+CUST01922,Anjali,Williams,user1922@email.com,West,B2B,Social Media,2022-01-19,45,Female
+CUST01923,Sneha,Taylor,user1923@email.com,West,B2C,Affiliate,2024-09-12,48,Other
+CUST01924,Isabella,Davis,user1924@email.com,East,B2C,Paid Search,2023-06-05,45,Other
+CUST01925,Isabella,Singh,user1925@email.com,South,B2C,Referral,2023-08-19,55,Female
+CUST01926,Sanjay,Taylor,user1926@email.com,West,B2C,Email,2022-11-03,36,Male
+CUST01927,Isabella,Garcia,user1927@email.com,West,B2C,Direct,2022-07-08,61,Female
+CUST01928,Meera,Smith,user1928@email.com,East,B2B,Organic Search,2023-01-27,52,Female
+CUST01929,Divya,Johnson,user1929@email.com,West,B2C,Social Media,2022-10-05,37,Other
+CUST01930,Deepa,Kumar,user1930@email.com,East,B2B,Direct,2022-02-25,65,Female
+CUST01931,Ananya,Singh,user1931@email.com,Central,B2C,Referral,2023-01-22,27,Other
+CUST01932,Meera,Verma,user1932@email.com,East,Enterprise,Referral,2024-02-06,57,Male
+CUST01933,Kiran,Jones,user1933@email.com,North,B2C,Social Media,2024-03-24,20,Male
+CUST01934,Sophia,Kumar,user1934@email.com,West,B2C,Referral,2024-08-04,23,Female
+CUST01935,Sophia,Reddy,user1935@email.com,West,B2C,Paid Search,2024-09-16,65,Female
+CUST01936,Sophia,Singh,user1936@email.com,West,Enterprise,Affiliate,2024-10-11,30,Other
+CUST01937,Divya,Taylor,user1937@email.com,Central,B2C,Affiliate,2023-02-10,33,Other
+CUST01938,Kavya,Wilson,user1938@email.com,West,B2C,Email,2022-03-17,35,Other
+CUST01939,Rohit,Miller,user1939@email.com,North,B2C,Paid Search,2022-10-16,61,Female
+CUST01940,Aarav,Brown,user1940@email.com,South,B2C,Email,2023-02-28,60,Male
+CUST01941,Rohit,Jones,user1941@email.com,Central,B2B,Referral,2023-03-03,38,Male
+CUST01942,Pooja,Sharma,user1942@email.com,East,B2C,Direct,2022-12-10,36,Other
+CUST01943,Liam,Jones,user1943@email.com,Central,B2C,Direct,2024-08-04,39,Other
+CUST01944,Anjali,Davis,user1944@email.com,North,B2C,Social Media,2023-08-28,40,Female
+CUST01945,Nikhil,Garcia,user1945@email.com,South,B2C,Paid Search,2022-08-24,61,Female
+CUST01946,Suresh,Patel,user1946@email.com,Central,Enterprise,Referral,2023-02-02,49,Other
+CUST01947,Rahul,Joshi,user1947@email.com,Central,B2C,Social Media,2023-06-21,38,Female
+CUST01948,Nikhil,Sharma,user1948@email.com,South,B2C,Paid Search,2024-11-13,57,Female
+CUST01949,Meera,Brown,user1949@email.com,North,B2B,Social Media,2024-05-27,53,Other
+CUST01950,Pooja,Williams,user1950@email.com,Central,B2C,Direct,2024-02-02,25,Male
+CUST01951,Arjun,Joshi,user1951@email.com,North,B2C,Paid Search,2023-09-07,28,Other
+CUST01952,Shreya,Brown,user1952@email.com,East,B2B,Email,2023-09-16,56,Female
+CUST01953,William,Johnson,user1953@email.com,North,B2C,Referral,2023-05-12,58,Other
+CUST01954,Sanjay,Davis,user1954@email.com,Central,B2C,Affiliate,2023-05-09,43,Female
+CUST01955,Divya,Jones,user1955@email.com,South,Enterprise,Paid Search,2023-12-22,43,Female
+CUST01956,Shreya,Smith,user1956@email.com,West,B2C,Referral,2022-01-06,24,Female
+CUST01957,James,Brown,user1957@email.com,West,B2C,Referral,2024-06-20,19,Other
+CUST01958,Vikram,Taylor,user1958@email.com,Central,B2C,Organic Search,2022-12-15,56,Other
+CUST01959,Aarav,Smith,user1959@email.com,Central,B2C,Direct,2023-09-28,58,Female
+CUST01960,Rahul,Johnson,user1960@email.com,North,B2B,Affiliate,2024-11-29,59,Female
+CUST01961,Sanjay,Joshi,user1961@email.com,South,B2C,Referral,2024-05-07,33,Male
+CUST01962,Mia,Joshi,user1962@email.com,East,B2C,Organic Search,2024-01-04,19,Male
+CUST01963,Nikhil,Jones,user1963@email.com,South,B2C,Email,2024-06-16,33,Male
+CUST01964,Sanjay,Kumar,user1964@email.com,Central,B2B,Affiliate,2023-12-18,28,Male
+CUST01965,Sophia,Singh,user1965@email.com,North,B2B,Referral,2023-12-20,61,Female
+CUST01966,Anjali,Williams,user1966@email.com,North,B2B,Social Media,2024-03-18,63,Other
+CUST01967,Oliver,Taylor,user1967@email.com,Central,B2B,Email,2022-07-07,48,Other
+CUST01968,Divya,Williams,user1968@email.com,North,B2C,Referral,2022-04-03,50,Other
+CUST01969,Nikhil,Brown,user1969@email.com,North,B2C,Affiliate,2024-10-06,34,Other
+CUST01970,Sophia,Gupta,user1970@email.com,East,B2C,Social Media,2022-06-23,27,Male
+CUST01971,Arjun,Verma,user1971@email.com,North,B2C,Referral,2024-01-20,22,Female
+CUST01972,William,Shah,user1972@email.com,East,B2C,Referral,2024-02-03,46,Female
+CUST01973,Oliver,Verma,user1973@email.com,Central,B2C,Organic Search,2023-12-01,26,Male
+CUST01974,Divya,Sharma,user1974@email.com,South,B2B,Direct,2024-03-21,41,Other
+CUST01975,Divya,Gupta,user1975@email.com,Central,B2C,Email,2023-03-29,63,Female
+CUST01976,Divya,Mehta,user1976@email.com,South,B2C,Social Media,2024-11-11,42,Female
+CUST01977,Pooja,Sharma,user1977@email.com,South,B2C,Paid Search,2024-09-16,55,Male
+CUST01978,Kavya,Miller,user1978@email.com,Central,B2C,Direct,2023-02-07,28,Female
+CUST01979,Vikram,Wilson,user1979@email.com,Central,B2C,Social Media,2024-09-27,42,Female
+CUST01980,Ananya,Miller,user1980@email.com,West,B2C,Email,2024-10-04,18,Other
+CUST01981,Amit,Shah,user1981@email.com,East,B2C,Paid Search,2022-04-11,35,Other
+CUST01982,James,Joshi,user1982@email.com,East,B2C,Direct,2022-07-05,58,Male
+CUST01983,Noah,Shah,user1983@email.com,South,B2C,Organic Search,2024-03-25,43,Other
+CUST01984,Amit,Miller,user1984@email.com,North,B2C,Direct,2022-06-03,65,Other
+CUST01985,Ava,Patel,user1985@email.com,West,B2C,Paid Search,2022-05-04,33,Female
+CUST01986,Oliver,Shah,user1986@email.com,South,B2C,Email,2022-10-11,29,Male
+CUST01987,Rohit,Davis,user1987@email.com,East,B2C,Paid Search,2024-08-04,64,Male
+CUST01988,Sanjay,Reddy,user1988@email.com,North,B2C,Paid Search,2022-07-25,55,Other
+CUST01989,Nikhil,Kumar,user1989@email.com,Central,B2B,Organic Search,2024-01-12,38,Other
+CUST01990,Arjun,Garcia,user1990@email.com,North,B2C,Email,2022-04-24,30,Male
+CUST01991,Kiran,Joshi,user1991@email.com,Central,B2C,Direct,2024-04-22,18,Other
+CUST01992,Isabella,Kumar,user1992@email.com,West,B2B,Paid Search,2023-10-30,55,Other
+CUST01993,William,Jones,user1993@email.com,North,B2C,Email,2024-08-12,56,Female
+CUST01994,James,Gupta,user1994@email.com,East,B2C,Direct,2024-02-05,36,Other
+CUST01995,Rohit,Davis,user1995@email.com,South,B2C,Referral,2023-04-11,53,Other
+CUST01996,James,Jones,user1996@email.com,North,Enterprise,Paid Search,2023-04-25,49,Male
+CUST01997,Noah,Miller,user1997@email.com,West,B2C,Paid Search,2023-05-11,22,Female
+CUST01998,Divya,Kumar,user1998@email.com,West,B2C,Referral,2024-11-11,52,Male
+CUST01999,William,Kumar,user1999@email.com,South,B2C,Direct,2022-10-28,37,Female
+CUST02000,Anjali,Kumar,user2000@email.com,East,Enterprise,Paid Search,2024-04-03,54,Other
