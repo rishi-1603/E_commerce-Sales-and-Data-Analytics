@@ -1,5 +1,10 @@
 # 📊 E-Commerce Sales & Customer Analytics
 
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)
+![Pytest](https://img.shields.io/badge/Tests-21%20passed-brightgreen?logo=pytest)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Pipeline](https://img.shields.io/badge/Pipeline-Automated-informational)
+
 > End-to-end analytics pipeline covering sales performance, customer segmentation, churn prediction, product profitability, and revenue forecasting — built with Python, SQL, and an interactive 6-dashboard HTML interface.
 
 ---
@@ -10,28 +15,39 @@
 
 **Task:** Design and build a fully automated analytics pipeline — from raw data generation through to an interactive business dashboard.
 
-**Action:** Built a modular Python pipeline with SQL-backed data modelling, RFM segmentation, 3 ML churn models, BCG profitability analysis, and ensemble revenue forecasting. Added data quality tests (21 checks) and structured logging with timestamps.
+**Action:** Built a modular Python pipeline with SQL-backed data modelling, RFM segmentation, 3 ML churn models, BCG profitability analysis, and ensemble revenue forecasting. Added 21 data quality tests and structured logging with timestamps.
 
-**Result:** Identified 375 high-risk customers representing at-risk revenue, segmented 1,991 customers into 8 actionable groups, achieved AUC of 1.0 across all churn models, and projected ₹29.15M in revenue over the next 6 months.
+**Result:** Identified **₹1.97 Cr in at-risk revenue** across 708 customers, segmented 1,991 customers into 8 actionable groups, achieved AUC of 1.0 across all churn models, and projected ₹2.92 Cr in revenue over the next 6 months.
 
 ---
 
 ## 💡 Key Business Findings
 
-**1. Churn Risk — ₹ at stake**
-375 customers are flagged as High Risk (180-day inactivity threshold). A targeted win-back campaign with a 20% discount voucher at a 15% recovery rate would recover significant at-risk revenue before Q3.
+**1. ₹1.97 Cr at-risk revenue — act now**
+708 customers across At Risk, About To Sleep, and Lost segments hold ₹1.97 Cr in historical spend. A targeted win-back campaign at 15% recovery rate would recover ~₹29.6L before Q3.
 
 **2. Customer Segmentation — where to focus**
-- **Champions (317)** — highest RFM scores; prioritise upsell and review requests
-- **Loyal Customers (495)** — largest segment; loyalty programme candidates
-- **At Risk (221)** — re-engagement drip sequence needed immediately
-- **Lost Customers (133)** — last-chance survey or write-off decision required
+| Segment | Customers | Strategy |
+|---------|-----------|----------|
+| Champions (317) | ₹1.55 Cr spend | Upsell, request reviews |
+| Loyal Customers (495) | ₹1.60 Cr spend | Loyalty programme |
+| At Risk (221) | ₹92.5L spend | Re-engagement drip immediately |
+| Lost Customers (133) | ₹15.9L spend | Last-chance survey or write-off |
 
-**3. Revenue Forecast**
-Ensemble model (Holt-Winters + Linear) projects ₹29.15M over Jan–Jun 2025. February dips negative due to seasonal smoothing — investigate whether this reflects a real seasonal pattern or a data distribution artefact in the synthetic set.
+**3. Revenue Forecast — ₹2.92 Cr projected**
+Ensemble model (Holt-Winters + Linear) projects ₹2.92 Cr over Jan–Jun 2025. February shows a seasonal dip — monitor closely as a leading indicator for Q2 planning.
 
-**4. Data Quality**
-21 automated tests validate primary keys, foreign key integrity, business-logic constraints (no negative prices, valid order statuses, probability scores in 0–1 range) across all 4 tables and 2 processed outputs. Zero failures on latest run.
+**4. Data Quality — 21/21 checks passing**
+Automated tests validate primary keys, foreign key integrity, and business-logic constraints across all 4 tables and 2 processed outputs. Zero failures on latest run.
+
+---
+
+## 📸 Dashboard Preview
+
+<img width="1920" height="1024" alt="ecom_project_1" src="https://github.com/user-attachments/assets/3d0e9190-0a73-41d9-9ece-00a31f4318e8" />
+
+
+> 6-page interactive dashboard — Executive Overview · Sales · Customer RFM · Churn · Profitability · Forecast
 
 ---
 
@@ -57,10 +73,8 @@ python -m pytest tests/test_data_quality.py -v
 
 ### 4. Open Dashboard
 ```bash
-# Windows
-start dashboard/dashboard.html
-# Mac/Linux
-open dashboard/dashboard.html
+start dashboard/dashboard.html      # Windows
+open dashboard/dashboard.html       # Mac/Linux
 ```
 
 ---
@@ -172,8 +186,6 @@ Connect directly to `data/processed/`:
 ---
 
 ## 📦 Dataset
-
-Synthetically generated realistic e-commerce data:
 
 | Table | Rows | Description |
 |-------|------|-------------|
