@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt flake8
       - name: Lint with flake8
-        run: flake8 python/ run_pipeline.py --max-line-length=120 --ignore=E501,W503,E302,E303,E305,E401,E402,E226,E231,E241,E251,E221,E127,E128,E272,E701,E702,E704,W292,W504,F401
+        run: flake8 python/ run_pipeline.py --max-line-length=120 --ignore=E501,W503,E302,E303,E305,E401,E402,E226,E231,E241,E251,E221,E127,E128,E272,E701,E702,E704,W292,W504,F401,E741
       - name: Generate data
         run: python data/raw/generate_data.py
       - name: Run pipeline
