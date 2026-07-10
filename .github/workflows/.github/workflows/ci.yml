@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt flake8
+
+      - name: Lint with flake8
+        run: flake8 python/ run_pipeline.py --max-line-length=120 --ignore=E501,W503
+
+      - name: Generate data
+        run: python data/raw/generate_data.py
+
+      - name: Run pipeline
+        run: python run_pipeline.py
+
+      - name: Run data quality tests
+        run: python -m pytest tests/test_data_quality.py -v
