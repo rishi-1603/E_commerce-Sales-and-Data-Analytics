@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/dashboard/dashboard.html", "destination": "/dashboard.html" },
+    { "source": "/dashboard", "destination": "/index.html" }
+  ]
+}
