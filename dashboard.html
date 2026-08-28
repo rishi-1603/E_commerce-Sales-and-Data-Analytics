@@ -209,7 +209,7 @@ tr:last-child td{border-bottom:0}
     <div class="nav-item" onclick="nav('churn',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 00-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 01-1.1 0L7.1 5.995A.905.905 0 018 5zm.002 6a1 1 0 110 2 1 1 0 010-2z"/></svg>
       Churn Analysis
-      <span class="nav-count">375</span>
+      <span class="nav-count">448</span>
     </div>
     <div class="nav-item" onclick="nav('products',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z"/></svg>
@@ -223,8 +223,12 @@ tr:last-child td{border-bottom:0}
 
   <div class="nav-group" style="margin-top:16px">
     <div class="nav-label">Skills Used</div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python (Pandas, sklearn)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🗄️ SQL (PostgreSQL)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python (Pandas, NumPy, scikit-learn)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🗄️ SQL (PostgreSQL · CTEs, window fns, cohorts)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📐 Statistics (SciPy · t-test, ANOVA, χ²)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🤖 ML (churn, CLV, forecasting)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🧪 Data Quality (pytest · 31 checks in CI)</span></div>
+    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">✨ Grounded AI (LLM + verified fact sheet)</span></div>
     <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📊 Data Viz (Chart.js)</span></div>
   </div>
 
@@ -259,50 +263,50 @@ tr:last-child td{border-bottom:0}
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#1f6feb,#388bfd)"></div>
           <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value" style="color:var(--blue)">₹55.9M</div>
+          <div class="kpi-value" style="color:var(--blue)">₹59.3M</div>
           <div class="kpi-delta neu">3-year cumulative</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#2ea043,#3fb950)"></div>
           <div class="kpi-label">Gross Profit</div>
-          <div class="kpi-value" style="color:var(--green)">₹30.9M</div>
-          <div class="kpi-delta up">▲ 55.4% margin</div>
+          <div class="kpi-value" style="color:var(--green)">₹32.0M</div>
+          <div class="kpi-delta up">▲ 54.0% margin</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#b45309,#d29922)"></div>
           <div class="kpi-label">Completed Orders</div>
-          <div class="kpi-value" style="color:var(--amber)">9,932</div>
-          <div class="kpi-delta neu">77.7% delivery rate</div>
+          <div class="kpi-value" style="color:var(--amber)">9,933</div>
+          <div class="kpi-delta neu">77.6% delivery rate</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#6f42c1,#bc8cff)"></div>
           <div class="kpi-label">Active Customers</div>
-          <div class="kpi-value" style="color:var(--purple)">1,987</div>
+          <div class="kpi-value" style="color:var(--purple)">1,991</div>
           <div class="kpi-delta up">▲ With purchase history</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#0e7490,#79c0ff)"></div>
           <div class="kpi-label">Avg Order Value</div>
-          <div class="kpi-value" style="color:var(--cyan)">₹5,625</div>
+          <div class="kpi-value" style="color:var(--cyan)">₹5,967</div>
           <div class="kpi-delta neu">Per completed order</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#c7254e,#f85149)"></div>
-          <div class="kpi-label">High Churn Risk</div>
-          <div class="kpi-value" style="color:var(--red)">375</div>
-          <div class="kpi-delta dn">▼ 18.9% churn rate</div>
+          <div class="kpi-label">Cooling-off Customers</div>
+          <div class="kpi-value" style="color:var(--red)">448</div>
+          <div class="kpi-delta dn">▼ 25.3% churn rate (180d)</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#e36209,#ffa657)"></div>
           <div class="kpi-label">Champions (RFM)</div>
-          <div class="kpi-value" style="color:var(--orange)">305</div>
+          <div class="kpi-value" style="color:var(--orange)">317</div>
           <div class="kpi-delta up">▲ Top-value segment</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#9d174d,#f778ba)"></div>
           <div class="kpi-label">Return Rate</div>
-          <div class="kpi-value" style="color:var(--pink)">10.1%</div>
-          <div class="kpi-delta neu">1,207 returned orders</div>
+          <div class="kpi-value" style="color:var(--pink)">10.2%</div>
+          <div class="kpi-delta neu">1,223 returned orders</div>
         </div>
       </div>
 
@@ -346,7 +350,7 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ SALES ═══════ -->
     <div class="page" id="page-sales">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Gross Revenue</div><div class="kpi-value" style="color:var(--blue)">₹55.9M</div><div class="kpi-delta neu">All 3 years</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Gross Revenue</div><div class="kpi-value" style="color:var(--blue)">₹59.3M</div><div class="kpi-delta neu">All 3 years</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Best Category</div><div class="kpi-value" style="color:var(--green)">Electronics</div><div class="kpi-delta up">▲ 59.3% margin</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Delivered Orders</div><div class="kpi-value" style="color:var(--amber)">9,325</div><div class="kpi-delta up">▲ 77.7% rate</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Cancellations</div><div class="kpi-value" style="color:var(--red)">861</div><div class="kpi-delta dn">▼ 7.2% cancel rate</div></div>
@@ -388,10 +392,10 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ CUSTOMERS ═══════ -->
     <div class="page" id="page-customers">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Champions</div><div class="kpi-value" style="color:var(--green)">305</div><div class="kpi-delta up">▲ High R·F·M score</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Loyal Customers</div><div class="kpi-value" style="color:var(--blue)">508</div><div class="kpi-delta neu">Largest segment</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">At Risk</div><div class="kpi-value" style="color:var(--red)">226</div><div class="kpi-delta dn">▼ Needs re-engagement</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">About to Sleep</div><div class="kpi-value" style="color:var(--amber)">321</div><div class="kpi-delta dn">▼ Cooling down</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Champions</div><div class="kpi-value" style="color:var(--green)">317</div><div class="kpi-delta up">▲ High R·F·M score</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Loyal Customers</div><div class="kpi-value" style="color:var(--blue)">495</div><div class="kpi-delta neu">Largest segment</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">At Risk</div><div class="kpi-value" style="color:var(--red)">221</div><div class="kpi-delta dn">▼ Needs re-engagement</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">About to Sleep</div><div class="kpi-value" style="color:var(--amber)">354</div><div class="kpi-delta dn">▼ Cooling down</div></div>
       </div>
 
       <div class="card-row c2">
@@ -428,15 +432,15 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ CHURN ═══════ -->
     <div class="page" id="page-churn">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Low Risk</div><div class="kpi-value" style="color:var(--green)">447</div><div class="kpi-delta up">▲ Active buyers</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">High Risk / Churned</div><div class="kpi-value" style="color:var(--red)">375</div><div class="kpi-delta dn">▼ 180+ days silent</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Model AUC</div><div class="kpi-value" style="color:var(--blue)">1.000</div><div class="kpi-delta up">▲ Random Forest</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Churn Rate</div><div class="kpi-value" style="color:var(--purple)">18.9%</div><div class="kpi-delta dn">▼ Industry avg ~20%</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Low Risk</div><div class="kpi-value" style="color:var(--green)">1,138</div><div class="kpi-delta up">▲ Active buyers</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Cooling-off (Med Risk)</div><div class="kpi-value" style="color:var(--red)">448</div><div class="kpi-delta dn">▼ ₹1.24 Cr historical spend</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Model AUC (5-fold CV)</div><div class="kpi-value" style="color:var(--blue)">0.649</div><div class="kpi-delta up">▲ Leakage-free model</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Churn Rate</div><div class="kpi-value" style="color:var(--purple)">25.3%</div><div class="kpi-delta dn">▼ No purchase in +180 days</div></div>
       </div>
 
       <div class="card-row c2">
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Churn Risk Bands</div><div class="card-sub">Random Forest classifier output</div></div></div>
+          <div class="card-header"><div><div class="card-title">Churn Risk Bands</div><div class="card-sub">Logistic Regression (best by CV AUC) · forward-time split</div></div></div>
           <div class="chart-wrap" style="height:240px">
             <canvas id="ch_churnpie" role="img" aria-label="Churn risk distribution pie chart">Churn risk by band.</canvas>
           </div>
@@ -453,19 +457,19 @@ tr:last-child td{border-bottom:0}
         <div class="card-header"><div><div class="card-title">Churn Intervention Plan</div><div class="card-sub">Action by risk tier · Python model output</div></div></div>
         <div class="action-row">
           <div class="action-icon" style="background:rgba(248,81,73,0.15)">🚨</div>
-          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-red" style="margin-right:8px">High Risk — 375 customers</span></div><div style="font-size:12px;color:var(--muted)">Win-back campaign: personalised email with 20% discount voucher. Trigger within 7 days. Expected recovery rate: 15–25%.</div></div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-red" style="margin-right:8px">Cooling-off — 448 customers</span></div><div style="font-size:12px;color:var(--muted)">Tiered win-back campaign with a 20% randomized holdout control group. Recovery rate is <b>measured, not assumed</b> — target: 90-day incremental reactivation revenue (treated − control).</div></div>
         </div>
         <div class="action-row">
           <div class="action-icon" style="background:rgba(210,153,34,0.15)">⚡</div>
-          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-amber" style="margin-right:8px">Medium Risk — 0 customers</span></div><div style="font-size:12px;color:var(--muted)">Re-engagement drip sequence. Loyalty points reminder. Product recommendations based on purchase history.</div></div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-amber" style="margin-right:8px">Medium-risk watchlist</span></div><div style="font-size:12px;color:var(--muted)">Re-engagement drip sequence. Loyalty points reminder. Product recommendations based on purchase history.</div></div>
         </div>
         <div class="action-row">
           <div class="action-icon" style="background:rgba(63,185,80,0.15)">✅</div>
-          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-green" style="margin-right:8px">Low Risk — 447 customers</span></div><div style="font-size:12px;color:var(--muted)">Cross-sell and upsell campaigns. Introduce loyalty tier. Request reviews and referrals.</div></div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-green" style="margin-right:8px">Low Risk — 1,138 customers</span></div><div style="font-size:12px;color:var(--muted)">Cross-sell and upsell campaigns. Introduce loyalty tier. Request reviews and referrals.</div></div>
         </div>
         <div class="action-row">
           <div class="action-icon" style="background:rgba(188,140,255,0.15)">🤖</div>
-          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-purple" style="margin-right:8px">Key Features (ML)</span></div><div style="font-size:12px;color:var(--muted)">Top predictors: recency_days, total_orders, order_frequency, avg_order_value, unique_categories purchased.</div></div>
+          <div><div style="font-weight:600;margin-bottom:4px"><span class="pill pill-purple" style="margin-right:8px">Model Integrity Note</span></div><div style="font-size:12px;color:var(--muted)">An earlier version reported AUC = 1.0 due to target leakage (recency_days was both feature and label basis). Rebuilt on a forward-time split: features from the past, label = no purchase in the next 180 days. Honest AUC ≈ 0.65.</div></div>
         </div>
       </div>
     </div>
@@ -476,7 +480,7 @@ tr:last-child td{border-bottom:0}
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Total SKUs</div><div class="kpi-value" style="color:var(--blue)">150</div><div class="kpi-delta neu">5 categories</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Stars (BCG)</div><div class="kpi-value" style="color:var(--green)">36</div><div class="kpi-delta up">▲ High vol + margin</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cash Cows</div><div class="kpi-value" style="color:var(--blue)">38</div><div class="kpi-delta neu">High vol, low margin</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Overall Margin</div><div class="kpi-value" style="color:var(--amber)">55.4%</div><div class="kpi-delta up">▲ Across all products</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Overall Margin</div><div class="kpi-value" style="color:var(--amber)">54.0%</div><div class="kpi-delta up">▲ Across all products</div></div>
       </div>
 
       <div class="card-row c2">
@@ -520,15 +524,15 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ FORECAST ═══════ -->
     <div class="page" id="page-forecast">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">6-Month Forecast</div><div class="kpi-value" style="color:var(--blue)">₹31.6M</div><div class="kpi-delta neu">Jan–Jun 2025</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Monthly Growth</div><div class="kpi-value" style="color:var(--green)">+1.5%</div><div class="kpi-delta up">▲ Projected MoM</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">6-Month Forecast</div><div class="kpi-value" style="color:var(--blue)">₹32.7M</div><div class="kpi-delta neu">Jan–Jun 2025</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Monthly Growth</div><div class="kpi-value" style="color:var(--green)">+3.5%</div><div class="kpi-delta up">▲ Projected MoM</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Model Used</div><div class="kpi-value" style="color:var(--amber)">Ensemble</div><div class="kpi-delta neu">Linear + Holt-Winters</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Dec 2024 Actual</div><div class="kpi-value" style="color:var(--purple)">₹5.57M</div><div class="kpi-delta up">▲ Best month</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Dec 2024 Actual</div><div class="kpi-value" style="color:var(--purple)">₹6.12M</div><div class="kpi-delta up">▲ Best month</div></div>
       </div>
 
       <div class="card" style="margin-bottom:12px">
         <div class="card-header">
-          <div><div class="card-title">Revenue Forecast — Jan to Jun 2025</div><div class="card-sub">Last 6 months historical + 6-month ensemble projection at 1.5% monthly growth</div></div>
+          <div><div class="card-title">Revenue Forecast — Jan to Jun 2025</div><div class="card-sub">Last 6 months historical + 6-month ensemble projection at 3.5% monthly growth (bootstrap 95% CI)</div></div>
           <div class="legend">
             <div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Historical</div>
             <div class="leg-item"><div class="leg-dot" style="background:#d29922;border:1px dashed #d29922"></div>Forecast</div>
@@ -561,34 +565,34 @@ const MUT = '#8b949e';
 
 const DATA = {
   monthly_labels:["Jan 22","Feb 22","Mar 22","Apr 22","May 22","Jun 22","Jul 22","Aug 22","Sep 22","Oct 22","Nov 22","Dec 22","Jan 23","Feb 23","Mar 23","Apr 23","May 23","Jun 23","Jul 23","Aug 23","Sep 23","Oct 23","Nov 23","Dec 23","Jan 24","Feb 24","Mar 24","Apr 24","May 24","Jun 24","Jul 24","Aug 24","Sep 24","Oct 24","Nov 24","Dec 24"],
-  monthly_revenue:[18026,48315,102528,152621,209436,268742,332108,397841,466382,534728,603147,643321,634882,611973,597254,589341,603847,621984,643218,668432,701847,733218,779341,803218,771983,754218,743218,741983,769341,793218,818982,854218,889341,924728,983218,1024341].map(v=>v*5.2),
-  cat_labels:["Electronics","Clothing","Home & Garden","Sports","Beauty"],
-  cat_revenue:[13241872,12839456,11748234,9872003,8166286],
-  cat_profit:[7852341,6482341,6298234,5587003,4750859],
-  cat_margin:[59.3,50.5,53.6,56.6,58.2],
-  reg_labels:["North","East","South","West","Central"],
-  reg_revenue:[13241872,12839456,11748234,11672831,6365458],
+  monthly_revenue:[11259,87427,118405,152869,186427,298321,391280,463867,480851,460478,650597,646659,735528,784285,978780,986220,997195,1234589,1127187,1158431,1604204,1506831,1519781,1800496,2082293,2072773,2110856,2352249,2763292,3038587,3077352,3394671,3853815,4811495,5226992,6117260],
+  cat_labels:["Sports","Electronics","Clothing","Home & Garden","Beauty"],
+  cat_revenue:[13898423,13631986,12657101,11606496,7489610],
+  cat_profit:[7859041,7289376,6942682,6360817,3545423],
+  cat_margin:[56.5,53.5,54.9,54.8,47.3],
+  reg_labels:["West","Central","South","North","East"],
+  reg_revenue:[12271074,12213786,12205785,11356701,11236271],
   seg_labels:["Loyal Customers","About To Sleep","Champions","Recent Customers","At Risk","Needs Attention","Lost Customers","Potential Loyalists"],
-  seg_values:[508,321,305,246,226,174,166,41],
-  risk_labels:["Low Risk","High Risk"],
-  risk_values:[447,375],
+  seg_values:[495,354,317,248,221,194,133,29],
+  risk_labels:["Low Risk","Medium Risk"],
+  risk_values:[1138,448],
   status_labels:["Delivered","Returned","Cancelled","Processing"],
-  status_vals:[9325,1207,861,607],
+  status_vals:[9312,1223,844,621],
   hist6_labels:["Jul 2024","Aug 2024","Sep 2024","Oct 2024","Nov 2024","Dec 2024"],
-  hist6_vals:[3124479,3363930,3590107,4308741,5133160,5565467],
+  hist6_vals:[3077352,3394671,3853815,4811495,5226992,6117260],
   forecast_labels:["Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025"],
-  forecast_vals:[5077493,5153655,5230960,5309424,5389066,5469902],
+  forecast_vals:[5132955,5053738,5181109,5409484,5785972,6094037],
   top10:[
-    {product_name:"Urban Bomber Jacket",category:"Clothing",revenue:1097768,profit:724864,units_sold:472,margin_pct:66.0},
-    {product_name:"AeroBook 14 Laptop",category:"Electronics",revenue:2181430,profit:711234,units_sold:312,margin_pct:32.6},
-    {product_name:"PixelShot Smartphone X",category:"Electronics",revenue:1876540,profit:698432,units_sold:891,margin_pct:37.2},
-    {product_name:"UltraView 27-inch Monitor",category:"Electronics",revenue:1543210,profit:672341,units_sold:234,margin_pct:43.6},
-    {product_name:"Velora 3-Seater Sofa",category:"Home & Garden",revenue:987654,profit:641234,units_sold:87,margin_pct:64.9},
-    {product_name:"Aroma Bloom Perfume",category:"Beauty",revenue:876543,profit:618432,units_sold:1243,margin_pct:70.6},
-    {product_name:"AirStrike Running Shoes",category:"Sports",revenue:1234567,profit:598765,units_sold:765,margin_pct:48.5},
-    {product_name:"TabPro 10.5",category:"Electronics",revenue:1432100,profit:573241,units_sold:423,margin_pct:40.0},
-    {product_name:"Wrap Midi Dress",category:"Clothing",revenue:765432,profit:561234,units_sold:932,margin_pct:73.3},
-    {product_name:"BrewMaster Coffee Maker",category:"Home & Garden",revenue:876543,profit:548765,units_sold:543,margin_pct:62.6},
+    {product_name:"Sneakers Basic",category:"Clothing",revenue:1070965,profit:734976,units_sold:441,margin_pct:68.6},
+    {product_name:"Water Bottle Basic",category:"Sports",revenue:1039401,profit:703897,units_sold:442,margin_pct:67.7},
+    {product_name:"Camera Basic",category:"Electronics",revenue:1012567,profit:684356,units_sold:422,margin_pct:67.6},
+    {product_name:"Cycling Helmet Pro",category:"Sports",revenue:921221,profit:610879,units_sold:485,margin_pct:66.3},
+    {product_name:"T-Shirt Basic",category:"Clothing",revenue:897519,profit:600357,units_sold:385,margin_pct:66.9},
+    {product_name:"Smartwatch Ultra",category:"Electronics",revenue:918247,profit:598231,units_sold:456,margin_pct:65.1},
+    {product_name:"Dress Elite",category:"Clothing",revenue:901402,profit:585582,units_sold:402,margin_pct:65.0},
+    {product_name:"Running Shoes Plus",category:"Sports",revenue:813188,profit:562039,units_sold:405,margin_pct:69.1},
+    {product_name:"Curtains Basic",category:"Home & Garden",revenue:804990,profit:552502,units_sold:447,margin_pct:68.6},
+    {product_name:"Bookshelf Pro",category:"Home & Garden",revenue:837661,profit:552449,units_sold:446,margin_pct:66.0},
   ],
   bcg:{Star:36,"Cash Cow":38,"Question Mark":39,Dog:37}
 };
@@ -802,15 +806,15 @@ function buildModels(){
     data:{
       labels:['Logistic\nRegression','Random\nForest','Gradient\nBoosting'],
       datasets:[
-        {label:'AUC',data:[1.0,1.0,1.0],backgroundColor:[C.blue,C.green,C.amber],borderRadius:6},
-        {label:'F1',data:[0.98,1.0,1.0],backgroundColor:[C.blue+'66',C.green+'66',C.amber+'66'],borderRadius:6}
+        {label:'AUC',data:[0.638,0.613,0.635],backgroundColor:[C.blue,C.green,C.amber],borderRadius:6},
+        {label:'F1',data:[0.36,0.31,0.33],backgroundColor:[C.blue+'66',C.green+'66',C.amber+'66'],borderRadius:6}
       ]
     },
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false}},
       scales:{
         x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
-        y:{min:0.96,max:1.005,ticks:{color:MUT,callback:v=>v.toFixed(3)},grid:GRD,border:{display:false}}
+        y:{min:0,max:0.8,ticks:{color:MUT,callback:v=>v.toFixed(2)},grid:GRD,border:{display:false}}
       }}
   });
 }

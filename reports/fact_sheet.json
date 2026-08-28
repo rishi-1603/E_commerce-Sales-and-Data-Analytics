@@ -1,0 +1,118 @@
+{
+  "generated_at": "2026-08-28 09:27 (local)",
+  "data_period": {
+    "start": "2022-01-31",
+    "end": "2024-12-30"
+  },
+  "sales": {
+    "total_revenue": "₹5.93 Cr",
+    "total_profit": "₹3.20 Cr",
+    "gross_margin_pct": 54.0,
+    "total_orders": 9933,
+    "unique_customers": 1991,
+    "top_category_by_revenue": "Sports",
+    "top_region_by_revenue": "West"
+  },
+  "segments": {
+    "total_customers_segmented": 1991,
+    "by_segment": [
+      {
+        "segment": "Loyal Customers",
+        "customers": 495,
+        "historical_spend": "₹1.60 Cr"
+      },
+      {
+        "segment": "Champions",
+        "customers": 317,
+        "historical_spend": "₹1.55 Cr"
+      },
+      {
+        "segment": "At Risk",
+        "customers": 221,
+        "historical_spend": "₹92.5 L"
+      },
+      {
+        "segment": "About To Sleep",
+        "customers": 354,
+        "historical_spend": "₹89.0 L"
+      },
+      {
+        "segment": "Recent Customers",
+        "customers": 248,
+        "historical_spend": "₹45.3 L"
+      },
+      {
+        "segment": "Needs Attention",
+        "customers": 194,
+        "historical_spend": "₹26.2 L"
+      },
+      {
+        "segment": "Lost Customers",
+        "customers": 133,
+        "historical_spend": "₹15.9 L"
+      },
+      {
+        "segment": "Potential Loyalists",
+        "customers": 29,
+        "historical_spend": "₹8.6 L"
+      }
+    ]
+  },
+  "churn": {
+    "definition": "no purchase in the 180 days after the model cutoff",
+    "model_note": "forward-time split; target-leakage-free",
+    "overall_churn_rate_pct": 25.3,
+    "risk_band_counts": {
+      "Low Risk": 1138,
+      "Medium Risk": 448
+    },
+    "cooling_off_customers": 448,
+    "historical_spend_of_cooling_off": "₹1.24 Cr",
+    "spend_disclaimer": "historical spend, NOT future revenue at risk"
+  },
+  "products": {
+    "total_products": 150,
+    "most_profitable": {
+      "name": "Sneakers Basic",
+      "profit": "₹7.3 L",
+      "margin_pct": 68.6
+    },
+    "lowest_margin": {
+      "name": "Rug Basic",
+      "margin_pct": 11.1
+    }
+  },
+  "forecast": {
+    "method": "ensemble of linear-trend + Holt-Winters",
+    "horizon_months": 6,
+    "total_projected": "₹3.27 Cr",
+    "softest_month": "Feb 2025",
+    "caveat": "assumes the recent trend/seasonality continues; evaluate against actuals over time",
+    "monthly": [
+      {
+        "month": "Jan 2025",
+        "forecast": "₹51.3 L"
+      },
+      {
+        "month": "Feb 2025",
+        "forecast": "₹50.5 L"
+      },
+      {
+        "month": "Mar 2025",
+        "forecast": "₹51.8 L"
+      },
+      {
+        "month": "Apr 2025",
+        "forecast": "₹54.1 L"
+      },
+      {
+        "month": "May 2025",
+        "forecast": "₹57.9 L"
+      },
+      {
+        "month": "Jun 2025",
+        "forecast": "₹60.9 L"
+      }
+    ]
+  }
+}

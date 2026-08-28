@@ -57,7 +57,9 @@ lr_test_pred   = lr.predict(test[["t"]])
 lr_future_pred = lr.predict(t_future.reshape(-1,1))
 
 # ── Model 2: Holt-Winters (triple exponential smoothing) ──
-def holt_winters(series, alpha=0.4, beta=0.1, gamma=0.2, season=12, horizon=6):
+# Primary: statsmodels ExponentialSmoothing (robust initialization/optimizer).
+# Fallback: hand-rolled implementation (kept for zero-dependency runs).
+def _hw_handrolled(series, alpha=0.4, beta=0.1, gamma=0.2, season=12, horizon=6):
     n  = len(series)
     S  = np.zeros(n + horizon)   # level
     T  = np.zeros(n + horizon)   # trend
@@ -82,14 +84,57 @@ def holt_winters(series, alpha=0.4, beta=0.1, gamma=0.2, season=12, horizon=6):
         F[m] = (S[n-1] + h * T[n-1]) * I[m - season]
     return F[season:n], F[n:n+horizon]
 
-hw_train_fit, hw_future = holt_winters(
+def holt_winters(series, alpha=0.4, beta=0.1, gamma=0.2, season=12, horizon=6):
+    """Statsmodels first (damped multiplicative seasonality); hand-rolled fallback."""
+    try:
+        from statsmodels.tsa.holtwinters import ExponentialSmoothing
+        s = np.asarray(series, dtype=float)
+        fit = ExponentialSmoothing(
+            s, trend="add", damped_trend=True,
+            seasonal="mul", seasonal_periods=season
+        ).fit(optimized=True)
+        fitted = fit.fittedvalues
+        future = fit.forecast(horizon)
+        return fitted, np.asarray(future, dtype=float)
+    except Exception as e:
+        print(f"  statsmodels unavailable ({e}); using hand-rolled HW")
+        return _hw_handrolled(series, alpha, beta, gamma, season, horizon)
+
+# ── Model 2: Holt-Winters (triple exponential smoothing) ──────────────
+# HONEST EVALUATION: fit on TRAIN only and FORECAST the test window.
+# (An earlier version scored in-sample fitted values on train+test — that
+# inflated test accuracy. Same lesson as the churn leakage: never let the
+# model see the period it is being scored on.)
+_, hw_test_pred = holt_winters(train["revenue"].values.tolist(), horizon=TEST_N)
+
+# FINAL MODEL: refit on the full series (train+test), forecast the future.
+_, hw_future_pred = holt_winters(
     train["revenue"].values.tolist() + test["revenue"].values.tolist(),
     horizon=HORIZON)
-hw_test_pred   = hw_train_fit[-TEST_N:]
-hw_future_pred = np.array(hw_future)
 
 # ── Ensemble ──────────────────────────────────────────────
 ensemble_future = (lr_future_pred + hw_future_pred) / 2
+
+# ── Bootstrap confidence interval (replaces the old hardcoded ±12%) ────
+# Fit on train; the TEST-set residuals (actual − ensemble pred) are an honest
+# estimate of forecast error. Resample them and add to the forecast many
+# times; the 2.5/97.5 percentiles give a real ~95% interval whose WIDTH IS
+# EARNED FROM DATA, not assumed at 12%.
+ens_test_pred = (lr_test_pred + hw_test_pred) / 2
+# Center the residuals (subtract their mean) so the interval represents pure
+# forecast uncertainty around the point estimate; systematic bias is reported
+# separately rather than baked into the band.
+residuals = (test["revenue"].values - ens_test_pred)
+residuals = residuals - residuals.mean()
+bias = float((test["revenue"].values - ens_test_pred).mean())
+rng = np.random.default_rng(42)
+N_BOOT = 1000
+boot_forecasts = np.zeros((N_BOOT, HORIZON))
+for b in range(N_BOOT):
+    boot_forecasts[b] = ensemble_future + rng.choice(residuals, size=HORIZON, replace=True)
+ci_lo = np.percentile(boot_forecasts, 2.5, axis=0)
+ci_hi = np.percentile(boot_forecasts, 97.5, axis=0)
+mean_half_pct = np.mean((ci_hi - ci_lo) / 2 / ensemble_future) * 100
 
 # ── Metrics ───────────────────────────────────────────────
 def rmse(a, b): return np.sqrt(mean_squared_error(a, b))
@@ -107,9 +152,13 @@ forecast_df = pd.DataFrame({
     "lr_forecast":     lr_future_pred,
     "hw_forecast":     hw_future_pred,
     "ensemble_forecast": ensemble_future,
+    "ci_lo_95":        ci_lo,
+    "ci_hi_95":        ci_hi,
 })
 forecast_df.to_csv(f"{PROC}/revenue_forecast.csv", index=False)
 print(f"\nForecast saved: {len(forecast_df)} periods")
+print(f"Bootstrap 95% CI mean half-width: ±{mean_half_pct:.1f}% (data-driven, not assumed)")
+print(f"Forecast bias on test set: ₹{bias:,.0f} ({bias/test['revenue'].mean()*100:+.1f}% of avg)")
 
 # ── Plot 1: Full Forecast Chart ────────────────────────────
 fig, ax = plt.subplots(figsize=(15, 6))
@@ -128,12 +177,11 @@ ax.plot(dates_future, hw_future_pred/1e6, color=PALETTE[2],
 ax.plot(dates_future, ensemble_future/1e6, color=PALETTE[4],
         lw=2.5, linestyle='-', marker='D', ms=7, label="Ensemble")
 
-# Confidence band
-ci = ensemble_future * 0.12
+# Confidence band (bootstrap-derived, not hardcoded)
 ax.fill_between(dates_future,
-                (ensemble_future - ci)/1e6,
-                (ensemble_future + ci)/1e6,
-                alpha=0.15, color=PALETTE[4], label="±12% CI")
+                ci_lo/1e6, ci_hi/1e6,
+                alpha=0.15, color=PALETTE[4],
+                label=f"Bootstrap 95% CI (≈±{mean_half_pct:.0f}%)")
 
 ax.axvline(monthly["order_date"].max(), color='gray', linestyle=':', lw=1.5, alpha=0.7)
 ax.text(monthly["order_date"].max(), ax.get_ylim()[1]*0.95,

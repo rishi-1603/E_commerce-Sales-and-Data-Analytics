@@ -13,6 +13,7 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
 import os, warnings
 warnings.filterwarnings('ignore')
 
@@ -62,13 +63,18 @@ scaler = StandardScaler()
 X = scaler.fit_transform(rfm[["recency","frequency","monetary"]])
 
 inertias = []
+silhouettes = []
 K_range = range(2, 9)
 for k in K_range:
     km = KMeans(n_clusters=k, random_state=42, n_init=10)
-    km.fit(X)
+    labels = km.fit_predict(X)
     inertias.append(km.inertia_)
+    silhouettes.append(silhouette_score(X, labels))
 
-best_k = 5
+# Choose k by silhouette score (data-driven), not a hardcoded constant.
+best_k = list(K_range)[int(np.argmax(silhouettes))]
+print(f"Silhouette scores by k: {dict(zip(K_range, [round(s,3) for s in silhouettes]))}")
+print(f"Chosen k={best_k} (highest silhouette) — was previously hardcoded to 5")
 km_final = KMeans(n_clusters=best_k, random_state=42, n_init=10)
 rfm["cluster"] = km_final.fit_predict(X)
 

@@ -4,7 +4,7 @@ test_data_quality.py — Data quality checks for the E-Commerce Analytics pipeli
 Run after `python run_pipeline.py` has generated data/raw and data/processed:
     pytest tests/test_data_quality.py -v
 
-These tests validate the same constraints implied by sql/01_schema.sql
+These tests validate the same constraints implied by sql/01_database_schema.sql
 (primary keys, foreign keys, non-null columns) plus a few business-logic
 sanity checks (no negative amounts, valid categorical values, etc).
 """
@@ -177,3 +177,26 @@ def test_churn_features_probability_in_valid_range():
     for col in prob_cols:
         vals = churn[col].dropna()
         assert (vals >= 0).all() and (vals <= 1).all(), f"{col} outside 0-1 probability range"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(PROCESSED, "clv.csv")),
+    reason="clv.csv not generated yet — run the pipeline first",
+)
+def test_clv_non_negative_and_ranked():
+    """Predictive CLV must be non-negative and every value tier assigned."""
+    clv = pd.read_csv(os.path.join(PROCESSED, "clv.csv"))
+    assert clv["pred_clv"].notna().all(), "pred_clv has nulls"
+    assert (clv["pred_clv"] >= 0).all(), "pred_clv contains negative values"
+    assert clv["value_tier"].notna().all(), "value_tier has nulls"
+
+
+@pytest.mark.skipif(
+    not os.path.exists(os.path.join(PROCESSED, "revenue_forecast.csv")),
+    reason="revenue_forecast.csv not generated yet — run the pipeline first",
+)
+def test_forecast_ci_brackets_point_estimate():
+    """Bootstrap CI must correctly bracket the ensemble point estimate."""
+    fc = pd.read_csv(os.path.join(PROCESSED, "revenue_forecast.csv"))
+    assert (fc["ci_lo_95"] <= fc["ensemble_forecast"]).all(), "CI lower > point estimate"
+    assert (fc["ensemble_forecast"] <= fc["ci_hi_95"]).all(), "CI upper < point estimate"

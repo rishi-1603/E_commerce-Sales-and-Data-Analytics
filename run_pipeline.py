@@ -16,11 +16,14 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 SCRIPTS = [
-    ("data/raw/generate_data.py",                   "1/5  Generating synthetic dataset"),
-    ("python/eda/01_eda_preprocessing.py",           "2/5  EDA & preprocessing"),
-    ("python/segmentation/02_rfm_segmentation.py",  "3/5  RFM customer segmentation"),
-    ("python/churn/03_churn_analysis.py",            "4/5  Churn prediction model"),
-    ("python/forecasting/04_revenue_forecasting.py", "5/5  Revenue forecasting"),
+    ("data/raw/generate_data.py",                   "1/8  Generating synthetic dataset"),
+    ("python/eda/01_eda_preprocessing.py",           "2/8  EDA & preprocessing"),
+    ("python/segmentation/02_rfm_segmentation.py",  "3/8  RFM customer segmentation"),
+    ("python/churn/03_churn_analysis.py",            "4/8  Churn prediction (leakage-free)"),
+    ("python/forecasting/04_revenue_forecasting.py", "5/8  Revenue forecasting (bootstrap CI)"),
+    ("python/eda/05_product_profitability.py",       "6/8  Product profitability & BCG"),
+    ("python/stats/06_statistical_analysis.py",      "7/8  Statistical hypothesis testing"),
+    ("python/clv/07_customer_lifetime_value.py",     "8/8  Customer lifetime value"),
 ]
 
 def run_step(rel_path, label):
