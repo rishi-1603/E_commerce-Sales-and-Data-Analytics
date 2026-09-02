@@ -264,11 +264,18 @@ against actuals monthly.
 
 **[➡ Open the live dashboard](https://ecomanalytics-dashboard.vercel.app/)**
 
-![Dashboard Preview](https://github.com/user-attachments/assets/3d0e9190-0a73-41d9-9ece-00a31f4318e8)
+| Executive Overview | Churn Analysis |
+|:---:|:---:|
+| ![Executive Overview](dashboard/screenshots/exec.png) | ![Churn Analysis — leakage-free model, AUC 0.649](dashboard/screenshots/churn.png) |
+
+| Product Profitability (BCG) | Revenue Forecast |
+|:---:|:---:|
+| ![BCG Matrix](dashboard/screenshots/products.png) | ![Revenue Forecast](dashboard/screenshots/forecast.png)
 
 *6-page interactive dashboard: Executive Overview · Sales · Customer RFM ·
 Churn · Product Profitability (BCG) · Forecast — built with vanilla
-HTML/CSS/JS + Chart.js, mobile-responsive, no server required.*
+HTML/CSS/JS + Chart.js, mobile-responsive, no server required.
+Screenshots captured from the live deployment — every number matches the pipeline output (CI-enforced).*
 
 Additional auto-generated analysis charts (Matplotlib/Seaborn) are in
 [`docs/figures/`](docs/figures/) — 20 charts covering every module above.
