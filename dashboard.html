@@ -176,6 +176,31 @@ tr:last-child td{border-bottom:0}
   .topbar-pills .pill:not(:first-child){display:none}
   .band{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ── Day-2 decision layer ── */
+.wc-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:14px 0 4px}
+.wc-box{border:1px solid;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.45}
+.wc-box b{display:block;font-size:13px;margin-bottom:3px}
+.wc-ok{border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.07)}
+.wc-watch{border-color:rgba(210,153,34,.5);background:rgba(210,153,34,.07)}
+.wc-alert{border-color:rgba(248,81,73,.55);background:rgba(248,81,73,.08)}
+.wc-info{border-color:rgba(56,139,253,.45);background:rgba(56,139,253,.07)}
+.mom-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0 6px}
+.mom-chip{border:1px solid rgba(240,246,252,.1);border-radius:10px;padding:9px 12px;background:rgba(240,246,252,.03)}
+.mc-k{font-size:11px;color:var(--muted);letter-spacing:.4px;text-transform:uppercase}
+.mc-v{font-size:17px;font-weight:700;margin:2px 0}
+.mc-d{font-size:11.5px}.mc-up{color:#3fb950}.mc-dn{color:#f85149}.mc-neu{color:#8b949e}
+.coh-table{border-collapse:collapse;width:100%;font-size:11.5px}
+.coh-table th,.coh-table td{border:1px solid rgba(240,246,252,.08);padding:4px 6px;text-align:center}
+.coh-table th{color:var(--muted);font-weight:600}
+.coh-table td.coh-lab,.coh-table th.coh-lab{text-align:left;white-space:nowrap}
+.funn-row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.funn-lab{width:86px;font-size:12px;color:var(--muted);text-align:right;flex-shrink:0}
+.funn-bar{height:26px;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:12px;font-weight:600;color:#0d1117;flex-shrink:0}
+.funn-val{font-size:12px;color:var(--text)}
+.seg-table{border-collapse:collapse;width:100%;font-size:12.5px}
+.seg-table th,.seg-table td{padding:7px 10px;border-bottom:1px solid rgba(240,246,252,.08);text-align:left}
+.seg-table th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
 </style>
 </head>
 <body>
@@ -205,6 +230,10 @@ tr:last-child td{border-bottom:0}
     <div class="nav-item" onclick="nav('customers',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zM5.216 14A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
       Customer RFM
+    </div>
+    <div class="nav-item" onclick="nav('cohorts',this)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>
+      Retention &amp; Cohorts
     </div>
     <div class="nav-item" onclick="nav('churn',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 00-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 01-1.1 0L7.1 5.995A.905.905 0 018 5zm.002 6a1 1 0 110 2 1 1 0 010-2z"/></svg>
@@ -259,6 +288,8 @@ tr:last-child td{border-bottom:0}
 
     <!-- ═══════ OVERVIEW ═══════ -->
     <div class="page active" id="page-overview">
+      <div class="wc-strip" id="wcStrip"></div>
+      <div class="mom-row" id="momRow"></div>
       <div class="kpi-grid">
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#1f6feb,#388bfd)"></div>
@@ -387,6 +418,21 @@ tr:last-child td{border-bottom:0}
           </table>
         </div>
       </div>
+
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Order Funnel</div><div class="card-sub">Placed → Delivered → Kept · all 12,000 raw orders</div></div>
+          </div>
+          <div style="padding:14px 16px" id="funnelBox"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Funnel Exits</div><div class="card-sub">Where orders leave — and what it costs</div></div>
+          </div>
+          <div style="padding:14px 16px" id="funnelExits"></div>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════ CUSTOMERS ═══════ -->
@@ -430,6 +476,50 @@ tr:last-child td{border-bottom:0}
     </div>
 
     <!-- ═══════ CHURN ═══════ -->
+    <!-- ═══════ RETENTION & COHORTS ═══════ -->
+    <div class="page" id="page-cohorts">
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Cohort Retention Heatmap</div><div class="card-sub">First-purchase-month cohorts · % active in month M</div></div>
+          </div>
+          <div style="padding:12px 14px;overflow-x:auto" id="cohHeat"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Retention Curves — Recent Cohorts</div><div class="card-sub">Newer cohorts retain better — the growth story</div></div>
+          </div>
+          <div class="chart-wrap" style="height:320px">
+            <canvas id="ch_cohort" role="img" aria-label="Cohort retention curves">Cohort retention curves.</canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card-row c2">
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Segment Playbook</div><div class="card-sub">RFM segment · verified historical spend · recommended action</div></div>
+          </div>
+          <div class="tbl-wrap">
+            <table class="seg-table">
+              <thead><tr><th>Segment</th><th class="num-right">Customers</th><th class="num-right">Historical spend</th><th>Recommended action</th></tr></thead>
+              <tbody id="segTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div><div class="card-title">Definitions &amp; Method</div><div class="card-sub">Read the numbers correctly</div></div>
+          </div>
+          <div style="padding:12px 16px;font-size:12.5px;line-height:1.65">
+            <p><b>Cohort</b> — customers grouped by first-purchase month (Jul 2023 – Dec 2024 shown, 18 cohorts).</p>
+            <p><b>Purchase</b> — an order with status <i>Delivered</i> or <i>Returned</i>. Cancelled orders never transacted; Processing is not yet a purchase.</p>
+            <p><b>Retention M<sub>k</sub></b> — share of the cohort with at least one purchase k months after their first purchase. M0 = 100% by definition.</p>
+            <p><b>Reading</b> — newer cohorts (bottom rows) retain visibly better than older ones: month-1 retention rises from ~15–28% (2023 cohorts) to 55–88% (late 2024). Retention improves as the business matures. Full SQL: <code>sql/09_cohort_retention.sql</code> · definitions: <code>data/metrics.json</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="page" id="page-churn">
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Low Risk</div><div class="kpi-value" style="color:var(--green)">1,138</div><div class="kpi-delta up">▲ Active buyers</div></div>
@@ -594,7 +684,14 @@ const DATA = {
     {product_name:"Curtains Basic",category:"Home & Garden",revenue:804990,profit:552502,units_sold:447,margin_pct:68.6},
     {product_name:"Bookshelf Pro",category:"Home & Garden",revenue:837661,profit:552449,units_sold:446,margin_pct:66.0},
   ],
-  bcg:{Star:36,"Cash Cow":38,"Question Mark":39,Dog:37}
+  bcg:{Star:36,"Cash Cow":38,"Question Mark":39,Dog:37},
+  decision: {
+    mom: {"label": "2024-12", "prev_label": "2024-11", "revenue": [5226993, 6117261], "revenue_delta_pct": 17.0, "orders": [847, 1027], "orders_delta_pct": 21.3, "active_customers": [596, 645], "active_customers_delta_pct": 8.2, "aov": [6171, 5956], "aov_delta_pct": -3.5},
+    whatChanged: [{"headline": "Revenue 17.0% up in 2024-12", "detail": "\u20b95,226,993 in 2024-11 to \u20b96,117,261 in 2024-12, month over month.", "level": "alert"}, {"headline": "Orders 21.3% up in 2024-12", "detail": "847 in 2024-11 to 1,027 in 2024-12, month over month.", "level": "alert"}, {"headline": "Active customers 8.2% up in 2024-12", "detail": "596 in 2024-11 to 645 in 2024-12, month over month.", "level": "watch"}, {"headline": "Average order value 3.5% down in 2024-12", "detail": "\u20b96,171 in 2024-11 to \u20b95,956 in 2024-12, month over month.", "level": "ok"}, {"headline": "448 cooling-off customers hold \u20b91.24 Cr historical spend", "detail": "Medium churn-risk band \u2014 the primary win-back audience (experiment design in docs/experiment_design_winback.md).", "level": "watch"}, {"headline": "Top 10% of customers hold 42% of projected lifetime value", "detail": "Retention is risk management \u2014 protect the decile that carries the value.", "level": "info"}],
+    funnel: {"stages": ["Placed", "Delivered", "Kept"], "values": [12000, 9312, 8089], "exits": {"Cancelled": 844, "Processing": 621, "Returned": 1223}, "delivery_rate_pct": 77.6, "keep_rate_pct": 86.9},
+    segActions: [{"segment": "Loyal Customers", "customers": 495, "spend": 16042298, "action": "Grow \u2014 cross-sell adjacent categories"}, {"segment": "Champions", "customers": 317, "spend": 15491823, "action": "Retain \u2014 loyalty perks, early access, protect at all costs"}, {"segment": "At Risk", "customers": 221, "spend": 9250457, "action": "Win-back \u2014 high-touch offer, personal outreach"}, {"segment": "About To Sleep", "customers": 354, "spend": 8900830, "action": "Re-engage now, before the lapse"}, {"segment": "Recent Customers", "customers": 248, "spend": 4532877, "action": "Activate \u2014 welcome flow plus first-repeat incentive"}, {"segment": "Needs Attention", "customers": 194, "spend": 2615092, "action": "Win-back \u2014 incentive plus feedback capture"}, {"segment": "Lost Customers", "customers": 133, "spend": 1591180, "action": "Low-cost reactivation only \u2014 do not overspend"}, {"segment": "Potential Loyalists", "customers": 29, "spend": 859062, "action": "Nurture \u2014 onboarding offers, second-purchase push"}],
+    cohorts: {"labels": ["2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"], "sizes": [52, 74, 78, 69, 73, 52, 87, 74, 71, 54, 82, 75, 81, 73, 81, 72, 81, 35], "matrix": [[100.0, 23.1, 26.9, 19.2, 9.6, 15.4, 25.0, 19.2, 19.2, 19.2, 19.2, 23.1, 13.5], [100.0, 14.9, 27.0, 16.2, 23.0, 20.3, 29.7, 21.6, 23.0, 21.6, 20.3, 25.7, 23.0], [100.0, 28.2, 21.8, 24.4, 19.2, 20.5, 25.6, 14.1, 32.1, 37.2, 21.8, 9.0, 33.3], [100.0, 18.8, 29.0, 21.7, 20.3, 20.3, 18.8, 18.8, 14.5, 24.6, 30.4, 21.7, 21.7], [100.0, 19.2, 24.7, 28.8, 15.1, 19.2, 28.8, 24.7, 26.0, 26.0, 23.3, 24.7, 21.9], [100.0, 25.0, 26.9, 23.1, 11.5, 17.3, 30.8, 23.1, 26.9, 26.9, 25.0, 28.8, 25.0], [100.0, 23.0, 33.3, 25.3, 26.4, 28.7, 23.0, 29.9, 32.2, 31.0, 18.4, 20.7, null], [100.0, 32.4, 32.4, 27.0, 31.1, 27.0, 29.7, 18.9, 36.5, 18.9, 29.7, null, null], [100.0, 28.2, 36.6, 33.8, 22.5, 28.2, 29.6, 29.6, 26.8, 31.0, null, null, null], [100.0, 31.5, 38.9, 40.7, 40.7, 37.0, 38.9, 33.3, 27.8, null, null, null, null], [100.0, 32.9, 42.7, 31.7, 24.4, 40.2, 35.4, 36.6, null, null, null, null, null], [100.0, 42.7, 42.7, 41.3, 44.0, 38.7, 41.3, null, null, null, null, null, null], [100.0, 40.7, 39.5, 46.9, 50.6, 42.0, null, null, null, null, null, null, null], [100.0, 54.8, 52.1, 61.6, 43.8, null, null, null, null, null, null, null, null], [100.0, 55.6, 50.6, 51.9, null, null, null, null, null, null, null, null, null], [100.0, 75.0, 68.1, null, null, null, null, null, null, null, null, null, null], [100.0, 87.7, null, null, null, null, null, null, null, null, null, null, null], [100.0, null, null, null, null, null, null, null, null, null, null, null, null]], "max_months": 12}
+  },
 };
 
 const C = {
@@ -606,6 +703,7 @@ const titles = {
   overview:["Executive Overview","KPIs · Revenue · Orders · Customers"],
   sales:["Sales Performance","Revenue · Category · Region · Top Products"],
   customers:["Customer RFM Segmentation","Recency · Frequency · Monetary · K-Means"],
+  cohorts:["Retention & Cohorts","Cohort Retention · Segment Playbook · Definitions"],
   churn:["Churn Analysis","Random Forest · Risk Scoring · Action Plan"],
   products:["Product Profitability","BCG Matrix · Margin · Category Analysis"],
   forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"]
@@ -632,6 +730,85 @@ function toggleSidebar(force){
 function fmt(n){return'₹'+Math.round(n).toLocaleString()}
 function fmtM(n){return'₹'+(n/1e6).toFixed(1)+'M'}
 
+
+/* ── Day-2 decision layer renderers (values from DATA.decision — generated
+     by scripts/decision_layer.py; the dashboard never computes numbers) ── */
+function wcClass(l){return l==='alert'?'wc-alert':l==='watch'?'wc-watch':l==='info'?'wc-info':'wc-ok'}
+function renderWhatChanged(){
+  const box=document.getElementById('wcStrip');if(!box)return;
+  box.innerHTML=DATA.decision.whatChanged.slice(0,4).map(w=>
+    `<div class="wc-box ${wcClass(w.level)}"><b>${w.headline}</b>${w.detail}</div>`).join('');
+}
+function renderMom(){
+  const row=document.getElementById('momRow');if(!row)return;
+  const m=DATA.decision.mom;
+  const chips=[
+    ['Revenue',fmt(m.revenue[1]),m.revenue_delta_pct],
+    ['Orders',m.orders[1].toLocaleString(),m.orders_delta_pct],
+    ['Active customers',m.active_customers[1].toLocaleString(),m.active_customers_delta_pct],
+    ['Avg order value',fmt(m.aov[1]),m.aov_delta_pct]
+  ];
+  row.innerHTML=chips.map(c=>{
+    const d=c[2],cls=d>=0.5?'mc-up':d<=-0.5?'mc-dn':'mc-neu';
+    return `<div class="mom-chip"><div class="mc-k">${c[0]}</div><div class="mc-v">${c[1]}</div><div class="mc-d ${cls}">${d>=0?'▲':'▼'} ${Math.abs(d)}% vs ${m.prev_label}</div></div>`;
+  }).join('');
+}
+function buildFunnel(){
+  const f=DATA.decision.funnel,box=document.getElementById('funnelBox');if(!box)return;
+  const cols=['#388bfd','#3fb950','#79c0ff'];
+  box.innerHTML=f.stages.map((s,i)=>{
+    const w=Math.max(9,(f.values[i]/f.values[0]*100).toFixed(1));
+    return `<div class="funn-row"><div class="funn-lab">${s}</div><div class="funn-bar" style="width:calc(${w}% - 100px);min-width:74px;background:${cols[i]}">${f.values[i].toLocaleString()}</div><div class="funn-val">${i>0?(f.values[i]/f.values[i-1]*100).toFixed(1)+'% of previous stage':''}</div></div>`;
+  }).join('');
+  const ex=document.getElementById('funnelExits');if(!ex)return;
+  ex.innerHTML=Object.entries(f.exits).map(([k,v])=>{
+    const w=Math.max(9,(v/f.values[0]*100).toFixed(1));
+    return `<div class="funn-row"><div class="funn-lab">${k}</div><div class="funn-bar" style="width:calc(${w}% - 100px);min-width:64px;background:#d29922">${v.toLocaleString()}</div><div class="funn-val">${(v/f.values[0]*100).toFixed(1)}% of placed</div></div>`;
+  }).join('');
+  ex.innerHTML+=`<div style="font-size:11.5px;color:var(--muted);margin-top:10px">Delivery rate ${f.delivery_rate_pct}% · keep rate ${f.keep_rate_pct}% (kept = delivered − returned). Source: raw orders, all statuses — sql/11_order_funnel.sql.</div>`;
+}
+function buildCohortHeat(){
+  const el=document.getElementById('cohHeat');if(!el)return;
+  const c=DATA.decision.cohorts,mx=c.max_months;
+  let h='<table class="coh-table"><thead><tr><th class="coh-lab">Cohort (n)</th>';
+  for(let k=0;k<=mx;k++)h+=`<th>M${k}</th>`;
+  h+='</tr></thead><tbody>';
+  c.labels.forEach((lab,i)=>{
+    h+=`<tr><td class="coh-lab">${lab} <span style="color:var(--muted)">(${c.sizes[i]})</span></td>`;
+    for(let k=0;k<=mx;k++){
+      const v=c.matrix[i][k];
+      if(v===null||v===undefined){h+='<td style="color:var(--muted)">·</td>';}
+      else{
+        const a=Math.min(0.88,(v/100)*0.82+0.06);
+        const tc=v>55?'#0d1117':'var(--text)';
+        h+=`<td style="background:rgba(63,185,80,${a.toFixed(2)});color:${tc};font-weight:${v>=50?600:400}">${v.toFixed(0)}</td>`;
+      }
+    }
+    h+='</tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+function buildCohortCurve(){
+  const cv=document.getElementById('ch_cohort');if(!cv)return;
+  const c=DATA.decision.cohorts,cols=[C.blue,C.green,C.purple,C.amber,C.cyan,C.pink];
+  const pick=[];
+  for(let i=Math.max(0,c.labels.length-7);i<c.labels.length-1;i++)pick.push(i);
+  new Chart(cv,{type:'line',
+    data:{labels:Array.from({length:c.max_months+1},(_,k)=>'M'+k),
+      datasets:pick.map((idx,j)=>({label:c.labels[idx],
+        data:c.matrix[idx].map(v=>(v===null||v===undefined)?null:v),
+        borderColor:cols[j%cols.length],backgroundColor:cols[j%cols.length],
+        tension:.3,pointRadius:2,spanGaps:true}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:MUT,boxWidth:12}}},
+      scales:{x:{ticks:{color:MUT},grid:GRD,border:{display:false}},
+              y:{ticks:{color:MUT,callback:v=>v+'%'},grid:GRD,border:{display:false},beginAtZero:true}}}});
+}
+function renderSegActions(){
+  const el=document.getElementById('segTable');if(!el)return;
+  el.innerHTML=DATA.decision.segActions.map(s=>
+    `<tr><td>${s.segment}</td><td class="num-right">${s.customers.toLocaleString()}</td><td class="num-right">${fmt(s.spend)}</td><td>${s.action}</td></tr>`).join('');
+}
 window.addEventListener('DOMContentLoaded',()=>{
   buildRevTrend();
   buildCatRev();
@@ -648,6 +825,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   buildForecast();
   buildForecastBand();
   buildForecastTable();
+  renderWhatChanged();
+  renderMom();
+  buildFunnel();
+  buildCohortHeat();
+  buildCohortCurve();
+  renderSegActions();
 });
 
 function buildRevTrend(){

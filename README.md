@@ -8,9 +8,52 @@ product profitability, churn risk, and future revenue — to support data-driven
 [🚀 Live Dashboard](https://ecomanalytics-dashboard.vercel.app/) ·
 [🗄️ SQL Analysis](sql/README.md) ·
 [📄 Analytics Reports](reports/) ·
-[🧪 31 Passing Tests](tests/)
+[🧪 60 Passing Tests](tests/)
 
 </div>
+
+## 🎯 Decision Layer *(2026 upgrade)*
+
+> Period-over-period thinking, cohort retention, and an honest experiment design —
+> the dashboard now answers **"what changed and what should we do"**, not just "what happened".
+
+![What changed? strip + month-over-month KPI chips](dashboard/screenshots/day2_what_changed.png)
+
+| Capability | Verified numbers |
+|---|---|
+| 📌 **What changed? strip + MoM chips** | Dec 2024: revenue **+17.0%**, orders **+21.3%**, active customers **+8.2%**, AOV **−3.5%** — volume-led growth, not price-led |
+| 🧬 **NEW page: Retention & Cohorts** | 18 first-purchase cohorts; month-1 retention rises from ~15–28% (2023) to **55–88%** (late 2024) — plus a segment playbook with recommended actions |
+| 🪣 **Order funnel** | 12,000 placed → 9,312 delivered (77.6%) → 8,089 kept · exits: 844 cancelled, 621 processing, 1,223 returned |
+| 🧪 **Win-back experiment design** | Measured segment baseline **34.5%** 90-day repeat rate · power analysis (MDE +13pp core pool / +8.5pp expanded) — *design, not fabricated results* |
+| 🧮 **New SQL** | `09_cohort_retention` · `10_mom_variance` (LAG) · `11_order_funnel` |
+
+✅ **60 automated tests** — the dashboard's embedded data is pinned to the pipeline, so the live site can never silently drift from the analysis.
+
+![Cohort retention heatmap](dashboard/screenshots/day2_cohort_heatmap.png)
+
+---
+
+## 🏗️ Architecture — from raw orders to decisions
+
+```mermaid
+flowchart LR
+    A["12,000 orders · 1,991 customers<br/>150 SKUs · 2022-24"] --> B["11 SQL scripts<br/>+ pandas parity (zero drift)"]
+    B --> C["Analytics: RFM+K-Means<br/>churn · BCG · Holt-Winters"]
+    C --> D["Decision layer: MoM deltas<br/>cohorts · funnel · What changed?"]
+    D --> E["NL-to-SQL assistant<br/>LLM never computes numbers"]
+    E --> F["Chart.js dashboard (Vercel)<br/>60 tests pin every figure"]
+```
+
+**Business questions the dashboard answers**
+
+| Question | Where | Verified answer |
+|---|---|---|
+| Is revenue growing, and why? | What changed? strip | Dec 2024: +17.0% revenue, +21.3% orders — volume-led, not price-led |
+| Do customers stick around? | Retention & Cohorts page | Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024) |
+| Where do orders leak? | Order funnel | 12,000 placed → 9,312 delivered (77.6%) → 8,089 kept |
+| Who is about to churn? | Churn tab + experiment design | 448 cooling-off customers (₹1.24 Cr spend); win-back designed with measured baseline 34.5% |
+
+
 
 ---
 
