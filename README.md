@@ -17,6 +17,8 @@ product profitability, churn risk, and future revenue — to support data-driven
 > Period-over-period thinking, cohort retention, and an honest experiment design —
 > the dashboard now answers **"what changed and what should we do"**, not just "what happened".
 
+![Executive Overview — ₹ Cr / ₹ L formatted KPIs, What changed? strip, MoM chips](dashboard/screenshots/v2_executive_overview.png)
+
 ![What changed? strip + month-over-month KPI chips](dashboard/screenshots/day2_what_changed.png)
 
 | Capability | Verified numbers |

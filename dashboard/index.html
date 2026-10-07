@@ -219,32 +219,32 @@ tr:last-child td{border-bottom:0}
 
   <div class="nav-group">
     <div class="nav-label">Dashboards</div>
-    <div class="nav-item active" onclick="nav('overview',this)">
+    <div class="nav-item active" role="button" tabindex="0" onclick="nav('overview',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zm8 0A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm-8 8A1.5 1.5 0 012.5 9h3A1.5 1.5 0 017 10.5v3A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-3zm8 0A1.5 1.5 0 0110.5 9h3A1.5 1.5 0 0115 10.5v3A1.5 1.5 0 0113.5 15h-3A1.5 1.5 0 019 13.5v-3z"/></svg>
       Executive Overview
     </div>
-    <div class="nav-item" onclick="nav('sales',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('sales',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 0h1v15h15v1H0V0zm14.817 3.113a.5.5 0 01.07.704l-4.5 5.5a.5.5 0 01-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 01-.808-.588l4-5.5a.5.5 0 01.758-.06l2.609 2.61 4.135-5.057a.5.5 0 01.72-.086z"/></svg>
       Sales Performance
     </div>
-    <div class="nav-item" onclick="nav('customers',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('customers',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zM5.216 14A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
       Customer RFM
     </div>
-    <div class="nav-item" onclick="nav('cohorts',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('cohorts',this)">
       <svg class="icon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>
       Retention &amp; Cohorts
     </div>
-    <div class="nav-item" onclick="nav('churn',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('churn',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.982 1.566a1.13 1.13 0 00-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 01-1.1 0L7.1 5.995A.905.905 0 018 5zm.002 6a1 1 0 110 2 1 1 0 010-2z"/></svg>
       Churn Analysis
       <span class="nav-count">448</span>
     </div>
-    <div class="nav-item" onclick="nav('products',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('products',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z"/></svg>
       Product Profitability
     </div>
-    <div class="nav-item" onclick="nav('forecast',this)">
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('forecast',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M6 10.5a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h11a.5.5 0 010 1h-11a.5.5 0 01-.5-.5z"/></svg>
       Revenue Forecast
     </div>
@@ -263,7 +263,9 @@ tr:last-child td{border-bottom:0}
 
   <div class="sidebar-footer">
     55,867 transactions · 150 products<br>
-    2,000 customers · 3 years data
+    2,000 customers · 3 years data<br><br>
+    Every figure computed from the pipeline —<br>
+    60 CI tests · definitions in data/metrics.json
   </div>
 </nav>
 
@@ -294,13 +296,13 @@ tr:last-child td{border-bottom:0}
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#1f6feb,#388bfd)"></div>
           <div class="kpi-label">Total Revenue</div>
-          <div class="kpi-value" style="color:var(--blue)">₹59.3M</div>
+          <div class="kpi-value" style="color:var(--blue)">₹5.93 Cr</div>
           <div class="kpi-delta neu">3-year cumulative</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-accent" style="background:linear-gradient(90deg,#2ea043,#3fb950)"></div>
           <div class="kpi-label">Gross Profit</div>
-          <div class="kpi-value" style="color:var(--green)">₹32.0M</div>
+          <div class="kpi-value" style="color:var(--green)">₹3.20 Cr</div>
           <div class="kpi-delta up">▲ 54.0% margin</div>
         </div>
         <div class="kpi-card">
@@ -381,7 +383,7 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ SALES ═══════ -->
     <div class="page" id="page-sales">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Gross Revenue</div><div class="kpi-value" style="color:var(--blue)">₹59.3M</div><div class="kpi-delta neu">All 3 years</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Gross Revenue</div><div class="kpi-value" style="color:var(--blue)">₹5.93 Cr</div><div class="kpi-delta neu">All 3 years</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Best Category</div><div class="kpi-value" style="color:var(--green)">Sports</div><div class="kpi-delta up">▲ ₹1.39 Cr · 56.5% margin</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Delivered Orders</div><div class="kpi-value" style="color:var(--amber)">9,312</div><div class="kpi-delta up">▲ 77.6% rate</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Cancellations</div><div class="kpi-value" style="color:var(--red)">844</div><div class="kpi-delta dn">▼ 7.0% cancel rate</div></div>
@@ -614,10 +616,10 @@ tr:last-child td{border-bottom:0}
     <!-- ═══════ FORECAST ═══════ -->
     <div class="page" id="page-forecast">
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">6-Month Forecast</div><div class="kpi-value" style="color:var(--blue)">₹32.7M</div><div class="kpi-delta neu">Jan–Jun 2025</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">6-Month Forecast</div><div class="kpi-value" style="color:var(--blue)">₹3.27 Cr</div><div class="kpi-delta neu">Jan–Jun 2025</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Monthly Growth</div><div class="kpi-value" style="color:var(--green)">+3.5%</div><div class="kpi-delta up">▲ Projected MoM</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Model Used</div><div class="kpi-value" style="color:var(--amber)">Ensemble</div><div class="kpi-delta neu">Linear + Holt-Winters</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Dec 2024 Actual</div><div class="kpi-value" style="color:var(--purple)">₹6.12M</div><div class="kpi-delta up">▲ Best month</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div><div class="kpi-label">Dec 2024 Actual</div><div class="kpi-value" style="color:var(--purple)">₹61.2L</div><div class="kpi-delta up">▲ Best month</div></div>
       </div>
 
       <div class="card" style="margin-bottom:12px">
@@ -720,6 +722,15 @@ function nav(id, el) {
   if(window.innerWidth<=900) toggleSidebar(false);
 }
 
+// Keyboard navigation for sidebar items (Enter / Space)
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.nav-item').forEach(el=>{
+    el.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}
+    });
+  });
+});
+
 function toggleSidebar(force){
   const sb=document.getElementById('sidebar'), bd=document.getElementById('backdrop');
   const open = force!==undefined ? force : !sb.classList.contains('open');
@@ -728,7 +739,7 @@ function toggleSidebar(force){
 }
 
 function fmt(n){return'₹'+Math.round(n).toLocaleString()}
-function fmtM(n){return'₹'+(n/1e6).toFixed(1)+'M'}
+function fmtM(n){return'₹'+(n/1e5).toFixed(1)+'L'}
 
 
 /* ── Day-2 decision layer renderers (values from DATA.decision — generated
@@ -839,16 +850,16 @@ function buildRevTrend(){
     data:{
       labels:DATA.monthly_labels,
       datasets:[{
-        data:DATA.monthly_revenue.map(v=>+(v/1000).toFixed(1)),
+        data:DATA.monthly_revenue.map(v=>+(v/1e5).toFixed(1)),
         borderColor:C.blue,backgroundColor:C.blue+'18',
         fill:true,tension:0.4,borderWidth:2,pointRadius:0,pointHoverRadius:4
       }]
     },
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+Math.round(ctx.raw)+'k'}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+ctx.raw+'L'}}},
       scales:{
         x:{ticks:{color:MUT,font:{size:10},maxTicksLimit:12},grid:GRD,border:{display:false}},
-        y:{ticks:{color:MUT,font:{size:11},callback:v=>'₹'+v+'k'},grid:GRD,border:{display:false}}
+        y:{ticks:{color:MUT,font:{size:11},callback:v=>'₹'+v+'L'},grid:GRD,border:{display:false}}
       }}
   });
 }
@@ -858,13 +869,13 @@ function buildCatRev(){
     type:'bar',
     data:{
       labels:DATA.cat_labels,
-      datasets:[{data:DATA.cat_revenue.map(v=>+(v/1e6).toFixed(2)),
+      datasets:[{data:DATA.cat_revenue.map(v=>+(v/1e7).toFixed(2)),
         backgroundColor:[C.blue,C.green,C.amber,C.purple,C.pink],borderRadius:5,borderSkipped:false}]
     },
     options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+ctx.raw+'M'}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>'₹'+ctx.raw+' Cr'}}},
       scales:{
-        x:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}},
+        x:{ticks:{color:MUT,callback:v=>'₹'+v+' Cr'},grid:GRD,border:{display:false}},
         y:{ticks:{color:MUT,font:{size:11}},grid:{display:false},border:{display:false}}
       }}
   });
@@ -891,15 +902,15 @@ function buildCatComp(){
     data:{
       labels:DATA.cat_labels,
       datasets:[
-        {label:'Revenue',data:DATA.cat_revenue.map(v=>+(v/1e6).toFixed(2)),backgroundColor:C.blue+'bb',borderRadius:4},
-        {label:'Profit', data:DATA.cat_profit.map(v=>+(v/1e6).toFixed(2)), backgroundColor:C.green+'bb',borderRadius:4}
+        {label:'Revenue',data:DATA.cat_revenue.map(v=>+(v/1e7).toFixed(2)),backgroundColor:C.blue+'bb',borderRadius:4},
+        {label:'Profit', data:DATA.cat_profit.map(v=>+(v/1e7).toFixed(2)), backgroundColor:C.green+'bb',borderRadius:4}
       ]
     },
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+ctx.raw+'M'}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+ctx.raw+' Cr'}}},
       scales:{
         x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
-        y:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}}
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+' Cr'},grid:GRD,border:{display:false}}
       }}
   });
 }
@@ -909,14 +920,14 @@ function buildRegion(){
     type:'bar',
     data:{
       labels:DATA.reg_labels,
-      datasets:[{data:DATA.reg_revenue.map(v=>+(v/1e6).toFixed(2)),
+      datasets:[{data:DATA.reg_revenue.map(v=>+(v/1e7).toFixed(2)),
         backgroundColor:[C.blue,C.cyan,C.purple,C.green,C.amber],borderRadius:5}]
     },
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false}},
       scales:{
         x:{ticks:{color:MUT},grid:{display:false},border:{display:false}},
-        y:{ticks:{color:MUT,callback:v=>'₹'+v+'M'},grid:GRD,border:{display:false}}
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+' Cr'},grid:GRD,border:{display:false}}
       }}
   });
 }
@@ -1036,8 +1047,8 @@ function buildMargin(){
 
 function buildForecast(){
   const allLabels=[...DATA.hist6_labels,...DATA.forecast_labels];
-  const histLine=[...DATA.hist6_vals.map(v=>+(v/1000).toFixed(1)),...Array(6).fill(null)];
-  const forecastLine=[...Array(5).fill(null),+(DATA.hist6_vals[5]/1000).toFixed(1),...DATA.forecast_vals.map(v=>+(v/1000).toFixed(1))];
+  const histLine=[...DATA.hist6_vals.map(v=>+(v/1e5).toFixed(1)),...Array(6).fill(null)];
+  const forecastLine=[...Array(5).fill(null),+(DATA.hist6_vals[5]/1e5).toFixed(1),...DATA.forecast_vals.map(v=>+(v/1e5).toFixed(1))];
 
   new Chart(document.getElementById('ch_forecast'),{
     type:'line',
@@ -1053,10 +1064,10 @@ function buildForecast(){
       ]
     },
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+Math.round(ctx.raw)+'k'}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': ₹'+ctx.raw+'L'}}},
       scales:{
         x:{ticks:{color:MUT,font:{size:11}},grid:GRD,border:{display:false}},
-        y:{ticks:{color:MUT,callback:v=>'₹'+v+'k'},grid:GRD,border:{display:false}}
+        y:{ticks:{color:MUT,callback:v=>'₹'+v+'L'},grid:GRD,border:{display:false}}
       }}
   });
 }
