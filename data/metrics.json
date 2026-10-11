@@ -4,12 +4,12 @@
     "description": "Semantic layer — exact definitions of every KPI. The dashboard, SQL layer, reports and any LLM narration must cite these definitions.",
     "disclosure": "Synthetic, seeded dataset — fully reproducible. Methods are the story.",
     "source_data": "data/raw/orders.csv (12,000 orders) + data/processed/master_orders.csv (21,066 item rows, 9,933 orders)",
-    "convention_note": "Revenue = SUM(line_total) across ALL order statuses (project convention, pinned by tests/test_dashboard_consistency.py)."
+    "convention_note": "Revenue = SUM(line_total) over orders with status Delivered or Processing (Cancelled and Returned excluded). Pinned by tests/test_dashboard_consistency.py and scripts/decision_layer.py via the valid_orders definition (sql/02_data_cleaning.sql, python/eda/01_eda_preprocessing.py)."
   },
   "metrics": {
     "revenue": {
-      "definition": "Total revenue across the 3-year window.",
-      "formula": "SUM(order_items.line_total), all statuses",
+      "definition": "Revenue across the 3-year window from orders that are Delivered or Processing. Cancelled and Returned orders are excluded (the same rule as valid_orders).",
+      "formula": "SUM(order_items.line_total) WHERE orders.status IN ('Delivered','Processing')",
       "full_dataset_value": "₹5.93 Cr"
     },
     "gross_margin": {
@@ -42,12 +42,35 @@
     },
     "rfm_segments": {
       "definition": "RFM quintiles + K-Means into 8 named segments.",
-      "segments": ["Champions", "Loyal Customers", "Potential Loyalists", "Recent Customers", "About To Sleep", "Needs Attention", "At Risk", "Lost Customers"],
-      "sizes": {"Loyal Customers": 495, "About To Sleep": 354, "Champions": 317, "Recent Customers": 248, "At Risk": 221, "Needs Attention": 194, "Lost Customers": 133, "Potential Loyalists": 29}
+      "segments": [
+        "Champions",
+        "Loyal Customers",
+        "Potential Loyalists",
+        "Recent Customers",
+        "About To Sleep",
+        "Needs Attention",
+        "At Risk",
+        "Lost Customers"
+      ],
+      "sizes": {
+        "Loyal Customers": 495,
+        "About To Sleep": 354,
+        "Champions": 317,
+        "Recent Customers": 248,
+        "At Risk": 221,
+        "Needs Attention": 194,
+        "Lost Customers": 133,
+        "Potential Loyalists": 29
+      }
     },
     "bcg_matrix": {
       "definition": "Products mapped to Star / Cash Cow / Question Mark / Dog by growth and relative share.",
-      "counts": {"Star": 36, "Cash Cow": 38, "Question Mark": 39, "Dog": 37}
+      "counts": {
+        "Star": 36,
+        "Cash Cow": 38,
+        "Question Mark": 39,
+        "Dog": 37
+      }
     },
     "revenue_forecast": {
       "definition": "H1 2025 projection, ensemble of linear trend + Holt-Winters, bootstrap 95% CI.",
@@ -56,7 +79,10 @@
     },
     "purchase": {
       "definition": "An order with status Delivered or Returned. Cancelled orders never transacted; Processing is not yet a purchase.",
-      "used_by": ["cohort retention", "experiment baselines"]
+      "used_by": [
+        "cohort retention",
+        "experiment baselines"
+      ]
     },
     "cohort_retention": {
       "definition": "Customers grouped by first-purchase month; retention M_k = share with >=1 purchase k months after the cohort month. M0 = 100% by definition.",
@@ -66,11 +92,20 @@
       "definition": "Placed (all 12,000) -> Delivered (9,312) -> Kept (delivered - returned = 8,089).",
       "delivery_rate_pct": 77.6,
       "keep_rate_pct": 86.9,
-      "exits": {"Cancelled": 844, "Processing": 621, "Returned": 1223}
+      "exits": {
+        "Cancelled": 844,
+        "Processing": 621,
+        "Returned": 1223
+      }
     },
     "mom_delta": {
       "definition": "Month-over-month change of a KPI (latest vs previous month). Alert threshold: 10% relative change.",
-      "verified_2024_12": {"revenue_pct": 17.0, "orders_pct": 21.3, "active_customers_pct": 8.2, "aov_pct": -3.5}
+      "verified_2024_12": {
+        "revenue_pct": 17.0,
+        "orders_pct": 21.3,
+        "active_customers_pct": 8.2,
+        "aov_pct": -3.5
+      }
     },
     "clv_concentration": {
       "definition": "Share of projected customer lifetime value held by the top decile.",
