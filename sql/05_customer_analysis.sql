@@ -171,7 +171,7 @@ gaps AS (
 )
 SELECT
     ROUND(AVG(days_between), 1)     AS avg_days_between_orders,
-    ROUND(percentile_cont(0.5) WITHIN GROUP (ORDER BY days_between), 1) AS median_days_between,
+    ROUND((PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY days_between))::numeric, 1) AS median_days_between,
     MAX(days_between)               AS max_gap
 FROM gaps;
 

@@ -58,7 +58,7 @@ WHERE o.status NOT IN ('Cancelled','Returned')
 GROUP BY p.category
 ORDER BY profit DESC;
 
--- ── 3. BCG matrix (PERCENTILE_CONT window) ────────────────
+-- ── 3. BCG matrix (median split: units_sold × margin_pct) ─
 -- Business Question: Which products are Stars, Cash Cows,
 --                    Question Marks or Dogs?
 -- Why It Matters:   The BCG lens turns 150 SKUs into four
@@ -71,29 +71,32 @@ WITH product_pnl AS (
         p.product_id, p.product_name, p.category,
         SUM(oi.quantity)   AS units_sold,
         SUM(oi.line_total) AS revenue,
-        SUM(oi.line_total - oi.cost_total) AS profit
+        SUM(oi.line_total - oi.cost_total) AS profit,
+        SUM(oi.line_total - oi.cost_total) / NULLIF(SUM(oi.line_total), 0) * 100 AS margin_pct
     FROM order_items oi
     JOIN orders o   ON oi.order_id   = o.order_id
     JOIN products p ON oi.product_id = p.product_id
     WHERE o.status NOT IN ('Cancelled','Returned')
     GROUP BY 1, 2, 3
+),
+medians AS (
+    SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY units_sold)  AS med_units,
+           PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY margin_pct)  AS med_margin
+    FROM product_pnl
 )
 SELECT
     product_id, product_name, category,
     units_sold,
     ROUND(revenue, 2) AS revenue,
     ROUND(profit, 2)  AS profit,
+    ROUND(margin_pct, 2) AS margin_pct,
     CASE
-        WHEN units_sold > PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY units_sold) OVER ()
-         AND profit     > PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY profit)     OVER ()
-            THEN '⭐ Star'
-        WHEN units_sold > PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY units_sold) OVER ()
-            THEN '🐄 Cash Cow'
-        WHEN profit     > PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY profit)     OVER ()
-            THEN '❓ Question Mark'
-        ELSE '🐕 Dog'
+        WHEN units_sold > med_units AND margin_pct > med_margin THEN 'Star ⭐'
+        WHEN units_sold > med_units                             THEN 'Cash Cow 🐄'
+        WHEN margin_pct > med_margin                           THEN 'Question Mark ❓'
+        ELSE 'Dog 🐕'
     END AS bcg_quadrant
-FROM product_pnl
+FROM product_pnl CROSS JOIN medians
 ORDER BY units_sold DESC;
 
 -- ── 4. Bottom 15 products (delist / reprice review) ───────

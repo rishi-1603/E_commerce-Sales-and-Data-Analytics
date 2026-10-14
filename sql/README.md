@@ -81,6 +81,12 @@ psql -d ecommerce_db -f sql/03_kpi_analysis.sql
 > The Python pipeline (`python run_pipeline.py`) performs the equivalent
 > analysis in pandas; the outputs are cross-checked by
 > `tests/test_dashboard_consistency.py`.
+>
+> **Cross-validation scope:** revenue, profit, orders, customers, AOV,
+> category/region rankings and the order funnel reconcile exactly between
+> SQL and pandas. RFM segment counts differ slightly (SQL `NTILE` quintiles
+> vs pandas `qcut` with rank-first tie-breaking — e.g. Champions 314 in SQL
+> vs 317 in the pipeline); the dashboard uses the test-pinned pandas values.
 
 ## Data flow
 

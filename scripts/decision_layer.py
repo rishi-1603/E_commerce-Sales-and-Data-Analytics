@@ -43,7 +43,8 @@ def monthly_kpis(master: pd.DataFrame) -> pd.DataFrame:
     """Monthly revenue / orders / active customers / AOV.
 
     Revenue follows the project convention (test-pinned): line_total summed
-    across ALL order statuses — identical to DATA.monthly_revenue.
+    across all rows of master_orders.csv, which contains valid orders only
+    (Delivered + Processing) — identical to DATA.monthly_revenue.
     """
     g = (
         master.assign(ym=master["order_date"].dt.to_period("M"))

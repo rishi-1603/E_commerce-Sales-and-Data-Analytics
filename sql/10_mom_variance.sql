@@ -7,9 +7,10 @@
 --            period values and deltas via LAG — the exact
 --            numbers the dashboard's MoM chip row displays.
 --
---  Convention (test-pinned): revenue = SUM(line_total) across
---  ALL order statuses (matches DATA.monthly_revenue and
---  tests/test_dashboard_consistency.py).
+--  Convention (test-pinned): revenue = SUM(line_total) over VALID
+--  orders only (Delivered + Processing — the valid_orders rule used
+--  across sql/ and the dashboard). Matches DATA.monthly_revenue and
+--  tests/test_dashboard_consistency.py exactly.
 --
 --  Verified (Python: scripts/decision_layer.py):
 --    2024-11 -> 2024-12: revenue +17.0%, orders +21.3%,
@@ -30,6 +31,7 @@ WITH monthly AS (
         COUNT(DISTINCT o.customer_id)                            AS active_customers
     FROM orders o
     JOIN order_items oi USING (order_id)
+    WHERE o.status NOT IN ('Cancelled', 'Returned')
     GROUP BY 1
 ),
 with_prev AS (
@@ -66,6 +68,7 @@ WITH monthly AS (
     SELECT DATE_TRUNC('month', o.order_date) AS month,
            SUM(oi.line_total)                AS revenue
     FROM orders o JOIN order_items oi USING (order_id)
+    WHERE o.status NOT IN ('Cancelled', 'Returned')
     GROUP BY 1
 ), deltas AS (
     SELECT month, revenue,

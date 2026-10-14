@@ -182,14 +182,19 @@ The workflow runs **end-to-end with one command** (`python run_pipeline.py`,
 `HTML` · `CSS` · `JavaScript` (vanilla, no build step)
 
 ### Deployment & Version Control
-`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (31 tests)
+`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (60 tests)
 
 ---
 
 ## 6. 🗄️ SQL Analysis — A Core Layer, Not a Keyword
 
 **The entire analytical logic exists twice — once in PostgreSQL, once in pandas —
-so results are cross-validated across two independent implementations.**
+so results are cross-validated across two independent implementations.** Revenue,
+profit, orders, customers, AOV, category/region rankings and the order funnel
+reconcile exactly between SQL and pandas. One documented difference: RFM segment
+counts (SQL `NTILE` quintiles vs pandas `qcut` with rank-first tie-breaking —
+e.g. Champions 314 in SQL vs 317 in the pipeline). The dashboard and every KPI
+use the test-pinned pandas values.
 
 **8 professionally documented scripts** in [`sql/`](sql/README.md), each query
 carrying a *Business Question → Why It Matters → Key Insight* contract:
@@ -265,7 +270,7 @@ never invent a number. Works with or without an API key.
 📄 [`reports/weekly_brief.md`](reports/weekly_brief.md)
 
 ### Trust Layer (how you know it's real)
-31 automated tests in CI: primary/foreign-key integrity, business-logic
+60 automated tests in CI: primary/foreign-key integrity, business-logic
 constraints, **and dashboard-vs-pipeline consistency checks** that parse the
 dashboard's data and assert it equals the pipeline output.
 📄 [`reports/methodology.md`](reports/methodology.md)
@@ -363,7 +368,7 @@ E_commerce-Sales-and-Data-Analytics/
 │   ├── build_context.py         #   verified fact sheet from CSVs
 │   └── weekly_brief.py          #   LLM narrates facts (no hallucination)
 │
-├── tests/                       # 31 tests: data quality + dashboard consistency
+├── tests/                       # 60 tests: data quality + dashboard consistency
 ├── reports/                     # decision-support documents (see below)
 ├── dashboard/                   # Chart.js dashboard (deployed to Vercel)
 └── docs/figures/                # 20 auto-generated charts
@@ -392,7 +397,7 @@ pip install -r requirements.txt
 #    forecast → profitability → statistics → CLV)
 python run_pipeline.py
 
-# 4. Validate (31 tests: data quality + dashboard consistency)
+# 4. Validate (60 tests: data quality + dashboard consistency)
 python -m pytest tests/ -v
 
 # 5. Generate the grounded AI weekly brief
@@ -416,7 +421,7 @@ psql -d ecommerce_db -c "\COPY order_items FROM 'data/raw/order_items.csv' CSV H
 psql -d ecommerce_db -f sql/03_kpi_analysis.sql      # then 04–08 in any order
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 31 tests on every push.
+CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 60 tests on every push.
 
 ---
 
