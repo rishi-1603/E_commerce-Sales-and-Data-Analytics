@@ -1,0 +1,377 @@
+{
+  "protocol": "fit 64% / calibration 16% / test 20%, stratified, random_state=42",
+  "n_total": 1586,
+  "n_fit": 1014,
+  "n_cal": 254,
+  "n_test": 318,
+  "prevalence": 0.2535,
+  "roc_auc": 0.6489,
+  "pr_auc": 0.3664,
+  "brier_prevalence_reference": 0.2547,
+  "calibration": {
+    "raw": {
+      "brier": 0.1952,
+      "ece_10bin": 0.0966,
+      "calibration_intercept": -0.5709,
+      "calibration_slope": 0.3913
+    },
+    "platt": {
+      "brier": 0.1817,
+      "ece_10bin": 0.0602,
+      "calibration_intercept": -0.1487,
+      "calibration_slope": 0.8761
+    },
+    "isotonic": {
+      "brier": 0.1811,
+      "ece_10bin": 0.0299,
+      "calibration_intercept": -0.3505,
+      "calibration_slope": 0.6524
+    }
+  },
+  "reliability_table_isotonic": [
+    {
+      "bin": "[0.0,0.1]",
+      "n": 100,
+      "mean_predicted": 0.0867,
+      "observed_rate": 0.11
+    },
+    {
+      "bin": "[0.1,0.2]",
+      "n": 2,
+      "mean_predicted": 0.1057,
+      "observed_rate": 0.0
+    },
+    {
+      "bin": "[0.2,0.3]",
+      "n": 37,
+      "mean_predicted": 0.2174,
+      "observed_rate": 0.2703
+    },
+    {
+      "bin": "[0.3,0.4]",
+      "n": 140,
+      "mean_predicted": 0.3274,
+      "observed_rate": 0.3286
+    },
+    {
+      "bin": "[0.4,0.5]",
+      "n": 35,
+      "mean_predicted": 0.44,
+      "observed_rate": 0.3429
+    },
+    {
+      "bin": "[0.5,0.6]",
+      "n": 1,
+      "mean_predicted": 0.5711,
+      "observed_rate": 0.0
+    },
+    {
+      "bin": "[0.6,0.7]",
+      "n": 0,
+      "mean_predicted": null,
+      "observed_rate": null
+    },
+    {
+      "bin": "[0.7,0.8]",
+      "n": 0,
+      "mean_predicted": null,
+      "observed_rate": null
+    },
+    {
+      "bin": "[0.8,0.9]",
+      "n": 0,
+      "mean_predicted": null,
+      "observed_rate": null
+    },
+    {
+      "bin": "[0.9,1.0]",
+      "n": 3,
+      "mean_predicted": 0.9554,
+      "observed_rate": 0.6667
+    }
+  ],
+  "cost_model": {
+    "contact_cost_inr": 250.0,
+    "recovery_rate": 0.15,
+    "retained_value_proxy_inr": 12931.3,
+    "lifetime_spend_context_inr": 20777.13,
+    "value_proxy_definition": "mean observed 180-day spend of customers who did NOT churn",
+    "bayes_threshold": 0.1289,
+    "t_star_selected_on_cal": 0.1
+  },
+  "policies_on_test": {
+    "contact_none": {
+      "threshold": 2.0,
+      "contacts": 0,
+      "churners_captured": 0,
+      "capture_rate": 0.0,
+      "precision": 0.0,
+      "expected_profit": 0.0
+    },
+    "contact_all": {
+      "threshold": 0.0,
+      "contacts": 318,
+      "churners_captured": 81,
+      "capture_rate": 1.0,
+      "precision": 0.2547,
+      "expected_profit": 77615.29
+    },
+    "current_band_medium_plus (p>=0.33)": {
+      "threshold": 0.33,
+      "contacts": 39,
+      "churners_captured": 14,
+      "capture_rate": 0.1728,
+      "precision": 0.359,
+      "expected_profit": 17405.73
+    },
+    "current_band_high_only (p>=0.66)": {
+      "threshold": 0.66,
+      "contacts": 3,
+      "churners_captured": 2,
+      "capture_rate": 0.0247,
+      "precision": 0.6667,
+      "expected_profit": 3129.39
+    },
+    "data_driven_t_star (p>=0.1)": {
+      "threshold": 0.1,
+      "contacts": 218,
+      "churners_captured": 70,
+      "capture_rate": 0.8642,
+      "precision": 0.3211,
+      "expected_profit": 81278.65
+    },
+    "oracle (upper bound)": {
+      "threshold": null,
+      "contacts": 81,
+      "churners_captured": 81,
+      "capture_rate": 1.0,
+      "precision": 1.0,
+      "expected_profit": 157115.29
+    }
+  },
+  "sensitivity": [
+    {
+      "recovery_rate": 0.105,
+      "contact_cost": 175.0,
+      "bayes_threshold": 0.1289,
+      "contacts": 216,
+      "churners_captured": 70,
+      "expected_profit": 57245.05
+    },
+    {
+      "recovery_rate": 0.105,
+      "contact_cost": 250.0,
+      "bayes_threshold": 0.1841,
+      "contacts": 216,
+      "churners_captured": 70,
+      "expected_profit": 41045.05
+    },
+    {
+      "recovery_rate": 0.105,
+      "contact_cost": 325.0,
+      "bayes_threshold": 0.2394,
+      "contacts": 179,
+      "churners_captured": 60,
+      "expected_profit": 23292.19
+    },
+    {
+      "recovery_rate": 0.15,
+      "contact_cost": 175.0,
+      "bayes_threshold": 0.0902,
+      "contacts": 279,
+      "churners_captured": 76,
+      "expected_profit": 98591.82
+    },
+    {
+      "recovery_rate": 0.15,
+      "contact_cost": 250.0,
+      "bayes_threshold": 0.1289,
+      "contacts": 216,
+      "churners_captured": 70,
+      "expected_profit": 81778.65
+    },
+    {
+      "recovery_rate": 0.15,
+      "contact_cost": 325.0,
+      "bayes_threshold": 0.1676,
+      "contacts": 216,
+      "churners_captured": 70,
+      "expected_profit": 65578.65
+    },
+    {
+      "recovery_rate": 0.195,
+      "contact_cost": 175.0,
+      "bayes_threshold": 0.0694,
+      "contacts": 279,
+      "churners_captured": 76,
+      "expected_profit": 142816.87
+    },
+    {
+      "recovery_rate": 0.195,
+      "contact_cost": 250.0,
+      "bayes_threshold": 0.0991,
+      "contacts": 218,
+      "churners_captured": 70,
+      "expected_profit": 122012.25
+    },
+    {
+      "recovery_rate": 0.195,
+      "contact_cost": 325.0,
+      "bayes_threshold": 0.1289,
+      "contacts": 216,
+      "churners_captured": 70,
+      "expected_profit": 106312.25
+    }
+  ],
+  "operating_points": [
+    {
+      "threshold": 0.25,
+      "precision": 0.3352,
+      "recall": 0.7407,
+      "f1": 0.4615,
+      "contacts": 179
+    },
+    {
+      "threshold": 0.33,
+      "precision": 0.359,
+      "recall": 0.1728,
+      "f1": 0.2333,
+      "contacts": 39
+    },
+    {
+      "threshold": 0.5,
+      "precision": 0.5,
+      "recall": 0.0247,
+      "f1": 0.0471,
+      "contacts": 4
+    },
+    {
+      "threshold": 0.66,
+      "precision": 0.6667,
+      "recall": 0.0247,
+      "f1": 0.0476,
+      "contacts": 3
+    },
+    {
+      "threshold": 0.75,
+      "precision": 0.6667,
+      "recall": 0.0247,
+      "f1": 0.0476,
+      "contacts": 3
+    }
+  ],
+  "capacity_curve": [
+    {
+      "top_pct": 5,
+      "contacts": 15,
+      "churners_captured": 3,
+      "capture_rate": 0.037,
+      "precision": 0.2,
+      "lift": 0.7891
+    },
+    {
+      "top_pct": 10,
+      "contacts": 31,
+      "churners_captured": 10,
+      "capture_rate": 0.1235,
+      "precision": 0.3226,
+      "lift": 1.2727
+    },
+    {
+      "top_pct": 20,
+      "contacts": 63,
+      "churners_captured": 21,
+      "capture_rate": 0.2593,
+      "precision": 0.3333,
+      "lift": 1.3151
+    },
+    {
+      "top_pct": 30,
+      "contacts": 95,
+      "churners_captured": 31,
+      "capture_rate": 0.3827,
+      "precision": 0.3263,
+      "lift": 1.2874
+    },
+    {
+      "top_pct": 50,
+      "contacts": 159,
+      "churners_captured": 53,
+      "capture_rate": 0.6543,
+      "precision": 0.3333,
+      "lift": 1.3151
+    }
+  ],
+  "error_analysis": {
+    "threshold_used": 0.1,
+    "by_recency": [
+      {
+        "band": "recent",
+        "n": 106,
+        "churn_rate": 0.2642,
+        "false_positives": 36,
+        "false_negatives": 9
+      },
+      {
+        "band": "mid",
+        "n": 106,
+        "churn_rate": 0.2736,
+        "false_positives": 50,
+        "false_negatives": 2
+      },
+      {
+        "band": "lapsed",
+        "n": 106,
+        "churn_rate": 0.2264,
+        "false_positives": 62,
+        "false_negatives": 0
+      }
+    ],
+    "by_frequency": [
+      {
+        "band": "low_freq",
+        "n": 106,
+        "churn_rate": 0.1604,
+        "false_positives": 33,
+        "false_negatives": 7
+      },
+      {
+        "band": "mid_freq",
+        "n": 106,
+        "churn_rate": 0.2642,
+        "false_positives": 59,
+        "false_negatives": 1
+      },
+      {
+        "band": "high_freq",
+        "n": 106,
+        "churn_rate": 0.3396,
+        "false_positives": 56,
+        "false_negatives": 3
+      }
+    ],
+    "by_tenure": [
+      {
+        "band": "new",
+        "n": 106,
+        "churn_rate": 0.1509,
+        "false_positives": 20,
+        "false_negatives": 10
+      },
+      {
+        "band": "established",
+        "n": 107,
+        "churn_rate": 0.215,
+        "false_positives": 71,
+        "false_negatives": 1
+      },
+      {
+        "band": "veteran",
+        "n": 105,
+        "churn_rate": 0.4,
+        "false_positives": 57,
+        "false_negatives": 0
+      }
+    ]
+  }
+}
