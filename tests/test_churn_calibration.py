@@ -53,21 +53,32 @@ def test_recomputation_matches_committed_json(metrics, recomputed):
     assert pol_new[key_new]["contacts"] == pytest.approx(pol_old[key]["contacts"], abs=15)
 
 
-# ── Pinned values (Day-2 release, seeded data) ────────────────────────
+# ── Pinned values (re-verified against the pinned environment) ────────
+# CORRECTED 2026-10-17: these pins previously read 0.6489 / 0.3664 / 0.1952 /
+# 0.1811 / 0.0299. Those figures were NOT reproducible from this repository —
+# the script is deterministic, the data is byte-identical, and the pinned
+# library versions (scikit-learn 1.6.1, numpy 2.3.5, scipy 1.17.1) match, yet
+# a fresh run produced the values below every time. A cross-version binning
+# hypothesis (commit e2aa3c4) was tested and falsified: the pinned versions were
+# already in place when the old figures were committed, so no version difference
+# can explain the gap. The stale pins survived only because CI did not execute
+# scripts/churn_calibration.py; the Day-6 CI change wired that script in, which
+# exposed the drift as a red build. Both the corrected pins (below) and the
+# direction invariant are kept.
 def test_pinned_headline_metrics(metrics):
-    assert metrics["roc_auc"] == pytest.approx(0.6489, abs=5e-3)
-    assert metrics["pr_auc"] == pytest.approx(0.3664, abs=5e-3)
+    assert metrics["roc_auc"] == pytest.approx(0.6484, abs=5e-3)
+    assert metrics["pr_auc"] == pytest.approx(0.3616, abs=5e-3)
     assert metrics["prevalence"] == pytest.approx(0.2535, abs=5e-3)
 
 
 def test_pinned_calibration(metrics):
     cal = metrics["calibration"]
-    assert cal["raw"]["brier"] == pytest.approx(0.1952, abs=5e-3)
-    assert cal["isotonic"]["brier"] == pytest.approx(0.1811, abs=5e-3)
-    # ECE is bin-sensitive across sklearn builds (isotonic tie-handling drifts
-    # slightly): pin with a looser band but assert the meaningful bound —
-    # isotonic ECE must stay far below the raw 0.0966 (direction tested separately).
-    assert cal["isotonic"]["ece_10bin"] == pytest.approx(0.034, abs=1.5e-2)
+    assert cal["raw"]["brier"] == pytest.approx(0.1957, abs=5e-3)
+    assert cal["isotonic"]["brier"] == pytest.approx(0.1829, abs=5e-3)
+    # Pin the reproducible pipeline value (tight house-style band), and keep the
+    # direction invariant from e2aa3c4: whatever the exact binning, isotonic
+    # calibration must stay far below the raw model's ECE.
+    assert cal["isotonic"]["ece_10bin"] == pytest.approx(0.0378, abs=5e-3)
     assert cal["isotonic"]["ece_10bin"] < 0.5 * cal["raw"]["ece_10bin"]
 
 

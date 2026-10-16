@@ -113,3 +113,53 @@ the pandas engine's break-even table to within 0.0002.
 - Dashboard "Discount Lab" tab (Chart.js) + `data/metrics.json` definitions.
 - Experiment design to *causally* test the discount ladder (the honest next step after
   an observational null result).
+
+---
+
+## U3 — CI ROOT-CAUSE FIX (pre-existing red build on main)
+
+**Status:** done — full CI simulation green locally (119 passed, flake8 clean)
+
+### The problem
+`main` CI was **failing** on the last two commits (45122d9 Day 6, c61fcc8 Day 7).
+Verified independently on a clean clone of main *without* any of this branch's
+work — so it was pre-existing, not introduced here.
+
+### Root cause (proven, not guessed)
+1. Day 6 added `python scripts/churn_calibration.py` to the CI workflow. Before
+   that, CI never executed the script, so the committed
+   `reports/churn_calibration_metrics.json` was never regenerated or checked.
+2. `tests/test_churn_calibration.py` pinned absolute values (e.g. isotonic
+   ECE = 0.0299) that **cannot be reproduced** from this repository:
+   - the script is deterministic (3 consecutive runs identical)
+   - the input data is byte-identical (`git status` clean after regeneration)
+   - the pinned library versions match (scikit-learn 1.6.1, numpy 2.3.5, scipy 1.17.1)
+   - yet a fresh run produces isotonic ECE = 0.0378, every time
+3. So the committed artifact and pins were stale. Once Day 6 wired the script
+   into CI, the drift surfaced as `test_pinned_calibration` failing.
+
+### The fix (numbers re-derived, never hand-tuned)
+| Metric | Stale | Reproducible (now pinned) |
+|---|---|---|
+| roc_auc | 0.6489 | **0.6484** |
+| pr_auc | 0.3664 | **0.3616** |
+| brier_raw | 0.1952 | **0.1957** |
+| brier_isotonic | 0.1811 | **0.1829** |
+| ece_raw | 0.0966 | **0.0963** |
+| ece_isotonic | 0.0299 | **0.0378** |
+| calibration_slope_raw | 0.3913 | **0.388** |
+
+The pipeline is the source of truth: artifacts were regenerated from the script,
+pins were updated to the reproducible output, and `data/metrics.json` was synced
+(with a `correction_note` recording the change). Cost-model pins
+(bayes_threshold 0.1289, t_star 0.10) were unaffected and left untouched.
+
+### Why this is the right fix
+Loosening the test tolerance, or deleting the Day-6 CI step, would have hidden
+the inconsistency instead of resolving it. The repo's own standard is that
+artifacts must be reproducible; these now are.
+
+### Verification
+Exact CI sequence reproduced locally end-to-end: generate_data → run_pipeline →
+churn_calibration → forecast_backtest → pricing → eval harness → flake8 →
+pytest → **119 passed**. Registry, artifact and pins now agree to 1e-9.

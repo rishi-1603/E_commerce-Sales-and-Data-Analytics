@@ -1,8 +1,8 @@
 {
   "meta": {
     "project": "E-Commerce Sales & Customer Analytics",
-    "description": "Semantic layer \u2014 exact definitions of every KPI. The dashboard, SQL layer, reports and any LLM narration must cite these definitions.",
-    "disclosure": "Synthetic, seeded dataset \u2014 fully reproducible. Methods are the story.",
+    "description": "Semantic layer — exact definitions of every KPI. The dashboard, SQL layer, reports and any LLM narration must cite these definitions.",
+    "disclosure": "Synthetic, seeded dataset — fully reproducible. Methods are the story.",
     "source_data": "data/raw/orders.csv (12,000 orders) + data/processed/master_orders.csv (21,066 item rows, 9,933 orders)",
     "convention_note": "Revenue = SUM(line_total) over orders with status Delivered or Processing (Cancelled and Returned excluded). Pinned by tests/test_dashboard_consistency.py and scripts/decision_layer.py via the valid_orders definition (sql/02_data_cleaning.sql, python/eda/01_eda_preprocessing.py)."
   },
@@ -10,7 +10,7 @@
     "revenue": {
       "definition": "Revenue across the 3-year window from orders that are Delivered or Processing. Cancelled and Returned orders are excluded (the same rule as valid_orders).",
       "formula": "SUM(order_items.line_total) WHERE orders.status IN ('Delivered','Processing')",
-      "full_dataset_value": "\u20b95.93 Cr"
+      "full_dataset_value": "₹5.93 Cr"
     },
     "gross_margin": {
       "definition": "Gross profit as a share of revenue.",
@@ -34,9 +34,9 @@
       "caveat": "Honest post-leakage number; real churn models rarely score 0.9+ without leakage."
     },
     "cooling_off_customers": {
-      "definition": "Medium churn-risk band \u2014 the win-back audience.",
+      "definition": "Medium churn-risk band — the win-back audience.",
       "full_dataset_value": 448,
-      "historical_spend": "\u20b91.24 Cr",
+      "historical_spend": "₹1.24 Cr",
       "spend_source": "churn_features.total_revenue (same as reports/fact_sheet.json)",
       "caveat": "Historical spend, NOT future revenue at risk."
     },
@@ -74,7 +74,7 @@
     },
     "revenue_forecast": {
       "definition": "H1 2025 projection, ensemble of linear trend + Holt-Winters, bootstrap 95% CI.",
-      "total_projected": "\u20b93.27 Cr",
+      "total_projected": "₹3.27 Cr",
       "caveat": "Assumes trend/seasonality continues; evaluate against actuals over time."
     },
     "purchase": {
@@ -112,24 +112,25 @@
       "verified_value_pct": 42
     },
     "winback_experiment": {
-      "definition": "DESIGN ONLY \u2014 no experiment has been run. See docs/experiment_design_winback.md.",
+      "definition": "DESIGN ONLY — no experiment has been run. See docs/experiment_design_winback.md.",
       "segment_baseline_90d_repeat_pct": 34.5,
       "mde_core_pool_pp": 13.0,
       "mde_expanded_pool_pp": 8.5
     },
     "churn_calibration": {
       "definition": "Probability quality and decision thresholds for the churn model (fit/cal/test 64/16/20).",
-      "roc_auc": 0.6489,
-      "pr_auc": 0.3664,
-      "brier_raw": 0.1952,
-      "brier_isotonic": 0.1811,
-      "ece_raw": 0.0966,
-      "ece_isotonic": 0.0299,
-      "calibration_slope_raw": 0.3913,
+      "roc_auc": 0.6484,
+      "pr_auc": 0.3616,
+      "brier_raw": 0.1957,
+      "brier_isotonic": 0.1829,
+      "ece_raw": 0.0963,
+      "ece_isotonic": 0.0378,
+      "calibration_slope_raw": 0.388,
       "operating_threshold_t_star": 0.1,
       "threshold_selection": "expected-profit maximizing on the calibration slice; cost model: C=INR250/contact, r=15% recovery, V=INR12,931 (mean 180-day spend of retained customers)",
       "source": "reports/churn_calibration_metrics.json (pinned by tests/test_churn_calibration.py)",
-      "caveat": "Profit figures are expected values under illustrative assumptions; no campaign has been run."
+      "caveat": "Profit figures are expected values under illustrative assumptions; no campaign has been run.",
+      "correction_note": "Values corrected 2026-10-17 to the reproducible output of scripts/churn_calibration.py under the pinned environment (scikit-learn 1.6.1, numpy 2.3.5, scipy 1.17.1). The previous figures (roc_auc 0.6489, pr_auc 0.3664, brier_raw 0.1952, brier_isotonic 0.1811, ece_isotonic 0.0299) were not reproducible from this repository by any combination of committed code and committed data; they survived because CI did not run the calibration script. The registry now matches the pipeline, and CI regenerates and re-verifies these figures on every push."
     },
     "forecast_backtest": {
       "definition": "Rolling-origin backtest of the revenue forecast vs naive baselines (10 origins x 3 horizons).",

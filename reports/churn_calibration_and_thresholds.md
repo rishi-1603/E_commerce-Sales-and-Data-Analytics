@@ -8,15 +8,15 @@
 
 ## 1. Are the probabilities honest? (calibration)
 
-Ranking quality: **ROC-AUC 0.6489** · **PR-AUC 0.3664** (prevalence = 0.254; PR-AUC is the number that matters on this imbalanced problem — random ranking scores ≈ prevalence).
+Ranking quality: **ROC-AUC 0.6484** · **PR-AUC 0.3616** (prevalence = 0.254; PR-AUC is the number that matters on this imbalanced problem — random ranking scores ≈ prevalence).
 
 Reference: always predicting the base rate gives Brier **0.2547**; the model must beat this to add probability-level value.
 
 | Variant | Brier ↓ | ECE (10-bin) ↓ | Calib. intercept (=0 ideal) | Calib. slope (=1 ideal) |
 |---|---|---|---|---|
-| raw | 0.1952 | 0.0966 | -0.5709 | 0.3913 |
-| platt | 0.1817 | 0.0602 | -0.1487 | 0.8761 |
-| isotonic | 0.1811 | 0.0299 | -0.3505 | 0.6524 |
+| raw | 0.1957 | 0.0963 | -0.576 | 0.388 |
+| platt | 0.1819 | 0.0581 | -0.1715 | 0.8547 |
+| isotonic | 0.1829 | 0.0378 | -0.3927 | 0.6181 |
 
 **Reading the table:** a slope < 1 means predictions are too extreme (over-confident); a slope > 1 means too timid. Isotonic/Platt scaling fix probability quality without changing the ranking (AUC is invariant to monotone transforms).
 
@@ -24,16 +24,16 @@ Reference: always predicting the base rate gives Brier **0.2547**; the model mus
 
 | Predicted bin | n | Mean predicted | Observed churn rate |
 |---|---|---|---|
-| [0.0,0.1] | 100 | 0.0867 | 0.11 |
-| [0.1,0.2] | 2 | 0.1057 | 0.0 |
-| [0.2,0.3] | 37 | 0.2174 | 0.2703 |
-| [0.3,0.4] | 140 | 0.3274 | 0.3286 |
-| [0.4,0.5] | 35 | 0.44 | 0.3429 |
+| [0.0,0.1] | 101 | 0.0857 | 0.1089 |
+| [0.1,0.2] | 1 | 0.112 | 0.0 |
+| [0.2,0.3] | 37 | 0.2258 | 0.2703 |
+| [0.3,0.4] | 149 | 0.3331 | 0.3423 |
+| [0.4,0.5] | 26 | 0.4667 | 0.2692 |
 | [0.5,0.6] | 1 | 0.5711 | 0.0 |
 | [0.6,0.7] | 0 | — | — |
 | [0.7,0.8] | 0 | — | — |
 | [0.8,0.9] | 0 | — | — |
-| [0.9,1.0] | 3 | 0.9554 | 0.6667 |
+| [0.9,1.0] | 3 | 0.953 | 0.6667 |
 
 ![Reliability curve](../docs/figures/18_churn_calibration.png)
 
@@ -55,9 +55,9 @@ Under these assumptions the Bayes-optimal threshold is **t = C/(r·V) = 0.129**:
 |---|---|---|---|---|---|
 | contact_none | 0 | 0 | 0.0% | 0.0% | ₹0 |
 | contact_all | 318 | 81 | 100.0% | 25.5% | ₹77,615 |
-| current_band_medium_plus (p>=0.33) | 39 | 14 | 17.3% | 35.9% | ₹17,406 |
+| current_band_medium_plus (p>=0.33) | 63 | 22 | 27.2% | 34.9% | ₹26,923 |
 | current_band_high_only (p>=0.66) | 3 | 2 | 2.5% | 66.7% | ₹3,129 |
-| data_driven_t_star (p>=0.1) | 218 | 70 | 86.4% | 32.1% | ₹81,279 |
+| data_driven_t_star (p>=0.1) | 217 | 70 | 86.4% | 32.3% | ₹81,529 |
 | oracle (upper bound) | 81 | 81 | 100.0% | 100.0% | ₹157,115 |
 
 ![Profit vs threshold](../docs/figures/19_churn_threshold_profit.png)
@@ -81,7 +81,7 @@ Under these assumptions the Bayes-optimal threshold is **t = C/(r·V) = 0.129**:
 | Threshold | Precision | Recall | F1 | Contacts |
 |---|---|---|---|---|
 | 0.25 | 0.335 | 0.741 | 0.462 | 179 |
-| 0.33 | 0.359 | 0.173 | 0.233 | 39 |
+| 0.33 | 0.349 | 0.272 | 0.306 | 63 |
 | 0.5 | 0.500 | 0.025 | 0.047 | 4 |
 | 0.66 | 0.667 | 0.025 | 0.048 | 3 |
 | 0.75 | 0.667 | 0.025 | 0.048 | 3 |
@@ -90,11 +90,11 @@ Under these assumptions the Bayes-optimal threshold is **t = C/(r·V) = 0.129**:
 
 | Top-k% by risk | Contacts | Churners captured | Capture rate | Precision | Lift vs random |
 |---|---|---|---|---|---|
-| 5% | 15 | 3 | 3.7% | 20.0% | 0.79× |
-| 10% | 31 | 10 | 12.3% | 32.3% | 1.27× |
-| 20% | 63 | 21 | 25.9% | 33.3% | 1.32× |
-| 30% | 95 | 31 | 38.3% | 32.6% | 1.29× |
-| 50% | 159 | 53 | 65.4% | 33.3% | 1.32× |
+| 5% | 15 | 5 | 6.2% | 33.3% | 1.32× |
+| 10% | 31 | 9 | 11.1% | 29.0% | 1.15× |
+| 20% | 63 | 22 | 27.2% | 34.9% | 1.38× |
+| 30% | 95 | 34 | 42.0% | 35.8% | 1.41× |
+| 50% | 159 | 54 | 66.7% | 34.0% | 1.34× |
 
 ---
 
@@ -106,13 +106,13 @@ Under these assumptions the Bayes-optimal threshold is **t = C/(r·V) = 0.129**:
 |---|---|---|---|---|
 | recent | 106 | 26.4% | 36 | 9 |
 | mid | 106 | 27.4% | 50 | 2 |
-| lapsed | 106 | 22.6% | 62 | 0 |
+| lapsed | 106 | 22.6% | 61 | 0 |
 
 ### By Purchase frequency band
 
 | Band | n | Churn rate | False positives | False negatives |
 |---|---|---|---|---|
-| low_freq | 106 | 16.0% | 33 | 7 |
+| low_freq | 106 | 16.0% | 32 | 7 |
 | mid_freq | 106 | 26.4% | 59 | 1 |
 | high_freq | 106 | 34.0% | 56 | 3 |
 
@@ -120,7 +120,7 @@ Under these assumptions the Bayes-optimal threshold is **t = C/(r·V) = 0.129**:
 
 | Band | n | Churn rate | False positives | False negatives |
 |---|---|---|---|---|
-| new | 106 | 15.1% | 20 | 10 |
+| new | 106 | 15.1% | 19 | 10 |
 | established | 107 | 21.5% | 71 | 1 |
 | veteran | 105 | 40.0% | 57 | 0 |
 

@@ -257,7 +257,7 @@ def main() -> None:
     print("=" * 78)
     print("DISCOUNT RESPONSE, MARGIN EROSION & BREAK-EVEN")
     print("=" * 78)
-    print(f"\n1. Does demand respond to discount depth?")
+    print("\n1. Does demand respond to discount depth?")
     print(f"   Kruskal-Wallis across depths: H={resp['kruskal_wallis_h']}, "
           f"p={resp['kruskal_wallis_p']}")
     print(f"   Overall OLS slope: {resp['overall_slope_qty_per_unit_discount']:+.4f} units "
@@ -270,14 +270,14 @@ def main() -> None:
         print(f"     {cat:14s} {v['qty_change_pct_at_20pp']:+.2%} at 20pp  "
               f"p={v['p_value']:.3f} {'(significant)' if v['significant_at_5pct'] else ''}")
 
-    print(f"\n2. What does each discount cost in margin?")
+    print("\n2. What does each discount cost in margin?")
     print(curve[["discount", "line_items", "margin_rate",
                  "margin_pct_of_list", "margin_loss_vs_no_discount"]].to_string(index=False))
 
-    print(f"\n3. Volume lift required to break even on margin:")
+    print("\n3. Volume lift required to break even on margin:")
     print(be[["discount", "break_even_volume_lift", "share_of_items"]].to_string(index=False))
 
-    print(f"\n4. Static re-pricing scenarios (volume held constant):")
+    print("\n4. Static re-pricing scenarios (volume held constant):")
     for k, s in scenarios.items():
         print(f"   {k}: {s['lines_affected']:,} lines affected → "
               f"margin recovered ₹{s['margin_recovered']:,.0f} "

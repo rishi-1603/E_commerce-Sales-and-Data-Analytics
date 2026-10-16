@@ -24,5 +24,9 @@ jobs:
         run: |
           python scripts/churn_calibration.py
           python scripts/forecast_backtest.py
+      - name: Run pricing & AI-eval modules (regenerated from scratch every build)
+        run: |
+          python python/pricing/elasticity.py
+          python evals/run_eval.py --min-accuracy 0.90
       - name: Run data quality tests
         run: python -m pytest tests/ -v
