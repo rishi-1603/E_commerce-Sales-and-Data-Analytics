@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 on:
   push:
     branches: [main]
@@ -20,5 +20,9 @@ jobs:
         run: python data/raw/generate_data.py
       - name: Run pipeline
         run: python run_pipeline.py
+      - name: Run evaluation-depth analyses (churn calibration, forecast backtest)
+        run: |
+          python scripts/churn_calibration.py
+          python scripts/forecast_backtest.py
       - name: Run data quality tests
         run: python -m pytest tests/ -v
