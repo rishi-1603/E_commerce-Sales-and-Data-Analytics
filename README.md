@@ -43,7 +43,7 @@ flowchart LR
     B --> C["Analytics: RFM+K-Means<br/>churn · BCG · Holt-Winters"]
     C --> D["Decision layer: MoM deltas<br/>cohorts · funnel · What changed?"]
     D --> E["NL-to-SQL assistant<br/>LLM never computes numbers"]
-    E --> F["Chart.js dashboard (Vercel)<br/>84 tests pin every figure"]
+    E --> F["Chart.js dashboard (Vercel)<br/>119 tests pin every figure"]
 ```
 
 **Business questions the dashboard answers**
@@ -182,7 +182,7 @@ The workflow runs **end-to-end with one command** (`python run_pipeline.py`,
 `HTML` · `CSS` · `JavaScript` (vanilla, no build step)
 
 ### Deployment & Version Control
-`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (84 tests)
+`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (119 tests)
 
 ---
 
@@ -379,7 +379,7 @@ E_commerce-Sales-and-Data-Analytics/
 │   ├── build_context.py         #   verified fact sheet from CSVs
 │   └── weekly_brief.py          #   LLM narrates facts (no hallucination)
 │
-├── tests/                       # 84 tests: data quality + dashboard consistency
+├── tests/                       # 119 tests: data quality + dashboard consistency
 ├── reports/                     # decision-support documents (see below)
 ├── dashboard/                   # Chart.js dashboard (deployed to Vercel)
 └── docs/figures/                # 20 auto-generated charts
@@ -408,7 +408,7 @@ pip install -r requirements.txt
 #    forecast → profitability → statistics → CLV)
 python run_pipeline.py
 
-# 4. Validate (84 tests: data quality + dashboard consistency)
+# 4. Validate (119 tests: data quality + dashboard consistency)
 python -m pytest tests/ -v
 
 # 5. Generate the grounded AI weekly brief
@@ -432,7 +432,7 @@ psql -d ecommerce_db -c "\COPY order_items FROM 'data/raw/order_items.csv' CSV H
 psql -d ecommerce_db -f sql/03_kpi_analysis.sql      # then 04–08 in any order
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 84 tests on every push.
+CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 119 tests on every push.
 
 ---
 
