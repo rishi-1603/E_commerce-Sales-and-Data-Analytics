@@ -1,0 +1,405 @@
+{
+  "mode": "fallback",
+  "timestamp": "2026-10-16T18:53:06+00:00",
+  "n_questions": 37,
+  "passed": 18,
+  "overall_accuracy": 0.486,
+  "by_class": {
+    "simple_aggregation": {
+      "n": 13,
+      "passed": 6,
+      "accuracy": 0.462
+    },
+    "segment_breakdown": {
+      "n": 10,
+      "passed": 6,
+      "accuracy": 0.6
+    },
+    "time_intelligence": {
+      "n": 9,
+      "passed": 2,
+      "accuracy": 0.222
+    },
+    "refusal": {
+      "n": 5,
+      "passed": 4,
+      "accuracy": 0.8
+    }
+  },
+  "refusal_correctness": 0.8,
+  "fabricated_numbers": 1,
+  "latency_p50_ms": 0.0,
+  "latency_p95_ms": 212.1,
+  "results": [
+    {
+      "id": "A01",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total revenue?",
+      "passed": true,
+      "detail": "got 59,283,619.32 vs expected 59,283,619.32",
+      "latency_ms": 216.2,
+      "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
+    },
+    {
+      "id": "A02",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total profit?",
+      "passed": true,
+      "detail": "got 31,997,341.64 vs expected 31,997,341.64",
+      "latency_ms": 204.0,
+      "sql": "SELECT ROUND(SUM(profit), 2) as total_profit FROM orders"
+    },
+    {
+      "id": "A03",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many total orders do we have?",
+      "passed": true,
+      "detail": "got 9,933.00 vs expected 9,933.00",
+      "latency_ms": 203.9,
+      "sql": "SELECT COUNT(DISTINCT order_id) as total_orders FROM orders"
+    },
+    {
+      "id": "A04",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many customers do we have in total?",
+      "passed": true,
+      "detail": "got 1,991.00 vs expected 1,991.00",
+      "latency_ms": 210.1,
+      "sql": "SELECT COUNT(DISTINCT customer_id) as total_customers FROM orders"
+    },
+    {
+      "id": "A05",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is the average order value?",
+      "passed": true,
+      "detail": "got 5,968.35 vs expected 5,968.35",
+      "latency_ms": 204.1,
+      "sql": "SELECT ROUND(SUM(line_total)/COUNT(DISTINCT order_id), 2) as aov FROM orders"
+    },
+    {
+      "id": "A06",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total revenue in 2024?",
+      "passed": false,
+      "detail": "got 59,283,619.32 vs expected 40,901,640.96",
+      "latency_ms": 206.9,
+      "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
+    },
+    {
+      "id": "A07",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is the average discount we give?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "A08",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "Which category has the highest margin?",
+      "passed": true,
+      "detail": "correct extreme: Sports",
+      "latency_ms": 213.0,
+      "sql": "SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct FROM orders GROUP BY category ORDER BY margin_pct DESC"
+    },
+    {
+      "id": "A09",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total quantity sold?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "A10",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many orders were placed in December 2024?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "A11",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "What's our overall turnover?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "A12",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "How big is our customer base?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "A13",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "Which product line gives us the best percentage profit?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "B01",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by category",
+      "passed": true,
+      "detail": "correct extreme: Sports",
+      "latency_ms": 209.0,
+      "sql": "SELECT category, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY category ORDER BY revenue DESC"
+    },
+    {
+      "id": "B02",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which region has the highest revenue?",
+      "passed": true,
+      "detail": "correct extreme: West",
+      "latency_ms": 202.4,
+      "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
+    },
+    {
+      "id": "B03",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me the top products by revenue",
+      "passed": true,
+      "detail": "correct extreme: Tablet Ultra",
+      "latency_ms": 206.0,
+      "sql": "SELECT product_name, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY product_name ORDER BY revenue DESC LIMIT 10"
+    },
+    {
+      "id": "B04",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by region",
+      "passed": true,
+      "detail": "got 5 rows, expected 5",
+      "latency_ms": 178.8,
+      "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
+    },
+    {
+      "id": "B05",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which subcategory has the lowest revenue?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "B06",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by customer segment (B2B and B2C)",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "B07",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which product has the highest profit?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "B08",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me margin by category",
+      "passed": true,
+      "detail": "correct extreme: Sports",
+      "latency_ms": 178.6,
+      "sql": "SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct FROM orders GROUP BY category ORDER BY margin_pct DESC"
+    },
+    {
+      "id": "B09",
+      "class": "segment_breakdown",
+      "variant": "paraphrase",
+      "question": "Where do we make the most money region-wise?",
+      "passed": true,
+      "detail": "correct extreme: West",
+      "latency_ms": 181.3,
+      "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
+    },
+    {
+      "id": "B10",
+      "class": "segment_breakdown",
+      "variant": "paraphrase",
+      "question": "Which SKUs sell the best?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C01",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me the monthly revenue trend",
+      "passed": true,
+      "detail": "got 36 rows, expected 30\u201336",
+      "latency_ms": 212.1,
+      "sql": "SELECT year, month, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year, month ORDER BY year, month"
+    },
+    {
+      "id": "C02",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me revenue by year",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C03",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "What was our revenue in Q4 2024?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C04",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Which year had the highest revenue?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C05",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me the month-over-month revenue growth in 2024",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C06",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Which quarter had the highest revenue?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "C07",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me orders by month",
+      "passed": false,
+      "detail": "no column matching ['order'] in ['year', 'month', 'revenue']",
+      "latency_ms": 175.7,
+      "sql": "SELECT year, month, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year, month ORDER BY year, month"
+    },
+    {
+      "id": "C08",
+      "class": "time_intelligence",
+      "variant": "paraphrase",
+      "question": "Plot revenue over time by month",
+      "passed": true,
+      "detail": "got 36 rows, expected 30\u201336",
+      "latency_ms": 176.5,
+      "sql": "SELECT year, month, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year, month ORDER BY year, month"
+    },
+    {
+      "id": "C09",
+      "class": "time_intelligence",
+      "variant": "paraphrase",
+      "question": "How much did we earn in the last quarter of 2024?",
+      "passed": false,
+      "detail": "system error: Could not generate SQL for that question.",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "D01",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What is the CEO's name?",
+      "passed": true,
+      "detail": "refused (Could not generate SQL for that question.)",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "D02",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "How many employees work at the company?",
+      "passed": true,
+      "detail": "refused (Could not generate SQL for that question.)",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "D03",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "Which customer is committing fraud?",
+      "passed": true,
+      "detail": "refused (Could not generate SQL for that question.)",
+      "latency_ms": 0.0,
+      "sql": ""
+    },
+    {
+      "id": "D04",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What will total revenue be next year?",
+      "passed": false,
+      "detail": "FABRICATED an answer: [59283619.32]",
+      "latency_ms": 169.6,
+      "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
+    },
+    {
+      "id": "D05",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What is the weather forecast for tomorrow?",
+      "passed": true,
+      "detail": "refused (Could not generate SQL for that question.)",
+      "latency_ms": 0.0,
+      "sql": ""
+    }
+  ]
+}

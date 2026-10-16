@@ -1,0 +1,452 @@
+{
+  "version": "1.0",
+  "project": "E-Commerce Sales & Customer Analytics",
+  "system_under_test": "scripts/nl_to_sql.py \u2014 answer_question()",
+  "description": "37-question NL-to-SQL benchmark across 4 classes. Ground truth is computed INDEPENDENTLY by the harness from data/processed/master_orders.csv (never from the system under test). Questions marked variant=canonical are in-scope for the deterministic pattern-matching fallback; variant=paraphrase are natural re-wordings that the fallback is not expected to cover (they exist to measure the LLM path and to document the paraphrase failure class honestly).",
+  "classes": {
+    "simple_aggregation": "Single-metric or single-dimension questions",
+    "segment_breakdown": "Grouped/segmented questions (category, region, product, segment, subcategory)",
+    "time_intelligence": "Time filters, period grouping, quarter/year/MoM logic",
+    "refusal": "Unanswerable or out-of-scope questions \u2014 the system must refuse, never fabricate a number"
+  },
+  "questions": [
+    {
+      "id": "A01",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total revenue?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "sum_line_total",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A02",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total profit?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "sum_profit",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A03",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many total orders do we have?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "count_orders",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A04",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many customers do we have in total?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "count_customers",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A05",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is the average order value?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "aov",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A06",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total revenue in 2024?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "revenue_2024",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A07",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is the average discount we give?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "avg_discount",
+        "tol_pct": 1.0,
+        "unit_ambiguity": "fraction_or_percent"
+      }
+    },
+    {
+      "id": "A08",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "Which category has the highest margin?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "category"
+        ],
+        "ground_truth": "top_category_by_margin"
+      }
+    },
+    {
+      "id": "A09",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "What is total quantity sold?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "sum_quantity",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A10",
+      "class": "simple_aggregation",
+      "variant": "canonical",
+      "question": "How many orders were placed in December 2024?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "orders_dec_2024",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A11",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "What's our overall turnover?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "sum_line_total",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A12",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "How big is our customer base?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "count_customers",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "A13",
+      "class": "simple_aggregation",
+      "variant": "paraphrase",
+      "question": "Which product line gives us the best percentage profit?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "category"
+        ],
+        "ground_truth": "top_category_by_margin"
+      }
+    },
+    {
+      "id": "B01",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by category",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "category"
+        ],
+        "ground_truth": "top_category_by_revenue",
+        "row_count": 5
+      }
+    },
+    {
+      "id": "B02",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which region has the highest revenue?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "region"
+        ],
+        "ground_truth": "top_region_by_revenue"
+      }
+    },
+    {
+      "id": "B03",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me the top products by revenue",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "product_name",
+          "product"
+        ],
+        "ground_truth": "top_product_by_revenue",
+        "max_rows": 10
+      }
+    },
+    {
+      "id": "B04",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by region",
+      "check": {
+        "type": "row_count",
+        "rows": 5
+      }
+    },
+    {
+      "id": "B05",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which subcategory has the lowest revenue?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "subcategory"
+        ],
+        "ground_truth": "min_subcategory_by_revenue"
+      }
+    },
+    {
+      "id": "B06",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me revenue by customer segment",
+      "check": {
+        "type": "row_count",
+        "rows": 3
+      },
+      "note": "CORRECTED 2026-10-17: benchmark v1.0 expected 2 rows (B2B/B2C only). The harness run proved the data has 3 segments (B2C/B2B/Enterprise, see DATA_DICTIONARY.md) \u2014 the SYSTEM was right and the BENCHMARK was wrong. Expectation corrected; correction disclosed in the report."
+    },
+    {
+      "id": "B07",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Which product has the highest profit?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "product_name",
+          "product"
+        ],
+        "ground_truth": "top_product_by_profit"
+      }
+    },
+    {
+      "id": "B08",
+      "class": "segment_breakdown",
+      "variant": "canonical",
+      "question": "Show me margin by category",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "category"
+        ],
+        "ground_truth": "top_category_by_margin",
+        "row_count": 5
+      }
+    },
+    {
+      "id": "B09",
+      "class": "segment_breakdown",
+      "variant": "paraphrase",
+      "question": "Where do we make the most money region-wise?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "region"
+        ],
+        "ground_truth": "top_region_by_revenue"
+      }
+    },
+    {
+      "id": "B10",
+      "class": "segment_breakdown",
+      "variant": "paraphrase",
+      "question": "Which SKUs sell the best?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "product_name",
+          "product"
+        ],
+        "ground_truth": "top_product_by_revenue",
+        "max_rows": 10
+      }
+    },
+    {
+      "id": "C01",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me the monthly revenue trend",
+      "check": {
+        "type": "row_count_range",
+        "min": 30,
+        "max": 36
+      }
+    },
+    {
+      "id": "C02",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me revenue by year",
+      "check": {
+        "type": "row_count",
+        "rows": 3
+      }
+    },
+    {
+      "id": "C03",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "What was our revenue in Q4 2024?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "revenue_q4_2024",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "C04",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Which year had the highest revenue?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "year"
+        ],
+        "ground_truth": "top_year_by_revenue"
+      }
+    },
+    {
+      "id": "C05",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me the month-over-month revenue growth in 2024",
+      "check": {
+        "type": "has_column_and_rows",
+        "min": 11,
+        "max": 12,
+        "column_name_contains": [
+          "mom",
+          "growth",
+          "change",
+          "delta",
+          "diff",
+          "lag"
+        ]
+      }
+    },
+    {
+      "id": "C06",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Which quarter had the highest revenue?",
+      "check": {
+        "type": "extreme_row",
+        "column_alias": [
+          "quarter"
+        ],
+        "ground_truth": "top_quarter_by_revenue"
+      }
+    },
+    {
+      "id": "C07",
+      "class": "time_intelligence",
+      "variant": "canonical",
+      "question": "Show me orders by month",
+      "check": {
+        "type": "has_column_and_rows",
+        "min": 30,
+        "max": 36,
+        "column_name_contains": [
+          "order"
+        ]
+      }
+    },
+    {
+      "id": "C08",
+      "class": "time_intelligence",
+      "variant": "paraphrase",
+      "question": "Plot revenue over time by month",
+      "check": {
+        "type": "row_count_range",
+        "min": 30,
+        "max": 36
+      }
+    },
+    {
+      "id": "C09",
+      "class": "time_intelligence",
+      "variant": "paraphrase",
+      "question": "How much did we earn in the last quarter of 2024?",
+      "check": {
+        "type": "scalar_numeric",
+        "ground_truth": "revenue_q4_2024",
+        "tol_pct": 0.5
+      }
+    },
+    {
+      "id": "D01",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What is the CEO's name?",
+      "check": {
+        "type": "refusal"
+      }
+    },
+    {
+      "id": "D02",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "How many employees work at the company?",
+      "check": {
+        "type": "refusal"
+      }
+    },
+    {
+      "id": "D03",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "Which customer is committing fraud?",
+      "check": {
+        "type": "refusal"
+      }
+    },
+    {
+      "id": "D04",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What will total revenue be next year?",
+      "check": {
+        "type": "refusal"
+      }
+    },
+    {
+      "id": "D05",
+      "class": "refusal",
+      "variant": "canonical",
+      "question": "What is the weather forecast for tomorrow?",
+      "check": {
+        "type": "refusal"
+      }
+    }
+  ]
+}
