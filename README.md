@@ -29,7 +29,7 @@ product profitability, churn risk, and future revenue — to support data-driven
 | 🧪 **Win-back experiment design** | Measured segment baseline **34.5%** 90-day repeat rate · power analysis (MDE +13pp core pool / +8.5pp expanded) — *design, not fabricated results* |
 | 🧮 **New SQL** | `09_cohort_retention` · `10_mom_variance` (LAG) · `11_order_funnel` |
 
-✅ **60 automated tests** — the dashboard's embedded data is pinned to the pipeline, so the live site can never silently drift from the analysis.
+✅ **84 automated tests** — the dashboard's embedded data is pinned to the pipeline, so the live site can never silently drift from the analysis.
 
 ![Cohort retention heatmap](dashboard/screenshots/day2_cohort_heatmap.png)
 
@@ -43,7 +43,7 @@ flowchart LR
     B --> C["Analytics: RFM+K-Means<br/>churn · BCG · Holt-Winters"]
     C --> D["Decision layer: MoM deltas<br/>cohorts · funnel · What changed?"]
     D --> E["NL-to-SQL assistant<br/>LLM never computes numbers"]
-    E --> F["Chart.js dashboard (Vercel)<br/>60 tests pin every figure"]
+    E --> F["Chart.js dashboard (Vercel)<br/>84 tests pin every figure"]
 ```
 
 **Business questions the dashboard answers**
@@ -182,7 +182,7 @@ The workflow runs **end-to-end with one command** (`python run_pipeline.py`,
 `HTML` · `CSS` · `JavaScript` (vanilla, no build step)
 
 ### Deployment & Version Control
-`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (60 tests)
+`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (84 tests)
 
 ---
 
@@ -241,6 +241,11 @@ by silhouette score** (not hardcoded), PCA visualization.
   always a bug; a realistic 0.65 is honest.
 - Includes a **cumulative gains/lift chart** — the artifact retention teams
   actually use to size campaigns.
+- **Evaluation depth (2026-10-16):** isotonic calibration (raw GBM is
+  over-confident — calibration slope 0.39), cost-based decision threshold
+  (t\* = 0.10 beats contact-all on expected profit with 100 fewer contacts),
+  sensitivity analysis, and error analysis by segment.
+  📄 [`reports/churn_calibration_and_thresholds.md`](reports/churn_calibration_and_thresholds.md)
 
 ### Customer Lifetime Value (CLV)
 Two views: *historical* (observed profit) and *predictive* (AOV × frequency ×
@@ -257,6 +262,12 @@ Holt-Winters (statsmodels) + linear-trend **ensemble**, 6-month horizon →
 ₹3.27 Cr projected. Evaluated **out-of-sample** (MAPE ≈ 32% on a 3-month
 holdout — disclosed openly) with a **residual-bootstrap 95% confidence
 interval** instead of an assumed error band.
+- **Rolling-origin backtest (2026-10-17):** 10 origins × 3 horizons vs naive
+  baselines. Honest verdict — the ensemble (MASE 0.68) beats the seasonal-naive
+  scale but **loses to the drift baseline (MASE 0.47)**, and the shipped
+  bootstrap-95% CI covers only **9.5%** of actuals (it uses just 3 residuals).
+  Both findings are published with recommendations.
+  📄 [`reports/forecast_backtest.md`](reports/forecast_backtest.md)
 
 ### Statistical Validation (SciPy)
 Four hypothesis tests with effect sizes (Welch's t-test, ANOVA +
@@ -270,7 +281,7 @@ never invent a number. Works with or without an API key.
 📄 [`reports/weekly_brief.md`](reports/weekly_brief.md)
 
 ### Trust Layer (how you know it's real)
-60 automated tests in CI: primary/foreign-key integrity, business-logic
+84 automated tests in CI: primary/foreign-key integrity, business-logic
 constraints, **and dashboard-vs-pipeline consistency checks** that parse the
 dashboard's data and assert it equals the pipeline output.
 📄 [`reports/methodology.md`](reports/methodology.md)
@@ -368,7 +379,7 @@ E_commerce-Sales-and-Data-Analytics/
 │   ├── build_context.py         #   verified fact sheet from CSVs
 │   └── weekly_brief.py          #   LLM narrates facts (no hallucination)
 │
-├── tests/                       # 60 tests: data quality + dashboard consistency
+├── tests/                       # 84 tests: data quality + dashboard consistency
 ├── reports/                     # decision-support documents (see below)
 ├── dashboard/                   # Chart.js dashboard (deployed to Vercel)
 └── docs/figures/                # 20 auto-generated charts
@@ -397,7 +408,7 @@ pip install -r requirements.txt
 #    forecast → profitability → statistics → CLV)
 python run_pipeline.py
 
-# 4. Validate (60 tests: data quality + dashboard consistency)
+# 4. Validate (84 tests: data quality + dashboard consistency)
 python -m pytest tests/ -v
 
 # 5. Generate the grounded AI weekly brief
@@ -421,7 +432,7 @@ psql -d ecommerce_db -c "\COPY order_items FROM 'data/raw/order_items.csv' CSV H
 psql -d ecommerce_db -f sql/03_kpi_analysis.sql      # then 04–08 in any order
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 60 tests on every push.
+CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 84 tests on every push.
 
 ---
 

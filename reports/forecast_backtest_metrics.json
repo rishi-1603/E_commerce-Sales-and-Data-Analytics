@@ -1,0 +1,396 @@
+{
+  "n_months": 36,
+  "n_origins": 10,
+  "origins": [
+    "2023-12",
+    "2024-01",
+    "2024-02",
+    "2024-03",
+    "2024-04",
+    "2024-05",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09"
+  ],
+  "horizons": [
+    1,
+    2,
+    3
+  ],
+  "mase_scale_definition": "in-sample seasonal-naive MAE (|y_t - y_t-12| mean), averaged over origins",
+  "mean_mase_scale": 1023755.93,
+  "models": {
+    "naive_last": {
+      "overall_mae": 646197.41,
+      "overall_rmse": 855741.17,
+      "overall_mase": 0.6312,
+      "by_horizon": {
+        "h1": {
+          "mae": 303003.83,
+          "rmse": 401761.41,
+          "mase": 0.296
+        },
+        "h2": {
+          "mae": 615569.83,
+          "rmse": 759678.8,
+          "mase": 0.6013
+        },
+        "h3": {
+          "mae": 1020018.56,
+          "rmse": 1207623.59,
+          "mase": 0.9963
+        }
+      }
+    },
+    "drift": {
+      "overall_mae": 479263.97,
+      "overall_rmse": 680756.48,
+      "overall_mase": 0.4681,
+      "by_horizon": {
+        "h1": {
+          "mae": 247452.34,
+          "rmse": 330114.56,
+          "mase": 0.2417
+        },
+        "h2": {
+          "mae": 454753.0,
+          "rmse": 602873.55,
+          "mase": 0.4442
+        },
+        "h3": {
+          "mae": 735586.58,
+          "rmse": 958048.03,
+          "mase": 0.7185
+        }
+      }
+    },
+    "seasonal_naive": {
+      "overall_mae": 2102718.89,
+      "overall_rmse": 2266975.03,
+      "overall_mase": 2.0539,
+      "by_horizon": {
+        "h1": {
+          "mae": 1844413.25,
+          "rmse": 1943722.76,
+          "mase": 1.8016
+        },
+        "h2": {
+          "mae": 2080457.92,
+          "rmse": 2229578.93,
+          "mase": 2.0322
+        },
+        "h3": {
+          "mae": 2383285.5,
+          "rmse": 2582333.62,
+          "mase": 2.328
+        }
+      }
+    },
+    "linear_trend": {
+      "overall_mae": 903757.37,
+      "overall_rmse": 1121604.64,
+      "overall_mase": 0.8828,
+      "by_horizon": {
+        "h1": {
+          "mae": 646195.25,
+          "rmse": 776961.8,
+          "mase": 0.6312
+        },
+        "h2": {
+          "mae": 873764.45,
+          "rmse": 1055489.37,
+          "mase": 0.8535
+        },
+        "h3": {
+          "mae": 1191312.42,
+          "rmse": 1433967.73,
+          "mase": 1.1637
+        }
+      }
+    },
+    "holt_winters": {
+      "overall_mae": 574686.99,
+      "overall_rmse": 774782.67,
+      "overall_mase": 0.5614,
+      "by_horizon": {
+        "h1": {
+          "mae": 429602.94,
+          "rmse": 535326.49,
+          "mase": 0.4196
+        },
+        "h2": {
+          "mae": 518370.29,
+          "rmse": 716473.23,
+          "mase": 0.5063
+        },
+        "h3": {
+          "mae": 776087.75,
+          "rmse": 1000477.99,
+          "mase": 0.7581
+        }
+      }
+    },
+    "ensemble": {
+      "overall_mae": 696202.48,
+      "overall_rmse": 923138.46,
+      "overall_mase": 0.68,
+      "by_horizon": {
+        "h1": {
+          "mae": 443734.29,
+          "rmse": 591037.59,
+          "mase": 0.4334
+        },
+        "h2": {
+          "mae": 672310.42,
+          "rmse": 859426.07,
+          "mase": 0.6567
+        },
+        "h3": {
+          "mae": 972562.72,
+          "rmse": 1211864.37,
+          "mase": 0.95
+        }
+      }
+    }
+  },
+  "coverage_95ci": {
+    "empirical_coverage": 0.0952,
+    "n_checked": 21,
+    "by_horizon": {
+      "h1": 0.2857,
+      "h2": 0.0,
+      "h3": 0.0
+    }
+  },
+  "per_origin": [
+    {
+      "origin_month": "2023-12",
+      "mase_scale": 873757.4,
+      "naive_last": {
+        "mae": 288144.09
+      },
+      "drift": {
+        "mae": 132558.18
+      },
+      "seasonal_naive": {
+        "mae": 1255776.24
+      },
+      "linear_trend": {
+        "mae": 334669.63
+      },
+      "holt_winters": {
+        "mae": 211784.53
+      },
+      "ensemble": {
+        "mae": 236102.56
+      }
+    },
+    {
+      "origin_month": "2024-01",
+      "mase_scale": 910142.56,
+      "naive_last": {
+        "mae": 102680.09
+      },
+      "drift": {
+        "mae": 83637.62
+      },
+      "seasonal_naive": {
+        "mae": 1262197.63
+      },
+      "linear_trend": {
+        "mae": 283517.88
+      },
+      "holt_winters": {
+        "mae": 121577.56
+      },
+      "ensemble": {
+        "mae": 130631.69
+      }
+    },
+    {
+      "origin_month": "2024-02",
+      "mase_scale": 937167.22,
+      "naive_last": {
+        "mae": 336026.32
+      },
+      "drift": {
+        "mae": 200689.84
+      },
+      "seasonal_naive": {
+        "mae": 1421400.51
+      },
+      "linear_trend": {
+        "mae": 395456.44
+      },
+      "holt_winters": {
+        "mae": 291451.88
+      },
+      "ensemble": {
+        "mae": 281631.42
+      }
+    },
+    {
+      "origin_month": "2024-03",
+      "mase_scale": 950161.16,
+      "naive_last": {
+        "mae": 607186.38
+      },
+      "drift": {
+        "mae": 445678.86
+      },
+      "seasonal_naive": {
+        "mae": 1645374.63
+      },
+      "linear_trend": {
+        "mae": 598066.59
+      },
+      "holt_winters": {
+        "mae": 436938.51
+      },
+      "ensemble": {
+        "mae": 517502.55
+      }
+    },
+    {
+      "origin_month": "2024-04",
+      "mase_scale": 976152.89,
+      "naive_last": {
+        "mae": 607494.33
+      },
+      "drift": {
+        "mae": 434087.61
+      },
+      "seasonal_naive": {
+        "mae": 1840086.59
+      },
+      "linear_trend": {
+        "mae": 712305.84
+      },
+      "holt_winters": {
+        "mae": 548913.18
+      },
+      "ensemble": {
+        "mae": 630609.51
+      }
+    },
+    {
+      "origin_month": "2024-05",
+      "mase_scale": 1022620.16,
+      "naive_last": {
+        "mae": 406911.99
+      },
+      "drift": {
+        "mae": 210338.21
+      },
+      "seasonal_naive": {
+        "mae": 1996801.27
+      },
+      "linear_trend": {
+        "mae": 753282.86
+      },
+      "holt_winters": {
+        "mae": 309973.7
+      },
+      "ensemble": {
+        "mae": 436214.94
+      }
+    },
+    {
+      "origin_month": "2024-06",
+      "mase_scale": 1066030.08,
+      "naive_last": {
+        "mae": 403358.89
+      },
+      "drift": {
+        "mae": 238328.12
+      },
+      "seasonal_naive": {
+        "mae": 2145338.59
+      },
+      "linear_trend": {
+        "mae": 839064.57
+      },
+      "holt_winters": {
+        "mae": 569073.0
+      },
+      "ensemble": {
+        "mae": 704068.78
+      }
+    },
+    {
+      "origin_month": "2024-07",
+      "mase_scale": 1112563.47,
+      "naive_last": {
+        "mae": 942641.68
+      },
+      "drift": {
+        "mae": 738235.44
+      },
+      "seasonal_naive": {
+        "mae": 2596838.42
+      },
+      "linear_trend": {
+        "mae": 1249179.05
+      },
+      "holt_winters": {
+        "mae": 591383.59
+      },
+      "ensemble": {
+        "mae": 915968.6
+      }
+    },
+    {
+      "origin_month": "2024-08",
+      "mase_scale": 1168747.32,
+      "naive_last": {
+        "mae": 1236096.08
+      },
+      "drift": {
+        "mae": 1017811.39
+      },
+      "seasonal_naive": {
+        "mae": 3087162.01
+      },
+      "linear_trend": {
+        "mae": 1671116.59
+      },
+      "holt_winters": {
+        "mae": 946540.31
+      },
+      "ensemble": {
+        "mae": 1149220.79
+      }
+    },
+    {
+      "origin_month": "2024-09",
+      "mase_scale": 1220217.01,
+      "naive_last": {
+        "mae": 1531434.22
+      },
+      "drift": {
+        "mae": 1291274.44
+      },
+      "seasonal_naive": {
+        "mae": 3776213.0
+      },
+      "linear_trend": {
+        "mae": 2200914.24
+      },
+      "holt_winters": {
+        "mae": 1719233.64
+      },
+      "ensemble": {
+        "mae": 1960073.94
+      }
+    }
+  ],
+  "verdict": {
+    "ensemble_overall_mase": 0.68,
+    "seasonal_naive_overall_mase": 2.0539,
+    "best_baseline": "drift",
+    "best_baseline_mase": 0.4681,
+    "ensemble_beats_best_baseline": false,
+    "recommendation": "The ensemble beats seasonal-naive in-sample scale (MASE<1) but NOT the strongest baseline (drift). Prefer the simpler baseline for operational forecasts; keep the ensemble as a cross-check."
+  }
+}
