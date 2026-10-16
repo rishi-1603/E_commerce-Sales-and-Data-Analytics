@@ -1,0 +1,165 @@
+{
+  "generated_by": "python/pricing/elasticity.py",
+  "grain": "order line items (master_orders.csv)",
+  "discount_response": {
+    "mean_quantity_by_depth": {
+      "0%": 3.001,
+      "5%": 2.948,
+      "10%": 2.977,
+      "15%": 2.993,
+      "20%": 2.993
+    },
+    "kruskal_wallis_h": 4.834,
+    "kruskal_wallis_p": 0.305,
+    "volume_response_detected": false,
+    "overall_slope_qty_per_unit_discount": -0.0614,
+    "overall_qty_change_pct_at_20pp": -0.0041,
+    "overall_p_value": 0.704,
+    "significance_vs_materiality_note": "With n\u22484,000 line items per category, small slopes can reach p<0.05. Statistical significance is therefore reported alongside the effect magnitude at 20pp of discount, and compared against the break-even volume lift each depth requires. See break_even table.",
+    "per_category": {
+      "Beauty": {
+        "n": 3398,
+        "slope_qty_per_unit_discount": 0.3866,
+        "qty_change_at_20pp": 0.0773,
+        "qty_change_pct_at_20pp": 0.0257,
+        "p_value": 0.334,
+        "significant_at_5pct": false
+      },
+      "Clothing": {
+        "n": 4442,
+        "slope_qty_per_unit_discount": 0.5713,
+        "qty_change_at_20pp": 0.1143,
+        "qty_change_pct_at_20pp": 0.0385,
+        "p_value": 0.106,
+        "significant_at_5pct": false
+      },
+      "Electronics": {
+        "n": 4391,
+        "slope_qty_per_unit_discount": 0.1426,
+        "qty_change_at_20pp": 0.0285,
+        "qty_change_pct_at_20pp": 0.0095,
+        "p_value": 0.69,
+        "significant_at_5pct": false
+      },
+      "Home & Garden": {
+        "n": 4504,
+        "slope_qty_per_unit_discount": -0.2555,
+        "qty_change_at_20pp": -0.0511,
+        "qty_change_pct_at_20pp": -0.0172,
+        "p_value": 0.465,
+        "significant_at_5pct": false
+      },
+      "Sports": {
+        "n": 4331,
+        "slope_qty_per_unit_discount": -1.0379,
+        "qty_change_at_20pp": -0.2076,
+        "qty_change_pct_at_20pp": -0.0696,
+        "p_value": 0.003,
+        "significant_at_5pct": true
+      }
+    }
+  },
+  "margin_curve": [
+    {
+      "discount": 0.0,
+      "line_items": 8462,
+      "share_of_items": 0.4017,
+      "margin_rate": 0.5379,
+      "margin_pct_of_list": 0.5379,
+      "margin_loss_vs_no_discount": 0.0
+    },
+    {
+      "discount": 0.05,
+      "line_items": 5165,
+      "share_of_items": 0.2452,
+      "margin_rate": 0.5119,
+      "margin_pct_of_list": 0.4863,
+      "margin_loss_vs_no_discount": 0.0517
+    },
+    {
+      "discount": 0.1,
+      "line_items": 4145,
+      "share_of_items": 0.1968,
+      "margin_rate": 0.4854,
+      "margin_pct_of_list": 0.4369,
+      "margin_loss_vs_no_discount": 0.101
+    },
+    {
+      "discount": 0.15,
+      "line_items": 2251,
+      "share_of_items": 0.1069,
+      "margin_rate": 0.4581,
+      "margin_pct_of_list": 0.3894,
+      "margin_loss_vs_no_discount": 0.1486
+    },
+    {
+      "discount": 0.2,
+      "line_items": 1043,
+      "share_of_items": 0.0495,
+      "margin_rate": 0.4223,
+      "margin_pct_of_list": 0.3378,
+      "margin_loss_vs_no_discount": 0.2001
+    }
+  ],
+  "break_even": [
+    {
+      "discount": 0.0,
+      "margin_rate": 0.5379,
+      "margin_pct_of_list": 0.5379,
+      "break_even_volume_lift": 0.0,
+      "share_of_items": 0.4017
+    },
+    {
+      "discount": 0.05,
+      "margin_rate": 0.5119,
+      "margin_pct_of_list": 0.4863,
+      "break_even_volume_lift": 0.1061,
+      "share_of_items": 0.2452
+    },
+    {
+      "discount": 0.1,
+      "margin_rate": 0.4854,
+      "margin_pct_of_list": 0.4369,
+      "break_even_volume_lift": 0.2312,
+      "share_of_items": 0.1968
+    },
+    {
+      "discount": 0.15,
+      "margin_rate": 0.4581,
+      "margin_pct_of_list": 0.3894,
+      "break_even_volume_lift": 0.3814,
+      "share_of_items": 0.1069
+    },
+    {
+      "discount": 0.2,
+      "margin_rate": 0.4223,
+      "margin_pct_of_list": 0.3378,
+      "break_even_volume_lift": 0.5924,
+      "share_of_items": 0.0495
+    }
+  ],
+  "repricing_scenarios": {
+    "cap_10": {
+      "cap": 0.1,
+      "lines_affected": 3294,
+      "share_of_lines": 0.1564,
+      "revenue_change": 644517.95,
+      "margin_recovered": 644517.95,
+      "margin_recovered_pct_of_total": 0.0201
+    },
+    "cap_15": {
+      "cap": 0.15,
+      "lines_affected": 1043,
+      "share_of_lines": 0.0495,
+      "revenue_change": 156369.06,
+      "margin_recovered": 156369.06,
+      "margin_recovered_pct_of_total": 0.0049
+    }
+  },
+  "headline": {
+    "volume_response_detected": false,
+    "kruskal_p": 0.305,
+    "break_even_lift_at_20pct": 0.5924,
+    "margin_recovered_by_10pct_cap": 644517.95
+  }
+}

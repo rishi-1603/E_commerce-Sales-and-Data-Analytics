@@ -70,3 +70,46 @@ B06 expected 2 customer segments; the data has 3 (B2C / B2B / Enterprise).
 - **Green stays green:** every commit runs the full suite; baseline tests are never edited to pass.
 - **Numbers don't move** without a documented query/calculation.
 - **Honesty is the house style:** publish losses, failures and corrections.
+
+---
+
+## U2 — Discount Elasticity, Margin Erosion & Break-Even Engine
+
+**Status:** done — full suite green (119 passed = 84 baseline + 12 AI-eval + 23 discount)
+
+### What was added
+| File | Purpose |
+|---|---|
+| `python/pricing/elasticity.py` | Response test (Kruskal-Wallis + per-category OLS), margin curve, break-even table, static re-pricing scenarios, Discount-Lab simulator |
+| `sql/12_discount_margin.sql` | SQL-layer parity — 6 documented business queries, verified to execute 6/6 |
+| `tests/test_discount_engine.py` | 23 tests pinning math, findings and boundaries |
+| `reports/discount_analysis.json` | Machine-readable results for the dashboard/README |
+
+### Key finding (published as-is)
+**Discounts in this dataset buy no measurable volume.** Kruskal-Wallis across depths
+p=0.305; overall slope −0.41% quantity at 20pp (p=0.704). Meanwhile break-even requires
+**+10.6% / +23.1% / +38.1% / +59.2%** volume at 5/10/15/20% discounts. The only
+statistically significant category (Sports, p=0.003) moves **−6.96%** — the wrong
+direction. Static re-pricing to a 10% cap recovers **₹6.44 lakh** of margin
+(2.0% of total margin) holding volume constant — the assumption the break-even
+table exists to stress-test.
+
+### Two errors caught by my own tests (disclosed)
+1. **Units bug in my own module:** `slope × 100` was labelled "per 100pp" — wrong by
+   100×. Caught by the hand-calculation test; replaced with interpretable
+   `qty_change_pct_at_20pp` plus the raw slope.
+2. **Significance ≠ materiality:** with n≈4,300 per category, a −7% effect reaches
+   p=0.003. Resolved by reporting significance AND magnitude, and by pinning the
+   magnitude against the break-even requirement rather than treating p<0.05 as a result.
+
+### Parity check
+SQL layer (over `order_items` + `orders` + `products`, valid-order filter) reproduces
+the pandas engine's break-even table to within 0.0002.
+
+### Regression check
+`pytest tests/` → 119 passed. All 84 original tests untouched and green.
+
+### Open items
+- Dashboard "Discount Lab" tab (Chart.js) + `data/metrics.json` definitions.
+- Experiment design to *causally* test the discount ladder (the honest next step after
+  an observational null result).
