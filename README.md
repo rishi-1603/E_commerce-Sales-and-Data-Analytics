@@ -1,481 +1,139 @@
-<div align="center">
+# E-Commerce Sales & Customer Analytics
 
-# 📊 E-Commerce Sales & Customer Analytics
+**An analytics-first portfolio case study** that turns three years of synthetic e-commerce transactions into reconciled KPIs, customer and product analysis, decision-ready reporting, and a carefully evaluated predictive layer.
 
-**An end-to-end data analytics project that analyzes sales performance, customer behavior,
-product profitability, churn risk, and future revenue — to support data-driven business decisions.**
+[Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
 
-[🚀 Live Dashboard](https://ecomanalytics-dashboard.vercel.app/) ·
-[🗄️ SQL Analysis](sql/README.md) ·
-[📄 Analytics Reports](reports/) ·
-[🧪 60 Passing Tests](tests/)
+[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
 
-</div>
+> **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
 
-## 🎯 Decision Layer *(2026 upgrade)*
+## Executive summary
 
-> Period-over-period thinking, cohort retention, and an honest experiment design —
-> the dashboard now answers **"what changed and what should we do"**, not just "what happened".
+This repository answers a practical set of commercial questions: what changed in sales, which customers and products deserve attention, where orders exit the funnel, and whether promotions or forecasts support a decision. The main deliverable is an analytics workflow—data definitions, SQL and Python analyses, an interactive dashboard, documented recommendations, and automated checks. Predictive models are included as a supporting layer, not as the headline.
 
-![Executive Overview — ₹ Cr / ₹ L formatted KPIs, What changed? strip, MoM chips](dashboard/screenshots/v2_executive_overview.png)
+**Role emphasis:** Data Analyst first (SQL, KPI design, trend and cohort analysis, dashboarding, decision support); applied Data Science second (churn evaluation, calibration, forecasting backtests, and a measured natural-language-to-SQL benchmark).
 
-![What changed? strip + month-over-month KPI chips](dashboard/screenshots/day2_what_changed.png)
+| Area | Evidence from the project | Business interpretation |
+|---|---|---|
+| Sales movement | December 2024 revenue **+17.0%**, orders **+21.3%**, active customers **+8.2%**, AOV **−3.5%** month over month | The change is volume-led in this dataset; it is not evidence that a specific campaign caused growth. |
+| Order funnel | **12,000** placed → **9,312** delivered → **8,089** kept | A funnel view makes cancellation, processing, and return exits visible. |
+| Customer retention | 18 first-purchase cohorts; observed month-1 retention varies across cohorts | Compare like-for-like cohort windows before allocating retention effort. |
+| Discount economics | No statistically detectable overall quantity response by discount depth (**Kruskal–Wallis p = 0.305**); break-even lift rises from **10.6%** at a 5% discount to **59.2%** at 20% | Do not recommend blanket discounting from these observational synthetic data; test a policy causally. |
+| Forecast evaluation | Rolling-origin ensemble MASE **0.680** versus drift baseline **0.468**; nominal 95% interval covered **9.5%** of evaluated points | The ensemble did not beat the simpler baseline and its interval under-covered; it is not planning-ready. |
 
-| Capability | Verified numbers |
-|---|---|
-| 📌 **What changed? strip + MoM chips** | Dec 2024: revenue **+17.0%**, orders **+21.3%**, active customers **+8.2%**, AOV **−3.5%** — volume-led growth, not price-led |
-| 🧬 **NEW page: Retention & Cohorts** | 18 first-purchase cohorts; month-1 retention rises from ~15–28% (2023) to **55–88%** (late 2024) — plus a segment playbook with recommended actions |
-| 🪣 **Order funnel** | 12,000 placed → 9,312 delivered (77.6%) → 8,089 kept · exits: 844 cancelled, 621 processing, 1,223 returned |
-| 🧪 **Win-back experiment design** | Measured segment baseline **34.5%** 90-day repeat rate · power analysis (MDE +13pp core pool / +8.5pp expanded) — *design, not fabricated results* |
-| 🧮 **New SQL** | `09_cohort_retention` · `10_mom_variance` (LAG) · `11_order_funnel` |
+## Project experience
 
-✅ **84 automated tests** — the dashboard's embedded data is pinned to the pipeline, so the live site can never silently drift from the analysis.
+### 1. Business questions and analytical outputs
+
+| Stakeholder question | Analysis / artifact | Decision it can inform |
+|---|---|---|
+| Is revenue changing because of order volume, customer count, or basket size? | Monthly KPI variance and MoM decomposition (`sql/10_mom_variance.sql`) | Investigate the driver before changing acquisition or pricing strategy. |
+| Which customers need a different retention treatment? | RFM segmentation, cohort retention, churn-risk bands, and a win-back experiment design | Prioritize a controlled test; the experiment is designed, **not run**. |
+| Which products contribute to the catalog's economics? | SKU-level profitability, category margins, and BCG-style portfolio view | Review low-margin items and protect profitable assortment; validate changes with actual demand data. |
+| Where do orders leave the operating funnel? | Placed → delivered → kept reconciliation (`sql/11_order_funnel.sql`) | Separate fulfillment and return issues instead of collapsing them into one sales KPI. |
+| Are discounts buying incremental demand? | Discount response, margin curve, and break-even volume analysis | Compare measured response with the lift required to preserve margin. |
+
+### 2. Key findings and recommended interpretation
+
+- **Sales movement:** December 2024 revenue rose 17.0% while AOV fell 3.5%; order growth was 21.3%. This is a descriptive decomposition, not a causal campaign readout.
+- **Retention planning:** 448 customers are in the medium-risk “cooling-off” group, with **₹1.24 Cr of historical spend**. That is historical spend—not future revenue at risk. The measured 90-day repeat baseline is 34.5%; a randomized win-back experiment is documented, but no treatment effect has been observed. See [`docs/experiment_design_winback.md`](docs/experiment_design_winback.md).
+- **Promotion discipline:** the data does not show a statistically detectable overall quantity response to discount depth. A 20% discount requires an estimated 59.2% volume lift to break even under the model's margin assumptions. That is a sensitivity calculation, not a forecast of actual lift.
+- **Forecast discipline:** rolling-origin testing favored a simple drift baseline over the ensemble. The nominal 95% interval achieved only 9.5% empirical coverage across the evaluated points. The report recommends against using the current ensemble as an operational forecast.
+- **No invented impact:** no retention campaign, pricing experiment, or live business intervention was run; no revenue saved or uplift achieved is claimed.
+
+### 3. Analyst workflow (the core of the project)
+
+1. **Define the data and measures.** Four seeded source tables, a documented data dictionary, and explicit rules for revenue, purchase, churn, and retention. Definitions live in [`data/metrics.json`](data/metrics.json).
+2. **Audit data quality.** Schema, key integrity, business-rule, and dashboard-consistency checks run in the test suite.
+3. **Analyze in SQL and Python.** Twelve SQL files cover schema, data checks, KPIs, sales, customers, products, regions, returns, cohorts, MoM variance, funnel, and discount economics. Python supplies the reproducible pipeline and analytical extensions. Where SQL and pandas use different segmentation semantics (for example, `NTILE` versus `qcut`), the difference is documented rather than hidden.
+4. **Translate results into decisions.** The dashboard and [`reports/decision_log.md`](reports/decision_log.md) connect evidence to an owner, a next action, and a KPI to monitor.
+5. **Reproduce and verify.** CI regenerates analytical artifacts and runs the full automated suite; the dashboard figures are checked against pipeline outputs.
+
+### 4. Data and measurement
+
+| Table / grain | Size | Notes |
+|---|---:|---|
+| Customers | 2,000 records; 1,991 active in order history | Seeded synthetic profiles and acquisition attributes |
+| Products | 150 SKUs | Category, price, cost, and product attributes |
+| Orders | 12,000 | January 2022–December 2024; one row per order |
+| Order items | 21,066 | Line-item grain used for product and margin analysis |
+
+**Important metric definitions**
+
+- Revenue uses line totals for orders with status `Delivered` or `Processing`; cancelled and returned orders are excluded.
+- The order funnel separately reports placed, delivered, and kept orders; the cohort and experiment analyses use their own documented purchase definition.
+- Churn is defined as no purchase in the 180 days after a cutoff; model features use only information available before that cutoff.
+- The exact definitions, formulas, and caveats are in [`data/metrics.json`](data/metrics.json) and [`data/DATA_DICTIONARY.md`](data/DATA_DICTIONARY.md).
+
+**Selected dataset outputs (illustrative):** ₹5.93 Cr revenue over the covered period; 54.0% gross margin; 9,312 delivered orders; 1,991 active customers. These describe the generated dataset only.
+
+### 5. Applied Data Science (supporting layer)
+
+**Churn risk and calibration.** A leakage-aware 180-day churn label is evaluated using a time-ordered feature cutoff. On the reproducible 64/16/20 fit/calibration/test protocol (1,586 eligible customers), the held-out results are ROC-AUC **0.6484** and PR-AUC **0.3616** at 25.4% prevalence. Isotonic calibration improves Brier score from **0.1957** to **0.1829** and 10-bin ECE from **0.0963** to **0.0378**. A threshold of 0.10 is selected on the calibration slice under an explicitly assumed contact-cost/recovery/value model; it is **not** a proven campaign policy. Full protocol and sensitivity analysis: [`reports/churn_calibration_and_thresholds.md`](reports/churn_calibration_and_thresholds.md).
+
+**Forecasting.** Holt–Winters and a linear-trend ensemble are compared against naïve baselines with a rolling-origin backtest. The comparison is included to demonstrate model selection—not to promote the weaker ensemble.
+
+**Natural-language-to-SQL evaluation.** The deterministic fallback path scored **36/37 (97.3%)** on an authored 37-question benchmark, with 100% refusal correctness and zero fabricated answers in that run. One benchmark paraphrase still fails; this is not a claim of general language understanding or an evaluation of the optional LLM path. See [`reports/ai_eval_report.md`](reports/ai_eval_report.md).
+
+**Modeling and decision boundaries:** [`docs/MODEL_CARD.md`](docs/MODEL_CARD.md) · [`reports/forecast_backtest.md`](reports/forecast_backtest.md) · [`reports/statistical_analysis.md`](reports/statistical_analysis.md).
+
+## Dashboard preview
+
+[Open the live dashboard](https://ecomanalytics-dashboard.vercel.app/)
+
+![Executive overview: headline KPIs and changes](dashboard/screenshots/v2_executive_overview.png)
 
 ![Cohort retention heatmap](dashboard/screenshots/day2_cohort_heatmap.png)
 
----
+The dashboard is a static HTML/CSS/JavaScript application with Chart.js. It includes executive KPIs, sales trends, customer analysis, churn, product profitability, and forecasting views.
 
-## 🏗️ Architecture — from raw orders to decisions
+## Reproduce locally
 
-```mermaid
-flowchart LR
-    A["12,000 orders · 1,991 customers<br/>150 SKUs · 2022-24"] --> B["11 SQL scripts<br/>+ pandas parity (zero drift)"]
-    B --> C["Analytics: RFM+K-Means<br/>churn · BCG · Holt-Winters"]
-    C --> D["Decision layer: MoM deltas<br/>cohorts · funnel · What changed?"]
-    D --> E["NL-to-SQL assistant<br/>LLM never computes numbers"]
-    E --> F["Chart.js dashboard (Vercel)<br/>119 tests pin every figure"]
-```
-
-**Business questions the dashboard answers**
-
-| Question | Where | Verified answer |
-|---|---|---|
-| Is revenue growing, and why? | What changed? strip | Dec 2024: +17.0% revenue, +21.3% orders — volume-led, not price-led |
-| Do customers stick around? | Retention & Cohorts page | Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024) |
-| Where do orders leak? | Order funnel | 12,000 placed → 9,312 delivered (77.6%) → 8,089 kept |
-| Who is about to churn? | Churn tab + experiment design | 448 cooling-off customers (₹1.24 Cr spend); win-back designed with measured baseline 34.5% |
-
-
-
----
-
-## 1. 🚀 Live Project
-
-**Dashboard (deployed on Vercel):**
-
-> ### 👉 https://ecomanalytics-dashboard.vercel.app/
-
-A 6-page interactive analytics product — Executive Overview, Sales Performance,
-Customer RFM, Churn, Product Profitability (BCG), and Revenue Forecast.
-Every KPI on the live dashboard is verified against the pipeline output by an
-automated test (see [Trust Layer](#7-analytics-modules)).
-
-**GitHub Repository:**
-
-> ### 👉 https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics
-
----
-
-## 2. 💼 Business Problem
-
-An e-commerce business with 3 years of transaction data is flying blind on four
-questions that decide its profitability:
-
-| # | Business Question | Where It's Answered |
-|---|---|---|
-| 1 | Which products generate the most revenue **and profit**? | SQL product analysis + Python BCG matrix |
-| 2 | Which customer groups are most valuable? | RFM segmentation + CLV model |
-| 3 | Which customers are at risk of leaving? | Leakage-free churn model |
-| 4 | Which regions and channels perform best? | SQL regional & channel analysis |
-| 5 | Which products deserve investment vs. delisting? | BCG Stars / Cash Cows / Question Marks / Dogs |
-| 6 | What future revenue can the business plan for? | Holt-Winters ensemble forecast |
-
-**The cost of not answering these:** retention budget sprayed evenly instead of
-targeted, margin leaking into low-return SKUs, and inventory planning based on
-guesswork instead of a forecast with honest error bars.
-
-> **Honesty note:** the dataset is synthetically generated (seeded, fully
-> reproducible) to demonstrate the complete methodology end-to-end. Numbers are
-> illustrative; methods are production-grade. Details in
-> [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md).
-
----
-
-## 3. 🔄 Project Overview — The Complete Workflow
-
-```
-Raw Data (4 CSV tables)
-        ↓
-Data Cleaning & Quality Audit — SQL (02) + 31 pytest checks
-        ↓
-Exploratory Data Analysis — Python (pandas)
-        ↓
-SQL Business Analysis — KPIs, sales, customers, products, regions, returns
-        ↓
-Customer Analytics — RFM segmentation + K-Means (silhouette-selected k)
-        ↓
-Machine Learning — churn prediction (forward-time split) + CLV
-        ↓
-Forecasting — statsmodels Holt-Winters + linear ensemble, bootstrap CI
-        ↓
-Interactive Dashboard — HTML/CSS/JS + Chart.js, deployed on Vercel
-        ↓
-Business Recommendations — decision log with owners, KPIs, and success metrics
-```
-
-The workflow runs **end-to-end with one command** (`python run_pipeline.py`,
-8 automated steps with logging), and every output is validated by CI.
-
----
-
-## 4. 📦 Dataset
-
-| Table | Rows | Grain |
-|---|---|---|
-| `customers` | 2,000 | 1 row per customer (region, segment, acquisition channel, demographics) |
-| `products` | 150 | 1 row per SKU (5 categories, cost & selling price, stock, rating) |
-| `orders` | 12,000 | 1 row per order (date, status, payment method, discount, shipping) |
-| `order_items` | ~21,000 | 1 row per line item (quantity, unit price, line total, cost) |
-
-- **Date range:** January 2022 – December 2024 (3 years)
-- **Important columns:** `order_date`, `status`, `discount_pct`, `line_total`,
-  `cost_total`, `customer_id`, `product_id`, `region`, `category`
-- **Canonical business rule** (identical in SQL, Python, and dashboard):
-  revenue/profit metrics count only `Delivered` + `Processing` orders
-- Full column documentation: [`data/DATA_DICTIONARY.md`](data/DATA_DICTIONARY.md)
-
-**Generated headline figures** (from this dataset, via the pipeline):
-
-| Metric | Value |
-|---|---|
-| Total revenue (3 yrs) | ₹5.93 Cr |
-| Gross profit / margin | ₹3.20 Cr / 54.0% |
-| Revenue orders / active customers | 9,933 / 1,991 |
-| Churn rate (180-day forward window) | 25.3% |
-| 6-month revenue forecast | ₹3.27 Cr (bootstrap 95% CI) |
-
----
-
-## 5. 🛠 Tech Stack
-
-**Only technologies genuinely used in this repository.**
-
-### Data & Analysis
-`Python` · `pandas` · `NumPy`
-
-### Database & SQL
-`PostgreSQL` — schema design, CTEs, window functions (`NTILE`, `RANK`, `DENSE_RANK`, `LAG`, `PERCENTILE_CONT`), cohort analysis, indexes
-
-### Machine Learning
-`scikit-learn` — Logistic Regression, Random Forest, Gradient Boosting (churn) · K-Means (segmentation)
-
-### Statistics
-`SciPy` — Welch's t-test, ANOVA, Kruskal-Wallis, chi-square, effect sizes
-
-### Forecasting
-`statsmodels` (Holt-Winters) + linear-trend ensemble, residual-bootstrap confidence intervals
-
-### Visualization
-`Matplotlib` / `Seaborn` (20 pipeline charts) · `Chart.js` (live dashboard)
-
-### Frontend
-`HTML` · `CSS` · `JavaScript` (vanilla, no build step)
-
-### Deployment & Version Control
-`Vercel` (dashboard) · `Git` / `GitHub` · `GitHub Actions` (CI) · `pytest` (119 tests)
-
----
-
-## 6. 🗄️ SQL Analysis — A Core Layer, Not a Keyword
-
-**The entire analytical logic exists twice — once in PostgreSQL, once in pandas —
-so results are cross-validated across two independent implementations.** Revenue,
-profit, orders, customers, AOV, category/region rankings and the order funnel
-reconcile exactly between SQL and pandas. One documented difference: RFM segment
-counts (SQL `NTILE` quintiles vs pandas `qcut` with rank-first tie-breaking —
-e.g. Champions 314 in SQL vs 317 in the pipeline). The dashboard and every KPI
-use the test-pinned pandas values.
-
-**8 professionally documented scripts** in [`sql/`](sql/README.md), each query
-carrying a *Business Question → Why It Matters → Key Insight* contract:
-
-| Script | Business focus | SQL techniques |
-|---|---|---|
-| [01_database_schema.sql](sql/01_database_schema.sql) | Warehouse structure | DDL, PK/FK constraints, indexes, views |
-| [02_data_cleaning.sql](sql/02_data_cleaning.sql) | Data trustworthiness | Duplicate/orphan/impossible-value audits, `FILTER` |
-| [03_kpi_analysis.sql](sql/03_kpi_analysis.sql) | Executive KPIs & growth | **`LAG`** for MoM/YoY growth, `NTILE` Pareto deciles |
-| [04_sales_analysis.sql](sql/04_sales_analysis.sql) | Sales performance | **`RANK()`**, 7-day moving average (`ROWS BETWEEN`), conditional pivots |
-| [05_customer_analysis.sql](sql/05_customer_analysis.sql) | RFM, CLV, cohorts | **`NTILE`** quintile RFM, cohort month-diff, **`LAG`** purchase gaps, `DENSE_RANK` VIPs |
-| [06_product_analysis.sql](sql/06_product_analysis.sql) | Profitability & BCG | **`PERCENTILE_CONT ... OVER ()`** median-split BCG |
-| [07_regional_analysis.sql](sql/07_regional_analysis.sql) | Regional performance | Partitioned `LAG` for regional YoY, dual `RANK` comparison |
-| [08_return_analysis.sql](sql/08_return_analysis.sql) | Returns & leakage | `FILTER (WHERE)`, conditional rates, abuse watchlist |
-
-📄 **Full SQL documentation with schema diagram and run instructions: [`sql/README.md`](sql/README.md)**
-
----
-
-## 7. 🧩 Analytics Modules
-
-### Executive Dashboard (KPIs)
-Revenue, profit, margin, orders, customers, AOV, churn, and return rate in one view — the numbers a leadership review opens with.
-
-### Sales Performance
-Monthly revenue trend (2022–24), YoY comparison, category and regional breakdown, channel performance, payment mix, top-20 products by revenue with `RANK()`.
-
-### Customer Analytics (RFM)
-Recency/Frequency/Monetary quintile scoring → **8 actionable segments**
-(Champions 317, Loyal 495, At Risk 221, …). K-Means overlay with **k selected
-by silhouette score** (not hardcoded), PCA visualization.
-
-### Churn Analysis — Honest by Design
-- **Methodology:** forward-time (temporal) split — features are computed only
-  from behavior *before* a cutoff; the label is "no purchase in the next 180
-  days." Three models benchmarked (Logistic Regression, Random Forest,
-  Gradient Boosting).
-- **Result:** AUC **0.649 ± 0.020** (5-fold cross-validation), churn rate
-  25.3%, 448 medium-risk (cooling-off) customers flagged with ₹1.24 Cr of
-  historical spend.
-- **⚠️ Why not AUC 1.00?** An early version *did* report AUC = 1.0 — which was
-  **target leakage** (`recency_days` was both a feature and the basis of the
-  label). It was found, fixed, and documented. A perfect churn AUC is almost
-  always a bug; a realistic 0.65 is honest.
-- Includes a **cumulative gains/lift chart** — the artifact retention teams
-  actually use to size campaigns.
-- **Evaluation depth (2026-10-16):** isotonic calibration (raw GBM is
-  over-confident — calibration slope 0.39), cost-based decision threshold
-  (t\* = 0.10 beats contact-all on expected profit with 100 fewer contacts),
-  sensitivity analysis, and error analysis by segment.
-  📄 [`reports/churn_calibration_and_thresholds.md`](reports/churn_calibration_and_thresholds.md)
-
-### Customer Lifetime Value (CLV)
-Two views: *historical* (observed profit) and *predictive* (AOV × frequency ×
-margin × horizon × (1 − churn probability)). Customers ranked into value tiers
-— the top 10% hold ≈ 42% of projected 2-year value.
-
-### Product Profitability (BCG Matrix)
-Per-SKU P&L → BCG quadrants by median-split volume × margin:
-**Stars 36 · Cash Cows 38 · Question Marks 39 · Dogs 37** — with the strategic
-action for each quadrant.
-
-### Revenue Forecasting
-Holt-Winters (statsmodels) + linear-trend **ensemble**, 6-month horizon →
-₹3.27 Cr projected. Evaluated **out-of-sample** (MAPE ≈ 32% on a 3-month
-holdout — disclosed openly) with a **residual-bootstrap 95% confidence
-interval** instead of an assumed error band.
-- **Rolling-origin backtest (2026-10-17):** 10 origins × 3 horizons vs naive
-  baselines. Honest verdict — the ensemble (MASE 0.68) beats the seasonal-naive
-  scale but **loses to the drift baseline (MASE 0.47)**, and the shipped
-  bootstrap-95% CI covers only **9.5%** of actuals (it uses just 3 residuals).
-  Both findings are published with recommendations.
-  📄 [`reports/forecast_backtest.md`](reports/forecast_backtest.md)
-
-### Statistical Validation (SciPy)
-Four hypothesis tests with effect sizes (Welch's t-test, ANOVA +
-Kruskal-Wallis, chi-square, IQR outliers). On this synthetic data they
-correctly return **non-significant** results — reported honestly.
-📄 [`reports/statistical_analysis.md`](reports/statistical_analysis.md)
-
-### Grounded AI Layer
-An LLM narrates a **verified fact sheet** computed from the CSVs — it can
-never invent a number. Works with or without an API key.
-📄 [`reports/weekly_brief.md`](reports/weekly_brief.md)
-
-### Trust Layer (how you know it's real)
-84 automated tests in CI: primary/foreign-key integrity, business-logic
-constraints, **and dashboard-vs-pipeline consistency checks** that parse the
-dashboard's data and assert it equals the pipeline output.
-📄 [`reports/methodology.md`](reports/methodology.md)
-
----
-
-## 8. 💡 Key Insights
-
-### Insight 1 — Revenue is concentrated; retention is risk management
-Top RFM segments (Champions + Loyal, 812 customers) hold ₹3.15 Cr of spend;
-the top CLV decile alone holds ≈ 42% of projected future value.
-**Impact:** losing a small group = losing a large share of revenue.
-**Action:** loyalty program for Champions/Loyal; measure uplift vs. a control group.
-*Owner: Marketing · KPI: frequency & AOV lift, enrolled vs. unenrolled.*
-
-### Insight 2 — 448 customers are cooling off with ₹1.24 Cr of historical spend
-The leakage-free churn model flags a 25.3% churn rate on the forward 180-day window.
-**Impact:** these relationships are drifting toward permanent loss.
-**Action:** tiered win-back with a **20% randomized holdout** — recovery rate
-must be *measured*, never assumed.
-*Owner: CRM Lead · KPI: 90-day incremental reactivation revenue (treated − control).*
-
-### Insight 3 — Margin quality differs sharply by category
-Category margins range from 47.3% (Beauty) to 56.5% (Sports); 37 SKUs are
-low-volume/low-margin Dogs.
-**Impact:** even mix shifts move blended margin meaningfully.
-**Action:** shift paid-media weight toward Stars/Cash Cows; review Dogs for
-repricing or delisting.
-*Owner: Category Manager · KPI: blended gross margin % per category.*
-
-### Insight 4 — Forecast honesty changes the conversation
-The 6-month projection is ₹3.27 Cr, but the out-of-sample MAPE is ~32% —
-the plan needs buffers, not false precision.
-**Action:** use forecast ranges (bootstrap CI) in planning; re-evaluate
-against actuals monthly.
-*Owner: FP&A · KPI: forecast error tracked over time.*
-
----
-
-## 9. 📸 Dashboard Preview
-
-**[➡ Open the live dashboard](https://ecomanalytics-dashboard.vercel.app/)**
-
-| Executive Overview | Churn Analysis |
-|:---:|:---:|
-| ![Executive Overview](dashboard/screenshots/exec.png) | ![Churn Analysis — leakage-free model, AUC 0.649](dashboard/screenshots/churn.png) |
-
-| Product Profitability (BCG) | Revenue Forecast |
-|:---:|:---:|
-| ![BCG Matrix](dashboard/screenshots/products.png) | ![Revenue Forecast](dashboard/screenshots/forecast.png)
-
-*6-page interactive dashboard: Executive Overview · Sales · Customer RFM ·
-Churn · Product Profitability (BCG) · Forecast — built with vanilla
-HTML/CSS/JS + Chart.js, mobile-responsive, no server required.
-Screenshots captured from the live deployment — every number matches the pipeline output (CI-enforced).*
-
-Additional auto-generated analysis charts (Matplotlib/Seaborn) are in
-[`docs/figures/`](docs/figures/) — 20 charts covering every module above.
-
----
-
-## 10. 🏗 Project Architecture
-
-```
-E_commerce-Sales-and-Data-Analytics/
-│
-├── run_pipeline.py              # one-command orchestration + logging (8 steps)
-├── requirements.txt             # pinned dependencies
-│
-├── data/
-│   ├── DATA_DICTIONARY.md       # every table & column documented
-│   ├── raw/                     # generate_data.py + 4 source CSVs (seeded)
-│   └── processed/               # 6 analytical outputs (incl. clv.csv)
-│
-├── sql/                         # 🔑 the SQL layer (8 scripts + README)
-│   ├── 01_database_schema.sql
-│   ├── 02_data_cleaning.sql
-│   ├── 03_kpi_analysis.sql
-│   ├── 04_sales_analysis.sql
-│   ├── 05_customer_analysis.sql
-│   ├── 06_product_analysis.sql
-│   ├── 07_regional_analysis.sql
-│   ├── 08_return_analysis.sql
-│   └── README.md
-│
-├── python/                      # the Python layer (cross-validates SQL)
-│   ├── eda/                     #   preprocessing + product profitability
-│   ├── segmentation/            #   RFM + K-Means (silhouette k)
-│   ├── churn/                   #   leakage-free model + gains/lift chart
-│   ├── forecasting/             #   statsmodels HW + bootstrap CI
-│   ├── stats/                   #   hypothesis testing (SciPy)
-│   └── clv/                     #   historical + predictive CLV
-│
-├── scripts/                     # grounded AI layer
-│   ├── build_context.py         #   verified fact sheet from CSVs
-│   └── weekly_brief.py          #   LLM narrates facts (no hallucination)
-│
-├── tests/                       # 119 tests: data quality + dashboard consistency
-├── reports/                     # decision-support documents (see below)
-├── dashboard/                   # Chart.js dashboard (deployed to Vercel)
-└── docs/figures/                # 20 auto-generated charts
-```
-
-**Reports** (the layer that makes this a business deliverable):
-[`executive_summary.md`](reports/executive_summary.md) ·
-[`decision_log.md`](reports/decision_log.md) ·
-[`methodology.md`](reports/methodology.md) ·
-[`assumptions_and_limitations.md`](reports/assumptions_and_limitations.md) ·
-[`statistical_analysis.md`](reports/statistical_analysis.md)
-
----
-
-## 11. ▶️ How to Run
+The CI workflow uses Python 3.11. From the repository root:
 
 ```bash
-# 1. Clone
-git clone https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics.git
-cd E_commerce-Sales-and-Data-Analytics
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+python -m pip install -r requirements.txt
 
-# 2. Install dependencies (Python 3.9+)
-pip install -r requirements.txt
-
-# 3. Run the full pipeline (8 steps: data → EDA → RFM → churn →
-#    forecast → profitability → statistics → CLV)
+# Regenerate the seeded source data and run the core analytical pipeline
+python data/raw/generate_data.py
 python run_pipeline.py
 
-# 4. Validate (119 tests: data quality + dashboard consistency)
-python -m pytest tests/ -v
+# Reproduce the additional evaluation artifacts
+python scripts/churn_calibration.py
+python scripts/forecast_backtest.py
+python python/pricing/elasticity.py
+python evals/run_eval.py --min-accuracy 0.90
 
-# 5. Generate the grounded AI weekly brief
-python scripts/build_context.py
-python scripts/weekly_brief.py
-
-# 6. Open the dashboard (no server needed)
-open dashboard/dashboard.html        # macOS   (or just double-click it)
+# Run all automated checks
+python -m pytest -q
 ```
 
-**Optional — run the SQL layer in PostgreSQL:**
+Open `dashboard/dashboard.html` in a browser for the local dashboard. PostgreSQL is optional for the SQL layer; see [`sql/README.md`](sql/README.md) for the schema and query instructions. The app and reports do not require an API key; optional model-backed narration is separate from the deterministic fact-generation layer.
 
-```bash
-createdb ecommerce_db
-psql -d ecommerce_db -f sql/01_database_schema.sql
-psql -d ecommerce_db -c "\COPY customers   FROM 'data/raw/customers.csv'   CSV HEADER;"
-psql -d ecommerce_db -c "\COPY products    FROM 'data/raw/products.csv'    CSV HEADER;"
-psql -d ecommerce_db -c "\COPY orders      FROM 'data/raw/orders.csv'      CSV HEADER;"
-psql -d ecommerce_db -c "\COPY order_items FROM 'data/raw/order_items.csv' CSV HEADER;"
+## Repository map
 
-psql -d ecommerce_db -f sql/03_kpi_analysis.sql      # then 04–08 in any order
+```text
+├── data/                 # seeded inputs, processed data, data dictionary, metric registry
+├── sql/                  # 12 SQL scripts + query documentation
+├── python/               # EDA, customer segmentation, churn, forecast, statistics, CLV, pricing
+├── scripts/              # calibration, backtesting, decision layer, NL-to-SQL, weekly brief
+├── evals/                # authored NL-to-SQL benchmark and evaluation harness
+├── dashboard/            # static interactive dashboard and screenshots
+├── reports/              # executive, model, experiment, decision, and error analyses
+├── docs/                 # model card, experiment design, release and governance notes
+└── tests/                # 119 automated checks
 ```
 
-CI (`.github/workflows/ci.yml`) runs lint → pipeline → all 119 tests on every push.
+## Limitations
 
----
+- The dataset is synthetic and seeded; it does not represent a real retailer or customer base.
+- Observational differences do not identify causality. Discount response, returns, channel performance, and customer behavior need real-world experiments or an appropriate causal design before policy changes.
+- The win-back experiment is a design only; no campaign or uplift was measured.
+- The CLV output is a proxy, not a validated customer-lifetime forecast.
+- The historical H1 2025 projection is not a current forecast. The rolling-origin evidence shows the current ensemble loses to a simpler baseline and its nominal interval is under-calibrated.
+- Model and benchmark metrics are dataset- and protocol-specific; they should not be generalized to production without fresh data, monitoring, and validation.
 
-## 12. 🎓 Key Learnings
-
-- **Translating business questions into SQL** — every query starts from a
-  question a manager would ask, not a column that happens to exist.
-- **Cross-validating two implementations** (PostgreSQL + pandas) caught real
-  inconsistencies and made every number defensible.
-- **Evaluating predictive models responsibly** — finding and fixing target
-  leakage (AUC 1.0 → 0.649) and in-sample forecast evaluation (MAPE 2.3% →
-  31.6%) taught me that a suspicious metric is a debugging signal, not a trophy.
-- **Communicating analysis to non-technical stakeholders** — the executive
-  summary, decision log, and dashboard all say the same thing in three registers.
-- **Building reproducible analytics** — seeded data, one-command pipeline,
-  31 CI tests, and dashboard-consistency checks.
-- **Grounding LLMs in verified data** — narrating a fact sheet instead of
-  letting a model invent numbers.
-
----
-
-## 13. 🔮 Future Improvements
-
-- **Real dataset integration** (e.g., Olist Brazilian e-commerce) as a second
-  case study to demonstrate the pipeline on messy, real-world data.
-- **Automated refresh** — scheduled pipeline runs with drift detection on
-  data-quality checks.
-- **Cloud database deployment** (PostgreSQL on AWS/GCP) with the SQL layer
-  as the serving interface.
-- **Model monitoring** — track churn-model calibration and forecast error
-  against actuals over time; alert when performance decays.
-- **Improved churn modeling** — behavioural features (session data,
-  support tickets) and probability calibration curves.
-
----
-
-## 📄 License
-
-MIT — free to use, adapt, and learn from.
-
-<div align="center">
-
-**⭐ Star this repo if it helped you ·
-[🚀 Open the Live Dashboard](https://ecomanalytics-dashboard.vercel.app/) ⭐**
-
-</div>
+For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); latest audited suite: **119 tests passed** (2026-10-17).
