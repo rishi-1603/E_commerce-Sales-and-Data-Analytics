@@ -115,7 +115,7 @@ def strip_pricing_key(text: str) -> str:
 
 
 def validate_data_parses(html: str) -> None:
-    """Fail loudly if the repo's own JS-to-JSON parser could not read DATA.
+    r"""Fail loudly if the repo's own JS-to-JSON parser could not read DATA.
 
     tests/test_dashboard_consistency.py converts DATA with:
         - a regex that quotes unquoted keys: ([{,]\s*)([A-Za-z_]...)...
