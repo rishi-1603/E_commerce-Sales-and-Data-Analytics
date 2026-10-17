@@ -63,7 +63,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-fr
 3. **How do you evaluate a churn model beyond AUC?** Cumulative gains/lift: how many churners the top decile captures vs random targeting — that's what makes a campaign profitable.
 4. **How does the NL-to-SQL assistant work?** The LLM generates SQL from the schema; the engine executes it; **the LLM never computes or states numbers itself** — results come from the database only.
 5. **How is the forecast built?** Holt-Winters triple exponential smoothing + linear-trend ensemble with bootstrap 95% CI — naive baseline comparison included (`python/forecasting/04_revenue_forecasting.py`).
-6. **What does the test suite check?** 60 tests: data quality invariants, metric reconciliation (pipeline vs dashboard embed), decision-layer consistency, and NL-to-SQL behavior.
+6. **What does the test suite check?** 182 tests: data quality invariants, metric reconciliation (pipeline vs dashboard embed), decision-layer consistency, and NL-to-SQL behavior.
 7. **How do you keep the deployed dashboard in sync?** `tests/test_dashboard_consistency.py` asserts the dashboard's embedded data equals the pipeline output — the live site can't silently drift.
 8. **How were RFM segments built?** Recency/Frequency/Monetary quintiles + K-Means with elbow analysis; segment actions documented in the retention playbook.
 9. **What statistical tests did you use?** `python/stats/06_statistical_analysis.py` — significance tests on segment differences (documented in `reports/statistical_analysis.md`).
@@ -85,7 +85,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-fr
 ## 10 Project Deep-Dive Questions
 
 1. **What did you build end-to-end?** Synthetic-but-documented data → SQL + pandas pipeline (8 stages) → analytics (RFM, churn, forecast, BCG, CLV) → decision layer (MoM, cohorts, funnel, experiment design) → NL-to-SQL → deployed 6-page dashboard with 60 pinning tests.
-2. **Why 60 tests for a dashboard project?** Because dashboards silently lie when data drifts; pinning every figure to the pipeline makes the live artifact auditable.
+2. **Why 182 tests for a dashboard project?** Because dashboards silently lie when data drifts; pinning every figure to the pipeline makes the live artifact auditable.
 3. **What's the 'Trust Layer'?** The test suite + `data/metrics.json` definitions + SQL/pandas parity: every visible number has a definition, a computation, and a test.
 4. **What would you improve?** Real data with a true temporal horizon (to run the win-back experiment and a proper backtest), calibrated churn probabilities, and a decision-threshold analysis per campaign cost.
 5. **Why not deep learning here?** Tabular data with 12K rows; gradient-boosted or linear models are the right tool. Choosing simple models on purpose is part of the judgment I'd show a team.

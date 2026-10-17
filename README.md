@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
 
-**179 automated tests** pin every figure on the live dashboard to the pipeline output.
+**182 automated tests** pin every figure on the live dashboard to the pipeline output.
 
 > **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
 
@@ -190,4 +190,4 @@ Open `dashboard/dashboard.html` in a browser for the local dashboard. PostgreSQL
 - The historical H1 2025 projection is not a current forecast. The rolling-origin evidence shows the current ensemble loses to a simpler baseline and its nominal interval is under-calibrated.
 - Model and benchmark metrics are dataset- and protocol-specific; they should not be generalized to production without fresh data, monitoring, and validation.
 
-For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); latest audited suite: **119 tests passed** (2026-10-17).
+For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); latest audited suite: **182 tests passed** (2026-10-18).

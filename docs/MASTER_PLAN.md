@@ -22,14 +22,14 @@ new chart types, keyword-driven AI features.
 | D3 (Oct 17) | Forecast backtest + experiment spec v2 | Done |
 | D6 | Error catalog, metric registry, CI pinning | Done |
 | D7 | Resume/interview/release kit | Done |
-| Follow-on | Discount engine, NL-to-SQL eval harness | Done (119 tests) |
+| Follow-on | Discount engine, NL-to-SQL eval harness | Done (182 tests) |
 
 ## Success criteria (from the week's plan) — all met
 - Threshold recommendation with stated cost assumptions: t*=0.10, assumptions box in reports/churn_calibration_and_thresholds.md
 - Calibration chart regenerable: scripts/churn_calibration.py
 - Backtest table with MASE per origin + honest verdict vs naive: reports/forecast_backtest.md
 - Experiment spec runnable by a marketing team: docs/experiment_design_winback.md
-- Test suite green: 119/119 (verified 2026-10-17)
+- Test suite green: 182/182 (verified 2026-10-18)
 
 ## Key links
 - Live dashboard: https://ecomanalytics-dashboard.vercel.app/

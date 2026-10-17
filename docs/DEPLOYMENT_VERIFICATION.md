@@ -1,5 +1,5 @@
 # DEPLOYMENT VERIFICATION — E-Commerce
-### Verified 2026-10-17
+### Verified 2026-10-18
 
 ## Targets
 | Component | Where | URL |
@@ -7,9 +7,9 @@
 | Dashboard (static HTML/Chart.js) | Vercel | https://ecomanalytics-dashboard.vercel.app/ |
 | Repository + CI | GitHub Actions | rishi-1603/E_commerce-Sales-and-Data-Analytics |
 
-## Machine-verified (2026-10-17)
+## Machine-verified (2026-10-18)
 - HTTP check on the dashboard URL: **200 OK**.
-- CI latest run: **success** (pipeline -> eval scripts -> pytest, 119 tests).
+- CI latest run: **success** (pipeline -> eval scripts -> pytest, 182 tests).
 - Regeneration chain: metrics artifacts rebuild from scripts on every CI run.
 
 ## Manual checks the owner should do before sharing the link (click-through)
