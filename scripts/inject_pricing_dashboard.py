@@ -28,6 +28,7 @@ Run:  python scripts/inject_pricing_dashboard.py
 """
 import json
 import os
+import re
 import shutil
 import sys
 
@@ -238,6 +239,12 @@ def inject(path: str, data_block: str, pages: str) -> None:
     # 3. pages — before the script block
     page_anchor = "<script>\nconst GRD"
     assert page_anchor in html, "page anchor not found"
+    # Normalise the whitespace immediately before the anchor, then insert.
+    # This is what makes repeated runs byte-identical: strip_between removes the
+    # block but leaves its trailing newlines behind, and without this the file
+    # would grow one blank line per run.
+    html = re.sub(r"\n*" + re.escape(page_anchor),
+                  "\n\n" + page_anchor.replace("\\", "\\\\"), html, count=1)
     html = html.replace(page_anchor, pages + "\n\n" + page_anchor, 1)
 
     # 4. DATA — inject the pricing key before DATA closes
@@ -247,7 +254,17 @@ def inject(path: str, data_block: str, pages: str) -> None:
     head = head[:idx + 1] + data_block + head[idx + 1:]
     html = head + "\nconst C = {" + tail
 
-    # 5. titles
+    # 5. titles (idempotent: remove a previously injected pricing title first)
+    pricing_title = 'pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]'
+    while pricing_title in html:
+        i = html.index(pricing_title)
+        # swallow the preceding ",\n  " that was added with it
+        start = i
+        if html[max(0, start - 4):start] == ',\n  ':
+            start -= 4
+        end = i + len(pricing_title)
+        html = html[:start] + html[end:]
+
     old_title = 'forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"]'
     assert old_title in html, "titles anchor not found"
     html = html.replace(

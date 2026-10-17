@@ -14,6 +14,7 @@ analysis did not produce.
 import json
 import os
 import re
+from pathlib import Path
 
 import pytest
 
@@ -206,3 +207,38 @@ class TestNoHandTypedNumbers:
                 f"rendered figure {value!r} is not produced by any pricing artifact — "
                 f"expected one of {sorted(expected)}"
             )
+
+
+class TestInjectorIdempotency:
+    """Re-running the injector must be a no-op, not an append.
+
+    Found in review: the titles line was being added on EVERY run (3 copies
+    after 3 runs) and a blank line accumulated. Duplicate keys are legal JS but
+    the file grows without bound. This test reproduces the failure in seconds.
+    """
+
+    def test_second_run_produces_identical_bytes(self):
+        import hashlib
+        import shutil
+        import subprocess
+        import sys
+
+        target = Path(DASH)
+        before = hashlib.md5(target.read_bytes()).hexdigest()
+
+        subprocess.run([sys.executable, str(Path(BASE) / "scripts" / "inject_pricing_dashboard.py")],
+                       check=True, capture_output=True)
+        after = hashlib.md5(target.read_bytes()).hexdigest()
+        assert before == after, (
+            "injector is not idempotent — the dashboard changes on every run, "
+            "which means it would grow unbounded in CI"
+        )
+
+    def test_titles_key_appears_once(self, html):
+        assert html.count('pricing:["Pricing Lab & Win-Back"') == 1
+
+    def test_no_duplicate_data_keys(self, dash_data):
+        # json.loads already guarantees no duplicate keys, but the raw text can
+        # still contain them — check the source
+        raw = open(DASH, encoding="utf-8").read()
+        assert raw.count('\n  pricing: ') == 1
