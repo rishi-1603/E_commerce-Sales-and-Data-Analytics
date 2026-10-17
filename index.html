@@ -252,6 +252,16 @@ tr:last-child td{border-bottom:0}
 
   <div class="nav-group" style="margin-top:16px">
     <div class="nav-label">Skills Used</div>
+<!-- PRICING_NAV_START -->
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('pricing',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.5 1.5a.5.5 0 00-1 0v.6a3.5 3.5 0 00-2.6 3.35c0 1.6 1.02 2.6 2.66 2.98l.94.22c.7.16 1.1.55 1.1 1.15 0 .72-.66 1.2-1.6 1.2-.86 0-1.5-.36-1.75-.95a.5.5 0 00-.92.38c.36.88 1.18 1.42 2.17 1.54v.53a.5.5 0 001 0v-.55a3.4 3.4 0 002.55-3.28c0-1.6-1.05-2.55-2.62-2.92l-.94-.22c-.75-.18-1.14-.55-1.14-1.14 0-.68.6-1.16 1.5-1.16.78 0 1.35.3 1.62.82a.5.5 0 00.88-.47A2.9 2.9 0 008.5 2.2v-.7z"/></svg>
+      Pricing Lab
+    </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('winback',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.25-3.5a.75.75 0 011.5 0v3.19l2.03 1.17a.75.75 0 11-.75 1.3L7.75 8.7A.75.75 0 017.25 8V4.5z"/></svg>
+      Win-Back Economics
+    </div>
+    <!-- PRICING_NAV_END -->
     <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python (Pandas, NumPy, scikit-learn)</span></div>
     <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🗄️ SQL (PostgreSQL · CTEs, window fns, cohorts)</span></div>
     <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📐 Statistics (SciPy · t-test, ANOVA, χ²)</span></div>
@@ -651,6 +661,106 @@ tr:last-child td{border-bottom:0}
   </div>
 </div>
 
+
+
+
+
+<!-- PRICING_PAGES_START -->
+    <div class="page" id="page-pricing">
+      <div class="band" style="margin-bottom:12px">
+        <strong>Is the discount ladder buying us anything?</strong>
+        In this dataset, no. Volume response to discount depth is not statistically
+        significant (Kruskal-Wallis p=0.305), while every rung costs margin. The
+        break-even table shows what would have to be true for each depth to pay for itself.
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Volume response detected</div><div class="kpi-value" style="color:var(--red)">NO</div><div class="kpi-delta neu">p = 0.305</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even lift at 20% off</div><div class="kpi-value" style="color:var(--amber)">+59.2%</div><div class="kpi-delta neu">volume needed</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Margin recovered (10% cap)</div><div class="kpi-value" style="color:var(--green)">₹6.45 L</div><div class="kpi-delta up">2.0% of total margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Lines affected by cap</div><div class="kpi-value" style="color:var(--blue)">3,294</div><div class="kpi-delta neu">above 10% discount</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header">
+          <div><div class="card-title">Margin Erosion vs Break-Even Requirement</div><div class="card-sub">Margin as a share of list price falls with every rung; the line is the volume lift each rung needs to hold total margin flat</div></div>
+          <div class="legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Margin % of list</div>
+            <div class="leg-item"><div class="leg-dot" style="background:#d29922"></div>Break-even lift</div>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="ch_pricing_margin" role="img" aria-label="Margin erosion and break-even lift by discount depth"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Discount Lab — scenario simulator</div><div class="card-sub">Set a discount depth and an assumed volume lift. The simulator prices the scenario against the break-even requirement. The lift is an assumption — this dataset cannot identify it.</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:4px 0 12px">
+          <div>
+            <label for="lab_depth" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Discount depth: <strong id="lab_depth_v" style="color:var(--text)">10%</strong></label>
+            <input id="lab_depth" type="range" min="0" max="20" step="5" value="10" style="width:100%" oninput="runDiscountLab()">
+          </div>
+          <div>
+            <label for="lab_lift" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Assumed volume lift: <strong id="lab_lift_v" style="color:var(--text)">+0%</strong></label>
+            <input id="lab_lift" type="range" min="-20" max="80" step="5" value="0" style="width:100%" oninput="runDiscountLab()">
+          </div>
+        </div>
+        <div class="kpi-grid" id="lab_out" style="margin-bottom:8px"></div>
+        <div class="band" id="lab_verdict"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Break-Even Table</div><div class="card-sub">Volume lift required at each depth to hold total margin flat, and the share of line items at that depth</div></div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Discount</th><th class="num-right">Margin rate</th><th class="num-right">Margin % of list</th><th class="num-right">Break-even volume lift</th><th class="num-right">Share of line items</th></tr></thead>
+            <tbody id="pricing_tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-winback">
+      <div class="band" style="margin-bottom:12px">
+        <strong>Who is worth saving, and what does it return?</strong>
+        Expected-value economics on the 448 cooling-off customers. Every figure is an
+        <em>expectation</em> under the stated cost model — no campaign has been run.
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cooling-off customers</div><div class="kpi-value" style="color:var(--blue)">448</div><div class="kpi-delta neu">₹1.24 Cr historical spend</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected profit per contact</div><div class="kpi-value" style="color:var(--green)">₹541</div><div class="kpi-delta up">at 15% recovery</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign expected profit</div><div class="kpi-value" style="color:var(--green)">₹2.42 L</div><div class="kpi-delta neu">contact all 448</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">12.9%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Sensitivity — how wrong can the assumptions be?</div><div class="card-sub">Expected profit per contact across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected profit sensitivity by recovery rate and offer cost"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Budget Worklist</div><div class="card-sub">Ranked by expected value (p × r × V − C), not by churn probability alone — a likely churner who spends little is not worth a call</div></div></div>
+        <label for="wb_budget" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Monthly budget: <strong id="wb_budget_v" style="color:var(--text)">Rs 25,000</strong></label>
+        <input id="wb_budget" type="range" min="0" max="112000" step="2500" value="25000" style="width:100%" oninput="runBudgetWorklist()">
+        <div class="kpi-grid" id="wb_out" style="margin-top:12px"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected profit in rupees — including the do-nothing baseline</div></div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected profit</th></tr></thead>
+            <tbody id="winback_tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- PRICING_PAGES_END -->
+
 <script>
 const GRD = {color:'rgba(240,246,252,0.06)',display:true};
 const MUT = '#8b949e';
@@ -694,7 +804,8 @@ const DATA = {
     segActions: [{"segment": "Loyal Customers", "customers": 495, "spend": 16042298, "action": "Grow \u2014 cross-sell adjacent categories"}, {"segment": "Champions", "customers": 317, "spend": 15491823, "action": "Retain \u2014 loyalty perks, early access, protect at all costs"}, {"segment": "At Risk", "customers": 221, "spend": 9250457, "action": "Win-back \u2014 high-touch offer, personal outreach"}, {"segment": "About To Sleep", "customers": 354, "spend": 8900830, "action": "Re-engage now, before the lapse"}, {"segment": "Recent Customers", "customers": 248, "spend": 4532877, "action": "Activate \u2014 welcome flow plus first-repeat incentive"}, {"segment": "Needs Attention", "customers": 194, "spend": 2615092, "action": "Win-back \u2014 incentive plus feedback capture"}, {"segment": "Lost Customers", "customers": 133, "spend": 1591180, "action": "Low-cost reactivation only \u2014 do not overspend"}, {"segment": "Potential Loyalists", "customers": 29, "spend": 859062, "action": "Nurture \u2014 onboarding offers, second-purchase push"}],
     cohorts: {"labels": ["2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"], "sizes": [52, 74, 78, 69, 73, 52, 87, 74, 71, 54, 82, 75, 81, 73, 81, 72, 81, 35], "matrix": [[100.0, 23.1, 26.9, 19.2, 9.6, 15.4, 25.0, 19.2, 19.2, 19.2, 19.2, 23.1, 13.5], [100.0, 14.9, 27.0, 16.2, 23.0, 20.3, 29.7, 21.6, 23.0, 21.6, 20.3, 25.7, 23.0], [100.0, 28.2, 21.8, 24.4, 19.2, 20.5, 25.6, 14.1, 32.1, 37.2, 21.8, 9.0, 33.3], [100.0, 18.8, 29.0, 21.7, 20.3, 20.3, 18.8, 18.8, 14.5, 24.6, 30.4, 21.7, 21.7], [100.0, 19.2, 24.7, 28.8, 15.1, 19.2, 28.8, 24.7, 26.0, 26.0, 23.3, 24.7, 21.9], [100.0, 25.0, 26.9, 23.1, 11.5, 17.3, 30.8, 23.1, 26.9, 26.9, 25.0, 28.8, 25.0], [100.0, 23.0, 33.3, 25.3, 26.4, 28.7, 23.0, 29.9, 32.2, 31.0, 18.4, 20.7, null], [100.0, 32.4, 32.4, 27.0, 31.1, 27.0, 29.7, 18.9, 36.5, 18.9, 29.7, null, null], [100.0, 28.2, 36.6, 33.8, 22.5, 28.2, 29.6, 29.6, 26.8, 31.0, null, null, null], [100.0, 31.5, 38.9, 40.7, 40.7, 37.0, 38.9, 33.3, 27.8, null, null, null, null], [100.0, 32.9, 42.7, 31.7, 24.4, 40.2, 35.4, 36.6, null, null, null, null, null], [100.0, 42.7, 42.7, 41.3, 44.0, 38.7, 41.3, null, null, null, null, null, null], [100.0, 40.7, 39.5, 46.9, 50.6, 42.0, null, null, null, null, null, null, null], [100.0, 54.8, 52.1, 61.6, 43.8, null, null, null, null, null, null, null, null], [100.0, 55.6, 50.6, 51.9, null, null, null, null, null, null, null, null, null], [100.0, 75.0, 68.1, null, null, null, null, null, null, null, null, null, null], [100.0, 87.7, null, null, null, null, null, null, null, null, null, null, null], [100.0, null, null, null, null, null, null, null, null, null, null, null, null]], "max_months": 12}
   },
-};
+
+  pricing: {"discount":{"depths":[0.0,0.05,0.1,0.15,0.2],"margin_pct_of_list":[0.5379,0.4863,0.4369,0.3894,0.3378],"margin_rate":[0.5379,0.5119,0.4854,0.4581,0.4223],"break_even_lift":[0.0,0.1061,0.2312,0.3814,0.5924],"share_of_items":[0.4017,0.2452,0.1968,0.1069,0.0495],"volume_response_detected":false,"kruskal_p":0.305,"break_even_at_20":0.5924,"margin_recovered_cap10":644517.95},"winback":{"customers":448,"historical_spend":12405259.36,"mean_churn_p":0.4079,"ev_per_contact":541.24,"ev_total":242477.57,"break_even_p":0.1289,"bayes_threshold":0.1289,"consistent":true,"contact_cost":250.0,"recovery_rate":0.15,"retained_value":12931.3,"sensitivity":[{"r":0.05,"c":100.0,"profit":163.75},{"r":0.05,"c":250.0,"profit":13.75},{"r":0.05,"c":400.0,"profit":-136.25},{"r":0.05,"c":500.0,"profit":-236.25},{"r":0.1,"c":100.0,"profit":427.5},{"r":0.1,"c":250.0,"profit":277.5},{"r":0.1,"c":400.0,"profit":127.5},{"r":0.1,"c":500.0,"profit":27.5},{"r":0.15,"c":100.0,"profit":691.24},{"r":0.15,"c":250.0,"profit":541.24},{"r":0.15,"c":400.0,"profit":391.24},{"r":0.15,"c":500.0,"profit":291.24},{"r":0.2,"c":100.0,"profit":954.99},{"r":0.2,"c":250.0,"profit":804.99},{"r":0.2,"c":400.0,"profit":654.99},{"r":0.2,"c":500.0,"profit":554.99},{"r":0.3,"c":100.0,"profit":1482.49},{"r":0.3,"c":250.0,"profit":1332.49},{"r":0.3,"c":400.0,"profit":1182.49},{"r":0.3,"c":500.0,"profit":1082.49},{"r":0.4,"c":100.0,"profit":2009.99},{"r":0.4,"c":250.0,"profit":1859.99},{"r":0.4,"c":400.0,"profit":1709.99},{"r":0.4,"c":500.0,"profit":1609.99}],"tiers":[{"name":"A","label":"A. Contact all 448 (blanket win-back)","audience":448,"profit":242477.57},{"name":"B","label":"B. Contact top decile by expected value (44)","audience":44,"profit":26180.45},{"name":"C","label":"C. Contact only p > break-even 12.9% (448)","audience":448,"profit":242477.57},{"name":"D","label":"D. Do nothing","audience":448,"profit":0.0}],"worklist":{"budget_inr":25000,"calls_affordable":100,"eligible_customers":448,"selected":100,"expected_profit_inr":69657.64,"spend_inr":25000.0,"mean_churn_prob_selected":0.488,"break_even_probability":0.1289,"note":"Ranked by expected value (p x r x V - C) rather than churn probability alone - a likely churner who spends little is not worth a call. Written without apostrophes or comma-colon sequences so the dashboard JS-to-JSON parser stays valid."}}},};
 
 const C = {
   blue:'#388bfd',green:'#3fb950',amber:'#d29922',red:'#f85149',
@@ -708,7 +819,12 @@ const titles = {
   cohorts:["Retention & Cohorts","Cohort Retention · Segment Playbook · Definitions"],
   churn:["Churn Analysis","Random Forest · Risk Scoring · Action Plan"],
   products:["Product Profitability","BCG Matrix · Margin · Category Analysis"],
-  forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"]
+  forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"],
+  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
+  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
+  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
+  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
+  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]
 };
 
 function nav(id, el) {
@@ -842,6 +958,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   buildCohortHeat();
   buildCohortCurve();
   renderSegActions();
+  buildPricing();
 });
 
 function buildRevTrend(){
@@ -1105,6 +1222,191 @@ function buildForecastTable(){
     </tr>`;
   });
 }
+// PRICING_JS_START
+function fmtINR(x){
+  const a = Math.abs(x);
+  if (a >= 1e7) return 'Rs ' + (x/1e7).toFixed(2) + ' Cr';
+  if (a >= 1e5) return 'Rs ' + (x/1e5).toFixed(2) + ' L';
+  return 'Rs ' + Math.round(x).toLocaleString('en-IN');
+}
+
+function buildPricingMargin(){
+  const el = document.getElementById('ch_pricing_margin');
+  if (!el || !DATA.pricing) return;
+  const D = DATA.pricing.discount;
+  new Chart(el, {
+    type:'bar',
+    data:{
+      labels: D.depths.map(d => Math.round(d*100) + '%'),
+      datasets:[
+        { label:'Margin % of list', data:D.margin_pct_of_list.map(v=>+(v*100).toFixed(1)),
+          backgroundColor:'rgba(56,139,253,0.55)', borderColor:'#388bfd', borderWidth:1,
+          yAxisID:'y', order:2 },
+        { label:'Break-even lift (%)', data:D.break_even_lift.map(v=>+(v*100).toFixed(1)),
+          type:'line', borderColor:'#d29922', backgroundColor:'transparent',
+          borderWidth:2, pointBackgroundColor:'#d29922', tension:0.25, yAxisID:'y1', order:1 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + c.parsed.y } } },
+      scales:{
+        y:{ beginAtZero:true, max:60, ticks:{ color:MUT }, grid:GRD,
+            title:{display:true,text:'Margin % of list',color:MUT} },
+        y1:{ position:'right', beginAtZero:true, ticks:{ color:'#d29922' }, grid:{display:false},
+             title:{display:true,text:'Volume lift needed (%)',color:'#d29922'} },
+        x:{ ticks:{ color:MUT }, grid:{display:false} }
+      }
+    }
+  });
+}
+
+function buildPricingTable(){
+  const tb = document.getElementById('pricing_tbody');
+  if (!tb || !DATA.pricing) return;
+  const D = DATA.pricing.discount;
+  tb.innerHTML = D.depths.map((d,i) => '<tr>' +
+    '<td>' + Math.round(d*100) + '%</td>' +
+    '<td class="num-right">' + (D.margin_rate[i]*100).toFixed(1) + '%</td>' +
+    '<td class="num-right">' + (D.margin_pct_of_list[i]*100).toFixed(1) + '%</td>' +
+    '<td class="num-right">' + (d === 0 ? '—' : '+' + (D.break_even_lift[i]*100).toFixed(1) + '%') + '</td>' +
+    '<td class="num-right">' + (D.share_of_items[i]*100).toFixed(1) + '%</td>' +
+  '</tr>').join('');
+}
+
+function runDiscountLab(){
+  if (!DATA.pricing) return;
+  const D = DATA.pricing.discount;
+  const depth = +(document.getElementById('lab_depth').value) / 100;
+  const lift  = +(document.getElementById('lab_lift').value) / 100;
+  document.getElementById('lab_depth_v').textContent = Math.round(depth*100) + '%';
+  document.getElementById('lab_lift_v').textContent  = (lift>=0?'+':'') + Math.round(lift*100) + '%';
+
+  const dep = D.depths, mpl = D.margin_pct_of_list, bel = D.break_even_lift;
+  let lo = 0, hi = dep.length - 1;
+  for (let i = 0; i < dep.length - 1; i++) {
+    if (depth >= dep[i] && depth <= dep[i+1]) { lo = i; hi = i+1; }
+  }
+  const w = (depth - dep[lo]) / ((dep[hi] - dep[lo]) || 1);
+  const margin = mpl[lo] + (mpl[hi] - mpl[lo]) * w;
+  const be = bel[lo] + (bel[hi] - bel[lo]) * w;
+  const base = mpl[0];
+
+  const marginChange = ((margin / base) * (1 + lift)) - 1;
+  const revenueChange = ((1 - depth) * (1 + lift)) - 1;
+  const beats = lift >= be;
+  const up = v => v >= 0 ? 'var(--green)' : 'var(--red)';
+
+  document.getElementById('lab_out').innerHTML =
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div>' +
+      '<div class="kpi-label">Margin vs no discount</div>' +
+      '<div class="kpi-value" style="color:' + up(marginChange) + '">' + (marginChange*100).toFixed(1) + '%</div>' +
+      '<div class="kpi-delta neu">volume held at assumption</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div>' +
+      '<div class="kpi-label">Revenue vs no discount</div>' +
+      '<div class="kpi-value" style="color:' + up(revenueChange) + '">' + (revenueChange*100).toFixed(1) + '%</div>' +
+      '<div class="kpi-delta neu">price x volume</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div>' +
+      '<div class="kpi-label">Break-even lift needed</div>' +
+      '<div class="kpi-value" style="color:var(--amber)">+' + (be*100).toFixed(1) + '%</div>' +
+      '<div class="kpi-delta neu">at this depth</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:' + (beats?'#3fb950':'#f85149') + '"></div>' +
+      '<div class="kpi-label">Verdict</div>' +
+      '<div class="kpi-value" style="color:' + (beats?'var(--green)':'var(--red)') + ';font-size:17px">' +
+        (beats ? 'Clears break-even' : 'Below break-even') + '</div>' +
+      '<div class="kpi-delta neu">assumption vs requirement</div></div>';
+
+  document.getElementById('lab_verdict').innerHTML = beats
+    ? '<strong>Clears the bar.</strong> At a ' + Math.round(depth*100) + '% discount the assumed +' +
+      Math.round(lift*100) + '% volume lift exceeds the ' + (be*100).toFixed(1) +
+      '% required to hold margin flat. <em>But note:</em> the measured response in this dataset is not ' +
+      'statistically significant (p=' + D.kruskal_p + '), so this lift is an assumption you are asserting, not a finding the data supports.'
+    : '<strong>Does not clear the bar.</strong> A ' + Math.round(depth*100) + '% discount would need +' +
+      (be*100).toFixed(1) + '% volume just to hold margin flat; you assumed +' + Math.round(lift*100) +
+      '%. This scenario destroys margin relative to not discounting.';
+}
+
+function buildWinbackSens(){
+  const el = document.getElementById('ch_winback_sens');
+  if (!el || !DATA.pricing) return;
+  const S = DATA.pricing.winback.sensitivity;
+  const costs = [...new Set(S.map(s => s.c))].sort((a,b)=>a-b);
+  const rates = [...new Set(S.map(s => s.r))].sort((a,b)=>a-b);
+  const palette = ['#f85149','#d29922','#3fb950','#388bfd'];
+  new Chart(el, {
+    type:'bar',
+    data:{
+      labels: rates.map(r => Math.round(r*100) + '%'),
+      datasets: costs.map((c,i) => ({
+        label: 'Rs ' + c + '/contact',
+        data: rates.map(r => {
+          const row = S.find(s => s.r === r && s.c === c);
+          return row ? +row.profit.toFixed(0) : 0;
+        }),
+        backgroundColor: palette[i % palette.length] + 'aa',
+        borderColor: palette[i % palette.length], borderWidth:1
+      }))
+    },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ color:MUT, boxWidth:12 }, position:'bottom' },
+        tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + fmtINR(c.parsed.y) + ' per contact' } } },
+      scales:{
+        y:{ ticks:{ color:MUT }, grid:GRD,
+            title:{display:true,text:'Expected profit per contact',color:MUT} },
+        x:{ ticks:{ color:MUT }, grid:{display:false},
+            title:{display:true,text:'Recovery rate assumption',color:MUT} }
+      }
+    }
+  });
+}
+
+function buildWinbackTable(){
+  const tb = document.getElementById('winback_tbody');
+  if (!tb || !DATA.pricing) return;
+  tb.innerHTML = DATA.pricing.winback.tiers.map(t => '<tr>' +
+    '<td>' + t.label + '</td>' +
+    '<td class="num-right">' + t.audience + '</td>' +
+    '<td class="num-right">' + fmtINR(t.profit) + '</td>' +
+  '</tr>').join('');
+}
+
+function runBudgetWorklist(){
+  if (!DATA.pricing) return;
+  const W = DATA.pricing.winback;
+  const budget = +(document.getElementById('wb_budget').value);
+  document.getElementById('wb_budget_v').textContent = fmtINR(budget);
+  const calls = Math.floor(budget / W.contact_cost);
+  const eligible = W.worklist.eligible_customers;
+  const selected = Math.min(calls, eligible);
+  const profit = selected * W.ev_per_contact;
+  document.getElementById('wb_out').innerHTML =
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div>' +
+      '<div class="kpi-label">Calls affordable</div>' +
+      '<div class="kpi-value" style="color:var(--blue)">' + calls + '</div>' +
+      '<div class="kpi-delta neu">at ' + fmtINR(W.contact_cost) + ' each</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#bc8cff"></div>' +
+      '<div class="kpi-label">Customers contacted</div>' +
+      '<div class="kpi-value" style="color:var(--purple)">' + selected + '</div>' +
+      '<div class="kpi-delta neu">' + eligible + ' eligible</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div>' +
+      '<div class="kpi-label">Expected profit</div>' +
+      '<div class="kpi-value" style="color:var(--green)">' + fmtINR(profit) + '</div>' +
+      '<div class="kpi-delta up">' + fmtINR(W.ev_per_contact) + ' per contact</div></div>' +
+    '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div>' +
+      '<div class="kpi-label">Return per unit spent</div>' +
+      '<div class="kpi-value" style="color:var(--amber)">' + (budget > 0 ? (profit/budget).toFixed(2) + 'x' : '—') + '</div>' +
+      '<div class="kpi-delta neu">expected profit / budget</div></div>';
+}
+
+function buildPricing(){
+  buildPricingMargin();
+  buildPricingTable();
+  buildWinbackSens();
+  buildWinbackTable();
+  runDiscountLab();
+  runBudgetWorklist();
+}
+// PRICING_JS_END
 </script>
 </body>
 </html>

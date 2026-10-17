@@ -1,6 +1,6 @@
 {
   "mode": "fallback",
-  "timestamp": "2026-10-16T19:12:39+00:00",
+  "timestamp": "2026-10-17T16:00:01+00:00",
   "n_questions": 37,
   "passed": 36,
   "overall_accuracy": 0.973,
@@ -28,8 +28,8 @@
   },
   "refusal_correctness": 1.0,
   "fabricated_numbers": 0,
-  "latency_p50_ms": 200.5,
-  "latency_p95_ms": 216.8,
+  "latency_p50_ms": 191.7,
+  "latency_p95_ms": 222.8,
   "results": [
     {
       "id": "A01",
@@ -38,7 +38,7 @@
       "question": "What is total revenue?",
       "passed": true,
       "detail": "got 59,283,619.32 vs expected 59,283,619.32",
-      "latency_ms": 218.9,
+      "latency_ms": 179.2,
       "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
     },
     {
@@ -48,7 +48,7 @@
       "question": "What is total profit?",
       "passed": true,
       "detail": "got 31,997,341.64 vs expected 31,997,341.64",
-      "latency_ms": 231.0,
+      "latency_ms": 185.3,
       "sql": "SELECT ROUND(SUM(profit), 2) as total_profit FROM orders"
     },
     {
@@ -58,7 +58,7 @@
       "question": "How many total orders do we have?",
       "passed": true,
       "detail": "got 9,933.00 vs expected 9,933.00",
-      "latency_ms": 214.9,
+      "latency_ms": 173.7,
       "sql": "SELECT COUNT(DISTINCT order_id) as total_orders FROM orders"
     },
     {
@@ -68,7 +68,7 @@
       "question": "How many customers do we have in total?",
       "passed": true,
       "detail": "got 1,991.00 vs expected 1,991.00",
-      "latency_ms": 205.5,
+      "latency_ms": 179.4,
       "sql": "SELECT COUNT(DISTINCT customer_id) as total_customers FROM orders"
     },
     {
@@ -78,7 +78,7 @@
       "question": "What is the average order value?",
       "passed": true,
       "detail": "got 5,968.35 vs expected 5,968.35",
-      "latency_ms": 209.5,
+      "latency_ms": 175.5,
       "sql": "SELECT ROUND(SUM(line_total)/COUNT(DISTINCT order_id), 2) as aov FROM orders"
     },
     {
@@ -88,7 +88,7 @@
       "question": "What is total revenue in 2024?",
       "passed": true,
       "detail": "got 40,901,640.96 vs expected 40,901,640.96",
-      "latency_ms": 207.2,
+      "latency_ms": 174.8,
       "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders WHERE year = 2024"
     },
     {
@@ -98,7 +98,7 @@
       "question": "What is the average discount we give?",
       "passed": true,
       "detail": "got 0.06 vs expected 0.06",
-      "latency_ms": 204.1,
+      "latency_ms": 176.8,
       "sql": "SELECT ROUND(AVG(discount_pct_y), 4) as avg_discount FROM orders"
     },
     {
@@ -108,7 +108,7 @@
       "question": "Which category has the highest margin?",
       "passed": true,
       "detail": "correct extreme: Sports",
-      "latency_ms": 210.5,
+      "latency_ms": 201.8,
       "sql": "SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct FROM orders GROUP BY category ORDER BY margin_pct DESC"
     },
     {
@@ -118,7 +118,7 @@
       "question": "What is total quantity sold?",
       "passed": true,
       "detail": "got 62,820.00 vs expected 62,820.00",
-      "latency_ms": 208.3,
+      "latency_ms": 179.8,
       "sql": "SELECT SUM(quantity) as total_quantity FROM orders"
     },
     {
@@ -128,7 +128,7 @@
       "question": "How many orders were placed in December 2024?",
       "passed": true,
       "detail": "got 1,027.00 vs expected 1,027.00",
-      "latency_ms": 215.2,
+      "latency_ms": 187.7,
       "sql": "SELECT COUNT(DISTINCT order_id) as total_orders FROM orders WHERE month = 12 AND year = 2024"
     },
     {
@@ -138,7 +138,7 @@
       "question": "What's our overall turnover?",
       "passed": true,
       "detail": "got 59,283,619.32 vs expected 59,283,619.32",
-      "latency_ms": 200.5,
+      "latency_ms": 198.4,
       "sql": "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
     },
     {
@@ -148,7 +148,7 @@
       "question": "How big is our customer base?",
       "passed": true,
       "detail": "got 1,991.00 vs expected 1,991.00",
-      "latency_ms": 211.3,
+      "latency_ms": 192.8,
       "sql": "SELECT COUNT(DISTINCT customer_id) as total_customers FROM orders"
     },
     {
@@ -158,7 +158,7 @@
       "question": "Which product line gives us the best percentage profit?",
       "passed": false,
       "detail": "no column matching ['category'] in ['product_name', 'profit']",
-      "latency_ms": 206.5,
+      "latency_ms": 194.7,
       "sql": "SELECT product_name, ROUND(SUM(profit), 2) as profit FROM orders GROUP BY product_name ORDER BY profit DESC LIMIT 1"
     },
     {
@@ -168,7 +168,7 @@
       "question": "Show me revenue by category",
       "passed": true,
       "detail": "correct extreme: Sports",
-      "latency_ms": 209.5,
+      "latency_ms": 207.5,
       "sql": "SELECT category, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY category ORDER BY revenue DESC"
     },
     {
@@ -178,7 +178,7 @@
       "question": "Which region has the highest revenue?",
       "passed": true,
       "detail": "correct extreme: West",
-      "latency_ms": 212.3,
+      "latency_ms": 213.4,
       "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
     },
     {
@@ -188,7 +188,7 @@
       "question": "Show me the top products by revenue",
       "passed": true,
       "detail": "correct extreme: Tablet Ultra",
-      "latency_ms": 210.7,
+      "latency_ms": 207.8,
       "sql": "SELECT product_name, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY product_name ORDER BY revenue DESC LIMIT 10"
     },
     {
@@ -198,7 +198,7 @@
       "question": "Show me revenue by region",
       "passed": true,
       "detail": "got 5 rows, expected 5",
-      "latency_ms": 188.4,
+      "latency_ms": 222.8,
       "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
     },
     {
@@ -208,7 +208,7 @@
       "question": "Which subcategory has the lowest revenue?",
       "passed": true,
       "detail": "correct extreme: Sunscreen",
-      "latency_ms": 187.0,
+      "latency_ms": 217.6,
       "sql": "SELECT subcategory, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY subcategory ORDER BY revenue ASC"
     },
     {
@@ -218,7 +218,7 @@
       "question": "Show me revenue by customer segment",
       "passed": true,
       "detail": "got 3 rows, expected 3",
-      "latency_ms": 194.2,
+      "latency_ms": 198.3,
       "sql": "SELECT segment, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY segment ORDER BY revenue DESC"
     },
     {
@@ -228,7 +228,7 @@
       "question": "Which product has the highest profit?",
       "passed": true,
       "detail": "correct extreme: T-Shirt Basic",
-      "latency_ms": 181.8,
+      "latency_ms": 190.4,
       "sql": "SELECT product_name, ROUND(SUM(profit), 2) as profit FROM orders GROUP BY product_name ORDER BY profit DESC LIMIT 1"
     },
     {
@@ -238,7 +238,7 @@
       "question": "Show me margin by category",
       "passed": true,
       "detail": "correct extreme: Sports",
-      "latency_ms": 179.6,
+      "latency_ms": 191.7,
       "sql": "SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct FROM orders GROUP BY category ORDER BY margin_pct DESC"
     },
     {
@@ -248,7 +248,7 @@
       "question": "Where do we make the most money region-wise?",
       "passed": true,
       "detail": "correct extreme: West",
-      "latency_ms": 176.6,
+      "latency_ms": 210.5,
       "sql": "SELECT region, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY region ORDER BY revenue DESC"
     },
     {
@@ -258,7 +258,7 @@
       "question": "Which SKUs sell the best?",
       "passed": true,
       "detail": "correct extreme: Tablet Ultra",
-      "latency_ms": 172.7,
+      "latency_ms": 223.1,
       "sql": "SELECT product_name, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY product_name ORDER BY revenue DESC LIMIT 10"
     },
     {
@@ -268,7 +268,7 @@
       "question": "Show me the monthly revenue trend",
       "passed": true,
       "detail": "got 36 rows, expected 30\u201336",
-      "latency_ms": 178.0,
+      "latency_ms": 249.3,
       "sql": "SELECT year, month, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year, month ORDER BY year, month"
     },
     {
@@ -278,7 +278,7 @@
       "question": "Show me revenue by year",
       "passed": true,
       "detail": "got 3 rows, expected 3",
-      "latency_ms": 174.7,
+      "latency_ms": 188.6,
       "sql": "SELECT year, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year ORDER BY year"
     },
     {
@@ -288,7 +288,7 @@
       "question": "What was our revenue in Q4 2024?",
       "passed": true,
       "detail": "got 16,155,748.79 vs expected 16,155,748.79",
-      "latency_ms": 169.4,
+      "latency_ms": 196.6,
       "sql": "SELECT ROUND(SUM(line_total), 2) as revenue FROM orders WHERE quarter = '2024Q4'"
     },
     {
@@ -298,7 +298,7 @@
       "question": "Which year had the highest revenue?",
       "passed": true,
       "detail": "correct extreme: 2024",
-      "latency_ms": 200.5,
+      "latency_ms": 192.7,
       "sql": "SELECT year, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year ORDER BY revenue DESC LIMIT 1"
     },
     {
@@ -308,7 +308,7 @@
       "question": "Show me the month-over-month revenue growth in 2024",
       "passed": true,
       "detail": "12 rows with column(s): ['year', 'month', 'revenue', 'mom_growth_pct']",
-      "latency_ms": 216.8,
+      "latency_ms": 210.3,
       "sql": "WITH monthly AS (SELECT year, month, SUM(line_total) as rev FROM orders WHERE year = 2024 GROUP BY year, month) SELECT year, month, ROUND(rev, 2) as revenue, RO"
     },
     {
@@ -318,7 +318,7 @@
       "question": "Which quarter had the highest revenue?",
       "passed": true,
       "detail": "correct extreme: 2024Q4",
-      "latency_ms": 207.9,
+      "latency_ms": 176.2,
       "sql": "SELECT quarter, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY quarter ORDER BY revenue DESC LIMIT 1"
     },
     {
@@ -328,7 +328,7 @@
       "question": "Show me orders by month",
       "passed": true,
       "detail": "36 rows with column(s): ['year', 'month', 'orders']",
-      "latency_ms": 185.2,
+      "latency_ms": 188.8,
       "sql": "SELECT year, month, COUNT(DISTINCT order_id) as orders FROM orders GROUP BY year, month ORDER BY year, month"
     },
     {
@@ -338,7 +338,7 @@
       "question": "Plot revenue over time by month",
       "passed": true,
       "detail": "got 36 rows, expected 30\u201336",
-      "latency_ms": 199.1,
+      "latency_ms": 200.8,
       "sql": "SELECT year, month, ROUND(SUM(line_total), 2) as revenue FROM orders GROUP BY year, month ORDER BY year, month"
     },
     {
@@ -348,7 +348,7 @@
       "question": "How much did we earn in the last quarter of 2024?",
       "passed": true,
       "detail": "got 16,155,748.79 vs expected 16,155,748.79",
-      "latency_ms": 182.1,
+      "latency_ms": 192.5,
       "sql": "SELECT ROUND(SUM(line_total), 2) as revenue FROM orders WHERE quarter = '2024Q4'"
     },
     {

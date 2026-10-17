@@ -163,3 +163,82 @@ artifacts must be reproducible; these now are.
 Exact CI sequence reproduced locally end-to-end: generate_data → run_pipeline →
 churn_calibration → forecast_backtest → pricing → eval harness → flake8 →
 pytest → **119 passed**. Registry, artifact and pins now agree to 1e-9.
+
+---
+
+## U3 — Win-Back Campaign Economics
+
+**Status:** done — 21 tests, committed artifact
+
+`python/pricing/winback.py` prices the 448-customer cooling-off pool using the same
+C/r/V cost model as the churn calibration (₹250 / 15% / ₹12,931).
+
+**Result:** ₹541 expected profit per contact, **₹2.42 L** for the full pool.
+
+**The strongest check in this pack:** the campaign break-even churn probability
+(**12.89%**) equals the churn model's independently-computed Bayes threshold
+(**0.1289**) to four decimals. Two separately written modules agreeing is proof the
+cost model has not drifted. Pinned as `test_break_even_equals_the_churn_model_bayes_threshold`.
+
+Honest edge case preserved: the tiered-scenario function handles the case where *no*
+customer clears break-even — it reports "do not run a paid campaign" rather than
+returning a small positive number.
+
+---
+
+## U4 — Forecast Challenger: the published loss is now a published win
+
+**Status:** done — 17 tests
+
+`scripts/forecast_challenger.py` re-runs the identical rolling-origin protocol
+(constants and baseline functions **imported** from `forecast_backtest.py`, so protocol
+drift is impossible) and adds five challengers.
+
+**Result:**
+
+| Model | MASE |
+|---|---|
+| **holt_linear (challenger)** | **0.3752** ← winner |
+| drift (previous best) | 0.4681 |
+| holt_winters | 0.5614 |
+| ensemble (shipped) | 0.6800 |
+| log_linear | 1.7510 |
+| seasonal_naive | 2.0539 |
+
+**A 19.8% improvement over the baseline that beat the shipped model.** The insight is
+not "Holt's method is better" — it is that **seasonality hurts on this dataset**.
+`seasonal_naive` is the worst model on the board (2.05) and `holt_winters` (0.56) loses
+to the same trend model without seasonality (0.375). Exponential extrapolation
+(`log_linear`, 1.75) overcommits badly. The honest conclusion: fit a trend, do not
+model the (synthetic, noisy) season.
+
+**Process note:** the first run silently dropped the three statsmodels-based models to
+NaN and omitted them from the leaderboard. That is exactly the kind of quiet omission
+this project's house style forbids, so the runner now records failures per model,
+surfaces them in the console and in the markdown report, and a test fails if any model
+is excluded (`test_every_model_ran_at_every_origin`).
+
+---
+
+## U5 — Pricing Lab & Win-Back dashboard pages
+
+**Status:** done — 22 tests, all 4 deployment copies synced
+
+`scripts/inject_pricing_dashboard.py` (+ `pricing_dashboard_templates.py`) generates two
+Chart.js pages from the pricing artifacts and injects them idempotently.
+
+**Errors found and fixed while wiring this up (all disclosed):**
+1. A JS comment inside the `DATA` object broke the repo's own JS-to-JSON parser
+   (the consistency test converts DATA with regexes and `json.loads`). Replaced with
+   brace-matched stripping, and the injector now **validates that DATA parses before
+   writing** — it cannot ship a dashboard the tests cannot read.
+2. That parser also rewrites `'` → `"` and re-quotes `, word: ` sequences inside string
+   *values*. A note reading "…dashboard's JS-to-JSON parser…" therefore corrupted the
+   object. The value was rephrased at the source (in `winback.py`) and both transforms
+   are now pinned by tests in `test_pricing_dashboard.py`.
+3. The deployment invariant covers **four** copies (including the repo-root
+   `dashboard.html`); the first pass synced only three.
+
+**Regression check:** the full CI sequence reproduced from scratch — data generation,
+pipeline, calibration, backtest, both pricing modules, eval harness, challenger sweep,
+dashboard injection, flake8, pytest → **179 passed**.

@@ -142,6 +142,64 @@
       "verdict": "Ensemble loses to the drift baseline; shipped bootstrap CI covers only 9.5% of actuals. See reports/forecast_backtest.md.",
       "source": "reports/forecast_backtest_metrics.json (pinned by tests/test_forecast_backtest.py)",
       "caveat": "Synthetic revenue series; methods transfer, numbers do not."
+    },
+    "discount_analysis": {
+      "definition": "Cost and break-even economics of the discount ladder (python/pricing/elasticity.py).",
+      "source": "reports/discount_analysis.json (pinned by tests/test_discount_engine.py)",
+      "grain": "order line items, valid orders only (Delivered + Processing)",
+      "kpis": {
+        "margin_pct_of_list": "profit / (line_total / (1 - discount_pct)) — margin as a share of LIST price, so depths are comparable",
+        "break_even_volume_lift": "(margin_pct_of_list at 0%) / (margin_pct_of_list at depth) - 1 — volume uplift needed just to hold total margin flat",
+        "volume_response_detected": "Kruskal-Wallis test of quantity across discount depths, alpha = 0.05"
+      },
+      "measured_results": {
+        "volume_response_detected": false,
+        "kruskal_wallis_p": 0.305,
+        "break_even_lift_at_5pct": 0.1061,
+        "break_even_lift_at_10pct": 0.2312,
+        "break_even_lift_at_15pct": 0.3814,
+        "break_even_lift_at_20pct": 0.5924,
+        "margin_recovered_by_10pct_cap": 644518.0,
+        "significant_category": "Sports (p=0.003) with a NEGATIVE effect of -6.96% at 20pp"
+      },
+      "caveat": "Observational data: discount depth is chosen by the business, not randomly assigned, so the measured association is not automatically causal. The scenario engine reports what would have to be true (break-even lift) rather than claiming what will happen."
+    },
+    "winback_campaign": {
+      "definition": "Expected-value economics of the win-back campaign on the cooling-off churn band (python/pricing/winback.py).",
+      "source": "reports/winback_economics.json (pinned by tests/test_winback_economics.py)",
+      "cost_model": {
+        "contact_cost_inr": 250.0,
+        "recovery_rate": 0.15,
+        "retained_value_inr": 12931.3,
+        "note": "Same C/r/V as the churn model in reports/churn_calibration_metrics.json — a single source of truth."
+      },
+      "kpis": {
+        "expected_profit_per_contact": "P(churn) x recovery_rate x retained_value - contact_cost",
+        "break_even_churn_probability": "contact_cost / (recovery_rate x retained_value) — equals the churn model Bayes threshold by construction",
+        "campaign_expected_profit": "expected_profit_per_contact x audience"
+      },
+      "measured_results": {
+        "cooling_off_customers": 448,
+        "historical_spend_inr": 12405259.0,
+        "mean_churn_probability": 0.408,
+        "expected_profit_per_contact": 541.0,
+        "campaign_expected_profit": 242478.0,
+        "break_even_churn_probability": 0.1289
+      },
+      "caveat": "Every figure is an expectation under stated assumptions — no campaign has been run. The recovery rate is not measured and is the most sensitive input, which is why a sensitivity grid is published rather than a point estimate alone."
+    },
+    "forecast_challenger": {
+      "definition": "Rolling-origin challenger evaluation against the drift baseline (scripts/forecast_challenger.py).",
+      "source": "reports/forecast_challenger_metrics.json (pinned by tests/test_forecast_challenger.py)",
+      "protocol": "Identical to scripts/forecast_backtest.py — imported constants and baseline functions.",
+      "measured_results": {
+        "winner": "holt_linear",
+        "winner_mase": 0.3752,
+        "drift_mase": 0.4681,
+        "shipped_ensemble_mase": 0.68,
+        "improvement_vs_drift_pct": 19.8,
+        "finding": "Seasonality hurts on this dataset: seasonal_naive 2.05 and holt_winters 0.56 both lose to the seasonality-free trend model."
+      }
     }
   }
 }

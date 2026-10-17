@@ -6,9 +6,63 @@
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
 
+**179 automated tests** pin every figure on the live dashboard to the pipeline output.
+
 > **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
 
 ## Executive summary
+
+---
+
+## 💰 Pricing & Campaign Economics *(v2 upgrade — the pricing-analyst layer)*
+
+> The dashboard now prices decisions, not just describes them. Two new pages turn
+> questions that usually end in an opinion into numbers that can be falsified.
+
+| Question | Answer | Where |
+|---|---|---|
+| Is our discount ladder buying volume? | **No measurable response** — Kruskal-Wallis p=0.305; quantity is flat at ~3.0 units at every depth | Pricing Lab |
+| What would a discount need to earn its keep? | **+10.6% / +23.1% / +38.1% / +59.2%** volume at 5/10/15/20% off, just to hold margin flat | Pricing Lab — break-even table |
+| What is the deep ladder costing? | Capping at 10% recovers **₹6.45 L of margin (2.0%)** across 3,294 line items, volume held constant | Pricing Lab — repricing scenario |
+| Is the cooling-off pool worth calling? | **₹541 expected profit per contact**, ₹2.42 L across all 448 customers | Win-Back Economics |
+| Where is the break-even on churn risk? | **12.89%** — which equals the churn model's own Bayes threshold, computed independently | Win-Back — consistency check |
+
+**The two findings that matter, stated plainly:**
+
+1. **The discount ladder is a margin policy, not a demand lever.** On this data, deeper
+   discounts do not sell more units. The one "statistically significant" category
+   (Sports, p=0.003) moves **−6.96%** — the wrong direction. Significance is not
+   materiality, and the report says so.
+2. **The published forecast loss is now resolved.** The shipped ensemble lost to a drift
+   baseline (MASE 0.680 vs 0.468). A challenger sweep — same protocol, imported
+   baselines — found **`holt_linear` at MASE 0.3752, 20% better than drift**. The
+   reason: seasonality *hurts* on this dataset (seasonal-naive 2.05, Holt-Winters 0.56).
+   The recommendation changed because the evidence did.
+
+📄 [`reports/discount_analysis`](reports/) · [`reports/winback_economics.json`](reports/winback_economics.json) · [`reports/forecast_challenger.md`](reports/forecast_challenger.md)
+
+---
+
+## 🧪 AI Evaluation *(v2 upgrade)*
+
+The NL-to-SQL assistant is now **measured, not asserted**. A 37-question benchmark
+(4 classes, including refusal cases) runs in CI against independent ground truth:
+
+| Metric | Before this work | Now |
+|---|---|---|
+| Execution accuracy | 18/37 = **48.6%** | **36/37 = 97.3%** |
+| Fabricated answers on unanswerable questions | **1** | **0** |
+| Refusal correctness | 80% | **100%** |
+
+The first run found two real defects: a question about *next year's* revenue returned
+all-time historical revenue as if it were a forecast, and *"revenue in 2024"* silently
+dropped the year filter. Both are fixed and pinned by regression tests.
+📄 [`reports/ai_eval_report.md`](reports/ai_eval_report.md)
+
+---
+
+## 🎯 Decision Layer *(2026 upgrade)*
+
 
 This repository answers a practical set of commercial questions: what changed in sales, which customers and products deserve attention, where orders exit the funnel, and whether promotions or forecasts support a decision. The main deliverable is an analytics workflow—data definitions, SQL and Python analyses, an interactive dashboard, documented recommendations, and automated checks. Predictive models are included as a supporting layer, not as the headline.
 
@@ -20,7 +74,7 @@ This repository answers a practical set of commercial questions: what changed in
 | Order funnel | **12,000** placed → **9,312** delivered → **8,089** kept | A funnel view makes cancellation, processing, and return exits visible. |
 | Customer retention | 18 first-purchase cohorts; observed month-1 retention varies across cohorts | Compare like-for-like cohort windows before allocating retention effort. |
 | Discount economics | No statistically detectable overall quantity response by discount depth (**Kruskal–Wallis p = 0.305**); break-even lift rises from **10.6%** at a 5% discount to **59.2%** at 20% | Do not recommend blanket discounting from these observational synthetic data; test a policy causally. |
-| Forecast evaluation | Rolling-origin ensemble MASE **0.680** versus drift baseline **0.468**; nominal 95% interval covered **9.5%** of evaluated points | The ensemble did not beat the simpler baseline and its interval under-covered; it is not planning-ready. |
+| Forecast evaluation | Rolling-origin ensemble MASE **0.680** versus drift baseline **0.468** — the shipped ensemble lost. A challenger sweep then found `holt_linear` at **MASE 0.3752**, **19.8% better than drift**; nominal 95% interval covered **9.5%** of evaluated points | The original ensemble was not planning-ready and the loss is kept on record. Seasonality *hurts* on this dataset (seasonal-naive 2.05, Holt-Winters 0.56), so the honest fix is a trend model without seasonality — still validated on synthetic data only. |
 
 ## Project experience
 

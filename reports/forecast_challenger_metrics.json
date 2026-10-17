@@ -1,0 +1,313 @@
+{
+  "n_months": 36,
+  "n_origins": 10,
+  "horizons": [
+    1,
+    2,
+    3
+  ],
+  "mase_scale_definition": "in-sample seasonal-naive MAE, averaged over origins",
+  "mean_mase_scale": 1023755.93,
+  "damping": 0.92,
+  "protocol": "identical to forecast_backtest.py (imported constants + functions)",
+  "models": {
+    "naive_last": {
+      "overall_mae": 646197.41,
+      "overall_mase": 0.6312,
+      "by_horizon": {
+        "h1": {
+          "mae": 303003.83,
+          "mase": 0.296
+        },
+        "h2": {
+          "mae": 615569.83,
+          "mase": 0.6013
+        },
+        "h3": {
+          "mae": 1020018.56,
+          "mase": 0.9963
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "drift": {
+      "overall_mae": 479263.97,
+      "overall_mase": 0.4681,
+      "by_horizon": {
+        "h1": {
+          "mae": 247452.34,
+          "mase": 0.2417
+        },
+        "h2": {
+          "mae": 454753.0,
+          "mase": 0.4442
+        },
+        "h3": {
+          "mae": 735586.58,
+          "mase": 0.7185
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "seasonal_naive": {
+      "overall_mae": 2102718.89,
+      "overall_mase": 2.0539,
+      "by_horizon": {
+        "h1": {
+          "mae": 1844413.25,
+          "mase": 1.8016
+        },
+        "h2": {
+          "mae": 2080457.92,
+          "mase": 2.0322
+        },
+        "h3": {
+          "mae": 2383285.5,
+          "mase": 2.328
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "linear_trend": {
+      "overall_mae": 903757.37,
+      "overall_mase": 0.8828,
+      "by_horizon": {
+        "h1": {
+          "mae": 646195.25,
+          "mase": 0.6312
+        },
+        "h2": {
+          "mae": 873764.45,
+          "mase": 0.8535
+        },
+        "h3": {
+          "mae": 1191312.42,
+          "mase": 1.1637
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "holt_winters": {
+      "overall_mae": 574686.99,
+      "overall_mase": 0.5614,
+      "by_horizon": {
+        "h1": {
+          "mae": 429602.94,
+          "mase": 0.4196
+        },
+        "h2": {
+          "mae": 518370.29,
+          "mase": 0.5063
+        },
+        "h3": {
+          "mae": 776087.75,
+          "mase": 0.7581
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "ensemble_shipped": {
+      "overall_mae": 696202.48,
+      "overall_mase": 0.68,
+      "by_horizon": {
+        "h1": {
+          "mae": 443734.29,
+          "mase": 0.4334
+        },
+        "h2": {
+          "mae": 672310.42,
+          "mase": 0.6567
+        },
+        "h3": {
+          "mae": 972562.72,
+          "mase": 0.95
+        }
+      },
+      "family": "baseline",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "log_linear": {
+      "overall_mae": 1792589.01,
+      "overall_mase": 1.751,
+      "by_horizon": {
+        "h1": {
+          "mae": 1495596.93,
+          "mase": 1.4609
+        },
+        "h2": {
+          "mae": 1794269.56,
+          "mase": 1.7526
+        },
+        "h3": {
+          "mae": 2087900.53,
+          "mase": 2.0395
+        }
+      },
+      "family": "challenger",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "log_drift": {
+      "overall_mae": 693878.63,
+      "overall_mase": 0.6778,
+      "by_horizon": {
+        "h1": {
+          "mae": 311636.65,
+          "mase": 0.3044
+        },
+        "h2": {
+          "mae": 660516.63,
+          "mase": 0.6452
+        },
+        "h3": {
+          "mae": 1109482.6,
+          "mase": 1.0837
+        }
+      },
+      "family": "challenger",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "damped_log_linear": {
+      "overall_mae": 1718154.39,
+      "overall_mase": 1.6783,
+      "by_horizon": {
+        "h1": {
+          "mae": 1495596.93,
+          "mase": 1.4609
+        },
+        "h2": {
+          "mae": 1742238.73,
+          "mase": 1.7018
+        },
+        "h3": {
+          "mae": 1916627.52,
+          "mase": 1.8722
+        }
+      },
+      "family": "challenger",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "holt_linear": {
+      "overall_mae": 384109.18,
+      "overall_mase": 0.3752,
+      "by_horizon": {
+        "h1": {
+          "mae": 229314.67,
+          "mase": 0.224
+        },
+        "h2": {
+          "mae": 353232.3,
+          "mase": 0.345
+        },
+        "h3": {
+          "mae": 569780.57,
+          "mase": 0.5566
+        }
+      },
+      "family": "challenger",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    },
+    "blend_drift_log": {
+      "overall_mae": 682993.55,
+      "overall_mase": 0.6671,
+      "by_horizon": {
+        "h1": {
+          "mae": 644653.87,
+          "mase": 0.6297
+        },
+        "h2": {
+          "mae": 684160.53,
+          "mase": 0.6683
+        },
+        "h3": {
+          "mae": 720166.25,
+          "mase": 0.7035
+        }
+      },
+      "family": "challenger",
+      "failed_origins": 0,
+      "first_error": null,
+      "status": "ok"
+    }
+  },
+  "leaderboard": [
+    {
+      "model": "holt_linear",
+      "mase": 0.3752
+    },
+    {
+      "model": "drift",
+      "mase": 0.4681
+    },
+    {
+      "model": "holt_winters",
+      "mase": 0.5614
+    },
+    {
+      "model": "naive_last",
+      "mase": 0.6312
+    },
+    {
+      "model": "blend_drift_log",
+      "mase": 0.6671
+    },
+    {
+      "model": "log_drift",
+      "mase": 0.6778
+    },
+    {
+      "model": "ensemble_shipped",
+      "mase": 0.68
+    },
+    {
+      "model": "linear_trend",
+      "mase": 0.8828
+    },
+    {
+      "model": "damped_log_linear",
+      "mase": 1.6783
+    },
+    {
+      "model": "log_linear",
+      "mase": 1.751
+    },
+    {
+      "model": "seasonal_naive",
+      "mase": 2.0539
+    }
+  ],
+  "verdict": {
+    "winner": "holt_linear",
+    "winner_mase": 0.3752,
+    "drift_mase": 0.4681,
+    "best_challenger": "holt_linear",
+    "best_challenger_mase": 0.3752,
+    "challenger_beats_drift": true,
+    "shipped_ensemble_mase": 0.68,
+    "recommendation": "holt_linear beats the drift baseline (MASE 0.3752 vs 0.4681) under an identical rolling-origin protocol. Promote it to the operational forecast and keep drift as the fallback benchmark."
+  }
+}

@@ -27,6 +27,9 @@ jobs:
       - name: Run pricing & AI-eval modules (regenerated from scratch every build)
         run: |
           python python/pricing/elasticity.py
+          python python/pricing/winback.py
           python evals/run_eval.py --min-accuracy 0.90
+          python scripts/forecast_challenger.py
+          python scripts/inject_pricing_dashboard.py
       - name: Run data quality tests
         run: python -m pytest tests/ -v
