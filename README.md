@@ -4,7 +4,7 @@
 
 [Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
 
-[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
+[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-182%20passed-brightgreen)
 
 **182 automated tests** pin every figure on the live dashboard to the pipeline output.
 
@@ -26,6 +26,8 @@
 | What is the deep ladder costing? | Capping at 10% recovers **₹6.45 L of margin (2.0%)** across 3,294 line items, volume held constant | Pricing Lab — repricing scenario |
 | Is the cooling-off pool worth calling? | **₹541 expected profit per contact**, ₹2.42 L across all 448 customers | Win-Back Economics |
 | Where is the break-even on churn risk? | **12.89%** — which equals the churn model's own Bayes threshold, computed independently | Win-Back — consistency check |
+
+![Break-even volume lift by discount depth](docs/discount_breakeven_lift.png)
 
 **The two findings that matter, stated plainly:**
 
@@ -62,6 +64,8 @@ dropped the year filter. Both are fixed and pinned by regression tests.
 ---
 
 ## 🎯 Decision Layer *(2026 upgrade)*
+
+![Forecast challenger: holt_linear beats the shipped drift baseline by 19.8%](docs/forecast_challenger_mase.png)
 
 
 This repository answers a practical set of commercial questions: what changed in sales, which customers and products deserve attention, where orders exit the funnel, and whether promotions or forecasts support a decision. The main deliverable is an analytics workflow—data definitions, SQL and Python analyses, an interactive dashboard, documented recommendations, and automated checks. Predictive models are included as a supporting layer, not as the headline.
@@ -190,4 +194,4 @@ Open `dashboard/dashboard.html` in a browser for the local dashboard. PostgreSQL
 - The historical H1 2025 projection is not a current forecast. The rolling-origin evidence shows the current ensemble loses to a simpler baseline and its nominal interval is under-calibrated.
 - Model and benchmark metrics are dataset- and protocol-specific; they should not be generalized to production without fresh data, monitoring, and validation.
 
-For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); latest audited suite: **182 tests passed** (2026-10-18).
+For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); every bug found during development is recorded in [`docs/ascension/DECISIONS.md`](docs/ascension/DECISIONS.md); latest audited suite: **182 tests passed** (2026-10-18).
