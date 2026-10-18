@@ -242,3 +242,15 @@ Chart.js pages from the pricing artifacts and injects them idempotently.
 **Regression check:** the full CI sequence reproduced from scratch — data generation,
 pipeline, calibration, backtest, both pricing modules, eval harness, challenger sweep,
 dashboard injection, flake8, pytest → **179 passed**.
+
+---
+
+## U5 — README & Presentation Polish (consistency sweep)
+
+### What changed
+- Two charts generated FROM the committed JSON artifacts (they cannot drift from
+  tested numbers): `docs/forecast_challenger_mase.png` (holt_linear beats drift
+  by 19.8%) and `docs/discount_breakeven_lift.png` (break-even lift 10.6→59.2%).
+- Tests badge (182 passed) added to the README hero line.
+- Stale count fixed: README claimed 119 tests → corrected to 182.
+- DECISIONS.md bug-log pointer added to the governance line.
