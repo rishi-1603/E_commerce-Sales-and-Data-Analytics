@@ -1,14 +1,70 @@
-# E-Commerce Sales & Customer Analytics
+# E-Commerce Sales & Customer Analytics + Commerce Intelligence API
 
-**An analytics-first portfolio case study** that turns three years of synthetic e-commerce transactions into reconciled KPIs, customer and product analysis, decision-ready reporting, and a carefully evaluated predictive layer.
+**An analytics-first and backend engineering portfolio project** that turns three years of synthetic e-commerce transactions into reconciled KPIs, production REST APIs, decision-ready reporting, and an AST-secured natural-language analytical query service.
 
-[Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
+[Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [API Docs (Swagger)](http://localhost:8000/docs) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
 
-[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-182%20passed-brightgreen)
+[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-195%20passed-brightgreen)
 
-**182 automated tests** pin every figure on the live dashboard to the pipeline output.
+**195 automated tests** (182 analytical & econometric data tests + 13 backend API integration tests) pin every figure on the live dashboard and API endpoints to the pipeline output.
 
 > **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
+
+---
+
+## ⚡ Commerce Intelligence API *(Backend Engineering Layer)*
+
+A high-performance Python and PostgreSQL/SQLite backend service built with **FastAPI**, **SQLAlchemy ORM**, **Pydantic v2**, and **Alembic**, exposing production-grade REST endpoints with transactional safety and AST-verified security.
+
+`
+[System Architecture]
+├── Client Layer: Web Dashboard (Vercel) / Mobile App / BI Clients
+│   └── HTTP REST Requests (with optional Idempotency-Key & X-Request-ID headers)
+├── FastAPI Application Gateway (app/main.py)
+│   ├── Structured Logging & Latency Tracing Middleware
+│   ├── Pydantic v2 Request/Response Validation Layer
+│   ├── Business Services (app/services/analytics_service.py, order_service.py)
+│   └── AST-Based SQL Query Sanitizer (sqlglot parsing in app/services/query_service.py)
+└── Persistence Layer (app/db/session.py)
+    ├── SQLite (zero-config local run & testing)
+    ├── PostgreSQL (production containerized mode via Docker Compose)
+    └── Alembic Schema Migrations (migrations/)
+`
+
+### Key API Endpoints
+
+| Method | Endpoint | Description | Production Safeguard |
+|---|---|---|---|
+| GET | /health | System health and database connectivity | Verifies active DB ping |
+| GET | /api/v1/analytics/overview | Reconciled executive KPIs (Revenue, Orders, AOV, Cancellations) | Strict valid-orders rule (Delivered + Processing only) |
+| GET | /api/v1/analytics/trends | Monthly revenue, order count, and AOV trends | Dimension aggregation without inflated joins |
+| GET | /api/v1/analytics/top-products | Top SKUs by revenue, profit, and gross margin % | Parameterized limit with input boundaries |
+| GET | /api/v1/orders | Paginated order history with status & customer filtering | Limit/offset bounds preventing memory overflows |
+| GET | /api/v1/orders/{order_id} | Full order breakdown including line items | 404 error handling for missing identifiers |
+| POST | /api/v1/orders | Atomic order & line-item creation | **Idempotency-Key deduplication** + atomic rollback |
+| POST | /api/v1/query/nl-to-sql | Grounded Natural Language to SQL analytics assistant | **AST parser (sqlglot)** blocking mutations & non-whitelisted tables |
+
+### Backend Engineering Highlights
+1. **Idempotency & Atomic Transactions:** POST /api/v1/orders supports an Idempotency-Key header. Duplicate retries return cached responses without duplicate DB inserts. Multi-table writes (orders + order_items) roll back atomically on any failure.
+2. **AST-Based SQL Sanitization:** Natural language queries are parsed into Abstract Syntax Trees using sqlglot. Only root SELECT queries on whitelisted tables are permitted; mutating statements (DROP, DELETE, UPDATE, ALTER) are blocked at the grammar level, and LIMIT 100 is injected automatically.
+3. **Multi-Stage Containerization:** Production Dockerfile and docker-compose.yml orchestrating FastAPI with PostgreSQL 15, healthchecks, and volume persistence.
+
+### Quickstart (Run API Locally)
+`ash
+# 1. Clone repository & install dependencies
+git clone https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics.git
+cd E_commerce-Sales-and-Data-Analytics
+pip install -r requirements.txt
+
+# 2. Run API server (automatically creates & seeds local SQLite DB on first run)
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+# 3. Open interactive Swagger documentation in browser
+# http://localhost:8000/docs
+
+# 4. Run automated test suite
+python -m pytest tests/api -v
+`
 
 ## Executive summary
 

@@ -31,3 +31,9 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Databases & local environment
+*.db
+*.sqlite
+*.sqlite3
+.env

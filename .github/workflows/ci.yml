@@ -7,6 +7,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: .
+      PYTHONUTF8: 1
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -15,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt flake8
       - name: Lint with flake8
-        run: flake8 python/ run_pipeline.py --max-line-length=120 --ignore=E501,W503,E302,E303,E305,E401,E402,E226,E231,E241,E251,E221,E127,E128,E272,E701,E702,E704,W292,W504,F401,E741
+        run: flake8 python/ run_pipeline.py app/ --max-line-length=120 --ignore=E501,W503,E302,E303,E305,E401,E402,E226,E231,E241,E251,E221,E127,E128,E272,E701,E702,E704,W292,W504,F401,E741
       - name: Generate data
         run: python data/raw/generate_data.py
       - name: Run pipeline
@@ -24,12 +27,14 @@ jobs:
         run: |
           python scripts/churn_calibration.py
           python scripts/forecast_backtest.py
-      - name: Run pricing & AI-eval modules (regenerated from scratch every build)
+      - name: Run pricing & AI-eval modules
         run: |
           python python/pricing/elasticity.py
           python python/pricing/winback.py
           python evals/run_eval.py --min-accuracy 0.90
           python scripts/forecast_challenger.py
           python scripts/inject_pricing_dashboard.py
-      - name: Run data quality tests
+      - name: Initialize Backend Database Schema
+        run: python -c "from app.db.session import init_db; init_db()"
+      - name: Run test suite (Data Quality, Econometrics, and API Integration)
         run: python -m pytest tests/ -v
