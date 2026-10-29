@@ -1,5 +1,5 @@
 """
-churn_calibration.py — probability calibration, cost-based thresholds, error analysis
+churn_calibration.py -- probability calibration, cost-based thresholds, error analysis
 ===================================================================================
 WHY THIS EXISTS: an AUC (0.65) says the model RANKS customers usefully. It does
 NOT say the probabilities are trustworthy, nor which customers a campaign
@@ -11,13 +11,13 @@ actually asks:
   3. "Who does the model systematically miss?"                        (error analysis)
 
 Protocol (stricter than the pipeline's 80/20 split):
-  fit 64% / calibration 16% / test 20%  — stratified, random_state=42
+  fit 64% / calibration 16% / test 20%  -- stratified, random_state=42
   - base model fit on the fit slice
   - Platt (sigmoid) and isotonic calibrators fit on the calibration slice
   - operating threshold SELECTED on the calibration slice (expected profit)
   - everything reported on the untouched test slice
 
-Cost model (ALL money figures are illustrative — replace with business inputs):
+Cost model (ALL money figures are illustrative -- replace with business inputs):
   contacting one customer costs C (incentive + ops)
   contacting a churner retains them with probability r (recovery rate)
   a retained customer is worth V (proxy: mean historical spend in the data)
@@ -65,8 +65,8 @@ os.makedirs(REPORTS, exist_ok=True)
 plt.style.use("seaborn-v0_8-whitegrid")
 PALETTE = ["#2563EB", "#DB2777", "#D97706", "#059669", "#7C3AED"]
 
-# ── Illustrative cost assumptions (the report flags these loudly) ─────
-C_CONTACT = 250.0     # ₹ per customer contacted (incentive + ops)
+# -- Illustrative cost assumptions (the report flags these loudly) -----
+C_CONTACT = 250.0     # Rs. per customer contacted (incentive + ops)
 R_RECOVERY = 0.15     # probability a contacted churner is retained
 R_SENS = (0.105, 0.15, 0.195)   # ±30% sensitivity
 C_SENS = (175.0, 250.0, 325.0)  # ±30% sensitivity
@@ -190,7 +190,7 @@ def run_analysis():
     p_raw_cal = base.predict_proba(X_cal)[:, 1]
     p_raw_test = base.predict_proba(X_test)[:, 1]
 
-    # Platt (sigmoid) — logistic regression on the raw log-odds
+    # Platt (sigmoid) -- logistic regression on the raw log-odds
     platt = LogisticRegression(C=1e6, max_iter=1000)
     logit_cal = np.log(np.clip(p_raw_cal, 1e-6, 1 - 1e-6) /
                        (1 - np.clip(p_raw_cal, 1e-6, 1 - 1e-6)))
@@ -203,13 +203,13 @@ def run_analysis():
     p_platt_cal = platt_transform(p_raw_cal)
     p_platt_test = platt_transform(p_raw_test)
 
-    # Isotonic — non-parametric
+    # Isotonic -- non-parametric
     iso = IsotonicRegression(out_of_bounds="clip", y_min=0.0, y_max=1.0)
     iso.fit(p_raw_cal, y_cal)
     p_iso_cal = iso.predict(p_raw_cal)
     p_iso_test = iso.predict(p_raw_test)
 
-    # ── Calibration quality on the untouched TEST slice ───────────────
+    # -- Calibration quality on the untouched TEST slice ---------------
     variants = {
         "raw": (p_raw_cal, p_raw_test),
         "platt": (p_platt_cal, p_platt_test),
@@ -225,23 +225,23 @@ def run_analysis():
             "calibration_slope": round(slope, 4),
         }
 
-    # Ranking metrics are invariant to monotone calibration — report once
+    # Ranking metrics are invariant to monotone calibration -- report once
     roc_auc = round(float(roc_auc_score(y_test, p_raw_test)), 4)
     pr_auc = round(float(average_precision_score(y_test, p_raw_test)), 4)
 
     # Prevalence-only reference: Brier of always predicting the base rate
     brier_ref = round(float(brier_score_loss(y_test, np.full_like(y_test, prevalence))), 4)
 
-    # ── Cost model ────────────────────────────────────────────────────
+    # -- Cost model ----------------------------------------------------
     # V = what a retained customer actually spent during the 180-day label
-    # window (observed in the data) — horizon-aligned and directly measurable.
+    # window (observed in the data) -- horizon-aligned and directly measurable.
     # Lifetime historical spend is reported as context only.
     future_buyers = set(feat.loc[feat["churned"] == 0, "customer_id"])
     master = pd.read_csv(os.path.join(PROC, "master_orders.csv"), parse_dates=["order_date"])
     cutoff = master["order_date"].max() - pd.Timedelta(days=180)
     fut = master[master["order_date"] >= cutoff]
     fut_rev = fut[fut["customer_id"].isin(future_buyers)].groupby("customer_id")["line_total"].sum()
-    v_value = round(float(fut_rev.mean()), 2)          # ₹ retained-value proxy (180d)
+    v_value = round(float(fut_rev.mean()), 2)          # Rs. retained-value proxy (180d)
     v_lifetime = round(float(feat["total_revenue"].mean()), 2)  # context only
 
     def expected_profit(p, y_true, threshold, c, r, v):
@@ -269,7 +269,7 @@ def run_analysis():
                    for t in grid]
     t_star = float(grid[int(np.argmax(profits_cal))])
 
-    # ── Policy comparison on the untouched TEST slice ─────────────────
+    # -- Policy comparison on the untouched TEST slice -----------------
     policies = {
         "contact_none": expected_profit(p_iso_test, y_test, 2.0, C_CONTACT, R_RECOVERY, v_value),
         "contact_all": expected_profit(p_iso_test, y_test, 0.0, C_CONTACT, R_RECOVERY, v_value),
@@ -297,7 +297,7 @@ def run_analysis():
                 **{k: prof[k] for k in ("contacts", "churners_captured", "expected_profit")},
             })
 
-    # ── Operating-point table (precision/recall/F1 at fixed thresholds) ─
+    # -- Operating-point table (precision/recall/F1 at fixed thresholds) -
     operating_points = []
     for t in (0.25, 0.33, 0.50, 0.66, 0.75):
         pred = (p_iso_test >= t).astype(int)
@@ -308,7 +308,7 @@ def run_analysis():
             "contacts": int(pred.sum()),
         })
 
-    # ── Capacity curve (top-k% by predicted risk) ─────────────────────
+    # -- Capacity curve (top-k% by predicted risk) ---------------------
     order = np.argsort(-p_iso_test)
     y_sorted = y_test[order]
     total_churners = max(int(y_sorted.sum()), 1)
@@ -324,7 +324,7 @@ def run_analysis():
             "lift": round((caught / n) / prevalence, 4),
         })
 
-    # ── Error analysis at t* (who is missed / wrongly contacted?) ─────
+    # -- Error analysis at t* (who is missed / wrongly contacted?) -----
     pred_star = (p_iso_test >= t_star).astype(int)
     test_idx = X_test.index
     test_feat = feat.loc[test_idx].copy()
@@ -387,7 +387,7 @@ def run_analysis():
 def make_figures(bundle):
     feat, y_test, p_raw_test, p_platt_test, p_iso_test, t_star, v_value = bundle
 
-    # Figure 18 — reliability curve
+    # Figure 18 -- reliability curve
     fig, ax = plt.subplots(figsize=(7, 6))
     for (name, p), color in zip(
             [("Raw GBM", p_raw_test), ("Platt-scaled", p_platt_test), ("Isotonic", p_iso_test)],
@@ -402,13 +402,13 @@ def make_figures(bundle):
     ax.plot([0, 1], [0, 1], "k--", alpha=0.5, label="Perfect calibration")
     ax.set_xlabel("Predicted churn probability")
     ax.set_ylabel("Observed churn rate")
-    ax.set_title("Reliability curve — churn model (test slice)")
+    ax.set_title("Reliability curve -- churn model (test slice)")
     ax.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(FIGS, "18_churn_calibration.png"), dpi=150, bbox_inches="tight")
     plt.close()
 
-    # Figure 19 — expected profit vs threshold
+    # Figure 19 -- expected profit vs threshold
     fig, ax = plt.subplots(figsize=(8, 5.5))
     grid = np.round(np.arange(0.05, 0.96, 0.01), 2)
     profits = []
@@ -421,10 +421,10 @@ def make_figures(bundle):
                label=f"t* selected on calibration slice = {t_star:.2f}")
     ax.axhline(0, color="k", alpha=0.4)
     ax.set_xlabel("Decision threshold (contact if predicted probability ≥ t)")
-    ax.set_ylabel("Expected profit on test slice (₹)")
+    ax.set_ylabel("Expected profit on test slice (Rs.)")
     ax.set_title("Expected campaign profit vs threshold\n"
-                 f"(assumptions: cost ₹{C_CONTACT:.0f}/contact, recovery {R_RECOVERY:.0%}, "
-                 f"value ₹{v_value:,.0f})")
+                 f"(assumptions: cost Rs.{C_CONTACT:.0f}/contact, recovery {R_RECOVERY:.0%}, "
+                 f"value Rs.{v_value:,.0f})")
     ax.legend()
     plt.tight_layout()
     plt.savefig(os.path.join(FIGS, "19_churn_threshold_profit.png"), dpi=150, bbox_inches="tight")
@@ -436,8 +436,8 @@ def write_report(metrics):
     cm = metrics["cost_model"]
     lines = []
     a = lines.append
-    a("# Churn Model — Calibration, Decision Thresholds & Error Analysis")
-    a("### What the AUC of 0.65 does NOT tell you — and what to do instead")
+    a("# Churn Model -- Calibration, Decision Thresholds & Error Analysis")
+    a("### What the AUC of 0.65 does NOT tell you -- and what to do instead")
     a("")
     a(f"> Generated by `scripts/churn_calibration.py` · protocol: **{metrics['protocol']}**")
     a(f"> n = {metrics['n_total']:,} eligible customers "
@@ -450,7 +450,7 @@ def write_report(metrics):
     a("")
     a(f"Ranking quality: **ROC-AUC {metrics['roc_auc']}** · **PR-AUC {metrics['pr_auc']}** "
       f"(prevalence = {metrics['prevalence']:.3f}; PR-AUC is the number that matters on this "
-      f"imbalanced problem — random ranking scores ≈ prevalence).")
+      f"imbalanced problem -- random ranking scores ≈ prevalence).")
     a("")
     a(f"Reference: always predicting the base rate gives Brier **{metrics['brier_prevalence_reference']}**; "
       f"the model must beat this to add probability-level value.")
@@ -470,8 +470,8 @@ def write_report(metrics):
     a("| Predicted bin | n | Mean predicted | Observed churn rate |")
     a("|---|---|---|---|")
     for r in metrics["reliability_table_isotonic"]:
-        mp = "—" if r["mean_predicted"] is None else r["mean_predicted"]
-        or_ = "—" if r["observed_rate"] is None else r["observed_rate"]
+        mp = "--" if r["mean_predicted"] is None else r["mean_predicted"]
+        or_ = "--" if r["observed_rate"] is None else r["observed_rate"]
         a(f"| {r['bin']} | {r['n']} | {mp} | {or_} |")
     a("")
     a("![Reliability curve](../docs/figures/18_churn_calibration.png)")
@@ -480,12 +480,12 @@ def write_report(metrics):
     a("")
     a("## 2. Who should the campaign contact? (cost-based thresholds)")
     a("")
-    a("> ⚠️ **Assumptions box — read before quoting any profit number.**")
-    a(f"> - Contact cost **C = ₹{cm['contact_cost_inr']:.0f}** per customer (incentive + ops) — *illustrative*")
-    a(f"> - Recovery rate **r = {cm['recovery_rate']:.0%}** of contacted churners are retained — *illustrative*")
-    a(f"> - Retained-customer value **V = ₹{cm['retained_value_proxy_inr']:,.0f}** — the mean observed "
+    a("> ⚠️ **Assumptions box -- read before quoting any profit number.**")
+    a(f"> - Contact cost **C = Rs.{cm['contact_cost_inr']:.0f}** per customer (incentive + ops) -- *illustrative*")
+    a(f"> - Recovery rate **r = {cm['recovery_rate']:.0%}** of contacted churners are retained -- *illustrative*")
+    a(f"> - Retained-customer value **V = Rs.{cm['retained_value_proxy_inr']:,.0f}** -- the mean observed "
       "180-day spend of customers who did *not* churn (horizon-aligned, measured from the data; "
-      f"lifetime historical spend averages ₹{cm['lifetime_spend_context_inr']:,.0f} for context)")
+      f"lifetime historical spend averages Rs.{cm['lifetime_spend_context_inr']:,.0f} for context)")
     a("> - Profit figures are *expected values under these assumptions*, not measured outcomes. "
       "No campaign has been run.")
     a("")
@@ -500,7 +500,7 @@ def write_report(metrics):
     for name, p in metrics["policies_on_test"].items():
         th = p["threshold"]
         a(f"| {name} | {p['contacts']} | {p['churners_captured']} | "
-          f"{p['capture_rate']:.1%} | {p['precision']:.1%} | ₹{p['expected_profit']:,.0f} |")
+          f"{p['capture_rate']:.1%} | {p['precision']:.1%} | Rs.{p['expected_profit']:,.0f} |")
     a("")
     a("![Profit vs threshold](../docs/figures/19_churn_threshold_profit.png)")
     a("")
@@ -509,8 +509,8 @@ def write_report(metrics):
     a("| Recovery r | Cost C | Bayes t | Contacts | Churners captured | Expected profit |")
     a("|---|---|---|---|---|---|")
     for s in metrics["sensitivity"]:
-        a(f"| {s['recovery_rate']:.1%} | ₹{s['contact_cost']:.0f} | {s['bayes_threshold']:.3f} | "
-          f"{s['contacts']} | {s['churners_captured']} | ₹{s['expected_profit']:,.0f} |")
+        a(f"| {s['recovery_rate']:.1%} | Rs.{s['contact_cost']:.0f} | {s['bayes_threshold']:.3f} | "
+          f"{s['contacts']} | {s['churners_captured']} | Rs.{s['expected_profit']:,.0f} |")
     a("")
     a("### Operating points (isotonic probabilities)")
     a("")
@@ -519,7 +519,7 @@ def write_report(metrics):
     for o in metrics["operating_points"]:
         a(f"| {o['threshold']} | {o['precision']:.3f} | {o['recall']:.3f} | {o['f1']:.3f} | {o['contacts']} |")
     a("")
-    a("### Capacity curve — if investigators can only reach k% of customers")
+    a("### Capacity curve -- if investigators can only reach k% of customers")
     a("")
     a("| Top-k% by risk | Contacts | Churners captured | Capture rate | Precision | Lift vs random |")
     a("|---|---|---|---|---|---|")
@@ -544,7 +544,7 @@ def write_report(metrics):
               f"{row['false_positives']} | {row['false_negatives']} |")
         a("")
     a("**How to read this:** false negatives (missed churners) concentrated in one band mean the "
-      "model under-serves that segment — the fix is either segment-specific features or a "
+      "model under-serves that segment -- the fix is either segment-specific features or a "
       "segment-specific threshold. False positives concentrated in low-frequency bands usually mean "
       "small-sample noise is being read as risk (the same failure mode documented in the Zomato project).")
     a("")
@@ -552,12 +552,12 @@ def write_report(metrics):
     a("")
     a("## 4. Limitations")
     a("")
-    a("1. Synthetic data — methods transfer, numbers don't.")
+    a("1. Synthetic data -- methods transfer, numbers don't.")
     a("2. All monetary values are illustrative expected values under stated assumptions; "
       "no campaign has been run and no revenue has been recovered.")
     a("3. Threshold selection used the calibration slice; test-set results are honest, but a real "
       "deployment should re-select t\\* on recent actuals after every retraining.")
-    a("4. Recovery rate r is unidentifiable from observational data — it is the single most "
+    a("4. Recovery rate r is unidentifiable from observational data -- it is the single most "
       "important assumption and the sensitivity table shows how much the answer moves with it.")
     a("5. V uses observed spend of retained customers over the 180-day window; forward-looking CLV "
       "would raise V and push t\\* downward (higher value justifies contacting more customers).")

@@ -1,23 +1,23 @@
 """
-weekly_brief.py — grounded weekly retention brief
+weekly_brief.py -- grounded weekly retention brief
 ==================================================
 This is the RESPONSIBLE AI layer of the project. It generates a short,
 boardroom-style weekly brief by letting an LLM **narrate a pre-computed fact
-sheet** — never letting it invent numbers.
+sheet** -- never letting it invent numbers.
 
 GROUNDING RULES (enforced in the system prompt):
   1. The model may ONLY use facts present in reports/fact_sheet.json.
   2. If a figure is not in the fact sheet, it must say "not available".
   3. It must clearly separate:
-        [Data-validated finding]  — directly supported by the fact sheet
-        [Investigation hypothesis] — a possible next step, NOT a proven fact
+        [Data-validated finding]  -- directly supported by the fact sheet
+        [Investigation hypothesis] -- a possible next step, NOT a proven fact
   4. It must not present correlation as causation.
 
 USAGE:
     # With an OpenAI-compatible API key (uses openai package if installed):
     OPENAI_API_KEY=...  python scripts/weekly_brief.py
 
-    # Without any API key — emits a deterministic brief built from the facts
+    # Without any API key -- emits a deterministic brief built from the facts
     # alone (proves the narrative is fully reconstructable from the data):
     python scripts/weekly_brief.py
 
@@ -116,7 +116,7 @@ def fallback_brief(facts):
         "aligns with a known seasonal driver (needs external context).",
         "",
         "## Recommended next action",
-        "Owner: **CRM/Retention Lead** — launch a tiered win-back on the "
+        "Owner: **CRM/Retention Lead** -- launch a tiered win-back on the "
         "cooling-off segment with a 20% randomized holdout; measure 90-day "
         "reactivation revenue (treated − control).",
         "",

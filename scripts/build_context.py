@@ -1,5 +1,5 @@
 """
-build_context.py — deterministic fact extraction from processed CSVs
+build_context.py -- deterministic fact extraction from processed CSVs
 =====================================================================
 Purpose: turn the pipeline outputs into a single, verified "fact sheet"
 that any downstream tool (dashboard, report, LLM brief) can consume.
@@ -7,12 +7,12 @@ that any downstream tool (dashboard, report, LLM brief) can consume.
 DESIGN PRINCIPLE (anti-hallucination):
     Every number here is computed directly from data/processed/*.csv with
     pandas. Nothing is hardcoded, assumed, or invented. An LLM that narrates
-    this file is therefore *grounded* — it cannot fabricate figures because
+    this file is therefore *grounded* -- it cannot fabricate figures because
     it never computes them; it only assembles facts that already exist.
 
 Outputs:
-    reports/fact_sheet.json   — machine-readable facts
-    reports/fact_card.md      — human-readable fact card
+    reports/fact_sheet.json   -- machine-readable facts
+    reports/fact_card.md      -- human-readable fact card
 
 Run:  python scripts/build_context.py     (after run_pipeline.py)
 """
@@ -36,10 +36,10 @@ def fmt_inr(x):
     """Human-friendly INR string."""
     x = float(x)
     if abs(x) >= INR_CR:
-        return f"₹{x/INR_CR:,.2f} Cr"
+        return f"Rs.{x/INR_CR:,.2f} Cr"
     if abs(x) >= INR_LAKH:
-        return f"₹{x/INR_LAKH:,.1f} L"
-    return f"₹{x:,.0f}"
+        return f"Rs.{x/INR_LAKH:,.1f} L"
+    return f"Rs.{x:,.0f}"
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
         "end": str(master["order_date"].max().date()),
     }
 
-    # ── Sales ─────────────────────────────────────────────
+    # -- Sales ---------------------------------------------
     facts["sales"] = {
         "total_revenue": fmt_inr(master["line_total"].sum()),
         "total_profit": fmt_inr(master["profit"].sum()),
@@ -70,7 +70,7 @@ def main():
             master.groupby("region")["line_total"].sum().idxmax()),
     }
 
-    # ── RFM segments ──────────────────────────────────────
+    # -- RFM segments --------------------------------------
     seg = rfm.groupby("segment").agg(
         customers=("customer_id", "count"),
         spend=("monetary", "sum")).sort_values("spend", ascending=False)
@@ -83,7 +83,7 @@ def main():
             for idx, row in seg.iterrows()],
     }
 
-    # ── Churn (leakage-free model output) ─────────────────
+    # -- Churn (leakage-free model output) -----------------
     risk = churn["churn_risk"].value_counts().to_dict()
     # "At-risk" = medium + high bands; spend at risk is HISTORICAL spend
     at_risk = churn[churn["churn_risk"].isin(["Medium Risk", "High Risk"])]
@@ -97,7 +97,7 @@ def main():
         "spend_disclaimer": "historical spend, NOT future revenue at risk",
     }
 
-    # ── Product profitability ─────────────────────────────
+    # -- Product profitability -----------------------------
     top_profit = prod.nlargest(1, "profit").iloc[0]
     worst_margin = prod.sort_values("margin_pct").iloc[0]
     facts["products"] = {
@@ -111,7 +111,7 @@ def main():
             "margin_pct": round(float(worst_margin["margin_pct"]), 1)},
     }
 
-    # ── Forecast ──────────────────────────────────────────
+    # -- Forecast ------------------------------------------
     total_fc = fc["ensemble_forecast"].sum()
     fc_rows = [
         {"month": r["date"].strftime("%b %Y"),
@@ -129,13 +129,13 @@ def main():
         "monthly": fc_rows,
     }
 
-    # ── Write JSON + markdown ─────────────────────────────
+    # -- Write JSON + markdown -----------------------------
     with open(f"{REPO}/fact_sheet.json", "w") as f:
         json.dump(facts, f, indent=2, ensure_ascii=False)
 
     md = ["# Fact Card (auto-generated, verified from data)",
           f"_Generated {facts['generated_at']} · "
-          f"data {facts['data_period']['start']} → {facts['data_period']['end']}_",
+          f"data {facts['data_period']['start']} -> {facts['data_period']['end']}_",
           "",
           "## Sales",
           f"- Total revenue: **{facts['sales']['total_revenue']}**",

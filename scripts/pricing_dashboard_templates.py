@@ -1,7 +1,7 @@
 """HTML/JS templates for the Pricing Lab + Win-Back dashboard pages.
 
 Kept in a separate module so scripts/inject_pricing_dashboard.py stays readable.
-All numbers are injected at runtime from DATA.pricing — nothing is typed by hand.
+All numbers are injected at runtime from DATA.pricing -- nothing is typed by hand.
 """
 
 NAV_START = "<!-- PRICING_NAV_START -->"
@@ -54,7 +54,7 @@ PAGES = """<!-- PRICING_PAGES_START -->
       </div>
 
       <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Discount Lab — scenario simulator</div><div class="card-sub">Set a discount depth and an assumed volume lift. The simulator prices the scenario against the break-even requirement. The lift is an assumption — this dataset cannot identify it.</div></div></div>
+        <div class="card-header"><div><div class="card-title">Discount Lab -- scenario simulator</div><div class="card-sub">Set a discount depth and an assumed volume lift. The simulator prices the scenario against the break-even requirement. The lift is an assumption -- this dataset cannot identify it.</div></div></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:4px 0 12px">
           <div>
             <label for="lab_depth" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Discount depth: <strong id="lab_depth_v" style="color:var(--text)">10%</strong></label>
@@ -84,7 +84,7 @@ PAGES = """<!-- PRICING_PAGES_START -->
       <div class="band" style="margin-bottom:12px">
         <strong>Who is worth saving, and what does it return?</strong>
         Expected-value economics on the __W_CUST__ cooling-off customers. Every figure is an
-        <em>expectation</em> under the stated cost model — no campaign has been run.
+        <em>expectation</em> under the stated cost model -- no campaign has been run.
       </div>
 
       <div class="kpi-grid">
@@ -95,21 +95,21 @@ PAGES = """<!-- PRICING_PAGES_START -->
       </div>
 
       <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Sensitivity — how wrong can the assumptions be?</div><div class="card-sub">Expected profit per contact across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
+        <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected profit per contact across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
         <div class="chart-wrap" style="height:260px">
           <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected profit sensitivity by recovery rate and offer cost"></canvas>
         </div>
       </div>
 
       <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Budget Worklist</div><div class="card-sub">Ranked by expected value (p × r × V − C), not by churn probability alone — a likely churner who spends little is not worth a call</div></div></div>
+        <div class="card-header"><div><div class="card-title">Budget Worklist</div><div class="card-sub">Ranked by expected value (p × r × V − C), not by churn probability alone -- a likely churner who spends little is not worth a call</div></div></div>
         <label for="wb_budget" style="display:block;font-size:12px;color:var(--muted);margin-bottom:6px">Monthly budget: <strong id="wb_budget_v" style="color:var(--text)">Rs 25,000</strong></label>
         <input id="wb_budget" type="range" min="0" max="112000" step="2500" value="25000" style="width:100%" oninput="runBudgetWorklist()">
         <div class="kpi-grid" id="wb_out" style="margin-top:12px"></div>
       </div>
 
       <div class="card">
-        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected profit in rupees — including the do-nothing baseline</div></div></div>
+        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected profit in rupees -- including the do-nothing baseline</div></div></div>
         <div class="tbl-wrap">
           <table>
             <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected profit</th></tr></thead>
@@ -167,7 +167,7 @@ function buildPricingTable(){
     '<td>' + Math.round(d*100) + '%</td>' +
     '<td class="num-right">' + (D.margin_rate[i]*100).toFixed(1) + '%</td>' +
     '<td class="num-right">' + (D.margin_pct_of_list[i]*100).toFixed(1) + '%</td>' +
-    '<td class="num-right">' + (d === 0 ? '—' : '+' + (D.break_even_lift[i]*100).toFixed(1) + '%') + '</td>' +
+    '<td class="num-right">' + (d === 0 ? '--' : '+' + (D.break_even_lift[i]*100).toFixed(1) + '%') + '</td>' +
     '<td class="num-right">' + (D.share_of_items[i]*100).toFixed(1) + '%</td>' +
   '</tr>').join('');
 }
@@ -292,7 +292,7 @@ function runBudgetWorklist(){
       '<div class="kpi-delta up">' + fmtINR(W.ev_per_contact) + ' per contact</div></div>' +
     '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div>' +
       '<div class="kpi-label">Return per unit spent</div>' +
-      '<div class="kpi-value" style="color:var(--amber)">' + (budget > 0 ? (profit/budget).toFixed(2) + 'x' : '—') + '</div>' +
+      '<div class="kpi-value" style="color:var(--amber)">' + (budget > 0 ? (profit/budget).toFixed(2) + 'x' : '--') + '</div>' +
       '<div class="kpi-delta neu">expected profit / budget</div></div>';
 }
 

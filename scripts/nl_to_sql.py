@@ -1,5 +1,5 @@
 """
-nl_to_sql.py — natural-language business questions answered from the data
+nl_to_sql.py -- natural-language business questions answered from the data
 ================================================================================
 AI Business Analytics layer: converts natural-language questions into SQL,
 executes them, and returns results with explanations.
@@ -7,16 +7,16 @@ executes them, and returns results with explanations.
 GUARDRAILS:
     - The LLM generates SQL; the SQL executes against the real data
     - Every number in the answer comes from the query result
-    - If the SQL fails or returns no data, the system says so — never guesses
+    - If the SQL fails or returns no data, the system says so -- never guesses
     - The LLM explains results; it never computes them
 
 Architecture:
     User question
-    → LLM generates SQL (using schema as context)
-    → SQL validated (read-only, no DROP/DELETE/UPDATE)
-    → SQL executed against SQLite/PostgreSQL
-    → Result returned
-    → LLM explains the result (grounded in the actual output)
+    -> LLM generates SQL (using schema as context)
+    -> SQL validated (read-only, no DROP/DELETE/UPDATE)
+    -> SQL executed against SQLite/PostgreSQL
+    -> Result returned
+    -> LLM explains the result (grounded in the actual output)
 
 Run:  python scripts/nl_to_sql.py
 """
@@ -31,9 +31,9 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "processed" / "master_orders.csv"
 
-# ── Schema context for the LLM ──
+# -- Schema context for the LLM --
 SCHEMA = """
-Table: orders (denormalized from 4 source tables — customers, products, orders, order_items)
+Table: orders (denormalized from 4 source tables -- customers, products, orders, order_items)
 Grain: 1 row = 1 order line item
 
 Key columns:
@@ -69,9 +69,9 @@ Convert the user's natural-language question into a SQLite query.
 
 RULES:
 1. Generate ONLY a SQLite-compatible SELECT query. No INSERT, UPDATE, DELETE, DROP, or ALTER.
-2. Every number in your answer must come from the query result — never calculate or invent figures.
+2. Every number in your answer must come from the query result -- never calculate or invent figures.
 3. If the query returns no rows, say "No data found for that question."
-4. Format numbers appropriately (e.g., ₹5.93 Cr, 54.0%, 1,991).
+4. Format numbers appropriately (e.g., Rs.5.93 Cr, 54.0%, 1,991).
 5. Keep answers concise and business-focused.
 6. Respond in JSON: {{"sql": "SELECT ...", "explanation": "brief what this query does"}}
 
@@ -83,7 +83,7 @@ Example:
 User: "Which category has the highest margin?"
 Response: {{"sql": "SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct FROM orders GROUP BY category ORDER BY margin_pct DESC LIMIT 1", "explanation": "Category with highest profit margin percentage"}}"""
 
-# ── SQL safety validation ──
+# -- SQL safety validation --
 FORBIDDEN = re.compile(
     r'\b(DROP|DELETE|INSERT|UPDATE|ALTER|CREATE|TRUNCATE|ATTACH|DETACH)\b',
     re.IGNORECASE
@@ -112,14 +112,14 @@ def execute_sql(sql: str) -> pd.DataFrame:
 
 
 def answer_question(question: str, use_llm: bool = True) -> dict:
-    """Full pipeline: question → SQL → result → explanation."""
+    """Full pipeline: question -> SQL -> result -> explanation."""
     # Try LLM for SQL generation
     if use_llm and os.environ.get("OPENAI_API_KEY"):
         sql, llm_note = _generate_sql_openai(question)
     elif use_llm and os.environ.get("GOOGLE_API_KEY"):
         sql, llm_note = _generate_sql_gemini(question)
     else:
-        sql, llm_note = _fallback_sql(question), "No LLM key — using pattern-matching fallback"
+        sql, llm_note = _fallback_sql(question), "No LLM key -- using pattern-matching fallback"
 
     if not sql:
         return {"ok": False, "error": "Could not generate SQL for that question.",
@@ -172,7 +172,7 @@ def _generate_sql_openai(question: str) -> tuple[str, str]:
         parsed = json.loads(resp.choices[0].message.content)
         return parsed.get("sql", ""), "OpenAI"
     except Exception:
-        return _fallback_sql(question), "OpenAI failed — using fallback"
+        return _fallback_sql(question), "OpenAI failed -- using fallback"
 
 
 def _generate_sql_gemini(question: str) -> tuple[str, str]:
@@ -191,7 +191,7 @@ def _generate_sql_gemini(question: str) -> tuple[str, str]:
             return parsed.get("sql", ""), "Gemini"
         return "", "Gemini response parsing failed"
     except Exception:
-        return _fallback_sql(question), "Gemini failed — using fallback"
+        return _fallback_sql(question), "Gemini failed -- using fallback"
 
 
 def _explain_openai(question, result_str):
@@ -203,8 +203,8 @@ def _explain_openai(question, result_str):
             messages=[
                 {"role": "system", "content":
                     "You are a business analyst. Explain the query result in 2-3 sentences. "
-                    "Use ONLY the numbers in the result — never invent or calculate figures. "
-                    "Format large numbers appropriately (₹5.93 Cr, 54.0%)."},
+                    "Use ONLY the numbers in the result -- never invent or calculate figures. "
+                    "Format large numbers appropriately (Rs.5.93 Cr, 54.0%)."},
                 {"role": "user", "content": f"Question: {question}\n\nResult:\n{result_str}"}
             ],
             temperature=0.1,
@@ -228,15 +228,15 @@ def _explain_gemini(question, result_str):
         return None
 
 
-# ── Pattern library v2.0 (2026-10) ───────────────────────────────────────────
+# -- Pattern library v2.0 (2026-10) -------------------------------------------
 # Extended to cover filtered, segmented and time-intelligence questions found
 # missing by the evaluation harness (evals/run_eval.py, benchmark v1.0):
-#   baseline 18/37 (48.6%) → 1 fabricated answer, 1 silently wrong, 16 false
-#   refusals, 1 wrong-metric. All original patterns are preserved verbatim —
+#   baseline 18/37 (48.6%) -> 1 fabricated answer, 1 silently wrong, 16 false
+#   refusals, 1 wrong-metric. All original patterns are preserved verbatim --
 #   existing behaviour is pinned by tests/test_nl_to_sql.py.
 
 # Questions this interface cannot answer must REFUSE, never guess.
-# (No forecasting/ML in this SQL layer — the forecast lives in python/forecasting.)
+# (No forecasting/ML in this SQL layer -- the forecast lives in python/forecasting.)
 FORECAST_GUARD = re.compile(
     r"\b(predict|prediction|forecast|project|projection|future|next (year|month|quarter|week))\b",
     re.IGNORECASE,
@@ -264,7 +264,7 @@ def _fallback_sql(question: str) -> str:
     q = question.lower().strip()
     year = _year_in(q)
 
-    # 0. Forecasting / future questions → refuse. This SQL layer cannot answer
+    # 0. Forecasting / future questions -> refuse. This SQL layer cannot answer
     #    them; returning a historical number as a "prediction" is a fabrication.
     if FORECAST_GUARD.search(q):
         return ""
@@ -314,7 +314,7 @@ def _fallback_sql(question: str) -> str:
         return ("SELECT quarter, ROUND(SUM(line_total), 2) as revenue FROM orders "
                 "GROUP BY quarter ORDER BY quarter")
 
-    # 8. Year-filtered totals — MUST run before the all-time patterns below
+    # 8. Year-filtered totals -- MUST run before the all-time patterns below
     if year and ("total revenue" in q or "total sales" in q or "turnover" in q):
         return (f"SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders "
                 f"WHERE year = {year}")
@@ -356,7 +356,7 @@ def _fallback_sql(question: str) -> str:
         return ("SELECT product_name, ROUND(SUM(profit), 2) as profit FROM orders "
                 "GROUP BY product_name ORDER BY profit DESC LIMIT 1")
 
-    # ── Original v1.0 patterns (preserved verbatim below) ────────────────────
+    # -- Original v1.0 patterns (preserved verbatim below) --------------------
     if "total revenue" in q or "total sales" in q or "turnover" in q:
         return "SELECT ROUND(SUM(line_total), 2) as total_revenue FROM orders"
     if "total profit" in q:

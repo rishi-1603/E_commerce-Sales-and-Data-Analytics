@@ -307,10 +307,10 @@ def main() -> None:
 
     print(f"\nPricing Lab: break-even @20% = "
           f"+{d['headline']['break_even_lift_at_20pct']:.1%}, margin recoverable "
-          f"(10% cap) = ₹{d['headline']['margin_recovered_by_10pct_cap']:,.0f}")
+          f"(10% cap) = Rs.{d['headline']['margin_recovered_by_10pct_cap']:,.0f}")
     print(f"Win-Back: EV per contact = "
-          f"₹{w['baseline_campaign']['expected_profit_per_contact']:,.0f}, campaign total = "
-          f"₹{w['baseline_campaign']['expected_profit_total']:,.0f}, break-even p = "
+          f"Rs.{w['baseline_campaign']['expected_profit_per_contact']:,.0f}, campaign total = "
+          f"Rs.{w['baseline_campaign']['expected_profit_total']:,.0f}, break-even p = "
           f"{w['break_even']['break_even_churn_probability']:.2%}")
 
 

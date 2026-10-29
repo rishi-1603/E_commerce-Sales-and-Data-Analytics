@@ -1,13 +1,13 @@
 """
-forecast_challenger.py — can anything beat the drift baseline?
+forecast_challenger.py -- can anything beat the drift baseline?
 ==============================================================================
 WHY THIS EXISTS: the rolling-origin backtest (forecast_backtest.py) found the
 shipped ensemble lost to a drift baseline (MASE 0.680 vs 0.468) and recommended
 the baseline for operational forecasts. That verdict was honest but left the
 question open: is drift the ceiling, or did we simply not try the right model?
 
-Revenue on this dataset grows roughly exponentially (₹11k → ₹6.1M over 36
-months). Drift fits a straight line through that curve — which is the wrong
+Revenue on this dataset grows roughly exponentially (Rs.11k -> Rs.6.1M over 36
+months). Drift fits a straight line through that curve -- which is the wrong
 functional form. This script tests challengers built for exponential growth,
 under an IDENTICAL evaluation protocol.
 
@@ -15,7 +15,7 @@ PROTOCOL PARITY (this is what makes the comparison fair):
     - same monthly series (imported load_monthly)
     - same origins (MIN_TRAIN .. n - max(HORIZONS))
     - same horizons (1..3)
-    - same MASE scaling (imported mase_scale — in-sample seasonal-naive MAE)
+    - same MASE scaling (imported mase_scale -- in-sample seasonal-naive MAE)
     - same baselines, imported from forecast_backtest so they cannot drift
 
 CHALLENGERS
@@ -26,7 +26,7 @@ CHALLENGERS
     blend_drift_log   mean of drift and log-linear          (model averaging)
 
 VERDICT POLICY: whatever wins is published. If nothing beats drift, that is a
-finding too — it means the baseline is the ceiling at this horizon, and the
+finding too -- it means the baseline is the ceiling at this horizon, and the
 report says so instead of quietly shipping a fancier model.
 
 Outputs:
@@ -47,7 +47,7 @@ warnings.filterwarnings("ignore")
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE, "scripts"))
 
-from forecast_backtest import (  # noqa: E402  — protocol parity by construction
+from forecast_backtest import (  # noqa: E402  -- protocol parity by construction
     HORIZONS,
     MIN_TRAIN,
     f_drift,
@@ -63,14 +63,14 @@ from forecast_backtest import (  # noqa: E402  — protocol parity by constructi
 REPORTS = os.path.join(BASE, "reports")
 os.makedirs(REPORTS, exist_ok=True)
 
-DAMPING = 0.92   # φ — growth scepticism for the damped challenger
+DAMPING = 0.92   # φ -- growth scepticism for the damped challenger
 
 
-# ──────────────────────────────────────────────────────────────────────────────
+# ------------------------------------------------------------------------------
 # Challenger models
-# ──────────────────────────────────────────────────────────────────────────────
+# ------------------------------------------------------------------------------
 def f_log_linear(train, h):
-    """OLS on log(y) — fits a constant growth rate rather than a constant slope."""
+    """OLS on log(y) -- fits a constant growth rate rather than a constant slope."""
     y = np.asarray(train, dtype=float)
     t = np.arange(len(y))
     b, a = np.polyfit(t, np.log(y), 1)
@@ -125,7 +125,7 @@ CHALLENGERS = {
 }
 
 
-# ──────────────────────────────────────────────────────────────────────────────
+# ------------------------------------------------------------------------------
 def run() -> dict:
     y, dates = load_monthly()
     y = np.asarray(y, dtype=float)
@@ -147,7 +147,7 @@ def run() -> dict:
                 pred = np.asarray(fn(train, max(HORIZONS)), dtype=float)
                 if not np.all(np.isfinite(pred)):
                     raise ValueError("non-finite forecast")
-            except Exception as e:  # a crash is a failed model — and is reported
+            except Exception as e:  # a crash is a failed model -- and is reported
                 failures[name].append(f"{type(e).__name__}: {e}"[:120])
                 pred = np.full(max(HORIZONS), np.nan)
             for h in HORIZONS:
@@ -209,7 +209,7 @@ def run() -> dict:
     else:
         verdict["recommendation"] = (
             f"No challenger beat drift (MASE {drift_mase}). The baseline is the "
-            "ceiling at this horizon and data length — keep drift for operations. "
+            "ceiling at this horizon and data length -- keep drift for operations. "
             "A more complex model would be unjustified complexity."
         )
 
@@ -231,11 +231,11 @@ def write_report(m: dict) -> None:
     lines = [
         "# Forecast Challenger Evaluation",
         "",
-        f"**Protocol:** identical to `forecast_backtest.py` — {m['n_origins']} rolling "
+        f"**Protocol:** identical to `forecast_backtest.py` -- {m['n_origins']} rolling "
         f"origins, horizons {m['horizons']}, MASE scaled by in-sample seasonal-naive MAE "
         f"({m['mean_mase_scale']:,.0f}).",
         "",
-        "## Leaderboard (MASE — lower is better)",
+        "## Leaderboard (MASE -- lower is better)",
         "",
         "| Rank | Model | MASE | Family |",
         "|---|---|---|---|",
@@ -261,18 +261,18 @@ def write_report(m: dict) -> None:
         "## Models that did not run cleanly",
         "",
         *(
-            [f"- **{k}** — status `{x['status']}`, failed at {x['failed_origins']}/"
+            [f"- **{k}** -- status `{x['status']}`, failed at {x['failed_origins']}/"
              f"{m['n_origins']} origins; first error: `{x['first_error']}`"
              for k, x in m["models"].items() if x["status"] != "ok"]
-            or ["None — every model produced finite forecasts at every origin."]
+            or ["None -- every model produced finite forecasts at every origin."]
         ),
         "",
         "## What a reviewer should check",
         "",
-        "1. **Protocol parity is imported, not re-implemented** — the baseline "
+        "1. **Protocol parity is imported, not re-implemented** -- the baseline "
         "functions and MASE scale come directly from `forecast_backtest.py`, so a "
         "difference in scores cannot come from a difference in evaluation.",
-        "2. **A crashed model scores as a failure** — exceptions produce NaN "
+        "2. **A crashed model scores as a failure** -- exceptions produce NaN "
         "forecasts that are excluded, never silently replaced with the actual.",
         "3. **The verdict is published either way.** If no challenger wins, the "
         "report says the baseline is the ceiling rather than shipping complexity "
@@ -297,7 +297,7 @@ def main() -> None:
     write_report(m)
 
     print("=" * 78)
-    print("FORECAST CHALLENGER — can anything beat drift?")
+    print("FORECAST CHALLENGER -- can anything beat drift?")
     print("=" * 78)
     print(f"\n{m['n_origins']} rolling origins · horizons {m['horizons']}\n")
     print(f"{'model':20s} {'MASE':>8s}  family")
@@ -312,7 +312,7 @@ def main() -> None:
         for k, x in broken.items():
             print(f"   {k}: status={x['status']}, failed at "
                   f"{x['failed_origins']}/{m['n_origins']} origins "
-                  f"— {x['first_error']}")
+                  f"-- {x['first_error']}")
     print(f"\nWinner: {v['winner']} (MASE {v['winner_mase']})")
     print(f"Challenger beats drift: {v['challenger_beats_drift']}")
     print(f"\n{v['recommendation']}")
