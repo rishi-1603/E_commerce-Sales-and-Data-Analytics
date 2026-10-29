@@ -18,13 +18,13 @@ async def list_orders(
     db: AsyncSession = Depends(get_db)
 ):
     offset = (page - 1) * limit
-    
+
     count_stmt = select(func.count(Order.order_id))
     if status:
         count_stmt = count_stmt.where(Order.status == status)
     if customer_id:
         count_stmt = count_stmt.where(Order.customer_id == customer_id)
-        
+
     total_count = (await db.execute(count_stmt)).scalar() or 0
 
     stmt = select(Order)

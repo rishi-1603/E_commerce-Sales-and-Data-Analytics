@@ -15,7 +15,7 @@ class RequestIDMiddleware(BaseHTTPMiddleware):
 
         # Pass request down the chain
         response = await call_next(request)
-        
+
         # Calculate execution latency
         process_time_ms = round((time.time() - start_time) * 1000, 2)
         response.headers["X-Request-ID"] = request_id

@@ -9,14 +9,14 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Commerce Intelligence API"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
-    
+
     DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", 
+        "DATABASE_URL",
         f"sqlite+aiosqlite:///{BASE_DIR / 'data' / 'ecommerce.db'}"
     )
-    
+
     SYNC_DATABASE_URL: str = os.getenv(
-        "SYNC_DATABASE_URL", 
+        "SYNC_DATABASE_URL",
         f"sqlite:///{BASE_DIR / 'data' / 'ecommerce.db'}"
     )
 

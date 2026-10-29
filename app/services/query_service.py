@@ -24,14 +24,14 @@ class QueryService:
         """
         try:
             parsed = sqlglot.parse_one(sql_query, read="sqlite")
-            
+
             # 1. Enforce root query is strictly a Select
             if not isinstance(parsed, exp.Select):
                 return False, "", "Security Violation: Only SELECT queries are permitted."
 
             # 2. Block any destructive or mutation expressions
             forbidden_types = (
-                exp.Drop, exp.Delete, exp.Update, exp.Insert, exp.Alter, 
+                exp.Drop, exp.Delete, exp.Update, exp.Insert, exp.Alter,
                 exp.Create, exp.Command, exp.TruncateTable
             )
             for node in parsed.walk():
@@ -103,7 +103,7 @@ class QueryService:
 
         elif "cancel" in q:
             sql = """
-            SELECT 
+            SELECT
                 COUNT(*) AS total_orders,
                 SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END) AS cancelled_orders,
                 ROUND(SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS cancellation_rate_pct

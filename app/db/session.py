@@ -49,7 +49,7 @@ def init_db():
     """
     # 1. Create tables synchronously
     Base.metadata.create_all(bind=sync_engine)
-    
+
     # 2. Check if database has orders
     inspector = inspect(sync_engine)
     if "orders" in inspector.get_table_names():

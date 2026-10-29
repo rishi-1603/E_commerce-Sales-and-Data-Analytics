@@ -7,8 +7,8 @@ from app.schemas.product import TopProductResponse
 class AnalyticsService:
     @staticmethod
     async def get_overview_kpis(
-        db: AsyncSession, 
-        start_date: Optional[str] = None, 
+        db: AsyncSession,
+        start_date: Optional[str] = None,
         end_date: Optional[str] = None
     ) -> OverviewKPIResponse:
         """
@@ -25,7 +25,7 @@ class AnalyticsService:
               AND (:end_date IS NULL OR order_date <= :end_date)
         ),
         valid_orders_calc AS (
-            SELECT 
+            SELECT
                 COUNT(DISTINCT fo.order_id) AS valid_order_count,
                 COALESCE(SUM(oi.line_total), 0.0) AS valid_revenue
             FROM filtered_orders fo
@@ -33,22 +33,22 @@ class AnalyticsService:
             WHERE fo.status NOT IN ('Cancelled', 'Returned')
         ),
         overall_stats AS (
-            SELECT 
+            SELECT
                 COUNT(*) AS total_orders,
                 COUNT(DISTINCT customer_id) AS total_customers,
                 SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END) AS cancelled_count,
                 SUM(CASE WHEN status = 'Delivered' THEN 1 ELSE 0 END) AS delivered_count
             FROM filtered_orders
         )
-        SELECT 
+        SELECT
             vo.valid_revenue,
             os.total_orders,
             os.total_customers,
-            CASE WHEN vo.valid_order_count > 0 
-                 THEN ROUND(vo.valid_revenue / vo.valid_order_count, 2) 
+            CASE WHEN vo.valid_order_count > 0
+                 THEN ROUND(vo.valid_revenue / vo.valid_order_count, 2)
                  ELSE 0.0 END AS avg_order_value,
-            CASE WHEN os.total_orders > 0 
-                 THEN ROUND(os.cancelled_count * 100.0 / os.total_orders, 2) 
+            CASE WHEN os.total_orders > 0
+                 THEN ROUND(os.cancelled_count * 100.0 / os.total_orders, 2)
                  ELSE 0.0 END AS cancellation_rate_pct,
             os.delivered_count AS delivered_orders_count
         FROM valid_orders_calc vo, overall_stats os;
@@ -71,7 +71,7 @@ class AnalyticsService:
         Matches sql/04_sales_analysis.sql
         """
         query_str = """
-        SELECT 
+        SELECT
             substr(o.order_date, 1, 7) AS period,
             COUNT(DISTINCT o.order_id) AS order_count,
             ROUND(SUM(oi.line_total), 2) AS total_revenue,
@@ -102,7 +102,7 @@ class AnalyticsService:
         Matches sql/06_product_analysis.sql
         """
         query_str = """
-        SELECT 
+        SELECT
             p.product_id,
             p.product_name,
             p.category,
