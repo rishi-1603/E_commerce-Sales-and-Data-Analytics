@@ -40,13 +40,19 @@ class QueryService:
             # 3. Check table whitelist
             for table in parsed.find_all(exp.Table):
                 table_name = table.name.lower()
-                if table_name not in QueryService.ALLOWED_TABLES:
+                if table_name not in QueryService.ALLOWED_TABLES or table.db or table.catalog:
                     return False, "", f"Security Violation: Access to table '{table_name}' is not permitted."
 
             # 4. Enforce Limit 100
             limit_node = parsed.args.get("limit")
             if not limit_node:
                 parsed = parsed.limit(100)
+            else:
+                value = limit_node.expression
+                if not isinstance(value, exp.Literal) or not value.is_int or int(value.this) < 0:
+                    return False, "", "Security Violation: LIMIT must be a non-negative integer."
+                if int(value.this) > 100:
+                    parsed = parsed.limit(100)
 
             sanitized_sql = parsed.sql(dialect="sqlite")
             return True, sanitized_sql, "Query passed AST security verification."

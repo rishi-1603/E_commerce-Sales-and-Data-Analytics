@@ -1,0 +1,442 @@
+{
+  "audit_date": "2026-10-30",
+  "independent_metrics": {
+    "raw_orders": 12000,
+    "raw_order_lines": 25384,
+    "joined_lines": 25384,
+    "valid_orders": 9933,
+    "valid_order_lines": 21066,
+    "revenue": 59283619.32,
+    "profit": 31997341.64,
+    "aov": 5968.35,
+    "purchasing_customers": 1991,
+    "status_counts": {
+      "Delivered": 9312,
+      "Returned": 1223,
+      "Cancelled": 844,
+      "Processing": 621
+    },
+    "quantity_discount_kw_H": 4.8342,
+    "quantity_discount_kw_p": 0.304733,
+    "cohorts": 36,
+    "independent_forecast_origin_scaled_mean": {
+      "drift": 0.4393,
+      "holt_linear": 0.3533
+    },
+    "independent_forecast_published_aggregation": {
+      "drift": 0.4681,
+      "holt_linear": 0.3752
+    },
+    "statistical_scope": "Exploratory observational comparisons; challenger selection reuses evaluation origins, so not an untouched confirmation set."
+  },
+  "postgres": {
+    "dialect": "PostgreSQL scripts executed without dialect translation",
+    "scripts": {
+      "01_database_schema.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 7,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 8,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 9,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 10,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 11,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 12,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 13,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 14,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 15,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 16,
+          "status": "PASS",
+          "result_rows": -1
+        }
+      ],
+      "02_data_cleaning.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 4
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 4
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 7,
+          "status": "PASS",
+          "result_rows": -1
+        },
+        {
+          "statement": 8,
+          "status": "PASS",
+          "result_rows": 1
+        }
+      ],
+      "03_kpi_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 3
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 10
+        }
+      ],
+      "04_sales_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 20
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 21
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 91
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 6
+        },
+        {
+          "statement": 7,
+          "status": "PASS",
+          "result_rows": 4
+        },
+        {
+          "statement": 8,
+          "status": "PASS",
+          "result_rows": 36
+        }
+      ],
+      "05_customer_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 1991
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 8
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 25
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 4
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 625
+        },
+        {
+          "statement": 7,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 8,
+          "status": "PASS",
+          "result_rows": 1991
+        }
+      ],
+      "06_product_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 150
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 150
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 15
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 2
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 20
+        }
+      ],
+      "07_regional_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 25
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 15
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 35
+        }
+      ],
+      "08_return_analysis.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 2
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 2
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 15
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 25
+        }
+      ],
+      "09_cohort_retention.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 13
+        }
+      ],
+      "10_mom_variance.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 36
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 35
+        }
+      ],
+      "11_order_funnel.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 3
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 5
+        }
+      ],
+      "12_discount_margin.sql": [
+        {
+          "statement": 1,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 2,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 3,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 4,
+          "status": "PASS",
+          "result_rows": 5
+        },
+        {
+          "statement": 5,
+          "status": "PASS",
+          "result_rows": 1
+        },
+        {
+          "statement": 6,
+          "status": "PASS",
+          "result_rows": 2
+        }
+      ]
+    },
+    "independent_metrics": {
+      "valid_orders": 9933,
+      "purchasing_customers": 1991,
+      "revenue": 59283619.32,
+      "profit": 31997341.64
+    }
+  }
+}

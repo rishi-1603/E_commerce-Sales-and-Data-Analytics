@@ -6,7 +6,7 @@ Sales, customer retention and pricing analysis for a simulated retailer. The pro
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
 
-![Executive dashboard showing sales KPIs and monthly changes](dashboard/screenshots/v2_executive_overview.png)
+![Executive dashboard showing sales KPIs and monthly changes](docs/screenshots/publication_overview.png)
 
 > The data is synthetic and seeded. The findings below describe this dataset, not an actual retailer. Financial scenarios are estimates under stated assumptions—not measured savings or campaign results.
 
@@ -34,6 +34,8 @@ There was no statistically detectable overall quantity difference across discoun
 | 20% | 59.2% |
 
 A 10% discount-cap scenario adds approximately **₹6.45 lakh** of margin if volume stays unchanged. That is a scenario to test, not a recommendation to assume customers will behave the same after a price change.
+
+![Pricing scenarios in the dashboard](docs/screenshots/publication_pricing.png)
 
 [Discount calculations](reports/discount_analysis.json) · [Pricing SQL](sql/12_discount_margin.sql)
 
@@ -64,7 +66,7 @@ Revenue and profit use **Delivered + Processing** orders, excluding Cancelled an
 - **SQL:** schema, data-quality queries, sales and customer analysis, cohorts, order funnel and discount economics.
 - **Python:** pandas/NumPy transformations, segmentation, statistical comparisons, churn evaluation and rolling-origin forecast backtests.
 - **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). These are design artifacts; they are not a claim of a deployed Power BI report.
-- **Validation:** data-quality, metric, dashboard and API tests. The audited suite contains **196 tests**; passing tests cover the checked cases, not every possible production interaction.
+- **Validation:** data-quality, metric, dashboard and API tests. The audited suite contains **197 tests**; passing tests cover the checked cases, not every possible production interaction.
 
 [Metric definitions](data/metrics.json) · [Data-quality scorecard](docs/DATA_QUALITY_SCORECARD.md) · [Evidence index](RESUME_EVIDENCE.md)
 

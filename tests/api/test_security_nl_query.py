@@ -29,3 +29,12 @@ async def test_ast_blocks_unauthorized_table_access(async_client: AsyncClient):
     is_safe, sanitized_sql, reason = QueryService.sanitize_sql(unauthorized_sql)
     assert is_safe is False
     assert "sqlite_master" in reason
+
+
+def test_ast_enforces_bounded_results_and_local_table_scope():
+    from app.services.query_service import QueryService
+    safe, sql, _ = QueryService.sanitize_sql("SELECT * FROM orders LIMIT 1000000")
+    assert safe and sql.endswith("LIMIT 100")
+    for query in ("SELECT * FROM orders LIMIT -1", "SELECT * FROM other.orders",
+                  "SELECT * FROM orders; DROP TABLE orders;"):
+        assert QueryService.sanitize_sql(query)[0] is False
