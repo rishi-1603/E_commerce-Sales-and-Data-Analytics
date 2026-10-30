@@ -22,7 +22,7 @@ new chart types, keyword-driven AI features.
 | D3 (Oct 17) | Forecast backtest + experiment spec v2 | Done |
 | D6 | Error catalog, metric registry, CI pinning | Done |
 | D7 | Resume/interview/release kit | Done |
-| Follow-on | Discount engine, NL-to-SQL eval harness | Done (182 tests) |
+| Follow-on | Discount engine, NL-to-SQL eval harness | Done (196 tests) |
 
 ## Success criteria (from the week's plan) — all met
 - Threshold recommendation with stated cost assumptions: t*=0.10, assumptions box in reports/churn_calibration_and_thresholds.md

@@ -92,3 +92,25 @@ Recheck production after deployment of this repair. Full PostgreSQL execution, k
 
 ## Verdict
 **NOT READY for an unconditional all-features final-release claim.** Targeted source repairs pass their local acceptance tests. Publication as an analytics demonstration must retain the listed limitations; release completion depends on the pushed-commit CI and deployment follow-up.
+
+## 2026-10-30 Second-pass publication audit (independent)
+
+Baseline main: `85bcbf5`. Recoverable branch: `audit/publication-review-2`. All work on a branch; nothing pushed to `main` directly.
+
+### Verified in this pass
+- Dependency install from `requirements.txt`: exit 0.
+- Full automated suite executed on Python 3.13: **196 passed**.
+- Static fatal-error scan (`ruff check --select E9,F63,F7,F82`): **All checks passed**.
+- CI on the current `main` head: **success** (GitHub Actions API).
+- README internal links and local image paths: no missing targets.
+
+### Fixes applied
+- Repaired three malformed Markdown code fences in `README.md` (single-backtick lines opened/closed architecture and quickstart blocks).
+- Corrected stale test counts in `README.md` (119 -> 196) and in `docs/RELEASE_GATES.md`, `docs/DEPLOYMENT_VERIFICATION.md`, `docs/MASTER_PLAN.md`, `reports/interview_prep.md` (182 -> 196).
+- Removed unreferenced debug artifact `_debug_parse.py`.
+- Security: removed the hardcoded `SECRET_KEY` default in `app/core/config.py` (now reads `SECRET_KEY` or generates an ephemeral key); parameterized `docker-compose.yml` (`POSTGRES_PASSWORD`, `SECRET_KEY`) with fail-fast Compose interpolation; documented `POSTGRES_PASSWORD` in `.env.example`.
+- Added a verified 'public - no login' note to the live dashboard link.
+
+### Blocked / manual action required
+- GitHub repository **homepage** field could not be set via API (HTTP 403 `Resource not accessible by integration`); the token lacks administration permission. Set manually: Settings -> Homepage = https://ecomanalytics-dashboard.vercel.app/
+- Full PostgreSQL execution, keyboard/screen-reader accessibility audit, every filter/export path, and load testing remain unverified.

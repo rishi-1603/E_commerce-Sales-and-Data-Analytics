@@ -2,7 +2,7 @@
 
 **An analytics-first and backend engineering portfolio project** that turns three years of synthetic e-commerce transactions into reconciled KPIs, production REST APIs, decision-ready reporting, and an AST-secured natural-language analytical query service.
 
-[Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [API Docs (Swagger)](http://localhost:8000/docs) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
+[Live dashboard](https://ecomanalytics-dashboard.vercel.app/) (public — no login) · [API Docs (Swagger)](http://localhost:8000/docs) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-196%20passed-brightgreen)
 
@@ -27,7 +27,7 @@
 
 A high-performance Python and PostgreSQL/SQLite backend service built with **FastAPI**, **SQLAlchemy ORM**, **Pydantic v2**, and **Alembic**, exposing production-grade REST endpoints with transactional safety and AST-verified security.
 
-`
+```
 [System Architecture]
 ├── Client Layer: Web Dashboard (Vercel) / Mobile App / BI Clients
 │   └── HTTP REST Requests (with optional Idempotency-Key & X-Request-ID headers)
@@ -40,7 +40,7 @@ A high-performance Python and PostgreSQL/SQLite backend service built with **Fas
     ├── SQLite (zero-config local run & testing)
     ├── PostgreSQL (production containerized mode via Docker Compose)
     └── Alembic Schema Migrations (migrations/)
-`
+```
 
 ### Key API Endpoints
 
@@ -75,7 +75,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 # 4. Run automated test suite
 python -m pytest tests/api -v
-`
+```
 
 ## Executive summary
 
@@ -249,7 +249,7 @@ Open `dashboard/dashboard.html` in a browser for the local dashboard. PostgreSQL
 ├── dashboard/            # static interactive dashboard and screenshots
 ├── reports/              # executive, model, experiment, decision, and error analyses
 ├── docs/                 # model card, experiment design, release and governance notes
-└── tests/                # 119 automated checks
+└── tests/                # 196 automated checks
 ```
 
 ## Limitations
