@@ -36,8 +36,6 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from pricing_dashboard_templates import (  # noqa: E402
-    DATA_END,
-    DATA_START,
     JS,
     JS_END,
     JS_START,

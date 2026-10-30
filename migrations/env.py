@@ -1,5 +1,4 @@
 from logging.config import fileConfig
-import os
 import sys
 from pathlib import Path
 from sqlalchemy import engine_from_config
@@ -13,7 +12,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from app.core.config import settings
 from app.models.base import Base
-import app.models  # load all models
+import app.models  # noqa: F401 — registers model metadata for migrations
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

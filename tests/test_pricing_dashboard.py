@@ -191,7 +191,6 @@ class TestNoHandTypedNumbers:
 
     def test_every_rendered_rupee_figure_comes_from_an_artifact(self, html, discount, winback):
         start = html.index('id="page-pricing"')
-        end = html.index('id="page-winback"')
         pricing_block = html[start:html.index('</div>\n\n    <div class="page" id="page-winback">')]
         rendered = re.findall(r">\s*(₹[\d,.]+\s*(?:Cr|L)?)\s*<", pricing_block)
         assert rendered, "no figures found on the Pricing Lab page"
@@ -219,7 +218,6 @@ class TestInjectorIdempotency:
 
     def test_second_run_produces_identical_bytes(self):
         import hashlib
-        import shutil
         import subprocess
         import sys
 

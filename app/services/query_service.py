@@ -3,9 +3,8 @@ from sqlalchemy import text
 from app.schemas.query import NLQueryResponse
 import sqlglot
 from sqlglot import exp
-from typing import Tuple, List, Dict, Any
+from typing import Tuple
 import logging
-import re
 
 logger = logging.getLogger("commerce_api")
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
 class NLQueryRequest(BaseModel):
     question: str = Field(min_length=3, max_length=500, description="Natural language business question")

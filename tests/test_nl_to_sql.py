@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from nl_to_sql import answer_question, validate_sql, execute_sql, _fallback_sql
+from nl_to_sql import answer_question, validate_sql, _fallback_sql
 
 
 class TestSQLSafety:

@@ -1,10 +1,10 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy import create_engine, inspect, select, func
+from sqlalchemy import create_engine, inspect
 from app.core.config import settings
 from app.models.base import Base
-from app.models.customer import Customer
-from app.models.product import Product
-from app.models.order import Order, OrderItem
+from app.models.customer import Customer  # noqa: F401 — registers tables on Base.metadata
+from app.models.product import Product  # noqa: F401 — registers tables on Base.metadata
+from app.models.order import Order, OrderItem  # noqa: F401 — registers tables on Base.metadata
 import pandas as pd
 from pathlib import Path
 import logging

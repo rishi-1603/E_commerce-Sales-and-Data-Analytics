@@ -1,4 +1,3 @@
-import json
 import re
 
 html = open("dashboard/dashboard.html", encoding="utf-8").read()

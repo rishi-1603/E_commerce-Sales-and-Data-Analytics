@@ -4,11 +4,9 @@ Exploratory Data Analysis + Data Preprocessing
 Outputs processed CSVs to data/processed/
 """
 import pandas as pd
-import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import seaborn as sns
 import os, warnings
 warnings.filterwarnings('ignore')

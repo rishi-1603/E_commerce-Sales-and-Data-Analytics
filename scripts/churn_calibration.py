@@ -261,7 +261,6 @@ def run_analysis():
     def bayes_threshold(c, r, v):
         return c / (r * v)
 
-    t_bayes = bayes_threshold(C_CONTACT, R_RECOVERY, v_value)
 
     # Select operating threshold ON THE CALIBRATION SLICE (not the test slice)
     grid = np.round(np.arange(0.05, 0.96, 0.01), 2)
@@ -498,7 +497,6 @@ def write_report(metrics):
     a("| Policy | Contacts | Churners captured | Capture rate | Precision | Expected profit |")
     a("|---|---|---|---|---|---|")
     for name, p in metrics["policies_on_test"].items():
-        th = p["threshold"]
         a(f"| {name} | {p['contacts']} | {p['churners_captured']} | "
           f"{p['capture_rate']:.1%} | {p['precision']:.1%} | Rs.{p['expected_profit']:,.0f} |")
     a("")
@@ -572,8 +570,8 @@ def write_report(metrics):
     a("")
     a("---")
     a("")
-    a(f"*Numbers pinned by `tests/test_churn_calibration.py` against "
-      f"`reports/churn_calibration_metrics.json`.*")
+    a("*Numbers pinned by `tests/test_churn_calibration.py` against "
+      "`reports/churn_calibration_metrics.json`.*")
 
     with open(os.path.join(REPORTS, "churn_calibration_and_thresholds.md"), "w") as f:
         f.write("\n".join(lines))

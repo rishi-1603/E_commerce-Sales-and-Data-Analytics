@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 
 class OverviewKPIResponse(BaseModel):
     total_revenue: float
