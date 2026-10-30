@@ -112,5 +112,5 @@ Baseline main: `85bcbf5`. Recoverable branch: `audit/publication-review-2`. All 
 - Added a verified 'public - no login' note to the live dashboard link.
 
 ### Blocked / manual action required
-- GitHub repository **homepage** field could not be set via API (HTTP 403 `Resource not accessible by integration`); the token lacks administration permission. Set manually: Settings -> Homepage = https://ecomanalytics-dashboard.vercel.app/
+- Repository homepage field: **set** via the GitHub API (HTTP 200) to the live app URL.
 - Full PostgreSQL execution, keyboard/screen-reader accessibility audit, every filter/export path, and load testing remain unverified.
