@@ -1,1 +1,116 @@
-﻿
+{
+  "project": "E-Commerce Sales & Customer Analytics Platform",
+  "repository": "https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics",
+  "last_updated": "2026-10-30",
+  "verified_ci_tests": 195,
+  "claims": [
+    {
+      "metric_id": "ecom_sales_revenue",
+      "display_name": "Sales Revenue Analyzed",
+      "value": 59328412.5,
+      "formatted_value": "\u20b95.93 Cr",
+      "unit": "INR",
+      "population": "9,933 Delivered & Processing orders",
+      "definition": "SUM(final_amount) for valid completed order population",
+      "source_file": "sql/01_revenue_overview.sql, src/metrics.py",
+      "test_file": "tests/test_dashboard_consistency.py",
+      "limitations": "Synthetic retail distribution dataset"
+    },
+    {
+      "metric_id": "ecom_customer_base",
+      "display_name": "Active Customer Base",
+      "value": 1991,
+      "formatted_value": "1,991",
+      "unit": "Customers",
+      "population": "Unique customer entities in valid orders",
+      "definition": "COUNT(DISTINCT customer_id)",
+      "source_file": "sql/02_customer_segmentation.sql",
+      "test_file": "tests/test_data_quality.py",
+      "limitations": "Excludes zero-order profiles"
+    },
+    {
+      "metric_id": "ecom_product_catalog",
+      "display_name": "Product Catalog Size",
+      "value": 150,
+      "formatted_value": "150 SKUs across 8 Categories",
+      "unit": "SKUs",
+      "population": "Active product catalog dimension",
+      "definition": "COUNT(DISTINCT sku_id)",
+      "source_file": "sql/03_product_profitability.sql",
+      "test_file": "tests/test_data_quality.py",
+      "limitations": "Fixed catalog domain"
+    },
+    {
+      "metric_id": "ecom_sql_pandas_parity",
+      "display_name": "SQL vs Pandas Parity",
+      "value": 100.0,
+      "formatted_value": "100%",
+      "unit": "Percentage",
+      "population": "Revenue, AOV, MoM, and Gross Margin metrics",
+      "definition": "Parity tolerance < 0.01 floating-point variance",
+      "source_file": "src/reconciliation.py",
+      "test_file": "tests/test_dashboard_consistency.py",
+      "limitations": "Dual validation pipeline"
+    },
+    {
+      "metric_id": "ecom_cooling_off_customers",
+      "display_name": "Cooling-Off Customer Exposure",
+      "value": 448,
+      "formatted_value": "448 Customers (\u20b91.24 Cr historical spend)",
+      "unit": "Customers",
+      "population": "Recency > 90 days with spend > median",
+      "definition": "Cohort filter on RFM segment",
+      "source_file": "sql/05_customer_churn_cohorts.sql",
+      "test_file": "tests/test_winback_economics.py",
+      "limitations": "Historical spend; win-back recovery is simulated scenario"
+    },
+    {
+      "metric_id": "ecom_leakage_correction_auc",
+      "display_name": "Target Leakage Correction",
+      "value": 0.65,
+      "formatted_value": "0.65 AUC (Forward-split) vs 0.89 (Random K-Fold)",
+      "unit": "ROC-AUC",
+      "population": "Time-based forward observation window",
+      "definition": "Temporal validation split preventing lookahead bias",
+      "source_file": "src/churn_model.py",
+      "test_file": "tests/test_churn_calibration.py",
+      "limitations": "Documented method fix on ML churn baseline"
+    },
+    {
+      "metric_id": "ecom_discount_margin_erosion",
+      "display_name": "Discount Margin Erosion",
+      "value": 1645000.0,
+      "formatted_value": "\u20b916.45L",
+      "unit": "INR",
+      "population": "Orders with discount > 20% on inelastic categories",
+      "definition": "Gross margin difference under optimal discount cap scenario",
+      "source_file": "src/pricing_engine.py",
+      "test_file": "tests/test_discount_engine.py",
+      "limitations": "Assumes constant sales volume elasticity"
+    },
+    {
+      "metric_id": "ecom_nl_to_sql_accuracy",
+      "display_name": "NL-to-SQL Benchmark Accuracy",
+      "value": 97.3,
+      "formatted_value": "97.3% (36/37 queries)",
+      "unit": "Percentage",
+      "population": "37 retail analytics test queries",
+      "definition": "Syntactic and execution accuracy on DuckDB/PostgreSQL data mart",
+      "source_file": "src/nl_to_sql.py",
+      "test_file": "tests/test_nl_to_sql.py",
+      "limitations": "Zero hallucinations; single failure is deeply nested subquery"
+    },
+    {
+      "metric_id": "ecom_automated_ci_tests",
+      "display_name": "Automated CI Test Suite",
+      "value": 195,
+      "formatted_value": "195 Passing Tests",
+      "unit": "Tests",
+      "population": "Full automated test suite",
+      "definition": "pytest tests/ execution in GitHub Actions CI",
+      "source_file": ".github/workflows/ci.yml",
+      "test_file": "tests/",
+      "limitations": "100% passing across Python 3.10-3.14"
+    }
+  ]
+}
