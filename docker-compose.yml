@@ -7,7 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password123
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
       POSTGRES_DB: ecommerce_db
     ports:
       - "5432:5432"
@@ -27,9 +27,9 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql+asyncpg://admin:password123@postgres:5432/ecommerce_db
-      - SYNC_DATABASE_URL=postgresql://admin:password123@postgres:5432/ecommerce_db
-      - SECRET_KEY=commerce-production-secret-key-2026
+      - DATABASE_URL=postgresql+asyncpg://admin:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/ecommerce_db
+      - SYNC_DATABASE_URL=postgresql://admin:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/ecommerce_db
+      - SECRET_KEY=${SECRET_KEY:?set SECRET_KEY in .env}
     ports:
       - "8000:8000"
     volumes:

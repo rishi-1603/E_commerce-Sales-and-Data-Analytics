@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 import os
+import secrets
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -20,7 +21,9 @@ class Settings(BaseSettings):
         f"sqlite:///{BASE_DIR / 'data' / 'ecommerce.db'}"
     )
 
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "commerce-intelligence-super-secret-key-2026")
+    # No hardcoded fallback: a missing SECRET_KEY yields an ephemeral per-process
+    # key so a shipped default can never be mistaken for a production secret.
+    SECRET_KEY: str = os.getenv("SECRET_KEY") or secrets.token_urlsafe(48)
     ALLOWED_ORIGINS: List[str] = [
         "http://localhost",
         "http://localhost:3000",

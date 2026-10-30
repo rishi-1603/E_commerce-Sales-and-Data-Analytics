@@ -9,7 +9,7 @@
 
 ## Machine-verified (2026-10-18)
 - HTTP check on the dashboard URL: **200 OK**.
-- CI latest run: **success** (pipeline -> eval scripts -> pytest, 182 tests).
+- CI latest run: **success** (pipeline -> eval scripts -> pytest, 196 tests).
 - Regeneration chain: metrics artifacts rebuild from scripts on every CI run.
 
 ## Manual checks the owner should do before sharing the link (click-through)
