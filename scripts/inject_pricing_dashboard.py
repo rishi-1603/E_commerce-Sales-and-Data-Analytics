@@ -254,23 +254,20 @@ def inject(path: str, data_block: str, pages: str) -> None:
     head = head[:idx + 1] + data_block + head[idx + 1:]
     html = head + "\nconst C = {" + tail
 
-    # 5. titles (idempotent: remove a previously injected pricing title first)
+    # 5. Each injected navigation page needs a title; remove both before reinjection.
     pricing_title = 'pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]'
-    while pricing_title in html:
-        i = html.index(pricing_title)
-        # swallow the preceding ",\n  " that was added with it
-        start = i
-        if html[max(0, start - 4):start] == ',\n  ':
-            start -= 4
-        end = i + len(pricing_title)
-        html = html[:start] + html[end:]
+    winback_title = 'winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"]'
+    for title in (winback_title, pricing_title):
+        while title in html:
+            i = html.index(title)
+            start = i
+            if html[max(0, start - 4):start] == ',\n  ':
+                start -= 4
+            html = html[:start] + html[i + len(title):]
 
     old_title = 'forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"]'
     assert old_title in html, "titles anchor not found"
-    html = html.replace(
-        old_title,
-        old_title + ',\n  pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]',
-        1)
+    html = html.replace(old_title, old_title + ',\n  ' + pricing_title + ',\n  ' + winback_title, 1)
 
     # 6. init hook (idempotent: drop a previous call line first)
     html = html.replace("  renderSegActions();\n  buildPricing();\n});",

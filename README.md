@@ -4,7 +4,7 @@
 
 [Live dashboard](https://ecomanalytics-dashboard.vercel.app/) · [API Docs (Swagger)](http://localhost:8000/docs) · [SQL analysis](sql/README.md) · [Executive brief](reports/executive_summary.md) · [Decision log](reports/decision_log.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Tests](tests/) · [Release gates](docs/RELEASE_GATES.md)
 
-[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-195%20passed-brightgreen)
+[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-196%20passed-brightgreen)
 
 > ### 🧭 Recruiter & Interview Verification Hub (October 2026 Comprehensive Upgrade)
 > - **Direct Resume Evidence Index:** [RESUME_EVIDENCE.md](RESUME_EVIDENCE.md) *(Claims, definitions, reproduction commands, & test files)*
@@ -17,7 +17,7 @@
 ---
 
 
-**195 automated tests** (182 analytical & econometric data tests + 13 backend API integration tests) pin every figure on the live dashboard and API endpoints to the pipeline output.
+**196 automated tests** (183 analytical, dashboard & econometric tests + 13 backend API integration tests) check analytical outputs, dashboard consistency and API behavior. Tests do not by themselves establish that every production interaction or figure is correct.
 
 > **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
 
@@ -261,4 +261,4 @@ Open `dashboard/dashboard.html` in a browser for the local dashboard. PostgreSQL
 - The historical H1 2025 projection is not a current forecast. The rolling-origin evidence shows the current ensemble loses to a simpler baseline and its nominal interval is under-calibrated.
 - Model and benchmark metrics are dataset- and protocol-specific; they should not be generalized to production without fresh data, monitoring, and validation.
 
-For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); every bug found during development is recorded in [`docs/ascension/DECISIONS.md`](docs/ascension/DECISIONS.md); latest audited suite: **182 tests passed** (2026-10-18).
+For the full caveat register, see [`reports/assumptions_and_limitations.md`](reports/assumptions_and_limitations.md). The project's release checks are documented in [`docs/RELEASE_GATES.md`](docs/RELEASE_GATES.md); every bug found during development is recorded in [`docs/ascension/DECISIONS.md`](docs/ascension/DECISIONS.md); latest audited suite: **196 tests passed** (publication audit, 2026-10-30; Python 3.13).

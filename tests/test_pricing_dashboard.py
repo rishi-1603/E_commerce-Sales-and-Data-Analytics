@@ -242,3 +242,13 @@ class TestInjectorIdempotency:
         # still contain them — check the source
         raw = open(DASH, encoding="utf-8").read()
         assert raw.count('\n  pricing: ') == 1
+
+
+def test_each_navigation_page_has_a_title():
+    """Prevent the live Win-Back navigation crash (missing titles.winback)."""
+    for path in ("index.html", "dashboard.html", "dashboard/index.html", "dashboard/dashboard.html"):
+        raw = (Path(BASE) / path).read_text(encoding="utf-8")
+        title_block = raw.split("const titles = {", 1)[1].split("};", 1)[0]
+        destinations = set(re.findall(r"onclick=\"nav\('([^']+)'", raw))
+        keys = set(re.findall(r"^\s*(\w+):", title_block, re.M))
+        assert destinations <= keys, f"{path}: titles missing for {destinations - keys}"
