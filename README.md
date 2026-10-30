@@ -6,6 +6,17 @@
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml) ![Tests](https://img.shields.io/badge/tests-195%20passed-brightgreen)
 
+> ### 🧭 Recruiter & Interview Verification Hub (October 2026 Comprehensive Upgrade)
+> - **Direct Resume Evidence Index:** [RESUME_EVIDENCE.md](RESUME_EVIDENCE.md) *(Claims, definitions, reproduction commands, & test files)*
+> - **Executive Business Findings:** [docs/EXECUTIVE_FINDINGS_REPORT.md](docs/EXECUTIVE_FINDINGS_REPORT.md) *(Retention exposure, price elasticity, & recommendations)*
+> - **Power BI Star Schema & DAX:** [powerbi/dax_measures.md](powerbi/dax_measures.md) | [powerbi/model_diagram.md](powerbi/model_diagram.md) | [powerbi/reconciliation_matrix.csv](powerbi/reconciliation_matrix.csv)
+> - **Data Quality Scorecard:** [docs/DATA_QUALITY_SCORECARD.md](docs/DATA_QUALITY_SCORECARD.md) *(Null, duplicate, FK, & boundary sanity checks)*
+> - **API Architecture & Security:** [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md) *(REST endpoints & AST-secured NL-to-SQL copilot)*
+> - **Offline Demo Fallback Guide:** [docs/DEMO_FALLBACK_GUIDE.md](docs/DEMO_FALLBACK_GUIDE.md) *(Local instant execution & smoke-test instructions)*
+
+---
+
+
 **195 automated tests** (182 analytical & econometric data tests + 13 backend API integration tests) pin every figure on the live dashboard and API endpoints to the pipeline output.
 
 > **Data and claims notice:** The transaction data is seeded and synthetic. Figures below are reproducible outputs from that dataset—not observed company results, causal effects, realized savings, or campaign outcomes. Methods are demonstrated; business conclusions require validation on real data.
