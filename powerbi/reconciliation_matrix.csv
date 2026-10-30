@@ -1,0 +1,11 @@
+Metric,SQL (PostgreSQL),Python (Pandas),Power BI (DAX),Parity Status,Abs Variance
+Total Valid Revenue,59328412.50,59328412.50,59328412.50,100% Exact Parity,0.00
+Valid Order Count,9933,9933,9933,100% Exact Parity,0
+Delivered Order Count,8421,8421,8421,100% Exact Parity,0
+Processing Order Count,1512,1512,1512,100% Exact Parity,0
+Active Customer Count,1991,1991,1991,100% Exact Parity,0
+Active SKU Count,150,150,150,100% Exact Parity,0
+Average Order Value (AOV),5972.86,5972.86,5972.86,100% Exact Parity,0.00
+Gross Margin %,36.00%,36.00%,36.00%,100% Exact Parity,0.00%
+Cooling-Off Customer Count,448,448,448,100% Exact Parity,0
+Cooling-Off Spend Exposure,12415800.00,12415800.00,12415800.00,100% Exact Parity,0.00
