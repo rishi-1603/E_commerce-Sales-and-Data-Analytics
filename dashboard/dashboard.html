@@ -887,6 +887,14 @@ function buildFunnel(){
   }).join('');
   ex.innerHTML+=`<div style="font-size:11.5px;color:var(--muted);margin-top:10px">Delivery rate ${f.delivery_rate_pct}% · keep rate ${f.keep_rate_pct}% (kept = delivered − returned). Source: raw orders, all statuses — sql/11_order_funnel.sql.</div>`;
 }
+function cohortCellColors(value){
+  const alpha=Math.min(0.88,(value/100)*0.82+0.06);
+  const base=[22,27,34],green=[63,185,80];
+  const rgb=base.map((channel,i)=>Math.round(channel+(green[i]-channel)*alpha));
+  const linear=rgb.map(channel=>{const s=channel/255;return s<=0.04045?s/12.92:Math.pow((s+0.055)/1.055,2.4);});
+  const luminance=0.2126*linear[0]+0.7152*linear[1]+0.0722*linear[2];
+  return {background:'rgb('+rgb.join(',')+')',foreground:luminance>0.179?'#000000':'#ffffff'};
+}
 function buildCohortHeat(){
   const el=document.getElementById('cohHeat');if(!el)return;
   const c=DATA.decision.cohorts,mx=c.max_months;
@@ -899,9 +907,8 @@ function buildCohortHeat(){
       const v=c.matrix[i][k];
       if(v===null||v===undefined){h+='<td style="color:var(--muted)">·</td>';}
       else{
-        const a=Math.min(0.88,(v/100)*0.82+0.06);
-        const tc=v>55?'#0d1117':'var(--text)';
-        h+=`<td style="background:rgba(63,185,80,${a.toFixed(2)});color:${tc};font-weight:${v>=50?600:400}">${v.toFixed(0)}</td>`;
+        const colors=cohortCellColors(v);
+        h+=`<td style="background:${colors.background};color:${colors.foreground};font-weight:${v>=50?600:400}">${v.toFixed(0)}</td>`;
       }
     }
     h+='</tr>';
