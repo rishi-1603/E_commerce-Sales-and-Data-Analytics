@@ -1,9 +1,7 @@
 # Assumptions & Limitations
 ### What this analysis can and cannot tell you
 
-> A strong analyst does not pretend the data proves everything. The points
-> below are the questions an interviewer will ask — answering them first is a
-> sign of maturity, not weakness.
+> These assumptions define the scope of the analysis and the checks needed before operational use.
 
 ---
 
@@ -13,15 +11,14 @@
   structure: genuine seasonality, real causal links between discounting and
   behaviour, payment failures, partial returns, and organic customer journeys.
   Treat the specific numbers as **illustrative**, not as measured results.
-- **No behavioural/behavioural signals.** There is no clickstream, session,
+- **Limited behavioral signals.** There is no clickstream, session,
   cart-abandonment, support-ticket, NPS, or demographic-affluence data — all
   of which materially improve churn and CLV models in practice.
 - **3 years of monthly data (36 points).** Adequate for trend + single
   seasonality, but thin for robust multi-season forecasting or deep cohort cuts.
 
 ## 2. Correlation ≠ causation (the biggest trap)
-Because returns, discounts, channels, and statuses are assigned **independently
-at random** in the synthetic data, any relationship between them is noise.
+Relationships can reflect generator choices, arithmetic dependencies or sampling variation rather than real business mechanisms.
 Statements like *"higher discounts cause more returns"* **cannot** be concluded
 from this dataset. In a real engagement these would require:
 - an A/B test, or

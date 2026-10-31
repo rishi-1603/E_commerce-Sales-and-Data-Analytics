@@ -1,56 +1,33 @@
-# Executive Summary
-### E-Commerce Sales & Customer Analytics — Boardroom Brief
-*Prepared for: CRM / Retention Lead, Category Manager, FP&A  ·  Period covered: Jan 2022 – Dec 2024*
+# E-Commerce: findings for a commercial review
 
-> **Read me first:** This is a one-page, non-technical summary. The full
-> methodology, data dictionary, and validation steps live in
-> `reports/methodology.md` and `reports/assumptions_and_limitations.md`.
-> **Important caveat:** the dataset is **synthetically generated** to
-> demonstrate an end-to-end pipeline. The *methods* are production-grade;
-> the specific numbers are illustrative, not measured business results.
+**Scope:** synthetic orders from January 2022 to December 2024. These results illustrate an analytical workflow; they are not observed company performance or realized financial impact.
 
----
+## Sales movement
 
-## 1. What was the problem?
-The business cannot tell, at any given moment, **which customers are worth
-retaining, which are quietly leaving, which products genuinely make money,
-and how much revenue to plan for.** Without that, retention budget is spent
-evenly instead of targeted, and margin leaks into the wrong products.
+December 2024 revenue increased 17.0% month over month, while orders increased 21.3% and average order value fell 3.5%. The movement was volume-led in this dataset. It does not identify a campaign or channel as the cause.
 
-## 2. What did the analysis find? (top 3)
-1. **Most revenue is concentrated in a small set of customers.** RFM
-   segmentation shows Champions + Loyal Customers account for the bulk of
-   historical spend — protecting and growing this group is the cheapest
-   revenue available.
-2. **A meaningful slice of customers is cooling off.** Hundreds of customers
-   sit in At-Risk / About-to-Sleep / Lost segments; their **historical** spend
-   is large, and their **future** spend is at risk.
-3. **Profitability is uneven across the catalog.** A BCG-style view separates
-   reliable earners (Cash Cows) from low-margin or loss-making SKUs (Dogs).
+The reporting population contains 9,933 Delivered or Processing orders, with revenue of ₹59,283,619.32. Cancelled and Returned orders are excluded under the project's stated convention. The order funnel uses all 12,000 order headers, so its denominator is different.
 
-## 3. What is the biggest risk?
-**Silent churn of high-value customers.** The cost of replacing a lost
-customer is several times the cost of keeping one, and right now the business
-has no reliable, forward-looking signal for *who* is about to leave.
+## Pricing
 
-## 4. What is the biggest opportunity?
-**A targeted, measured win-back campaign** aimed at the cooling-off segment,
-run against a held-out control group so the business can *prove* the uplift
-before scaling spend.
+Quantity did not differ significantly across discount depths in the overall comparison (Kruskal–Wallis p ≈ 0.305). At a 20% discount, the modeled volume increase required to preserve margin is 59.2%.
 
-## 5. What should management do? (in priority order)
-| # | Action | Owner | Why now |
-|---|--------|-------|---------|
-| 1 | Run a tiered win-back on At-Risk customers, with a control group | CRM Lead | Protects revenue already at risk; fastest to measure |
-| 2 | Stand up a loyalty program for Champions + Loyal | Marketing | Defends the most profitable relationships |
-| 3 | Review Dogs/low-margin SKUs for delisting or repricing | Category Mgr | Releases margin trapped in underperformers |
+A 10% discount-cap scenario adds approximately ₹6.45 lakh of margin if volume is held constant. That assumption needs an experiment before the figure could support a pricing decision. The analysis does not estimate causal price elasticity.
 
-## 6. What metric should we monitor?
-- **Retention/reactivation rate** of treated vs. control customers (90-day).
-- **Repeat-purchase rate** by cohort.
-- **Blended gross margin %** by category.
+## Retention
 
-*These metrics let leadership distinguish "we did something" from "it worked."*
+The win-back scenario covers 448 cooling-off customers. Under its documented contact-cost, recovery-rate and customer-value assumptions, expected profit is approximately ₹541 per contact. Historical spend is not future revenue at risk, and no campaign uplift has been measured.
 
----
-*For the evidence behind each finding, see `reports/decision_log.md`.*
+A proposed campaign should therefore be evaluated against a control group. The useful outcomes would be incremental reactivation and contribution after contact and offer costs—not the number of messages sent.
+
+## Forecasting
+
+The original ensemble underperformed a drift baseline. A shared rolling-origin comparison found `holt_linear` at a reported MASE of 0.3752, versus 0.4681 for drift. The report retains the losing results and records the aggregation convention. Model selection used the evaluation origins; an untouched confirmation period would be needed for a stronger prospective claim.
+
+## Suggested next decisions
+
+1. Test a discount policy with a suitable control rather than assuming volume will stay unchanged.
+2. Use customer segments and the win-back sensitivity analysis to design a limited retention experiment.
+3. Keep simple forecast baselines in the review and check uncertainty calibration before using projections for planning.
+
+[Metric definitions](../data/metrics.json) · [Assumptions](assumptions_and_limitations.md) · [Forecast comparison](forecast_challenger.md) · [Win-back calculation](winback_economics.json)
