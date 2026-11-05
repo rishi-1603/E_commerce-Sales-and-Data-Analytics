@@ -16,7 +16,7 @@ def workbook(tmp_path_factory):
 
 def test_workbook_contains_real_data_not_a_pbix_claim(workbook):
     wb, stats=workbook
-    assert set(wb.sheetnames)=={'Read Me','FactSales','DimCustomer','DimProduct','DimDate','MonthlyCheck'}
+    assert set(wb.sheetnames)=={'Read Me','Executive','Scenario','FactSales','DimCustomer','DimProduct','DimDate','MonthlyCheck'}
     assert stats['order_lines']==21066 and stats['customers']==2000 and stats['products']==150
     assert 'not a Power BI .pbix' in wb['Read Me']['B1'].value
 
@@ -54,3 +54,11 @@ def test_committed_workbook_monthly_checks_match_current_source():
         assert revenue == pytest.approx(row.revenue, abs=.005)
         assert profit == pytest.approx(row.gross_profit, abs=.005)
         assert aov == pytest.approx(row.revenue / row.orders, abs=.005)
+
+
+def test_workbook_contains_explicit_scenario_formulas_and_chart():
+    wb=load_workbook(ROOT/'powerbi/Ecommerce_BI_Companion.xlsx',data_only=False)
+    assert wb['Scenario']['B7'].value == '=B3*B4-B5'
+    assert wb['Scenario']['B9'].value.startswith('=IF(B4>0')
+    assert wb['Executive']['B3'].value.startswith('=SUM(MonthlyCheck!')
+    assert len(wb['Executive']._charts) == 1

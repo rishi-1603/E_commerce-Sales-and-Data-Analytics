@@ -325,8 +325,28 @@ tr:last-child td{border-bottom:0}
           <button type="button" id="bv-download" class="bv-button" disabled>Download decision record (JSON)</button>
         </form>
         <p id="bv-error" role="alert" class="bv-error"></p><div id="bv-output" aria-live="polite"></div>
-        <p class="bv-note">Scenario net = assumed incremental orders × assumed contribution per order − assumed campaign cost. Low/base/high use 0.5×/1×/1.5× the assumed incremental orders. These are not realized revenue, savings or profit. The bridge uses rounded embedded monthly totals and does not isolate price, item quantity or mix.</p>
+        <p class="bv-note">Scenario net = assumed incremental orders × assumed contribution per order − assumed campaign cost. Low/base/high use 0.5×/1×/1.5× the assumed incremental orders. These are not realized revenue, savings or profit. The order/basket bridge uses rounded embedded totals. The separate product bridge uses realized unit prices and units, isolates product entry/exit and is not causal.</p>
         <p class="bv-note">Record stays in this browser until downloaded. It contains your notes; use no sensitive information. A user-entered follow-up is not independently verified.</p>
+        <hr><h3>Decision history &amp; follow-up</h3>
+        <p class="bv-note">Save only synthetic or non-sensitive notes. Browser-local storage is not encrypted, shared or authenticated and may be cleared. Export JSON and re-import it to retain a copy; imported values are unverified.</p>
+        <button type="button" id="bv-save-history" class="bv-button" disabled>Save current snapshot locally</button>
+        <button type="button" id="bv-export-history" class="bv-button" disabled>Download decision history (JSON)</button>
+        <label>Import history JSON (replaces local history) <input id="bv-history-file" type="file" accept="application/json,.json"></label>
+        <button type="button" id="bv-import-history" class="bv-button">Import selected history</button>
+        <p id="bv-history-info" aria-live="polite"></p><p id="bv-history-error" class="bv-error" role="alert"></p>
+        <label for="bv-history-choice">Saved decision</label><select id="bv-history-choice" aria-label="Saved decision"></select>
+        <form id="bv-followup-form">
+          <div class="bv-grid">
+            <label>Follow-up metric <input id="bv-follow-metric" maxlength="120" required></label>
+            <label>Metric unit <input id="bv-follow-unit" maxlength="80" required></label>
+            <label>Baseline value (optional) <input id="bv-follow-baseline" type="number" step="any"></label>
+            <label>Observed value (user-entered) <input id="bv-follow-observed" type="number" step="any" required></label>
+            <label>Observation date <input id="bv-follow-date" type="date" required></label>
+            <label>Evidence note (unverified) <input id="bv-follow-note" maxlength="500"></label>
+          </div>
+          <button type="submit" id="bv-follow-add" class="bv-button" disabled>Add follow-up</button>
+        </form>
+        <div id="bv-followup-output" aria-live="polite"></div>
       </details>
       <div class="wc-strip" id="wcStrip"></div>
       <div class="mom-row" id="momRow"></div>
@@ -1436,6 +1456,7 @@ function buildPricing(){
 }
 // PRICING_JS_END
 </script>
+<script src="revenue_pvm_data.js"></script>
 <script src="decision_engine.js"></script>
 </body>
 </html>

@@ -12,6 +12,8 @@ from pathlib import Path
 
 import pandas as pd
 from openpyxl import Workbook
+from openpyxl.chart import LineChart, Reference
+from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.table import Table, TableStyleInfo
@@ -60,6 +62,8 @@ def build(output=OUTPUT):
         raise ValueError('Master order lines have missing required data.')
     if not m.item_id.is_unique or not c.customer_id.is_unique or not p.product_id.is_unique:
         raise ValueError('Fact line or dimension keys are duplicated.')
+    if (m.groupby('order_id')['order_date'].nunique() > 1).any():
+        raise ValueError('An order cannot have lines in multiple order dates.')
     if not m.customer_id.isin(c.customer_id).all() or not m.product_id.isin(p.product_id).all():
         raise ValueError('Fact-to-dimension references do not reconcile.')
     if not m.status.isin(['Delivered', 'Processing']).all():
@@ -95,6 +99,7 @@ def build(output=OUTPUT):
         ('Gross profit', 'Revenue_INR minus Cost_INR; not net income or incremental contribution.'),
         ('Relationships', 'FactSales Order_Date -> DimDate Date; Customer_ID -> DimCustomer; Product_ID -> DimProduct, many-to-one.'),
         ('Monthly checks', 'MonthlyCheck is an independently prepared aggregate for reconciliation; do not join it to FactSales.'),
+        ('Excel formulas', 'Open in Excel or compatible spreadsheet software to recalculate formulas; some previews do not calculate them.'),
         ('Privacy', 'No names or emails exported. Source data and customer identifiers are synthetic.'),
         ('Limitations', 'Static snapshot; no actual post-action outcomes, Power BI service deployment or validated causal effect.'),
         ('Source SHA256', hashlib.sha256(MASTER.read_bytes()).hexdigest()),
@@ -108,6 +113,39 @@ def build(output=OUTPUT):
     add_table(wb,'DimProduct',products)
     add_table(wb,'DimDate',dates)
     add_table(wb,'MonthlyCheck',monthly)
+    executive = wb.create_sheet('Executive', 1)
+    executive.append(['E-Commerce executive overview', 'Synthetic snapshot — not observed campaign results'])
+    executive.append(['Metric', 'Formula (recalculates in Excel)'])
+    executive.append(['Recorded revenue (INR)', f'=SUM(MonthlyCheck!C2:C{len(monthly)+1})'])
+    executive.append(['Included orders', f'=SUM(MonthlyCheck!B2:B{len(monthly)+1})'])
+    executive.append(['Gross profit (INR)', f'=SUM(MonthlyCheck!D2:D{len(monthly)+1})'])
+    executive.append(['Average order value (INR)', '=IF(B4=0,0,B3/B4)'])
+    executive.append(['Scope', 'Delivered + Processing; order counts are distinct within each month.'])
+    executive.append(['Limits', 'Synthetic data; gross profit is not measured incremental contribution.'])
+    executive.column_dimensions['A'].width=38; executive.column_dimensions['B'].width=100
+    for cell in executive[2]:
+        cell.font=Font(bold=True,color='FFFFFF');cell.fill=PatternFill('solid',fgColor='183B5B')
+    chart=LineChart(); chart.title='Monthly recorded revenue (INR)'; chart.y_axis.title='INR'; chart.x_axis.title='Month'
+    chart.add_data(Reference(wb['MonthlyCheck'],min_col=3,min_row=1,max_row=len(monthly)+1),titles_from_data=True)
+    chart.set_categories(Reference(wb['MonthlyCheck'],min_col=1,min_row=2,max_row=len(monthly)+1))
+    chart.width=23;chart.height=9;executive.add_chart(chart,'A11')
+    scenario=wb.create_sheet('Scenario',2)
+    scenario.append(['Campaign scenario', 'User assumptions — not actual outcomes'])
+    scenario.append(['Input / output', 'Value'])
+    scenario.append(['Expected incremental orders',100])
+    scenario.append(['Assumed contribution per order (INR)',200])
+    scenario.append(['Assumed campaign cost (INR)',5000])
+    scenario.append(['Low modeled net (0.5x orders)', '=B3*0.5*B4-B5'])
+    scenario.append(['Base modeled net', '=B3*B4-B5'])
+    scenario.append(['High modeled net (1.5x orders)', '=B3*1.5*B4-B5'])
+    scenario.append(['Break-even incremental orders', '=IF(B4>0,ROUNDUP(B5/B4,0),IF(B5=0,0,"Not attainable"))'])
+    scenario.append(['Boundary', 'Assumptions only. Not realized revenue, profit or savings.'])
+    scenario.column_dimensions['A'].width=45;scenario.column_dimensions['B'].width=75
+    for cell in scenario[2]:
+        cell.font=Font(bold=True,color='FFFFFF');cell.fill=PatternFill('solid',fgColor='183B5B')
+    validation=DataValidation(type='decimal',operator='between',formula1=0,formula2=1000000000,allow_blank=False)
+    validation.errorTitle='Invalid assumption';validation.error='Use a non-negative numeric assumption.';validation.showErrorMessage=True
+    scenario.add_data_validation(validation);validation.add('B3:B5')
     for name, col in [('FactSales','E'),('DimDate','A')]:
         for row in wb[name].iter_rows(min_row=2,min_col=ord(col)-64,max_col=ord(col)-64):
             row[0].number_format='yyyy-mm-dd'

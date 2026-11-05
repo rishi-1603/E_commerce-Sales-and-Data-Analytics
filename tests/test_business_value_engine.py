@@ -113,3 +113,21 @@ def test_nested_dashboard_alias_resolves_decision_asset_in_vercel_config():
     routes={rule['source']:rule['destination'] for rule in config['rewrites']}
     assert routes['/dashboard/decision_engine.js']=='/decision_engine.js'
     assert (ROOT/'dashboard/decision_engine.js').is_file()
+
+
+def test_history_roundtrip_and_user_reported_followup():
+    value=node("(()=>{let h=e.newHistory();let r=e.makeRecord({previous:1000,current:1500,previousOrders:10,currentOrders:12,incrementalOrders:2,contributionPerOrder:50,campaignCost:20,action:'Trial',kpi:'Orders'});h=e.addSnapshot(h,r);h=e.addFollowup(h,h.entries[0].id,{metric:'orders',unit:'count',baseline:5,observed:9,observed_date:'2026-11-05',note:'manual'});return e.importHistory(e.exportHistory(h));})()")
+    assert value['trust']=='imported, unverified'
+    item=value['entries'][0]['followups'][0]
+    assert item['difference']==4 and item['verification']=='user-entered, unverified'
+
+
+def test_history_rejects_bad_projects_duplicates_and_invalid_values():
+    assert node("(()=>{try{e.importHistory(JSON.stringify({schema_version:1,project:'other',entries:[]}));return false}catch(e){return true}})()")
+    assert node("(()=>{try{e.importHistory('x'.repeat(300000));return false}catch(e){return true}})()")
+    assert node("(()=>{try{let h=e.newHistory(); let r=e.makeRecord({previous:1,current:2,previousOrders:1,currentOrders:1,incrementalOrders:1,contributionPerOrder:1,campaignCost:1});h=e.addSnapshot(h,r);e.addFollowup(h,h.entries[0].id,{metric:'x',unit:'x',baseline:0,observed:Infinity,observed_date:'2026-11-05'});return false}catch(e){return true}})()")
+
+
+def test_history_import_requires_evidence_and_does_not_trust_json():
+    expression="""(()=>{try{let h=e.newHistory();let r=e.makeRecord({previous:1,current:2,previousOrders:1,currentOrders:1,incrementalOrders:1,contributionPerOrder:1,campaignCost:1});h=e.addSnapshot(h,r);delete h.entries[0].record.evidence;e.importHistory(JSON.stringify(h));return false}catch(e){return true}})()"""
+    assert node(expression)

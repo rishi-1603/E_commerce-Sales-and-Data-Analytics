@@ -72,7 +72,7 @@ Revenue and profit use **Delivered + Processing** orders, excluding Cancelled an
 
 ## Decision & value snapshot
 
-The Executive Overview now includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot records the proposal and an optional user-entered follow-up; it is not server-side case management or measured impact.
+The Executive Overview now includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components, adds a separately reconciled product price/volume/mix bridge, and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot and optional browser-local history record the proposal and user-entered follow-ups; they are not server-side case management or verified impact.
 
 [Decision workflow, formulas and limits](docs/BUSINESS_VALUE_DECISION_ENGINE.md)
 
