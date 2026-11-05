@@ -201,6 +201,13 @@ tr:last-child td{border-bottom:0}
 .seg-table{border-collapse:collapse;width:100%;font-size:12.5px}
 .seg-table th,.seg-table td{padding:7px 10px;border-bottom:1px solid rgba(240,246,252,.08);text-align:left}
 .seg-table th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+
+.bv-panel{border:1px solid #32465e;border-radius:12px;background:#131e2d;padding:20px;margin:10px 0 20px;color:#e7eef7}
+.bv-panel summary{font-size:18px;font-weight:700;cursor:pointer;margin:0 0 8px}.bv-panel p{font-size:13px;line-height:1.5}
+.bv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}.bv-grid label{font-size:12px;display:flex;flex-direction:column;gap:5px}
+.bv-grid input,.bv-grid select{width:100%;min-height:38px;padding:8px;border:1px solid #71859d;border-radius:6px;background:#0c1623;color:#fff}
+.bv-button{margin:14px 8px 4px 0;padding:9px 13px;border:1px solid #8bbcff;background:#174d83;color:white;border-radius:6px;cursor:pointer}.bv-button:disabled{opacity:.5;cursor:not-allowed}
+.bv-note{color:#bdcce0}.bv-error{color:#ffd0ca}
 </style>
 </head>
 <body>
@@ -300,6 +307,27 @@ tr:last-child td{border-bottom:0}
 
     <!-- ═══════ OVERVIEW ═══════ -->
     <div class="page active" id="page-overview">
+      <details class="bv-panel">
+        <summary id="bv-heading">Decision &amp; value: growth scenario</summary>
+        <p>Separate the latest revenue change into order-volume and average-basket components, then test a hypothetical campaign. Figures are synthetic; changes are descriptive, not causal.</p>
+        <form id="bv-form">
+          <div class="bv-grid">
+            <label>Assumed incremental orders <input id="bv-orders" type="number" min="0" max="1000000000" step="any" value="100" required></label>
+            <label>Assumed contribution per order (₹) <input id="bv-contribution" type="number" min="0" max="1000000000" step="any" value="200" required></label>
+            <label>Assumed campaign cost (₹) <input id="bv-cost" type="number" min="0" max="1000000000000" step="any" value="5000" required></label>
+            <label>Proposed action <input id="bv-action" maxlength="500" value="Test a targeted retention campaign"></label>
+            <label>Success KPI <input id="bv-kpi" maxlength="500" value="Incremental contribution per eligible customer"></label>
+            <label>Validation plan <input id="bv-follow" maxlength="500" value="Compare randomized groups and measure incremental contribution"></label>
+            <label>Decision status <select id="bv-status"><option value="proposed">Proposed</option><option value="approved">Approved</option><option value="deferred">Deferred</option></select></label>
+            <label>Optional follow-up note (user-entered, unverified) <input id="bv-observed" maxlength="500"></label>
+          </div>
+          <button type="submit" class="bv-button">Build decision record</button>
+          <button type="button" id="bv-download" class="bv-button" disabled>Download decision record (JSON)</button>
+        </form>
+        <p id="bv-error" role="alert" class="bv-error"></p><div id="bv-output" aria-live="polite"></div>
+        <p class="bv-note">Scenario net = assumed incremental orders × assumed contribution per order − assumed campaign cost. Low/base/high use 0.5×/1×/1.5× the assumed incremental orders. These are not realized revenue, savings or profit. The bridge uses rounded embedded monthly totals and does not isolate price, item quantity or mix.</p>
+        <p class="bv-note">Record stays in this browser until downloaded. It contains your notes; use no sensitive information. A user-entered follow-up is not independently verified.</p>
+      </details>
       <div class="wc-strip" id="wcStrip"></div>
       <div class="mom-row" id="momRow"></div>
       <div class="kpi-grid">
@@ -1408,5 +1436,6 @@ function buildPricing(){
 }
 // PRICING_JS_END
 </script>
+<script src="decision_engine.js"></script>
 </body>
 </html>

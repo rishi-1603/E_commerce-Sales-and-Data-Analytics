@@ -274,8 +274,11 @@ def inject(path: str, data_block: str, pages: str) -> None:
     assert init_anchor in html, "init anchor not found"
     html = html.replace(init_anchor, "  renderSegActions();\n  buildPricing();\n});", 1)
 
-    # 7. renderer functions before the closing script tag
-    idx = html.rfind("</script>")
+    # 7. Insert into the main inline script, not a later external script.
+    # A decision-engine <script src=...> may follow the inline dashboard code;
+    # rfind would put the renderer text inside that external tag (ignored).
+    script_start = html.index(page_anchor)
+    idx = html.index("</script>", script_start)
     html = html[:idx] + JS + "\n" + html[idx:]
 
     validate_data_parses(html)   # never write a dashboard the tests cannot parse

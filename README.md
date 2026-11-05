@@ -65,10 +65,16 @@ Revenue and profit use **Delivered + Processing** orders, excluding Cancelled an
 
 - **SQL:** schema, data-quality queries, sales and customer analysis, cohorts, order funnel and discount economics.
 - **Python:** pandas/NumPy transformations, segmentation, statistical comparisons, churn evaluation and rolling-origin forecast backtests.
-- **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). These are design artifacts; they are not a claim of a deployed Power BI report.
-- **Validation:** data-quality, metric, dashboard and API tests. The audited suite contains **197 tests**; passing tests cover the checked cases, not every possible production interaction.
+- **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). A downloadable [Excel BI companion](powerbi/Ecommerce_BI_Companion.xlsx) supplies a synthetic fact/dimension snapshot and monthly checks. These are not a `.pbix` or a deployed Power BI report.
+- **Validation:** data-quality, metric, dashboard and API tests. The regression suite includes analytical and API tests; passing tests cover the checked cases, not every possible production interaction.
 
 [Metric definitions](data/metrics.json) · [Data-quality scorecard](docs/DATA_QUALITY_SCORECARD.md) · [Evidence index](RESUME_EVIDENCE.md)
+
+## Decision & value snapshot
+
+The Executive Overview now includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot records the proposal and an optional user-entered follow-up; it is not server-side case management or measured impact.
+
+[Decision workflow, formulas and limits](docs/BUSINESS_VALUE_DECISION_ENGINE.md)
 
 ## Analytical assistant and API
 
