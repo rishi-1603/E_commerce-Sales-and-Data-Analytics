@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/dashboard/decision_engine.js", "destination": "/decision_engine.js" },
     { "source": "/dashboard/dashboard.html", "destination": "/dashboard.html" },
     { "source": "/dashboard", "destination": "/index.html" }
   ]

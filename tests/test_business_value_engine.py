@@ -106,3 +106,10 @@ def test_pricing_renderer_is_inside_inline_dashboard_script():
     marker=html.index('// PRICING_JS_START')
     external=html.index('<script src="decision_engine.js"></script>')
     assert inline_start < marker < inline_end < external
+
+
+def test_nested_dashboard_alias_resolves_decision_asset_in_vercel_config():
+    config=json.loads((ROOT/'dashboard/vercel.json').read_text(encoding='utf-8'))
+    routes={rule['source']:rule['destination'] for rule in config['rewrites']}
+    assert routes['/dashboard/decision_engine.js']=='/decision_engine.js'
+    assert (ROOT/'dashboard/decision_engine.js').is_file()
