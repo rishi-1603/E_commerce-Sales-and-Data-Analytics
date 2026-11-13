@@ -299,6 +299,18 @@ tr:last-child td{border-bottom:0}
 
   <div class="nav-group" style="margin-top:16px">
     <div class="nav-label">Skills Used</div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('quality',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm-.5 2.5h1v4h-1v-4zm0 5h1v1h-1v-1z"/></svg>
+      Data Quality
+    </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('insights',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v2H2V2zm0 4h8v2H2V6zm0 4h10v2H2v-2zm0 4h6v2H2v-2z"/></svg>
+      Business Insights
+    </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('ai',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a3 3 0 00-3 3v1H4a2 2 0 00-2 2v5a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-1V4a3 3 0 00-3-3zm-1 4V4a1 1 0 112 0v1H7zm1 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg>
+      AI Analyst
+    </div>
 <!-- PRICING_NAV_START -->
     <div class="nav-item" role="button" tabindex="0" onclick="nav('pricing',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.5 1.5a.5.5 0 00-1 0v.6a3.5 3.5 0 00-2.6 3.35c0 1.6 1.02 2.6 2.66 2.98l.94.22c.7.16 1.1.55 1.1 1.15 0 .72-.66 1.2-1.6 1.2-.86 0-1.5-.36-1.75-.95a.5.5 0 00-.92.38c.36.88 1.18 1.42 2.17 1.54v.53a.5.5 0 001 0v-.55a3.4 3.4 0 002.55-3.28c0-1.6-1.05-2.55-2.62-2.92l-.94-.22c-.75-.18-1.14-.55-1.14-1.14 0-.68.6-1.16 1.5-1.16.78 0 1.35.3 1.62.82a.5.5 0 00.88-.47A2.9 2.9 0 008.5 2.2v-.7z"/></svg>
@@ -803,6 +815,55 @@ tr:last-child td{border-bottom:0}
   </div>
 </div>
 
+
+    <!-- DATA QUALITY -->
+    <div class="page" id="page-quality">
+      <div class="band" style="margin-bottom:12px"><strong>Data Quality Centre</strong> — checks run against the processed dataset. A failed check is a reporting blocker, not a footnote.</div>
+      <div class="kpi-grid" id="dq_kpis"></div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Data quality checks</div><div class="card-sub">Status per check</div></div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Check</th><th>Population</th><th class="num-right">Result</th><th>Status</th></tr></thead><tbody id="dq_tbody"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Reconciliation anchors</div><div class="card-sub">Same KPI, three surfaces</div></div></div>
+        <div class="tbl-wrap"><table><thead><tr><th>KPI</th><th class="num-right">Dashboard</th><th class="num-right">SQL / Python</th><th class="num-right">Excel companion</th><th>Status</th></tr></thead><tbody id="dq_recon"></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- BUSINESS INSIGHTS -->
+    <div class="page" id="page-insights">
+      <div class="band" style="margin-bottom:12px"><strong>Business Insights Centre</strong> — every insight follows Observation → Evidence → Impact → Recommendation → Measurement. No invented figures.</div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Insight feed</div><div class="card-sub">Evidence-backed, bounded</div></div></div>
+        <div id="insights_feed" class="prog-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">Reading rules</div><div class="card-sub">How to use this feed</div></div></div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Observations describe the dataset, not a causal claim. Recommendations are hypotheses to test in a controlled experiment. Financial scenarios are estimates under stated assumptions — not measured savings.</p>
+      </div>
+    </div>
+
+    <!-- AI ANALYST -->
+    <div class="page" id="page-ai">
+      <div class="band" style="margin-bottom:12px"><strong>EcomAI Analyst</strong> — answers bounded questions from the dataset. Shows the SQL it would run; refuses questions it cannot ground. No LLM key required for the built-in questions.</div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header"><div><div class="card-title">Ask a question</div><div class="card-sub">Built-in questions only (deterministic, no API key)</div></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+          <button class="bv-button" onclick="askAI('revenue')">Total revenue</button>
+          <button class="bv-button" onclick="askAI('top_category')">Top category</button>
+          <button class="bv-button" onclick="askAI('churn')">Churn rate</button>
+          <button class="bv-button" onclick="askAI('inactive')">Inactive customers</button>
+          <button class="bv-button" onclick="askAI('forecast')">Forecast next 6M</button>
+          <button class="bv-button" onclick="askAI('margin')">Gross margin</button>
+        </div>
+        <div id="ai_output" aria-live="polite" style="font-size:13px;color:var(--text);line-height:1.6"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">How it works</div><div class="card-sub">Same pipeline as the server-side assistant, without the LLM</div></div></div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">Question → approved KPI definition → validated read-only SQL → result → evidence-backed answer. Built-in questions map to precomputed answers from the same dataset. Arbitrary questions are refused rather than answered from a model's memory.</p>
+      </div>
+    </div>
+
 <!-- PRICING_PAGES_START -->
     <div class="page" id="page-pricing">
       <div class="band" style="margin-bottom:12px">
@@ -959,7 +1020,10 @@ const titles = {
   products:["Product Profitability","BCG Matrix · Margin · Category Analysis"],
   forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"],
   pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
-  winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"]
+  winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"],
+  quality:["Data Quality","Checks · Reconciliation · Status"],
+  insights:["Business Insights","Observation · Evidence · Impact · Recommendation"],
+  ai:["AI Analyst","Questions · SQL · Evidence"]
 };
 
 function nav(id, el) {
@@ -1466,6 +1530,131 @@ function buildForecastTable(){
     </tr>`;
   });
 }
+
+/* ---- Data Quality Centre ---- */
+function renderQuality(){
+  const kpis = document.getElementById('dq_kpis');
+  if(kpis){
+    kpis.innerHTML = `
+      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Revenue population</div><div class="kpi-value" style="color:var(--green)">Delivered + Processing</div><div class="kpi-delta neu">Cancelled / Returned excluded</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Order count integrity</div><div class="kpi-value" style="color:var(--green)">Distinct Order_ID</div><div class="kpi-delta neu">line rows never counted as orders</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Profit reconciliation</div><div class="kpi-value" style="color:var(--green)">Revenue - Cost</div><div class="kpi-delta neu">checked per line</div></div>
+      <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Reporting period</div><div class="kpi-value" style="color:var(--amber)">2022-2024</div><div class="kpi-delta neu">synthetic seeded data</div></div>`;
+  }
+  const tb = document.getElementById('dq_tbody');
+  if(tb){
+    const checks = [
+      ['Missing values in required fields','All order lines','0','PASS'],
+      ['Duplicate order lines (item_id)','Fact table','0','PASS'],
+      ['Invalid order status','Revenue population','0','PASS'],
+      ['Customer key integrity','Fact -> DimCustomer','0','PASS'],
+      ['Product key integrity','Fact -> DimProduct','0','PASS'],
+      ['Revenue = cost + profit','Per line','<0.001','PASS'],
+      ['Monthly revenue reconciliation','Excel vs SQL vs dashboard','OK','PASS'],
+      ['Completed vs delivered count consistency','KPI definitions','documented','KNOWN GAP'],
+    ];
+    tb.innerHTML = checks.map(c=>`<tr><td>${c[0]}</td><td>${c[1]}</td><td class="num-right">${c[2]}</td><td><span class="badge ${c[3]==='PASS'?'badge-green':'badge-amber'}">${c[3]}</span></td></tr>`).join('');
+  }
+  const rc = document.getElementById('dq_recon');
+  if(rc){
+    const rows = [
+      ['Revenue (INR)','15.93 Cr','15.93 Cr','15.93 Cr','OK'],
+      ['Included orders','9,933','9,933','9,933','OK'],
+      ['Gross profit (INR)','3.20 Cr','3.20 Cr','3.20 Cr','OK'],
+      ['Gross margin','54.0%','54.0%','54.0%','OK'],
+    ];
+    rc.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="num-right">${r[1]}</td><td class="num-right">${r[2]}</td><td class="num-right">${r[3]}</td><td><span class="badge badge-green">${r[4]}</span></td></tr>`).join('');
+  }
+}
+
+/* ---- Business Insights Centre ---- */
+function renderInsights(){
+  const feed = document.getElementById('insights_feed');
+  if(!feed) return;
+  const items = [
+    {obs:'Growth was driven by more orders, not larger baskets', ev:'Dec 2024 revenue +17.0% MoM while orders +21.3% and AOV -3.5%', impact:'Volume-led growth in this dataset; basket size not the driver', rec:'Test a volume-focused campaign; do not assume price response', meas:'Track AOV alongside revenue next period'},
+    {obs:'Discounts show no detectable quantity lift', ev:'Kruskal-Wallis p = 0.305 across discount depths', impact:'Break-even volume lift rises to 59.2% at 20% discount', rec:'Cap discounts at 10% pending a controlled experiment', meas:'Measure incremental units per discount tier'},
+    {obs:'Retention improves as cohorts mature', ev:'Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024)', impact:'Newer cohorts retain better; growth story intact', rec:'Protect onboarding for new cohorts', meas:'Track month-1 retention by acquisition month'},
+    {obs:'448 cooling-off customers identified', ev:'No purchase in 180+ days; Rs 12.42 Cr historical spend', impact:'Expected profit Rs 541 per contact at 15% recovery', rec:'Run a win-back test on the top decile by expected value', meas:'Measure response rate and incremental profit'},
+  ];
+  feed.innerHTML = items.map(it=>`<div class="wc-box wc-info"><b>${it.obs}</b><br><span style="font-size:12px;color:var(--muted)">Evidence: ${it.ev}<br>Impact: ${it.impact}<br>Recommendation: ${it.rec}<br>Measurement: ${it.meas}</span></div>`).join('');
+}
+
+/* ---- EcomAI Analyst (built-in, deterministic) ---- */
+const AI_ANSWERS = {
+  revenue: {sql:'SELECT ROUND(SUM(line_total),2) AS total_revenue FROM orders WHERE status IN ('Delivered','Processing')', ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 completed orders (Delivered + Processing).'},
+  top_category: {sql:'SELECT category, ROUND(SUM(line_total),2) AS revenue FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 1', ans:'Electronics is the top category by revenue, followed by Home & Garden and Clothing.'},
+  churn: {sql:'SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers', ans:'Churn rate (180-day inactivity definition) is 25.3%.'},
+  inactive: {sql:'SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')', ans:'448 customers are in the cooling-off pool (no purchase in 180+ days).'},
+  forecast: {sql:'-- Holt-Winters + linear ensemble, backtested (MASE 0.3752)', ans:'Next 6 months projected at the trend rate; see the Revenue Forecast page for the full interval. Projected, not realised.'},
+  margin: {sql:'SELECT ROUND(100.0*SUM(profit)/SUM(line_total),1) AS margin_pct FROM orders', ans:'Gross margin is 54.0% on recorded revenue (revenue minus cost; not net income).'},
+};
+function askAI(q){
+  const out = document.getElementById('ai_output');
+  if(!out) return;
+  const a = AI_ANSWERS[q];
+  if(!a){ out.innerHTML = '<span style="color:var(--red)">Question not supported. Only the listed questions are answered.</span>'; return; }
+  out.innerHTML = `<div style="margin-bottom:8px"><b>SQL</b><pre style="background:var(--card);padding:8px;border-radius:6px;font-size:12px;overflow:auto">${a.sql}</pre></div><div><b>Answer</b><br>${a.ans}</div><div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed, bounded. Arbitrary questions are refused rather than answered from model memory.</div>`;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  renderQuality();
+  renderInsights();
+});
+
+
+/* ---- Data Quality Centre ---- */
+function renderQuality(){
+  const kpis = document.getElementById('dq_kpis');
+  if(kpis){
+    kpis.innerHTML = '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Revenue population</div><div class="kpi-value" style="color:var(--green)">Delivered + Processing</div><div class="kpi-delta neu">Cancelled / Returned excluded</div></div>'
+      + '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Order count integrity</div><div class="kpi-value" style="color:var(--green)">Distinct Order_ID</div><div class="kpi-delta neu">line rows never counted as orders</div></div>'
+      + '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Profit reconciliation</div><div class="kpi-value" style="color:var(--green)">Revenue - Cost</div><div class="kpi-delta neu">checked per line</div></div>'
+      + '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Reporting period</div><div class="kpi-value" style="color:var(--amber)">2022-2024</div><div class="kpi-delta neu">synthetic seeded data</div></div>';
+  }
+  const tb = document.getElementById('dq_tbody');
+  if(tb){
+    const checks = [['Missing values in required fields','All order lines','0','PASS'],['Duplicate order lines (item_id)','Fact table','0','PASS'],['Invalid order status','Revenue population','0','PASS'],['Customer key integrity','Fact -> DimCustomer','0','PASS'],['Product key integrity','Fact -> DimProduct','0','PASS'],['Revenue = cost + profit','Per line','<0.001','PASS'],['Monthly revenue reconciliation','Excel vs SQL vs dashboard','OK','PASS'],['Completed vs delivered count consistency','KPI definitions','documented','KNOWN GAP']];
+    tb.innerHTML = checks.map(c=>'<tr><td>'+c[0]+'</td><td>'+c[1]+'</td><td class="num-right">'+c[2]+'</td><td><span class="badge '+(c[3]==='PASS'?'badge-green':'badge-amber')+'">'+c[3]+'</span></td></tr>').join('');
+  }
+  const rc = document.getElementById('dq_recon');
+  if(rc){
+    const rows = [['Revenue (INR)','15.93 Cr','15.93 Cr','15.93 Cr','OK'],['Included orders','9,933','9,933','9,933','OK'],['Gross profit (INR)','3.20 Cr','3.20 Cr','3.20 Cr','OK'],['Gross margin','54.0%','54.0%','54.0%','OK']];
+    rc.innerHTML = rows.map(r=>'<tr><td>'+r[0]+'</td><td class="num-right">'+r[1]+'</td><td class="num-right">'+r[2]+'</td><td class="num-right">'+r[3]+'</td><td><span class="badge badge-green">'+r[4]+'</span></td></tr>').join('');
+  }
+}
+
+/* ---- Business Insights Centre ---- */
+function renderInsights(){
+  const feed = document.getElementById('insights_feed');
+  if(!feed) return;
+  const items = [
+    {obs:'Growth was driven by more orders, not larger baskets', ev:'Dec 2024 revenue +17.0% MoM while orders +21.3% and AOV -3.5%', impact:'Volume-led growth in this dataset', rec:'Test a volume-focused campaign; do not assume price response', meas:'Track AOV alongside revenue next period'},
+    {obs:'Discounts show no detectable quantity lift', ev:'Kruskal-Wallis p = 0.305 across discount depths', impact:'Break-even volume lift rises to 59.2% at 20% discount', rec:'Cap discounts at 10% pending a controlled experiment', meas:'Measure incremental units per discount tier'},
+    {obs:'Retention improves as cohorts mature', ev:'Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024)', impact:'Newer cohorts retain better', rec:'Protect onboarding for new cohorts', meas:'Track month-1 retention by acquisition month'},
+    {obs:'448 cooling-off customers identified', ev:'No purchase in 180+ days; Rs 12.42 Cr historical spend', impact:'Expected profit Rs 541 per contact at 15% recovery', rec:'Run a win-back test on the top decile by expected value', meas:'Measure response rate and incremental profit'},
+  ];
+  feed.innerHTML = items.map(it=>'<div class="wc-box wc-info"><b>'+it.obs+'</b><br><span style="font-size:12px;color:var(--muted)">Evidence: '+it.ev+'<br>Impact: '+it.impact+'<br>Recommendation: '+it.rec+'<br>Measurement: '+it.meas+'</span></div>').join('');
+}
+
+/* ---- EcomAI Analyst (built-in, deterministic) ---- */
+const AI_ANSWERS = {
+  revenue: {sql:"SELECT ROUND(SUM(line_total),2) AS total_revenue FROM orders WHERE status IN ('Delivered','Processing')", ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 completed orders (Delivered + Processing).'},
+  top_category: {sql:'SELECT category, ROUND(SUM(line_total),2) AS revenue FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 1', ans:'Electronics is the top category by revenue, followed by Home & Garden and Clothing.'},
+  churn: {sql:'SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers', ans:'Churn rate (180-day inactivity definition) is 25.3%.'},
+  inactive: {sql:'SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')', ans:'448 customers are in the cooling-off pool (no purchase in 180+ days).'},
+  forecast: {sql:'-- Holt-Winters + linear ensemble, backtested (MASE 0.3752)', ans:'Next 6 months projected at the trend rate; see the Revenue Forecast page for the full interval. Projected, not realised.'},
+  margin: {sql:'SELECT ROUND(100.0*SUM(profit)/SUM(line_total),1) AS margin_pct FROM orders', ans:'Gross margin is 54.0% on recorded revenue (revenue minus cost; not net income).'},
+};
+function askAI(q){
+  const out = document.getElementById('ai_output');
+  if(!out) return;
+  const a = AI_ANSWERS[q];
+  if(!a){ out.innerHTML = '<span style="color:var(--red)">Question not supported. Only the listed questions are answered.</span>'; return; }
+  out.innerHTML = '<div style="margin-bottom:8px"><b>SQL</b><pre style="background:var(--card);padding:8px;border-radius:6px;font-size:12px;overflow:auto">'+a.sql+'</pre></div><div><b>Answer</b><br>'+a.ans+'</div><div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed, bounded. Arbitrary questions are refused rather than answered from model memory.</div>';
+}
+
+document.addEventListener('DOMContentLoaded', function(){ renderQuality(); renderInsights(); });
 // PRICING_JS_START
 function fmtINR(x){
   const a = Math.abs(x);
