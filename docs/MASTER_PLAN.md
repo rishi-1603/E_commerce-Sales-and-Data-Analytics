@@ -33,6 +33,7 @@ new chart types, keyword-driven AI features.
 
 ## Key links
 - Live dashboard: https://ecomanalytics-dashboard.vercel.app/
+- Upgrade roadmap: docs/UPGRADE_ROADMAP.md
 - Evaluation report: reports/churn_calibration_and_thresholds.md
 - Backtest report: reports/forecast_backtest.md
 - Error catalog: reports/error_analysis.md
