@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "KPI_2",
+  "position": {
+    "x": 260,
+    "y": 40,
+    "z": 0,
+    "height": 100,
+    "width": 190
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Orders"
+                    }
+                  },
+                  "Property": "Gross Profit"
+                }
+              },
+              "queryRef": "Fact_Orders.Gross Profit"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "drillFilterOtherVisuals": true
+}

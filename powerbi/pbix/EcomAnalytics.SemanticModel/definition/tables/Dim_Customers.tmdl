@@ -1,19 +1,10 @@
 table Dim_Customers
 	lineageTag: 2e0a204f-ed7a-53dc-bb3d-4ea42f3d8041
-	partition Dim_Customers = m
-		mode: import
-		source =
-				let
-					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Dim_Customers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
-					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"registration_date", type date}, {"age", Int64.Type}}, "en-US")
-				in
-					Typed
 
 	column customer_id
 		dataType: string
-		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
 		isHidden
+		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
 		summarizeBy: none
 		sourceColumn: customer_id
 
@@ -29,8 +20,8 @@ table Dim_Customers
 
 	column email
 		dataType: string
-		lineageTag: 8504df66-1ef4-5177-878b-62f0987cb45e
 		isHidden
+		lineageTag: 8504df66-1ef4-5177-878b-62f0987cb45e
 		summarizeBy: none
 		sourceColumn: email
 
@@ -62,15 +53,24 @@ table Dim_Customers
 
 	column registration_date
 		dataType: dateTime
+		formatString: Long Date
 		lineageTag: 7988986f-09f3-5ddd-b01e-77f3002a93a2
+		summarizeBy: none
 		sourceColumn: registration_date
 
+		variation Variation
+			isDefault
+			relationship: 302c9222-be00-4799-9a4c-bf13468ab377
+			defaultHierarchy: LocalDateTable_4b205053-d213-4dc6-83ff-629aeafdf4c9.'Date Hierarchy'
+
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column age
 		dataType: int64
 		lineageTag: dc4df93d-3066-574d-a308-2599912d567e
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: age
 
 		annotation SummarizationSetBy = Automatic
@@ -82,4 +82,14 @@ table Dim_Customers
 		sourceColumn: gender
 
 		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Customers = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Dim_Customers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"registration_date", type date}, {"age", Int64.Type}}, "en-US")
+				in
+					Typed
 

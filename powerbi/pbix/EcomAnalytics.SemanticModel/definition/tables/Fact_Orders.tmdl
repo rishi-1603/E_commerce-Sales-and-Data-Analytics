@@ -1,14 +1,5 @@
 table Fact_Orders
 	lineageTag: 00ff79dd-6f18-5523-82b2-b274a659f90b
-	partition Fact_Orders = m
-		mode: import
-		source =
-				let
-					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Fact_Orders.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
-					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
-					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"order_date", type datetime}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount_pct", type number}, {"order_item_total", type number}, {"cost_total", type number}, {"profit", type number}, {"shipping_cost", type number}}, "en-US")
-				in
-					Typed
 
 	measure 'Total Revenue' =
 			CALCULATE(
@@ -37,13 +28,11 @@ table Fact_Orders
 		formatString: #,0.00
 		lineageTag: 7f1750ca-52ea-573d-8e8d-92cbc39a0837
 
-	measure 'Gross Profit' =
-			[Total Revenue] - [Total COGS]
+	measure 'Gross Profit' = [Total Revenue] - [Total COGS]
 		formatString: #,0.00
 		lineageTag: ca03d07c-bc7f-5e67-810c-2aa1c037b205
 
-	measure 'Gross Margin %' =
-			DIVIDE([Gross Profit], [Total Revenue], 0)
+	measure 'Gross Margin %' = DIVIDE([Gross Profit], [Total Revenue], 0)
 		formatString: 0.00%
 		lineageTag: 9a994076-7250-5135-8260-0ed60ddeb23d
 
@@ -67,7 +56,7 @@ table Fact_Orders
 			        Fact_Orders[order_status] = "Returned"
 			    )
 			RETURN
-			    DIVIDE(ReturnedCount, TotalCompleted, 0)
+			    DIVIDE(COALESCE(ReturnedCount, 0), TotalCompleted, 0)
 		formatString: 0.00%
 		lineageTag: af48cc9d-c4cc-5940-be45-849055b95816
 
@@ -105,8 +94,8 @@ table Fact_Orders
 
 	column item_id
 		dataType: string
-		lineageTag: 44de8567-8f83-5363-b78c-2a24daa65ad8
 		isHidden
+		lineageTag: 44de8567-8f83-5363-b78c-2a24daa65ad8
 		summarizeBy: none
 		sourceColumn: item_id
 
@@ -135,8 +124,8 @@ table Fact_Orders
 
 	column customer_id
 		dataType: string
-		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
 		isHidden
+		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
 		summarizeBy: none
 		sourceColumn: customer_id
 
@@ -144,8 +133,8 @@ table Fact_Orders
 
 	column product_id
 		dataType: string
-		lineageTag: 1d61bdc6-7bc7-5c2f-81d9-15a39ee43c60
 		isHidden
+		lineageTag: 1d61bdc6-7bc7-5c2f-81d9-15a39ee43c60
 		summarizeBy: none
 		sourceColumn: product_id
 
@@ -168,9 +157,9 @@ table Fact_Orders
 
 	column discount_pct
 		dataType: double
+		formatString: 0.00%
 		lineageTag: 2342d3e3-3b52-5bee-80f1-df26becb1c9d
 		summarizeBy: none
-		formatString: 0.00%
 		sourceColumn: discount_pct
 
 		annotation SummarizationSetBy = Automatic
@@ -210,4 +199,14 @@ table Fact_Orders
 		sourceColumn: shipping_cost
 
 		annotation SummarizationSetBy = Automatic
+
+	partition Fact_Orders = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Fact_Orders.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"order_date", type datetime}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount_pct", type number}, {"order_item_total", type number}, {"cost_total", type number}, {"profit", type number}, {"shipping_cost", type number}}, "en-US")
+				in
+					Typed
 

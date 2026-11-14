@@ -2,6 +2,23 @@ model Model
 	culture: en-US
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
 
-	annotation PBI_QueryOrder = ["Fact_Orders","Dim_Products","Dim_Customers","Dim_Calendar"]
-	annotation PBIDesktopVersion = "2.159.1231.0 (24.11)"
+annotation PBI_QueryOrder = ["Fact_Orders","Dim_Products","Dim_Customers","Dim_Calendar"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Dim_Calendar
+ref table Dim_Customers
+ref table Dim_Products
+ref table Fact_Orders
+ref table DateTableTemplate_58081206-58ad-44f0-bcf7-1f5b393831b1
+ref table LocalDateTable_c38aa8f0-53f3-47d6-a89b-4fd84cd2da4c
+ref table LocalDateTable_4b205053-d213-4dc6-83ff-629aeafdf4c9
+
+ref cultureInfo en-US
+
