@@ -10,7 +10,7 @@
 
 | # | Resume Claim | Canonical Metric Value | Target Population / Grain | Source File / Implementation | Reproduction Command | Automated Test File | Documented Limitation |
 |---|---|---|---|---|---|---|---|
-| 1 | **Sales Revenue Analyzed** | Rs. 5.93 Cr (Rs. 59,328,412.50) | 9,933 Delivered & Processing orders | sql/01_revenue_overview.sql, src/metrics.py | python -m src.metrics --metric revenue | tests/test_dashboard_consistency.py | Synthetic dataset generated based on standard retail distributions. |
+| 1 | **Sales Revenue Analyzed** | Rs. 5.93 Cr (Rs. 59,283,619.32) | 9,933 Delivered & Processing orders | sql/01_revenue_overview.sql, src/metrics.py | python -m src.metrics --metric revenue | tests/test_dashboard_consistency.py | Synthetic dataset generated based on standard retail distributions. |
 | 2 | **Customer Base** | 1,991 Unique Customers | Unique customer IDs in valid orders | sql/02_customer_segmentation.sql | python -m src.metrics --metric customers | tests/test_data_quality.py | Excludes customer records with zero valid completed orders. |
 | 3 | **Product Catalog** | 150 SKUs across 8 Categories | Active product dimension | sql/03_product_profitability.sql | python -m src.metrics --metric skus | tests/test_data_quality.py | Fixed synthetic product catalog. |
 | 4 | **SQL Analytics Layer** | 8 Core Scripts, 45+ Queries | Analytical data mart queries | sql/01_ through sql/08_ | psql -f sql/run_all.sql | tests/test_decision_layer.py | Queries optimized for PostgreSQL / DuckDB syntax. |

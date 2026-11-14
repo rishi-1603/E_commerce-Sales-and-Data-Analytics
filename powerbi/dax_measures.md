@@ -17,7 +17,7 @@ CALCULATE(
 ```
 * **Definition:** Cumulative revenue realized from delivered customer orders and committed in-flight processing orders. Excludes cancelled and returned orders.
 * **SQL Equivalent:** `SUM(order_item_total) WHERE order_status IN ('Delivered', 'Processing')`
-* **Verified Benchmark:** Rs. 59,328,412.50 (Rs. 5.93 Cr).
+* **Verified Benchmark:** Rs. 59,283,619.32 (Rs. 5.93 Cr).
 
 ---
 

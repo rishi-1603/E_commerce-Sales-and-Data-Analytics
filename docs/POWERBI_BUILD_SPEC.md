@@ -37,6 +37,7 @@ Enter every measure from `powerbi/dax_measures.md` (10 measures) into the model.
 - Gross Margin % = 53.97%
 - Delivered Orders = 9,312
 - Processing Orders = 621
+- Valid Order Count (AOV denominator) = 9,933
 - Return Rate % = 0.00% (no Returned orders in the revenue population)
 - AOV = Rs. 5,968.35
 - Active Customers = 1,991

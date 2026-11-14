@@ -12,7 +12,7 @@ Sales, customer retention and pricing analysis for a simulated retailer. The pro
 
 ## Overview
 
-The dataset contains 12,000 orders across 2022–2024, a 2,000-customer source table and 150 products. Of those customers, 1,991 appear in the analytical purchase population. Recorded revenue is **₹5.93 Cr** across 9,933 completed orders (a 77.6% delivery rate), with **₹3.20 Cr** gross profit at a **54.0%** margin. Orders and order lines are kept separate so joins do not inflate order counts or average order value.
+The dataset contains 12,000 orders across 2022–2024, a 2,000-customer source table and 150 products. Of those customers, 1,991 appear in the analytical purchase population. Recorded revenue is **₹5.93 Cr** across 9,933 completed orders — 9,312 delivered and 621 still in processing, out of the 12,000 placed (77.6% delivered; cancelled and returned orders are excluded) — with **₹3.20 Cr** gross profit at a **54.0%** margin. Orders and order lines are kept separate so joins do not inflate order counts or average order value.
 
 The dashboard brings together sales trends, RFM segments, retention cohorts, churn analysis, product profitability, forecasting, discount scenarios and win-back economics, plus three supporting surfaces: a Data Quality centre, a Business Insights centre and an EcomAI analyst that answers bounded questions with the SQL it would run. It is intended for commercial, retention and merchandising teams reviewing where to focus their attention.
 
