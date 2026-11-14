@@ -51,7 +51,7 @@ CALCULATE(
 ```dax
 Gross Profit = [Total Revenue] - [Total COGS]
 ```
-* **Verified Benchmark:** Rs. 21,348,228.50.
+* **Verified Benchmark:** Rs. 31,997,341.64 (Rs. 3.20 Cr).
 
 ---
 
@@ -60,7 +60,7 @@ Gross Profit = [Total Revenue] - [Total COGS]
 Gross Margin % = 
 DIVIDE([Gross Profit], [Total Revenue], 0)
 ```
-* **Verified Benchmark:** 36.00%.
+* **Verified Benchmark:** 53.97%.
 
 ---
 
@@ -72,7 +72,7 @@ CALCULATE(
     Fact_Orders[order_status] = "Delivered"
 )
 ```
-* **Verified Benchmark:** 8,421 orders.
+* **Verified Benchmark:** 9,312 orders.
 
 ---
 
@@ -92,7 +92,7 @@ VAR ReturnedCount =
 RETURN
     DIVIDE(ReturnedCount, TotalCompleted, 0)
 ```
-* **Verified Benchmark:** 10.85% (1,025 returns / 9,446 completed deliveries).
+* **Verified Benchmark:** 0.00% — the revenue population (Delivered + Processing) contains no Returned orders; return analysis uses the full order-status population separately.
 
 ---
 
@@ -108,7 +108,7 @@ DIVIDE(
     0
 )
 ```
-* **Verified Benchmark:** Rs. 5,972.86.
+* **Verified Benchmark:** Rs. 5,968.35.
 
 ---
 

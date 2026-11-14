@@ -32,12 +32,13 @@ Follow `powerbi/model_diagram.md` exactly:
 
 ## 4. DAX measures
 Enter every measure from `powerbi/dax_measures.md` (10 measures) into the model. Verified benchmarks:
-- Total Revenue = Rs. 5.93 Cr
-- Gross Profit = Rs. 2.13 Cr
-- Gross Margin % = 36.00%
-- Delivered Orders = 8,421
-- Return Rate % = 10.85%
-- AOV = Rs. 5,972.86
+- Total Revenue = Rs. 5.93 Cr (59,283,619.32)
+- Gross Profit = Rs. 3.20 Cr (31,997,341.64)
+- Gross Margin % = 53.97%
+- Delivered Orders = 9,312
+- Processing Orders = 621
+- Return Rate % = 0.00% (no Returned orders in the revenue population)
+- AOV = Rs. 5,968.35
 - Active Customers = 1,991
 - MoM Revenue Change % (time intelligence)
 
@@ -79,12 +80,13 @@ Enter every measure from `powerbi/dax_measures.md` (10 measures) into the model.
 - Verify with Performance Analyzer before publishing.
 
 ## 8. Verification checklist (before declaring done)
-- [ ] Total Revenue = Rs. 5.93 Cr (matches dashboard + Excel + SQL)
-- [ ] Gross Profit = Rs. 2.13 Cr
-- [ ] Gross Margin % = 36.00%
-- [ ] Delivered Orders = 8,421
-- [ ] Return Rate % = 10.85%
-- [ ] AOV = Rs. 5,972.86
+- [ ] Total Revenue = Rs. 5.93 Cr (59,283,619.32)
+- [ ] Gross Profit = Rs. 3.20 Cr (31,997,341.64)
+- [ ] Gross Margin % = 53.97%
+- [ ] Delivered Orders = 9,312
+- [ ] Processing Orders = 621
+- [ ] Return Rate % = 0.00% (no Returned orders in revenue population)
+- [ ] AOV = Rs. 5,968.35
 - [ ] Active Customers = 1,991
 - [ ] Reconciliation matrix (`powerbi/reconciliation_matrix.csv`) all rows "OK"
 - [ ] All 4 pages render without errors
