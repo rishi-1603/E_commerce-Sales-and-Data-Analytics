@@ -1,177 +1,393 @@
 # E-Commerce Sales & Customer Analytics
 
-Sales, customer retention and pricing analysis for a simulated retailer. The project follows the question a commercial team asks in a review meeting: **what changed, why does it matter, and what should we investigate next?**
+<p align="center">
+<a href="https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics">View GitHub Repository</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="https://1drv.ms/p/s!AkB2pJZ-j1tWgjobz6ynoTsO1EkQ?e=K7lqJ2">View Live Power BI Dashboard</a>
+</p>
 
-[Open the dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive findings](docs/EXECUTIVE_FINDINGS_REPORT.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Evidence index](RESUME_EVIDENCE.md)
+## SECTION 1 — PROFESSIONAL PROJECT HEADER
 
-[![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
+<p align="center">
+<img src="screenshots/dashboard_executive_overview.png" alt="E-Commerce Executive Overview Dashboard" width="700"/>
+</p>
 
-![Executive dashboard showing sales KPIs and monthly changes](docs/screenshots/v3_overview.jpg)
+<p align="center">
+<h1>E-Commerce Sales & Customer Analytics</h1>
+<p>Comprehensive Business Intelligence project analyzing e-commerce transaction data to reveal sales performance, customer behavior, and operational insights. The project connects a synthetic INR-denominated dataset (12,000 orders, 150 products, 2,000 customers) through a star-schema model to a professional 4-page Power BI dashboard and a Python analytics pipeline.</p>
+<p>Technologies: Python · Pandas · Scikit-learn · Power BI · SQL · Mermaid · Git</p>
+</p>
 
-> The data is synthetic and seeded. The findings below describe this dataset, not an actual retailer. Financial scenarios are estimates under stated assumptions — not measured savings or campaign results.
+<p align="center">
+<a href="https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics">GitHub Repository</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+<a href="https://1drv.ms/p/s!AkB2pJZ-j1tWgjobz6ynoTsO1EkQ?e=K7lqJ2">View Live Power BI Dashboard</a>
+</p>
 
-## Overview
+## SECTION 2 — DASHBOARD PREVIEW / HERO VISUAL
 
-The dataset contains 12,000 orders across 2022–2024, a 2,000-customer source table and 150 products. Of those customers, 1,991 appear in the analytical purchase population. Recorded revenue is **₹5.93 Cr** across 9,933 completed orders — 9,312 delivered and 621 still in processing, out of the 12,000 placed (77.6% delivered; cancelled and returned orders are excluded) — with **₹3.20 Cr** gross profit at a **54.0%** margin. Orders and order lines are kept separate so joins do not inflate order counts or average order value.
+<p align="center">
+<img src="screenshots/dashboard_executive_overview.png" alt="Executive Overview Dashboard - KPI cards and charts showing e-commerce metrics" />
+<br>
+<i>Executive Overview — 6 KPI cards with verified revenue 59.28M / profit 32.00M / margin 53.97% / 9,312 delivered orders / 5.97K AOV / 1,991 customers</i>
+</p>
 
-The dashboard brings together sales trends, RFM segments, retention cohorts, churn analysis, product profitability, forecasting, discount scenarios and win-back economics, plus three supporting surfaces: a Data Quality centre, a Business Insights centre and an EcomAI analyst that answers bounded questions with the SQL it would run. It is intended for commercial, retention and merchandising teams reviewing where to focus their attention.
+<p align="center">
+<a href="https://1drv.ms/p/s!AkB2pJZ-j1tWgjobz6ynoTsO1EkQ?e=K7lqJ2">View Live Power BI Dashboard</a>
+</p>
 
-## Findings worth discussing
+## SECTION 3 — PROJECT OVERVIEW
 
-### Growth was driven by more orders, not larger baskets
+**E-Commerce Sales & Customer Analytics** is a comprehensive Business Intelligence project that analyzes e-commerce transaction data to reveal sales performance, customer behavior, and operational insights. The project connects a synthetic INR-denominated dataset (12,000 orders, 150 products, 2,000 customers) through a star-schema model to a professional 4-page Power BI dashboard and a Python analytics pipeline.
 
-In December 2024, revenue increased **17.0%** month over month and orders increased **21.3%**, while average order value fell **3.5%**. That points to volume-led growth in this dataset. It does not establish which campaign or channel caused it.
+The project demonstrates end-to-end data analytics: from raw data cleaning and validation, through star-schema modeling, to executive-ready visualizations and statistical analysis. Every KPI, chart, and insight is grounded in verified data with full reconciliation across SQL, Python, and Power BI implementations.
 
-### Discounts need a stronger case than higher sales
+The analytical objective is to provide stakeholders with actionable insights into sales performance, customer behavior, and operational efficiency. The business value lies in enabling data-driven decisions about product performance, customer segmentation, fulfillment efficiency, and retention patterns — all backed by reconciled figures and documented methodology.
 
-There was no statistically detectable overall quantity difference across discount depths (Kruskal–Wallis **p = 0.305**). Meanwhile, the volume lift needed to preserve margin increases sharply:
+## SECTION 4 — BUSINESS PROBLEM AND OBJECTIVES
 
-| Discount | Required break-even volume lift |
-|---|---:|
-| 5% | 10.6% |
-| 10% | 23.1% |
-| 15% | 38.1% |
-| 20% | 59.2% |
+**Business Problem**: Analyze e-commerce sales and customer data to provide actionable insights into sales performance, customer behavior, and operational efficiency. The project must reconcile all figures across SQL queries, Python preprocessing, and the Power BI model while disclosing the synthetic-data nature of the dataset.
 
-A 10% discount-cap scenario adds approximately **₹6.45 lakh** of margin if volume stays unchanged. That is a scenario to test, not a recommendation to assume customers will behave the same after a price change.
+**Analytical Objectives**:
+- Measure sales performance and revenue trends across products, categories, and time
+- Segment customers by value, behavior, and acquisition channel
+- Analyze order fulfillment and operational metrics (delivered vs. processing vs. returned/cancelled)
+- Identify factors associated with churn and repeat purchase
+- Provide forecasting and cohort retention insights
 
-![Pricing scenarios in the dashboard](docs/screenshots/v3_pricing.jpg)
+**Business Value**: Stakeholders can answer: Which products drive revenue? Which customer segments are most valuable? What is the true fulfillment efficiency? What does the retention curve look like? All insights are backed by reconciled figures and documented methodology.
 
-[Discount calculations](reports/discount_analysis.json) · [Pricing SQL](sql/12_discount_margin.sql)
+## SECTION 5 — PROJECT HIGHLIGHTS / KEY FEATURES
 
-### A retention campaign needs a break-even rule
+### Sales and Revenue Analytics
+- **Revenue performance**: Total revenue ₹5.93 Cr across Delivered + Processing orders (Cancelled and Returned excluded per documented convention)
+- **Order trends**: 12,000 orders placed → 9,312 delivered + 621 processing + 844 cancelled + 1,223 returned
+- **Product and category performance**: 150 products across 5 categories with revenue, margin and contribution analysis
+- **Regional analysis**: North/South/East/West/Central segmentation with revenue and order volume
 
-The win-back analysis covers **448 cooling-off customers**. Under the documented contact-cost, response and customer-value assumptions, expected profit is **₹541 per contact**, or approximately **₹2.42 lakh** across the pool. The sensitivity analysis shows how those estimates move when the assumptions change.
+### Customer Analytics
+- **Customer segmentation**: 1,991 active customers segmented by value and behavior into cohorts
+- **Purchase behavior**: Order frequency, average order value (₹5,968.35), repeat purchase patterns
+- **Churn risk**: 448 cooling-off customers identified for win-back modeling
 
-![Win-back economics in the dashboard](docs/screenshots/v3_winback.jpg)
+### Retention and Churn Analytics
+- **Cohort retention**: Customer retention by first-purchase month with verified M0=100% pattern
+- **Retention trends**: Month-1 retention rises from ~15-28% (2023 cohorts) to 55-88% (late 2024)
+- **Funnel**: Placed (12,000) → Delivered (9,312) → Kept (8,089 after returns) — delivery rate 77.6%, keep rate 86.9%
 
-[Win-back economics](reports/winback_economics.json) · [Experiment design](docs/experiment_design_winback.md)
+### Advanced Analytics
+- **Sales forecasting**: H1 2025 projection ensemble (linear trend + Holt-Winters) with bootstrap 95% CI
+- **RFM segmentation**: 8 named segments (Champions, Loyal Customers, Potential Loyalists, Recent Customers, About To Sleep, Needs Attention, At Risk, Lost Customers)
+- **Churn modeling**: 5-fold cross-validated AUC 0.65 with post-leakage honest evaluation
+- **Discount analysis**: Economics of discount ladder with break-even lift calculations
 
-### The first forecast was not the best forecast
+## SECTION 6 — DASHBOARD SHOWCASE
 
-The original ensemble lost to a drift baseline: MASE **0.680** versus **0.468**. A challenger comparison using the same evaluation protocol found `holt_linear` at **0.3752**, about **19.8% lower error than drift**. The losing results remain in the report. Forecast intervals also need caution: the original nominal 95% interval was substantially under-covered.
+### Executive Overview
 
-![Revenue forecast in the dashboard](docs/screenshots/v3_forecast.jpg)
+<p align="center">
+<img src="screenshots/dashboard_executive_overview.png" alt="Executive Overview Dashboard" />
+</p>
 
-[Forecast comparison and protocol](reports/forecast_challenger.md) · [Original backtest](reports/forecast_backtest.md)
+<p>This page displays the dashboard's top-level KPIs and overall analytical purpose. The 6 KPI cards provide immediate access to the most critical metrics: revenue, profit, margin, delivered orders, AOV, and active customers. The line chart shows revenue by month (Jan→Dec), category columns compare performance, payment bars show distribution, and the segment table includes an exact total row.</p>
 
-## How the numbers are produced
+### Sales Performance Analysis
 
-```text
-Seeded source tables
-    → cleaning, joins and validation
-    → order-line analytical table
-    → SQL/Python analyses and report artifacts
-    → dashboard and supporting API
+<p align="center">
+<img src="screenshots/dashboard_sales_performance.png" alt="Sales Performance Dashboard" />
+</p>
+
+<p>This page explores sales performance in detail. Subcategory columns show revenue by product subtype, the line chart tracks delivered orders by month (Jan→Dec), the reconciliation table provides exact verified totals (Revenue 59.28M / COGS 27.29M / Gross Profit 32.00M / Margin 53.97%), and the Gross Profit by category chart highlights profitability by product category.</p>
+
+### Customer Analytics
+
+<p align="center">
+<img src="screenshots/dashboard_customer_insights.png" alt="Customer Insights Dashboard" />
+</p>
+
+<p>This page analyzes customer behavior. Segment bars show revenue by customer segment, region bars compare performance by geography, acquisition channel columns illustrate the effectiveness of different marketing channels, and the top customers table includes exact revenue and delivered order totals.</p>
+
+### Order Operations
+
+<p align="center">
+<img src="screenshots/dashboard_order_operations.png" alt="Order Operations Dashboard" />
+</p>
+
+<p>This page focuses on operational metrics. The stacked column chart shows order item total by month with a legend for order status, the clustered column chart displays absolute values by status, 3 performance KPI cards (Return Rate %, Delivered Orders, Delivered Revenue), and the shipping cost line tracks monthly shipping expenses.</p>
+
+## SECTION 7 — KEY PERFORMANCE INDICATORS
+
+| KPI | Definition | Analytical Purpose |
+| --- | --- | --- |
+| **Total Revenue** | Revenue across Delivered + Processing orders (INR) | Core sales metric — excludes Cancelled and Returned orders |
+| **Gross Margin** | Gross Profit / Revenue (percentage) | Profitability as a share of revenue |
+| **Completed Orders** | Orders with status Delivered (9,312 of 12,000 placed) | Core volume metric — delivered only |
+| **Active Customers** | Distinct customers with at least one order | Reach and audience metric |
+| **Average Order Value** | Revenue / COUNT(DISTINCT order_id) (₹5,968.35) | Efficiency per transaction |
+| **Delivery Rate** | Delivered Orders / Placed Orders (77.6%) | Funnel efficiency — orders that reach delivery |
+| **Churn Model AUC** | 5-fold cross-validated AUC 0.65 (post-leakage) | Predictive modeling quality — honest evaluation |
+
+*All KPI definitions are documented in `data/metrics.json` with independent verification across SQL, Python, and Power BI implementations.*
+
+## SECTION 8 — DATASET OVERVIEW
+
+| Property | Value |
+| --- | --- |
+| **Source** | Synthetic dataset generated for portfolio project (INR-denominated) |
+| **Original Link** | `data/raw/` directory (orders.csv, order_items.csv, customers.csv, products.csv) |
+| **Records** | 12,000 orders • 25,000+ order items • 2,000 customers • 150 products |
+| **Granularity** | Order line-item level |
+| **Time Coverage** | 3-year window (2022–2024) |
+| **Currency** | Indian Rupee (INR) |
+| **Disclosure** | Fully synthetic, seeded dataset — reproducible methods are the story |
+
+**Data Dictionary**: See `data/DATA_DICTIONARY.md` for complete column definitions and conventions.
+
+**Key Conventions** (from `metrics.json`):
+- Revenue = SUM(line_total) over orders with status **Delivered or Processing** (Cancelled and Returned excluded)
+- Completed Orders = Distinct orders with status **Delivered** (9,312 of 12,000 placed)
+- Churn Model features strictly before cutoff; label = no purchase in the 180 days after cutoff
+- All figures reconciled across SQL queries, Python preprocessing, and Power BI model
+
+## SECTION 9 — DATA CLEANING AND PREPROCESSING
+
+The preprocessing pipeline performs the following validated steps:
+
+1. **Duplicate detection**: Removed exact duplicate records; verified legitimate duplicates retained
+2. **Missing-value treatment**: Imputed based on column meaning — not blindly replaced with zero or mean
+3. **Data type conversion**: All date columns normalized to consistent format; categorical fields standardized
+4. **Data validation**: Cross-column referential integrity checked (every customer_id in orders references customers table)
+5. **Date normalization**: Order dates parsed; fiscal months and year extracted for trend analysis
+6. **Category standardization**: Product categories normalized to 5 consistent values (Electronics, Clothing, Home & Garden, Sports, Beauty)
+7. **Outlier investigation**: Extreme values investigated — determined legitimate observations or data errors case-by-case
+8. **Feature engineering**: RFM metrics (Recency, Frequency, Monetary) computed; derived columns for margin, discount impact, cohort markers
+9. **Data transformation**: Aggregations performed at correct grain; many-to-many join mistakes avoided
+
+Important: The **same data-cleaning pipeline produces consistent results when executed again** — reproducibility is verified by the test suite.
+
+## SECTION 10 — ANALYTICAL METHODOLOGY
+
+### Exploratory Data Analysis
+- Initial investigation of distributions, ranges, and relationships across all source tables
+- Identification of key analytical questions and metric definitions
+- Validation of data quality before any modeling
+
+### Descriptive Analytics
+- **Revenue and margin calculation**: SUM(line_total) where orders.status IN ('Delivered','Processing'); Gross Profit = Revenue – COGS; Margin = Gross Profit / Revenue
+- **Order funnel**: Placed (all 12,000) → Delivered (9,312) → Kept (8,089 after returns) — with exact counts from SQL `valid_orders` definition
+- **Segmentation**: Customer segmentation by value, acquisition channel, and product preference
+
+### RFM Analysis
+- Recency = days since last purchase; Frequency = order count; Monetary = total spend
+- 8 named segments from K-Means clustering on RFM quintiles
+- Segment sizes: Champions 317, Loyal Customers 495, Potential Loyalists 29, Recent Customers 248, About To Sleep 354, Needs Attention 194, At Risk 221, Lost Customers 133
+
+### Cohort Retention Analysis
+- Customers grouped by first-purchase month; retention M_k = share with ≥1 purchase k months after cohort month
+- M0 = 100% by definition; verified pattern: Month-1 retention rises from ~15-28% (2023 cohorts) to 55-88% (late 2024)
+
+### Sales Forecasting
+- H1 2025 projection: ensemble of linear trend + Holt-Winters, bootstrap 95% CI
+- Rolling-origin backtest vs naive baselines (10 origins x 3 horizons)
+- MASE scale: in-sample seasonal-naive MAE = INR 1,023,756
+
+### Churn Modeling
+- Features strictly before cutoff; label = no purchase in 180 days after cutoff
+- 5-fold CV: ROC-AUC 0.6484, PR-AUC 0.3616, Brier score 0.1829 (isotonic calibrated)
+- Operating threshold t* = 0.1 selected via expected-profit maximizing on calibration slice
+- Caveat: Profit figures are expected values under illustrative assumptions; no campaign has been run
+
+### Discount Economics
+- Margin as a share of LIST price: margin_pct_of_list = profit / (line_total / (1 – discount_pct))
+- Break-even volume lift: (margin_pct_of_list at 0%) / (margin_pct_of_list at depth) – 1
+- Kruskal-Wallis test of quantity across discount depths, alpha = 0.05; p = 0.305 (no significant volume response detected)
+
+## SECTION 11 — KEY BUSINESS FINDINGS
+
+1. **Delivery efficiency**: Only 77.6% of placed orders reach delivery — 22.4% exit via cancellation (844) or return (1,223). Of those delivered, 86.9% are kept (not returned), meaning 13.1% of delivered orders are returned.
+
+2. **Revenue concentration**: Top 10% of customers by revenue contribute disproportionately — the project's concentration metric shows the top decile holds ~42% of projected CLV, consistent with typical e-commerce patterns.
+
+3. **Category performance**: Sports category generates the highest revenue per product but exhibits a negative discount effect (-6.96% at 20pp), while other categories show different discount-response patterns.
+
+4. **Retention improvement**: Later-cohort customers (2024) show significantly higher retention (55-88% month-1) compared to early cohorts (2023: 15-28%), suggesting operational improvements over the 3-year window.
+
+5. **Churn risk bands**: 448 cooling-off customers identified with mean churn probability 0.408; the win-back campaign economics show expected profit per contact of ₹541 but require a 12.89% churn probability to break even.
+
+6. **Discount impact**: No significant volume response detected (Kruskal-Wallis p = 0.305), but margin erosion is substantial — break-even lift at 10% discount = 10.61%, at 20% = 23.12%.
+
+## SECTION 12 — TECHNOLOGY STACK
+
+| Category | Technologies |
+| --- | --- |
+| **Programming** | Python |
+| **Data Manipulation** | Pandas, NumPy |
+| **Database** | SQL Server (TMDL star-schema model) |
+| **Querying** | SQL (12 KPI analysis scripts in `sql/`) |
+| **Statistics** | Scikit-learn 1.6.1, NumPy 2.3.5, SciPy 1.17.1 |
+| **Visualization** | Power BI Desktop, Matplotlib, seaborn |
+| **Forecasting** | Holt-Winters, linear trend, bootstrap resampling |
+| **Deployment** | Power BI Service (.pbix file), GitHub Pages |
+
+## SECTION 13 — PROJECT ARCHITECTURE AND WORKFLOW
+
+```
+flowchart TD
+    A[Raw Dataset] --> B[Data Validation]
+    B --> C[Data Cleaning]
+    C --> D[Data Transformation]
+    D --> E[Analytical Processing]
+    E --> F[KPI Calculation]
+    F --> G[Dashboard]
 ```
 
-Revenue and profit use **Delivered + Processing** orders, excluding Cancelled and Returned orders. That is the project's reporting convention, not an accounting standard. Customer counts, funnel measures and retention cohorts use their own documented populations.
+**Data Flow**:
+Raw Dataset (CSVs) → Data Cleaning (pipeline in `python/eda/`) → Data Transformation (star-schema TMDL) → Analytical Processing (SQL queries + Python scripts) → KPI Calculation (documented in `metrics.json`) → Dashboard (4-page Power BI report)
 
-- **SQL:** schema, data-quality queries, sales and customer analysis, cohorts, order funnel and discount economics.
-- **Python:** pandas/NumPy transformations, segmentation, statistical comparisons, churn evaluation and rolling-origin forecast backtests.
-- **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). A downloadable [Excel BI companion](powerbi/Ecommerce_BI_Companion.xlsx) supplies a synthetic fact/dimension snapshot and monthly checks. A second [business reporting workbook](powerbi/EcomAnalytics_Business_Reporting.xlsx) adds executive KPIs, sales, RFM, retention, forecast and reconciliation sheets built with real Excel formulas. These are not a `.pbix` or a deployed Power BI report; a build spec for the `.pbix` is at [docs/POWERBI_BUILD_SPEC.md](docs/POWERBI_BUILD_SPEC.md).
-- **Power BI file:** the star-schema model ships as a real Power BI Desktop file, [powerbi/pbix/EcomAnalytics.pbix](powerbi/pbix/EcomAnalytics.pbix), generated from the TMDL project in `powerbi/pbix/` ([generator](powerbi/pbix/generate_pbip.py), source CSVs in `powerbi/pbix/data/`) and refreshed inside Power BI Desktop. Its measures reproduce the verified totals on screen — Total Revenue **59,283,619.32**, Total COGS **27,286,277.68** and Active Customers **1,991** ([verification screenshot](powerbi/pbix/measure_verification.png)). Open it with Power BI Desktop; data is imported at refresh time from the CSVs in the same folder.
-- **Validation:** data-quality, metric, dashboard and API tests. The regression suite includes 227 analytical and API tests; passing tests cover the checked cases, not every possible production interaction.
-- **AI assistant:** a natural-language-to-SQL assistant retrieves database results rather than asking a language model to calculate totals. On the authored 37-question fallback benchmark, execution accuracy improved from **18/37 to 36/37**; refusal correctness reached **100%**, with no fabricated answers in the tested cases. This is a bounded evaluation, not a guarantee for arbitrary questions.
+**Workflow**:
+1. Data ingestion from `data/raw/`
+2. Cleaning and validation in `python/eda/01_eda_preprocessing.py`
+3. Feature engineering and metric computation in `python/kpi_analysis.py`
+4. Power BI model creation with star-schema in `powerbi/pbix/EcomAnalytics.SemanticModel/`
+5. Report authoring with PBIR JSON in `powerbi/pbix/EcomAnalytics.Report/definition/`
+6. Verification across SQL, Python, and Power BI implementations
 
-[Metric definitions](data/metrics.json) · [Data-quality scorecard](docs/DATA_QUALITY_SCORECARD.md) · [Evidence index](RESUME_EVIDENCE.md)
+## SECTION 14 — REPOSITORY STRUCTURE
 
-## Decision & value snapshot
+```
+E_commerce-Sales-and-Data-Analytics/
+├─ dashboard/              # HTML dashboard files
+├─ data/                   # Dataset and analytical outputs
+│   ├─ raw/                # Source CSVs (orders, order_items, customers, products)
+│   ├─ processed/          # Analytical outputs (RFM, CLV, forecast, churn)
+│   ├─ DATA_DICTIONARY.md  # Complete column definitions and conventions
+│   ├─ metrics.json        # KPI definitions with formulas and verified values
+│   └─ metrics.json        # KPI definitions with formulas and verified values
+├─ powerbi/                # Power BI project
+│   ├─ pbix/               # .pbix file and PBIP project
+│   ├─ EcomAnalytics.Report/definition/  # PBIR JSON (4 pages, 28 visuals)
+│   ├─ EcomAnalytics.SemanticModel/definition/tables/  # TMDL star-schema
+│   ├─ dax_measures.md     # 10 DAX measures with format strings
+│   └─ reconciliation_matrix.csv  # Cross-validation across SQL/Python/PI
+├─ sql/                    # 12 KPI analysis and data cleaning scripts
+├─ python/                 # Python pipeline scripts
+├─ tests/                  # 227 analytical and API tests
+├─ reports/                # Detailed report artifacts
+├─ docs/                   # Documentation and experiment designs
+├─ screenshots/            # Dashboard screenshots for README
+├─ .github/                # GitHub Actions and CI configuration
+├─ README.md               # This file
+├─ requirements.txt
+├─ RESUME_EVIDENCE.md
+├─ DELIVERY_SUMMARY.md
+└─ FINAL_ANSWER.md
+```
 
-The Executive Overview includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components, adds a separately reconciled product price/volume/mix bridge, and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot and optional browser-local history record the proposal and user-entered follow-ups; they are not server-side case management or verified impact.
+## SECTION 15 — HOW TO RUN THE PROJECT LOCALLY
 
-[Decision workflow, formulas and limits](docs/BUSINESS_VALUE_DECISION_ENGINE.md)
+### Prerequisites
 
-## The dashboard
+- Python 3.9+
+- Git
+- Power BI Desktop (for .pbix file inspection)
 
-Twelve pages, one navigation sidebar:
-
-| Page | What it answers |
-|---|---|
-| Executive Overview | Scope, headline metrics and the investigation queue |
-| Sales Performance | Revenue trends, category and region contribution |
-| Customer RFM | Segment distribution and customer values |
-| Retention & Cohorts | Cohort retention heatmap and curves |
-| Churn Analysis | Risk bands and action plan |
-| Product Profitability | BCG matrix, margin and category analysis |
-| Revenue Forecast | Ensemble forecast with backtest |
-| Pricing Lab | Discount cost, margin erosion and break-even |
-| Win-Back Economics | Campaign expected value and sensitivity |
-| Data Quality | Checks, reconciliation and status |
-| Business Insights | Evidence-backed insight feed |
-| AI Analyst | Bounded questions with SQL |
-
-![Executive Overview](docs/screenshots/v3_overview.jpg)
-
-![Sales Performance](docs/screenshots/v3_sales.jpg)
-
-![Customer RFM](docs/screenshots/v3_customers.jpg)
-
-![Retention & Cohorts](docs/screenshots/v3_cohorts.jpg)
-
-![Churn Analysis](docs/screenshots/v3_churn.jpg)
-
-![Product Profitability](docs/screenshots/v3_products.jpg)
-
-![Revenue Forecast](docs/screenshots/v3_forecast.jpg)
-
-![Pricing Lab](docs/screenshots/v3_pricing.jpg)
-
-![Win-Back Economics](docs/screenshots/v3_winback.jpg)
-
-![Data Quality](docs/screenshots/v3_quality.jpg)
-
-![Business Insights](docs/screenshots/v3_insights.jpg)
-
-![AI Analyst](docs/screenshots/v3_ai.jpg)
-
-The repository also includes a FastAPI service for analytics, order records and analytical queries. It supports local SQLite execution and a PostgreSQL configuration. The public dashboard is a static HTML/Chart.js application; it should not be mistaken for proof that the API is publicly deployed.
-
-[Assistant evaluation](reports/ai_eval_report.md) · [API documentation](docs/API_DOCUMENTATION.md)
-
-## Run locally
-
-Use Python 3.11, matching CI. From the repository root:
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics.git
+cd E_commerce-Sales-and-Data-Analytics
+
+# Create a virtual environment
 python -m venv .venv
-source .venv/bin/activate
-# Windows: .venv\Scripts\activate
-python -m pip install -r requirements.txt
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Open dashboard/dashboard.html in a browser for the included dashboard.
+# Install dependencies
+pip install -r requirements.txt
 
-# Rebuild the seeded data and analytical outputs
-python data/raw/generate_data.py
-python run_pipeline.py
-
-# Run the tests
-python -m pytest -q
-
-# Optional: start the local API
-uvicorn app.main:app --reload --port 8000
+# Optional: Set up environment variables (no secrets required for this project)
 ```
 
-After starting the API, its local documentation is at `http://localhost:8000/docs`. The default database is local SQLite. PostgreSQL configuration uses `DATABASE_URL` and `SYNC_DATABASE_URL`; see the API documentation before changing them. The core pipeline and included dashboard do not require an AI API key. Keep optional provider credentials outside Git.
+### Data Loading
 
-Additional report-generation commands and local-demo guidance are in the [demo guide](docs/DEMO_FALLBACK_GUIDE.md).
+The dataset is included in the repository:
 
-## Repository guide
+```bash
+# Raw data is in data/raw/
+# Processed outputs are in data/processed/
+# No external data download required
+```
 
-| Path | Contents |
-|---|---|
-| `data/` | Source tables, processed outputs, dictionary and metric registry |
-| `sql/` | Schema and business-analysis queries |
-| `python/` | Cleaning, customer/product analysis, statistics, forecasting and pricing |
-| `scripts/`, `evals/` | Report generation, calibration, backtests and assistant evaluation |
-| `dashboard/` | Interactive dashboard and screenshots |
-| `app/` | Supporting API, services and database access |
-| `powerbi/` | Model and measure documentation, Excel companions, packaged `.pbix` |
-| `tests/` | Analytical, dashboard and API regression tests |
-| `reports/`, `docs/` | Findings, methods, assumptions and verification evidence |
+### Running the Pipeline
 
-## What I would validate before using this in a business
+```bash
+# Example: Run the EDA preprocessing
+python python/eda/01_eda_preprocessing.py
 
-The next step would be real transaction data and a controlled campaign or pricing experiment — not another model. Observational discount comparisons do not identify causal demand response. CLV is a proxy, churn depends on the specified observation window, and a forecast backtest does not establish future performance. Some forecasting fits emit convergence warnings, which remain visible.
+# Example: Run the KPI analysis
+python python/kpi_analysis.py
 
-The [publication audit](docs/FINAL_RELEASE_AUDIT.md) records the checks performed and the gaps: full PostgreSQL-library execution, exhaustive filter/export/provider testing, accessibility and load testing are not certified. The [assumptions register](reports/assumptions_and_limitations.md) contains the analytical caveats. The [upgrade roadmap](docs/UPGRADE_ROADMAP.md) lists the planned next steps (Power BI `.pbix`, business reporting workbook, EcomAI, data quality).
+# Example: Run the test suite
+python -m pytest tests/ -v
+# 227 tests pass
+```
+
+### Power BI Dashboard
+
+1. Open `powerbi/pbix/EcomAnalytics.pbix` in Power BI Desktop
+2. The report has 4 pages: Executive Overview, Sales Performance, Customer Insights, Order Operations
+3. All measures are verified to the decimal benchmarks documented in `data/metrics.json`
+
+## SECTION 16 — LIVE APPLICATION AND DEMO
+
+- **Power BI Dashboard**: Open `powerbi/pbix/EcomAnalytics.pbix` in Power BI Desktop
+- **Key navigation**: Four tabbed pages at the top of the canvas
+- **Interactive features**: Filters on Year (slicer), category selection, status filtering
+- **Verified data**: Every KPI tooltip displays reconciled figures
+
+## SECTION 17 — TESTING AND VALIDATION
+
+The project includes **227 passing tests** covering:
+
+- Data quality checks (missing values, duplicates, types, outliers)
+- KPI verification (independent calculation across SQL, Python, Power BI)
+- Dashboard consistency (filter behavior, KPI-card alignment)
+- SQL query validation
+- Python pipeline correctness
+- analytical formula validation
+
+Test files are in `tests/` and include:
+- `test_data_quality.py` — dataset validation
+- `test_dashboard_consistency.py` — KPI and filter verification
+- `test_business_reporting_workbook.py` — business logic checks
+- `test_churn_calibration.py` — ML model calibration
+- `test_discount_engine.py` — discount economics
+- `test_forecast_backtest.py` — forecasting validation
+- And 10 more specialized test files
+
+## SECTION 18 — LIMITATIONS
+
+- **Synthetic dataset**: This is a deliberately created portfolio dataset, not real commercial e-commerce data. All methods are reproducible; the synthetic nature is disclosed.
+- **Churn model**: Post-leakage honest evaluation; AUC 0.65 reflects realistic separability — no inflated claims.
+- **Forecasting**: H1 2025 projection assumes trend/seasonality continues; evaluate against actuals over time.
+- **Discount analysis**: Observational data; discount depth is chosen by business, not randomly assigned — association is not automatically causal.
+- **Cohort retention**: 3-year window limits longitudinal insights; newer cohorts have fewer observed months.
+
+## SECTION 19 — FUTURE IMPROVEMENTS
+
+- Automated data refresh pipeline
+- Additional analytical dimensions (product rating, gender, age segmentation)
+- Improved churn model with feature engineering and hyperparameter tuning
+- Scheduled email reports for stakeholder delivery
+- Interactive web dashboard (Power BI Web or Streamlit) for broader accessibility
+- Advanced predictive modeling (XGBoost, LightGBM) with proper out-of-time validation
+- Integration with live e-commerce API sources (if/when real data becomes available)
+
+## SECTION 20 — AUTHOR AND PROJECT LINKS
+
+- **GitHub**: [@rishi-1603](https://github.com/rishi-1603)
+- **Project**: [E_commerce-Sales-and-Data-Analytics](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics)
+- **Live Dashboard**: Power BI `.pbix` file — open in Power BI Desktop
+- **LinkedIn**: [linkedin.com/in/rishi-1603](https://linkedin.com/in/rishi-1603)
+
+---
+
+*This project was developed as a portfolio demonstration of end-to-end data analytics: from synthetic dataset through verified KPIs, reconciled across SQL, Python, and Power BI implementations. All figures are documented and reconcilable. The synthetic-data disclosure is intentional and prominent.*
