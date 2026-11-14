@@ -13,8 +13,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231f6feb'/%3E%3Cpath d='M28 68V44M50 68V28M72 68V54' stroke='white' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -66,7 +67,7 @@ body{
 
 /* MAIN */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
-.topbar{background:rgba(18,22,31,0.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:12px}
+.topbar{background:rgba(18,22,31,0.75);background:rgba(13,17,23,0.92);border-bottom:1px solid var(--border);padding:14px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:12px}
 .topbar-left{display:flex;align-items:center;gap:12px;min-width:0}
 .hamburger{display:none;width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);cursor:pointer;flex-shrink:0;align-items:center;justify-content:center;font-size:16px}
 .page-title{font-size:16px;font-weight:700;letter-spacing:-0.2px}
@@ -1040,7 +1041,8 @@ function nav(id, el) {
   el.classList.add('active');
   document.getElementById('ptitle').textContent = titles[id][0];
   document.getElementById('psub').textContent   = titles[id][1];
-  document.getElementById('content')?.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('content')?.scrollTo({top:0,behavior:'auto'});
+  buildPage(id);
   if(window.innerWidth<=900) toggleSidebar(false);
 }
 
@@ -1230,35 +1232,27 @@ function exportOverview(){
   document.body.appendChild(a);a.click();a.remove();
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
-  buildRevTrend();
-  buildCatRev();
-  buildStatus();
-  buildRFMOvr();
-  buildRetention3();
-  buildForecastCard();
-  buildTop5();
-  buildInsights();
-  buildCatComp();
-  buildRegion();
-  buildTop10();
-  buildRFM();
-  buildRFMProg();
-  buildChurnPie();
-  buildModels();
-  buildBCG();
-  buildMargin();
-  buildForecast();
-  buildForecastBand();
-  buildForecastTable();
-  renderWhatChanged();
-  renderMom();
-  buildFunnel();
-  buildCohortHeat();
-  buildCohortCurve();
-  renderSegActions();
-  buildPricing();
-});
+const _built = new Set();
+function buildPage(id){
+  if(_built.has(id)) return;
+  _built.add(id);
+  const B = {
+    overview: ()=>{ buildRevTrend(); buildCatRev(); buildStatus(); buildRFMOvr(); buildRetention3(); buildForecastCard(); buildTop5(); buildInsights(); renderWhatChanged(); renderMom(); },
+    sales: ()=>{ buildCatComp(); buildRegion(); buildTop10(); buildFunnel(); },
+    customers: ()=>{ buildRFM(); buildRFMProg(); },
+    cohorts: ()=>{ buildCohortHeat(); buildCohortCurve(); renderSegActions(); },
+    churn: ()=>{ buildChurnPie(); buildModels(); },
+    products: ()=>{ buildBCG(); buildMargin(); },
+    forecast: ()=>{ buildForecast(); buildForecastBand(); buildForecastTable(); },
+    pricing: ()=>{ buildPricing(); },
+    winback: ()=>{ buildPricing(); },
+    quality: ()=>{ renderQuality(); },
+    insights: ()=>{ renderInsights(); },
+    ai: ()=>{}
+  };
+  try { B[id]?.(); } catch(e){ console.error('buildPage', id, e); }
+}
+window.addEventListener('DOMContentLoaded',()=>{ buildPage('overview'); buildPricing(); });
 
 function buildRevTrend(){
   new Chart(document.getElementById('ch_revtrend'),{

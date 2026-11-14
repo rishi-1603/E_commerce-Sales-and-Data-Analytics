@@ -268,11 +268,12 @@ def inject(path: str, data_block: str, pages: str) -> None:
     html = html.replace(old_title, old_title + ',\n  ' + pricing_title + ',\n  ' + winback_title, 1)
 
     # 6. init hook (idempotent: drop a previous call line first)
-    html = html.replace("  renderSegActions();\n  buildPricing();\n});",
-                        "  renderSegActions();\n});")
-    init_anchor = "  renderSegActions();\n});"
+    # Lazy-load compatible init anchor (buildPage entry point, single line).
+    html = html.replace("window.addEventListener('DOMContentLoaded',()=>{ buildPage('overview'); buildPricing(); });",
+                        "window.addEventListener('DOMContentLoaded',()=>{ buildPage('overview'); });")
+    init_anchor = "window.addEventListener('DOMContentLoaded',()=>{ buildPage('overview'); });"
     assert init_anchor in html, "init anchor not found"
-    html = html.replace(init_anchor, "  renderSegActions();\n  buildPricing();\n});", 1)
+    html = html.replace(init_anchor, "window.addEventListener('DOMContentLoaded',()=>{ buildPage('overview'); buildPricing(); });", 1)
 
     # 7. Insert into the main inline script, not a later external script.
     # A decision-engine <script src=...> may follow the inline dashboard code;
