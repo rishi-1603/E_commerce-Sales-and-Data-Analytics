@@ -181,6 +181,13 @@ tr:last-child td{border-bottom:0}
 .wc-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:14px 0 4px}
 .wc-box{border:1px solid;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.45}
 .wc-box b{display:block;font-size:13px;margin-bottom:3px}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;border:1px solid}
+.badge-green{background:rgba(63,185,80,.15);color:#3fb950;border-color:rgba(63,185,80,.4)}
+.badge-amber{background:rgba(210,153,34,.15);color:#d29922;border-color:rgba(210,153,34,.4)}
+.ai-output-box{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;min-height:60px;margin-top:10px}
+.ai-output-box pre{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:12px;overflow:auto;margin:6px 0 10px;white-space:pre-wrap;word-break:break-word}
+.ai-output-box .ai-answer{background:rgba(56,139,253,.08);border-left:3px solid var(--blue);padding:10px 12px;border-radius:6px;margin-top:8px}
+
 .wc-ok{border-color:rgba(63,185,80,.45);background:rgba(63,185,80,.07)}
 .wc-watch{border-color:rgba(210,153,34,.5);background:rgba(210,153,34,.07)}
 .wc-alert{border-color:rgba(248,81,73,.55);background:rgba(248,81,73,.08)}
@@ -818,7 +825,7 @@ tr:last-child td{border-bottom:0}
 
     <!-- DATA QUALITY -->
     <div class="page" id="page-quality">
-      <div class="band" style="margin-bottom:12px"><strong>Data Quality Centre</strong> — checks run against the processed dataset. A failed check is a reporting blocker, not a footnote.</div>
+      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>Data Quality Centre</strong> — checks run against the processed dataset. A failed check is a reporting blocker, not a footnote.</div>
       <div class="kpi-grid" id="dq_kpis"></div>
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Data quality checks</div><div class="card-sub">Status per check</div></div></div>
@@ -832,7 +839,7 @@ tr:last-child td{border-bottom:0}
 
     <!-- BUSINESS INSIGHTS -->
     <div class="page" id="page-insights">
-      <div class="band" style="margin-bottom:12px"><strong>Business Insights Centre</strong> — every insight follows Observation → Evidence → Impact → Recommendation → Measurement. No invented figures.</div>
+      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>Business Insights Centre</strong> — every insight follows Observation → Evidence → Impact → Recommendation → Measurement. No invented figures.</div>
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Insight feed</div><div class="card-sub">Evidence-backed, bounded</div></div></div>
         <div id="insights_feed" class="prog-list"></div>
@@ -845,7 +852,7 @@ tr:last-child td{border-bottom:0}
 
     <!-- AI ANALYST -->
     <div class="page" id="page-ai">
-      <div class="band" style="margin-bottom:12px"><strong>EcomAI Analyst</strong> — answers bounded questions from the dataset. Shows the SQL it would run; refuses questions it cannot ground. No LLM key required for the built-in questions.</div>
+      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>EcomAI Analyst</strong> — answers bounded questions from the dataset. Shows the SQL it would run; refuses questions it cannot ground. No LLM key required for the built-in questions.</div>
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Ask a question</div><div class="card-sub">Built-in questions only (deterministic, no API key)</div></div></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
@@ -856,7 +863,7 @@ tr:last-child td{border-bottom:0}
           <button class="bv-button" onclick="askAI('forecast')">Forecast next 6M</button>
           <button class="bv-button" onclick="askAI('margin')">Gross margin</button>
         </div>
-        <div id="ai_output" aria-live="polite" style="font-size:13px;color:var(--text);line-height:1.6"></div>
+        <div id="ai_output" class="ai-output-box" aria-live="polite"></div>
       </div>
       <div class="card">
         <div class="card-header"><div><div class="card-title">How it works</div><div class="card-sub">Same pipeline as the server-side assistant, without the LLM</div></div></div>
@@ -1579,7 +1586,10 @@ function askAI(q){
   if(!out) return;
   const a = AI_ANSWERS[q];
   if(!a){ out.innerHTML = '<span style="color:var(--red)">Question not supported. Only the listed questions are answered.</span>'; return; }
-  out.innerHTML = '<div style="margin-bottom:8px"><b>SQL</b><pre style="background:var(--card);padding:8px;border-radius:6px;font-size:12px;overflow:auto">'+a.sql+'</pre></div><div><b>Answer</b><br>'+a.ans+'</div><div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed, bounded. Arbitrary questions are refused rather than answered from model memory.</div>';
+  out.innerHTML = '<div style="margin-bottom:6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600">SQL</div>'
+    + '<pre>'+a.sql+'</pre>'
+    + '<div class="ai-answer"><b>Answer.</b> '+a.ans+'</div>'
+    + '<div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed and bounded. Arbitrary questions are refused rather than answered from model memory.</div>';
 }
 
 document.addEventListener('DOMContentLoaded', function(){ renderQuality(); renderInsights(); });
