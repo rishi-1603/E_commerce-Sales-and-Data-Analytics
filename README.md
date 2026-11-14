@@ -8,7 +8,7 @@
 ## SECTION 1 — PROFESSIONAL PROJECT HEADER
 
 <p align="center">
-<img src="screenshots/dashboard_executive_overview.png" alt="E-Commerce Executive Overview Dashboard" width="700"/>
+<img src="docs/screenshots/v3_overview.jpg" alt="E-Commerce Executive Overview Dashboard" width="700"/>
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 ## SECTION 2 — DASHBOARD PREVIEW / HERO VISUAL
 
 <p align="center">
-<img src="screenshots/dashboard_executive_overview.png" alt="Executive Overview Dashboard - KPI cards and charts showing e-commerce metrics" />
+<img src="docs/screenshots/v3_overview.jpg" alt="Executive Overview Dashboard - KPI cards and charts showing e-commerce metrics" />
 <br>
 <i>Executive Overview — 6 KPI cards with verified revenue 59.28M / profit 32.00M / margin 53.97% / 9,312 delivered orders / 5.97K AOV / 1,991 customers</i>
 </p>
@@ -84,7 +84,7 @@ The analytical objective is to provide stakeholders with actionable insights int
 ### Executive Overview
 
 <p align="center">
-<img src="screenshots/dashboard_executive_overview.png" alt="Executive Overview Dashboard" />
+<img src="docs/screenshots/v3_overview.jpg" alt="Executive Overview Dashboard" />
 </p>
 
 <p>This page displays the dashboard's top-level KPIs and overall analytical purpose. The 6 KPI cards provide immediate access to the most critical metrics: revenue, profit, margin, delivered orders, AOV, and active customers. The line chart shows revenue by month (Jan→Dec), category columns compare performance, payment bars show distribution, and the segment table includes an exact total row.</p>
@@ -92,7 +92,7 @@ The analytical objective is to provide stakeholders with actionable insights int
 ### Sales Performance Analysis
 
 <p align="center">
-<img src="screenshots/dashboard_sales_performance.png" alt="Sales Performance Dashboard" />
+<img src="docs/screenshots/v3_sales.jpg" alt="Sales Performance Dashboard" />
 </p>
 
 <p>This page explores sales performance in detail. Subcategory columns show revenue by product subtype, the line chart tracks delivered orders by month (Jan→Dec), the reconciliation table provides exact verified totals (Revenue 59.28M / COGS 27.29M / Gross Profit 32.00M / Margin 53.97%), and the Gross Profit by category chart highlights profitability by product category.</p>
@@ -100,7 +100,7 @@ The analytical objective is to provide stakeholders with actionable insights int
 ### Customer Analytics
 
 <p align="center">
-<img src="screenshots/dashboard_customer_insights.png" alt="Customer Insights Dashboard" />
+<img src="docs/screenshots/v3_customers.jpg" alt="Customer Insights Dashboard" />
 </p>
 
 <p>This page analyzes customer behavior. Segment bars show revenue by customer segment, region bars compare performance by geography, acquisition channel columns illustrate the effectiveness of different marketing channels, and the top customers table includes exact revenue and delivered order totals.</p>
@@ -108,7 +108,7 @@ The analytical objective is to provide stakeholders with actionable insights int
 ### Order Operations
 
 <p align="center">
-<img src="screenshots/dashboard_order_operations.png" alt="Order Operations Dashboard" />
+<img src="docs/screenshots/v3_quality.jpg" alt="Order Operations Dashboard" />
 </p>
 
 <p>This page focuses on operational metrics. The stacked column chart shows order item total by month with a legend for order status, the clustered column chart displays absolute values by status, 3 performance KPI cards (Return Rate %, Delivered Orders, Delivered Revenue), and the shipping cost line tracks monthly shipping expenses.</p>
