@@ -1,18 +1,18 @@
 # E-Commerce Sales & Customer Analytics
 
-Sales, customer retention and pricing analysis for a simulated retailer. The project follows a question a commercial team would ask in a review meeting: **what changed, why does it matter, and what should we investigate next?**
+Sales, customer retention and pricing analysis for a simulated retailer. The project follows the question a commercial team asks in a review meeting: **what changed, why does it matter, and what should we investigate next?**
 
-[Open the dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive findings](docs/EXECUTIVE_FINDINGS_REPORT.md) · [Data dictionary](data/DATA_DICTIONARY.md)
+[Open the dashboard](https://ecomanalytics-dashboard.vercel.app/) · [SQL analysis](sql/README.md) · [Executive findings](docs/EXECUTIVE_FINDINGS_REPORT.md) · [Data dictionary](data/DATA_DICTIONARY.md) · [Evidence index](RESUME_EVIDENCE.md)
 
 [![CI](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml)
 
-![Executive dashboard showing sales KPIs and monthly changes](docs/screenshots/publication_overview.png)
+![Executive dashboard showing sales KPIs and monthly changes](docs/screenshots/v3_overview.jpg)
 
-> The data is synthetic and seeded. The findings below describe this dataset, not an actual retailer. Financial scenarios are estimates under stated assumptions—not measured savings or campaign results.
+> The data is synthetic and seeded. The findings below describe this dataset, not an actual retailer. Financial scenarios are estimates under stated assumptions — not measured savings or campaign results.
 
-## What the analysis covers
+## Overview
 
-The dataset contains 12,000 orders across 2022–2024, a 2,000-customer source table and 150 products. Of those customers, 1,991 appear in the analytical purchase population. Orders and order lines are kept separate so joins do not inflate order counts or average order value.
+The dataset contains 12,000 orders across 2022–2024, a 2,000-customer source table and 150 products. Of those customers, 1,991 appear in the analytical purchase population. Recorded revenue is **₹5.93 Cr** across 9,933 completed orders (a 77.6% delivery rate), with **₹3.20 Cr** gross profit at a **54.0%** margin. Orders and order lines are kept separate so joins do not inflate order counts or average order value.
 
 The dashboard brings together sales trends, RFM segments, retention cohorts, churn analysis, product profitability, forecasting, discount scenarios and win-back economics, plus three supporting surfaces: a Data Quality centre, a Business Insights centre and an EcomAI analyst that answers bounded questions with the SQL it would run. It is intended for commercial, retention and merchandising teams reviewing where to focus their attention.
 
@@ -35,7 +35,7 @@ There was no statistically detectable overall quantity difference across discoun
 
 A 10% discount-cap scenario adds approximately **₹6.45 lakh** of margin if volume stays unchanged. That is a scenario to test, not a recommendation to assume customers will behave the same after a price change.
 
-![Pricing scenarios in the dashboard](docs/screenshots/publication_pricing.png)
+![Pricing scenarios in the dashboard](docs/screenshots/v3_pricing.jpg)
 
 [Discount calculations](reports/discount_analysis.json) · [Pricing SQL](sql/12_discount_margin.sql)
 
@@ -43,11 +43,15 @@ A 10% discount-cap scenario adds approximately **₹6.45 lakh** of margin if vol
 
 The win-back analysis covers **448 cooling-off customers**. Under the documented contact-cost, response and customer-value assumptions, expected profit is **₹541 per contact**, or approximately **₹2.42 lakh** across the pool. The sensitivity analysis shows how those estimates move when the assumptions change.
 
+![Win-back economics in the dashboard](docs/screenshots/v3_winback.jpg)
+
 [Win-back economics](reports/winback_economics.json) · [Experiment design](docs/experiment_design_winback.md)
 
 ### The first forecast was not the best forecast
 
 The original ensemble lost to a drift baseline: MASE **0.680** versus **0.468**. A challenger comparison using the same evaluation protocol found `holt_linear` at **0.3752**, about **19.8% lower error than drift**. The losing results remain in the report. Forecast intervals also need caution: the original nominal 95% interval was substantially under-covered.
+
+![Revenue forecast in the dashboard](docs/screenshots/v3_forecast.jpg)
 
 [Forecast comparison and protocol](reports/forecast_challenger.md) · [Original backtest](reports/forecast_backtest.md)
 
@@ -65,20 +69,60 @@ Revenue and profit use **Delivered + Processing** orders, excluding Cancelled an
 
 - **SQL:** schema, data-quality queries, sales and customer analysis, cohorts, order funnel and discount economics.
 - **Python:** pandas/NumPy transformations, segmentation, statistical comparisons, churn evaluation and rolling-origin forecast backtests.
-- **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). A downloadable [Excel BI companion](powerbi/Ecommerce_BI_Companion.xlsx) supplies a synthetic fact/dimension snapshot and monthly checks. These are not a `.pbix` or a deployed Power BI report.
-- **Validation:** data-quality, metric, dashboard and API tests. The regression suite includes analytical and API tests; passing tests cover the checked cases, not every possible production interaction.
+- **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). A downloadable [Excel BI companion](powerbi/Ecommerce_BI_Companion.xlsx) supplies a synthetic fact/dimension snapshot and monthly checks. A second [business reporting workbook](powerbi/EcomAnalytics_Business_Reporting.xlsx) adds executive KPIs, sales, RFM, retention, forecast and reconciliation sheets built with real Excel formulas. These are not a `.pbix` or a deployed Power BI report; a build spec for the `.pbix` is at [docs/POWERBI_BUILD_SPEC.md](docs/POWERBI_BUILD_SPEC.md).
+- **Validation:** data-quality, metric, dashboard and API tests. The regression suite includes 227 analytical and API tests; passing tests cover the checked cases, not every possible production interaction.
+- **AI assistant:** a natural-language-to-SQL assistant retrieves database results rather than asking a language model to calculate totals. On the authored 37-question fallback benchmark, execution accuracy improved from **18/37 to 36/37**; refusal correctness reached **100%**, with no fabricated answers in the tested cases. This is a bounded evaluation, not a guarantee for arbitrary questions.
 
 [Metric definitions](data/metrics.json) · [Data-quality scorecard](docs/DATA_QUALITY_SCORECARD.md) · [Evidence index](RESUME_EVIDENCE.md)
 
 ## Decision & value snapshot
 
-The Executive Overview now includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components, adds a separately reconciled product price/volume/mix bridge, and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot and optional browser-local history record the proposal and user-entered follow-ups; they are not server-side case management or verified impact.
+The Executive Overview includes a compact, expandable **Decision & value** panel. It reconciles latest-month revenue change into order-volume and average-basket components, adds a separately reconciled product price/volume/mix bridge, and prices low/base/high campaign scenarios using user-supplied contribution and cost assumptions. A versioned JSON snapshot and optional browser-local history record the proposal and user-entered follow-ups; they are not server-side case management or verified impact.
 
 [Decision workflow, formulas and limits](docs/BUSINESS_VALUE_DECISION_ENGINE.md)
 
-## Analytical assistant and API
+## The dashboard
 
-The natural-language-to-SQL assistant retrieves database results rather than asking a language model to calculate totals. On the authored 37-question fallback benchmark, execution accuracy improved from **18/37 to 36/37**; refusal correctness reached **100%**, with no fabricated answers in the tested cases. This is a bounded evaluation, not a guarantee for arbitrary questions.
+Twelve pages, one navigation sidebar:
+
+| Page | What it answers |
+|---|---|
+| Executive Overview | Scope, headline metrics and the investigation queue |
+| Sales Performance | Revenue trends, category and region contribution |
+| Customer RFM | Segment distribution and customer values |
+| Retention & Cohorts | Cohort retention heatmap and curves |
+| Churn Analysis | Risk bands and action plan |
+| Product Profitability | BCG matrix, margin and category analysis |
+| Revenue Forecast | Ensemble forecast with backtest |
+| Pricing Lab | Discount cost, margin erosion and break-even |
+| Win-Back Economics | Campaign expected value and sensitivity |
+| Data Quality | Checks, reconciliation and status |
+| Business Insights | Evidence-backed insight feed |
+| AI Analyst | Bounded questions with SQL |
+
+![Executive Overview](docs/screenshots/v3_overview.jpg)
+
+![Sales Performance](docs/screenshots/v3_sales.jpg)
+
+![Customer RFM](docs/screenshots/v3_customers.jpg)
+
+![Retention & Cohorts](docs/screenshots/v3_cohorts.jpg)
+
+![Churn Analysis](docs/screenshots/v3_churn.jpg)
+
+![Product Profitability](docs/screenshots/v3_products.jpg)
+
+![Revenue Forecast](docs/screenshots/v3_forecast.jpg)
+
+![Pricing Lab](docs/screenshots/v3_pricing.jpg)
+
+![Win-Back Economics](docs/screenshots/v3_winback.jpg)
+
+![Data Quality](docs/screenshots/v3_quality.jpg)
+
+![Business Insights](docs/screenshots/v3_insights.jpg)
+
+![AI Analyst](docs/screenshots/v3_ai.jpg)
 
 The repository also includes a FastAPI service for analytics, order records and analytical queries. It supports local SQLite execution and a PostgreSQL configuration. The public dashboard is a static HTML/Chart.js application; it should not be mistaken for proof that the API is publicly deployed.
 
@@ -121,12 +165,12 @@ Additional report-generation commands and local-demo guidance are in the [demo g
 | `scripts/`, `evals/` | Report generation, calibration, backtests and assistant evaluation |
 | `dashboard/` | Interactive dashboard and screenshots |
 | `app/` | Supporting API, services and database access |
-| `powerbi/` | Model and measure documentation |
+| `powerbi/` | Model and measure documentation, Excel companions |
 | `tests/` | Analytical, dashboard and API regression tests |
 | `reports/`, `docs/` | Findings, methods, assumptions and verification evidence |
 
 ## What I would validate before using this in a business
 
-The next step would be real transaction data and a controlled campaign or pricing experiment—not another model. Observational discount comparisons do not identify causal demand response. CLV is a proxy, churn depends on the specified observation window, and a forecast backtest does not establish future performance. Some forecasting fits emit convergence warnings, which remain visible.
+The next step would be real transaction data and a controlled campaign or pricing experiment — not another model. Observational discount comparisons do not identify causal demand response. CLV is a proxy, churn depends on the specified observation window, and a forecast backtest does not establish future performance. Some forecasting fits emit convergence warnings, which remain visible.
 
-The [publication audit](docs/FINAL_RELEASE_AUDIT.md) records the checks performed and the gaps: full PostgreSQL-library execution, exhaustive filter/export/provider testing, accessibility and load testing are not certified. The [assumptions register](reports/assumptions_and_limitations.md) contains the analytical caveats.
+The [publication audit](docs/FINAL_RELEASE_AUDIT.md) records the checks performed and the gaps: full PostgreSQL-library execution, exhaustive filter/export/provider testing, accessibility and load testing are not certified. The [assumptions register](reports/assumptions_and_limitations.md) contains the analytical caveats. The [upgrade roadmap](docs/UPGRADE_ROADMAP.md) lists the planned next steps (Power BI `.pbix`, business reporting workbook, EcomAI, data quality).
