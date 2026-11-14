@@ -70,6 +70,7 @@ Revenue and profit use **Delivered + Processing** orders, excluding Cancelled an
 - **SQL:** schema, data-quality queries, sales and customer analysis, cohorts, order funnel and discount economics.
 - **Python:** pandas/NumPy transformations, segmentation, statistical comparisons, churn evaluation and rolling-origin forecast backtests.
 - **BI documentation:** [star-schema design](powerbi/model_diagram.md), [DAX measures](powerbi/dax_measures.md) and [reconciliation matrix](powerbi/reconciliation_matrix.csv). A downloadable [Excel BI companion](powerbi/Ecommerce_BI_Companion.xlsx) supplies a synthetic fact/dimension snapshot and monthly checks. A second [business reporting workbook](powerbi/EcomAnalytics_Business_Reporting.xlsx) adds executive KPIs, sales, RFM, retention, forecast and reconciliation sheets built with real Excel formulas. These are not a `.pbix` or a deployed Power BI report; a build spec for the `.pbix` is at [docs/POWERBI_BUILD_SPEC.md](docs/POWERBI_BUILD_SPEC.md).
+- **Power BI file:** the star-schema model ships as a real Power BI Desktop file, [powerbi/pbix/EcomAnalytics.pbix](powerbi/pbix/EcomAnalytics.pbix), generated from the TMDL project in `powerbi/pbix/` ([generator](powerbi/pbix/generate_pbip.py), source CSVs in `powerbi/pbix/data/`) and refreshed inside Power BI Desktop. Its measures reproduce the verified totals on screen — Total Revenue **59,283,619.32**, Total COGS **27,286,277.68** and Active Customers **1,991** ([verification screenshot](powerbi/pbix/measure_verification.png)). Open it with Power BI Desktop; data is imported at refresh time from the CSVs in the same folder.
 - **Validation:** data-quality, metric, dashboard and API tests. The regression suite includes 227 analytical and API tests; passing tests cover the checked cases, not every possible production interaction.
 - **AI assistant:** a natural-language-to-SQL assistant retrieves database results rather than asking a language model to calculate totals. On the authored 37-question fallback benchmark, execution accuracy improved from **18/37 to 36/37**; refusal correctness reached **100%**, with no fabricated answers in the tested cases. This is a bounded evaluation, not a guarantee for arbitrary questions.
 
@@ -165,7 +166,7 @@ Additional report-generation commands and local-demo guidance are in the [demo g
 | `scripts/`, `evals/` | Report generation, calibration, backtests and assistant evaluation |
 | `dashboard/` | Interactive dashboard and screenshots |
 | `app/` | Supporting API, services and database access |
-| `powerbi/` | Model and measure documentation, Excel companions |
+| `powerbi/` | Model and measure documentation, Excel companions, packaged `.pbix` |
 | `tests/` | Analytical, dashboard and API regression tests |
 | `reports/`, `docs/` | Findings, methods, assumptions and verification evidence |
 

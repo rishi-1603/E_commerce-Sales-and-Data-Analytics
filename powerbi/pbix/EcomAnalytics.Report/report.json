@@ -1,0 +1,23 @@
+{
+  "settings": {
+    "useEnhancedTooltips": true
+  },
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY24SU10",
+      "reportVersionAtImport": "3.0.0",
+      "type": "SharedResources"
+    }
+  },
+  "sections": [
+    {
+      "name": "841fa5ac-5786-4f1f-9dfa-fd4e4e3d160b",
+      "displayName": "Page 1",
+      "visualContainers": [],
+      "config": "{}",
+      "displayOption": 1,
+      "height": 720.0,
+      "width": 1280.0
+    }
+  ]
+}

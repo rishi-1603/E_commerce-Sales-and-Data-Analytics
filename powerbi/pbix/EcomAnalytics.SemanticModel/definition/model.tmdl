@@ -1,0 +1,7 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+
+	annotation PBI_QueryOrder = ["Fact_Orders","Dim_Products","Dim_Customers","Dim_Calendar"]
+	annotation PBIDesktopVersion = "2.159.1231.0 (24.11)"

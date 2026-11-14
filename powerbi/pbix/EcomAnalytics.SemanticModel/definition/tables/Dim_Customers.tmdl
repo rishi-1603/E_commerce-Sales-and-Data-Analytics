@@ -1,0 +1,85 @@
+table Dim_Customers
+	lineageTag: 2e0a204f-ed7a-53dc-bb3d-4ea42f3d8041
+	partition Dim_Customers = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Dim_Customers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"registration_date", type date}, {"age", Int64.Type}}, "en-US")
+				in
+					Typed
+
+	column customer_id
+		dataType: string
+		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
+		isHidden
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: fafbdcd7-f41c-564d-8f52-1acd7aab7b31
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		lineageTag: 8504df66-1ef4-5177-878b-62f0987cb45e
+		isHidden
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 66220248-ca27-59d8-b5b1-1d65fed66762
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		lineageTag: d18cd10e-5821-5d19-959f-179d620f181d
+		summarizeBy: none
+		sourceColumn: segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition_channel
+		dataType: string
+		lineageTag: b12c5bef-2645-5243-abc1-360966f58ff3
+		summarizeBy: none
+		sourceColumn: acquisition_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column registration_date
+		dataType: dateTime
+		lineageTag: 7988986f-09f3-5ddd-b01e-77f3002a93a2
+		sourceColumn: registration_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column age
+		dataType: int64
+		lineageTag: dc4df93d-3066-574d-a308-2599912d567e
+		summarizeBy: none
+		sourceColumn: age
+
+		annotation SummarizationSetBy = Automatic
+
+	column gender
+		dataType: string
+		lineageTag: 54fdae03-f781-518f-8f40-44cb22eb9845
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+

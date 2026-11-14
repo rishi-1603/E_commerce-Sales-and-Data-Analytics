@@ -1,0 +1,151 @@
+product_id,product_name,category,subcategory,unit_cost,rating
+PROD0001,Laptop Basic,Electronics,Laptop,127.91,2.9
+PROD0002,Tablet Ultra,Electronics,Tablet,490.05,4.1
+PROD0003,Headphones Plus,Electronics,Headphones,336.44,3.2
+PROD0004,Smartwatch Plus,Electronics,Smartwatch,685.71,3.3
+PROD0005,Camera Elite,Electronics,Camera,664.24,3.9
+PROD0006,Speaker Basic,Electronics,Speaker,336.61,4.9
+PROD0007,Monitor Basic,Electronics,Monitor,518.41,3.2
+PROD0008,T-Shirt Elite,Clothing,T-Shirt,564.95,4.6
+PROD0009,Jeans Elite,Clothing,Jeans,260.87,3.9
+PROD0010,Jacket Basic,Clothing,Jacket,638.99,3.2
+PROD0011,Dress Basic,Clothing,Dress,198.29,4.3
+PROD0012,Sneakers Basic,Clothing,Sneakers,761.88,4.9
+PROD0013,Boots Ultra,Clothing,Boots,392.2,3.4
+PROD0014,Hoodie Ultra,Clothing,Hoodie,49.61,3.6
+PROD0015,Shorts Pro,Clothing,Shorts,93.27,4.9
+PROD0016,Sofa Plus,Home & Garden,Sofa,333.95,3.2
+PROD0017,Lamp Elite,Home & Garden,Lamp,451.66,3.9
+PROD0018,Blender Elite,Home & Garden,Blender,212.27,2.6
+PROD0019,Coffee Maker Elite,Home & Garden,Coffee Maker,617.08,4.6
+PROD0020,Rug Plus,Home & Garden,Rug,619.3,3.3
+PROD0021,Curtains Elite,Home & Garden,Curtains,371.34,4.0
+PROD0022,Plant Pot Basic,Home & Garden,Plant Pot,23.39,3.5
+PROD0023,Bookshelf Pro,Home & Garden,Bookshelf,639.49,5.0
+PROD0024,Yoga Mat Pro,Sports,Yoga Mat,17.88,3.8
+PROD0025,Dumbbell Set Elite,Sports,Dumbbell Set,265.02,3.3
+PROD0026,Running Shoes Ultra,Sports,Running Shoes,588.87,2.8
+PROD0027,Cycling Helmet Pro,Sports,Cycling Helmet,639.88,4.8
+PROD0028,Tennis Racket Pro,Sports,Tennis Racket,521.89,4.2
+PROD0029,Football Plus,Sports,Football,225.11,3.3
+PROD0030,Backpack Ultra,Sports,Backpack,520.03,4.2
+PROD0031,Water Bottle Basic,Sports,Water Bottle,759.06,3.2
+PROD0032,Moisturizer Plus,Beauty,Moisturizer,663.44,3.6
+PROD0033,Perfume Elite,Beauty,Perfume,685.18,3.6
+PROD0034,Lipstick Elite,Beauty,Lipstick,164.26,4.7
+PROD0035,Foundation Plus,Beauty,Foundation,463.6,3.3
+PROD0036,Shampoo Pro,Beauty,Shampoo,25.85,2.8
+PROD0037,Face Mask Elite,Beauty,Face Mask,763.96,3.1
+PROD0038,Eye Cream Elite,Beauty,Eye Cream,165.35,4.8
+PROD0039,Sunscreen Basic,Beauty,Sunscreen,619.01,4.6
+PROD0040,Smartphone Plus,Electronics,Smartphone,25.21,2.6
+PROD0041,Laptop Basic,Electronics,Laptop,322.35,4.5
+PROD0042,Tablet Ultra,Electronics,Tablet,775.55,3.8
+PROD0043,Headphones Basic,Electronics,Headphones,606.5,4.0
+PROD0044,Smartwatch Plus,Electronics,Smartwatch,796.31,4.5
+PROD0045,Camera Basic,Electronics,Camera,384.99,2.5
+PROD0046,Speaker Pro,Electronics,Speaker,338.91,3.4
+PROD0047,Monitor Elite,Electronics,Monitor,670.05,5.0
+PROD0048,T-Shirt Basic,Clothing,T-Shirt,522.09,4.9
+PROD0049,Jeans Pro,Clothing,Jeans,585.06,4.6
+PROD0050,Jacket Plus,Clothing,Jacket,453.84,4.2
+PROD0051,Dress Plus,Clothing,Dress,36.0,4.3
+PROD0052,Sneakers Plus,Clothing,Sneakers,300.5,2.9
+PROD0053,Boots Plus,Clothing,Boots,417.29,4.7
+PROD0054,Hoodie Plus,Clothing,Hoodie,630.31,3.5
+PROD0055,Shorts Elite,Clothing,Shorts,727.64,4.5
+PROD0056,Sofa Plus,Home & Garden,Sofa,27.66,3.5
+PROD0057,Lamp Ultra,Home & Garden,Lamp,304.74,2.9
+PROD0058,Blender Basic,Home & Garden,Blender,282.19,2.8
+PROD0059,Coffee Maker Ultra,Home & Garden,Coffee Maker,374.22,2.8
+PROD0060,Rug Basic,Home & Garden,Rug,648.49,4.7
+PROD0061,Curtains Elite,Home & Garden,Curtains,106.92,4.0
+PROD0062,Plant Pot Ultra,Home & Garden,Plant Pot,81.64,2.8
+PROD0063,Bookshelf Plus,Home & Garden,Bookshelf,108.2,2.7
+PROD0064,Yoga Mat Ultra,Sports,Yoga Mat,575.23,3.1
+PROD0065,Dumbbell Set Elite,Sports,Dumbbell Set,151.78,4.9
+PROD0066,Running Shoes Elite,Sports,Running Shoes,474.67,4.7
+PROD0067,Cycling Helmet Ultra,Sports,Cycling Helmet,340.51,4.8
+PROD0068,Tennis Racket Pro,Sports,Tennis Racket,599.61,3.0
+PROD0069,Football Plus,Sports,Football,16.39,3.5
+PROD0070,Backpack Elite,Sports,Backpack,459.81,4.1
+PROD0071,Water Bottle Plus,Sports,Water Bottle,776.77,4.1
+PROD0072,Moisturizer Ultra,Beauty,Moisturizer,354.69,3.3
+PROD0073,Perfume Basic,Beauty,Perfume,153.12,3.9
+PROD0074,Lipstick Ultra,Beauty,Lipstick,81.72,2.7
+PROD0075,Foundation Ultra,Beauty,Foundation,344.08,2.7
+PROD0076,Shampoo Elite,Beauty,Shampoo,664.91,4.7
+PROD0077,Face Mask Pro,Beauty,Face Mask,364.79,4.7
+PROD0078,Eye Cream Ultra,Beauty,Eye Cream,150.18,2.9
+PROD0079,Sunscreen Elite,Beauty,Sunscreen,181.38,4.0
+PROD0080,Smartphone Pro,Electronics,Smartphone,452.49,3.8
+PROD0081,Laptop Ultra,Electronics,Laptop,188.19,3.4
+PROD0082,Tablet Ultra,Electronics,Tablet,545.92,4.6
+PROD0083,Headphones Ultra,Electronics,Headphones,574.29,4.6
+PROD0084,Smartwatch Basic,Electronics,Smartwatch,43.89,3.5
+PROD0085,Camera Basic,Electronics,Camera,777.75,2.8
+PROD0086,Speaker Ultra,Electronics,Speaker,243.49,3.3
+PROD0087,Monitor Pro,Electronics,Monitor,588.1,4.4
+PROD0088,T-Shirt Plus,Clothing,T-Shirt,119.31,4.5
+PROD0089,Jeans Plus,Clothing,Jeans,338.11,3.4
+PROD0090,Jacket Basic,Clothing,Jacket,770.87,4.3
+PROD0091,Dress Basic,Clothing,Dress,755.75,4.2
+PROD0092,Sneakers Ultra,Clothing,Sneakers,265.34,3.8
+PROD0093,Boots Basic,Clothing,Boots,504.69,4.6
+PROD0094,Hoodie Pro,Clothing,Hoodie,595.61,4.9
+PROD0095,Shorts Pro,Clothing,Shorts,577.41,4.6
+PROD0096,Sofa Ultra,Home & Garden,Sofa,94.71,4.7
+PROD0097,Lamp Elite,Home & Garden,Lamp,693.08,3.8
+PROD0098,Blender Ultra,Home & Garden,Blender,798.1,3.4
+PROD0099,Coffee Maker Basic,Home & Garden,Coffee Maker,680.72,2.6
+PROD0100,Rug Elite,Home & Garden,Rug,692.81,3.1
+PROD0101,Curtains Elite,Home & Garden,Curtains,266.42,2.7
+PROD0102,Plant Pot Ultra,Home & Garden,Plant Pot,571.91,3.1
+PROD0103,Bookshelf Basic,Home & Garden,Bookshelf,534.17,4.0
+PROD0104,Yoga Mat Basic,Sports,Yoga Mat,303.78,4.0
+PROD0105,Dumbbell Set Pro,Sports,Dumbbell Set,671.37,2.7
+PROD0106,Running Shoes Ultra,Sports,Running Shoes,194.7,4.5
+PROD0107,Cycling Helmet Basic,Sports,Cycling Helmet,596.73,3.7
+PROD0108,Tennis Racket Basic,Sports,Tennis Racket,420.6,4.8
+PROD0109,Football Elite,Sports,Football,455.71,3.2
+PROD0110,Backpack Elite,Sports,Backpack,642.51,4.5
+PROD0111,Water Bottle Elite,Sports,Water Bottle,285.14,4.5
+PROD0112,Moisturizer Elite,Beauty,Moisturizer,369.27,4.5
+PROD0113,Perfume Elite,Beauty,Perfume,448.99,3.5
+PROD0114,Lipstick Basic,Beauty,Lipstick,625.87,2.7
+PROD0115,Foundation Plus,Beauty,Foundation,495.04,4.6
+PROD0116,Shampoo Basic,Beauty,Shampoo,731.77,4.1
+PROD0117,Face Mask Elite,Beauty,Face Mask,153.02,4.3
+PROD0118,Eye Cream Elite,Beauty,Eye Cream,272.92,2.9
+PROD0119,Sunscreen Ultra,Beauty,Sunscreen,261.59,4.8
+PROD0120,Smartphone Ultra,Electronics,Smartphone,515.63,2.9
+PROD0121,Laptop Pro,Electronics,Laptop,558.03,4.0
+PROD0122,Tablet Plus,Electronics,Tablet,532.24,3.4
+PROD0123,Headphones Pro,Electronics,Headphones,320.42,4.9
+PROD0124,Smartwatch Ultra,Electronics,Smartwatch,701.79,4.9
+PROD0125,Camera Pro,Electronics,Camera,799.55,3.9
+PROD0126,Speaker Plus,Electronics,Speaker,794.18,4.2
+PROD0127,Monitor Plus,Electronics,Monitor,200.05,2.5
+PROD0128,T-Shirt Basic,Clothing,T-Shirt,771.85,3.6
+PROD0129,Jeans Basic,Clothing,Jeans,443.22,4.6
+PROD0130,Jacket Basic,Clothing,Jacket,322.7,3.2
+PROD0131,Dress Elite,Clothing,Dress,785.62,3.4
+PROD0132,Sneakers Ultra,Clothing,Sneakers,740.78,2.7
+PROD0133,Boots Plus,Clothing,Boots,111.92,3.8
+PROD0134,Hoodie Ultra,Clothing,Hoodie,81.81,3.7
+PROD0135,Shorts Plus,Clothing,Shorts,88.32,3.4
+PROD0136,Sofa Plus,Home & Garden,Sofa,517.75,3.2
+PROD0137,Lamp Basic,Home & Garden,Lamp,47.3,3.6
+PROD0138,Blender Pro,Home & Garden,Blender,22.58,3.4
+PROD0139,Coffee Maker Elite,Home & Garden,Coffee Maker,566.52,4.9
+PROD0140,Rug Pro,Home & Garden,Rug,457.95,4.0
+PROD0141,Curtains Basic,Home & Garden,Curtains,564.85,4.2
+PROD0142,Plant Pot Elite,Home & Garden,Plant Pot,433.02,3.9
+PROD0143,Bookshelf Ultra,Home & Garden,Bookshelf,408.82,4.0
+PROD0144,Yoga Mat Elite,Sports,Yoga Mat,10.39,2.8
+PROD0145,Dumbbell Set Plus,Sports,Dumbbell Set,493.01,3.0
+PROD0146,Running Shoes Plus,Sports,Running Shoes,620.12,4.1
+PROD0147,Cycling Helmet Pro,Sports,Cycling Helmet,584.29,3.5
+PROD0148,Tennis Racket Basic,Sports,Tennis Racket,759.48,4.2
+PROD0149,Football Elite,Sports,Football,678.58,2.9
+PROD0150,Backpack Plus,Sports,Backpack,703.86,3.5

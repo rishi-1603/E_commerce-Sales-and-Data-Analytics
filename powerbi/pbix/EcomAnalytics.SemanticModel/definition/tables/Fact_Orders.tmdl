@@ -1,0 +1,213 @@
+table Fact_Orders
+	lineageTag: 00ff79dd-6f18-5523-82b2-b274a659f90b
+	partition Fact_Orders = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Fact_Orders.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"order_date", type datetime}, {"quantity", Int64.Type}, {"unit_price", type number}, {"discount_pct", type number}, {"order_item_total", type number}, {"cost_total", type number}, {"profit", type number}, {"shipping_cost", type number}}, "en-US")
+				in
+					Typed
+
+	measure 'Total Revenue' =
+			CALCULATE(
+			    SUM(Fact_Orders[order_item_total]),
+			    Fact_Orders[order_status] IN {"Delivered", "Processing"}
+			)
+		formatString: #,0.00
+		lineageTag: 55fabb09-49ba-5510-a6f2-2902ae8e161b
+
+	measure 'Delivered Revenue' =
+			CALCULATE(
+			    SUM(Fact_Orders[order_item_total]),
+			    Fact_Orders[order_status] = "Delivered"
+			)
+		formatString: #,0.00
+		lineageTag: e8a9b14d-7c75-5646-8883-9004249cef8e
+
+	measure 'Total COGS' =
+			CALCULATE(
+			    SUMX(
+			        Fact_Orders,
+			        Fact_Orders[quantity] * RELATED(Dim_Products[unit_cost])
+			    ),
+			    Fact_Orders[order_status] IN {"Delivered", "Processing"}
+			)
+		formatString: #,0.00
+		lineageTag: 7f1750ca-52ea-573d-8e8d-92cbc39a0837
+
+	measure 'Gross Profit' =
+			[Total Revenue] - [Total COGS]
+		formatString: #,0.00
+		lineageTag: ca03d07c-bc7f-5e67-810c-2aa1c037b205
+
+	measure 'Gross Margin %' =
+			DIVIDE([Gross Profit], [Total Revenue], 0)
+		formatString: 0.00%
+		lineageTag: 9a994076-7250-5135-8260-0ed60ddeb23d
+
+	measure 'Delivered Orders' =
+			CALCULATE(
+			    DISTINCTCOUNT(Fact_Orders[order_id]),
+			    Fact_Orders[order_status] = "Delivered"
+			)
+		formatString: #,0
+		lineageTag: bf64c015-19c9-5e79-bb14-11c5f6a76865
+
+	measure 'Return Rate %' =
+			VAR TotalCompleted =
+			    CALCULATE(
+			        DISTINCTCOUNT(Fact_Orders[order_id]),
+			        Fact_Orders[order_status] IN {"Delivered", "Returned"}
+			    )
+			VAR ReturnedCount =
+			    CALCULATE(
+			        DISTINCTCOUNT(Fact_Orders[order_id]),
+			        Fact_Orders[order_status] = "Returned"
+			    )
+			RETURN
+			    DIVIDE(ReturnedCount, TotalCompleted, 0)
+		formatString: 0.00%
+		lineageTag: af48cc9d-c4cc-5940-be45-849055b95816
+
+	measure 'Average Order Value' =
+			DIVIDE(
+			    [Total Revenue],
+			    CALCULATE(
+			        DISTINCTCOUNT(Fact_Orders[order_id]),
+			        Fact_Orders[order_status] IN {"Delivered", "Processing"}
+			    ),
+			    0
+			)
+		formatString: #,0.00
+		lineageTag: 5a29d7de-31ad-59f8-9457-1f057ae9c590
+
+	measure 'Active Customers' =
+			CALCULATE(
+			    DISTINCTCOUNT(Fact_Orders[customer_id]),
+			    Fact_Orders[order_status] IN {"Delivered", "Processing"}
+			)
+		formatString: #,0
+		lineageTag: ca2b6a4f-388a-5fdb-8297-073ef8123a66
+
+	measure 'MoM Revenue Change %' =
+			VAR CurrentMonthRev = [Total Revenue]
+			VAR PrevMonthRev =
+			    CALCULATE(
+			        [Total Revenue],
+			        DATEADD(Dim_Calendar[Date], -1, MONTH)
+			    )
+			RETURN
+			    DIVIDE(CurrentMonthRev - PrevMonthRev, PrevMonthRev, 0)
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 005ed2d9-5c1a-5577-871e-4d0dc287c052
+
+	column item_id
+		dataType: string
+		lineageTag: 44de8567-8f83-5363-b78c-2a24daa65ad8
+		isHidden
+		summarizeBy: none
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 82391424-0997-53fa-8a61-174ffa2d4a85
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		lineageTag: cffc9d98-7f22-5c7c-bc6b-2114b55ef814
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_status
+		dataType: string
+		lineageTag: 720c7227-e8e9-5dc1-a04b-15e61bbedf42
+		sourceColumn: order_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 1fe592e5-8764-5edc-9255-5485fd6b2fbc
+		isHidden
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: 1d61bdc6-7bc7-5c2f-81d9-15a39ee43c60
+		isHidden
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		lineageTag: 230c667b-5e90-5810-80f3-83ec840b5785
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 4607bb04-d1af-5743-8a48-b7b89327019d
+		summarizeBy: none
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_pct
+		dataType: double
+		lineageTag: 2342d3e3-3b52-5bee-80f1-df26becb1c9d
+		summarizeBy: none
+		formatString: 0.00%
+		sourceColumn: discount_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_item_total
+		dataType: double
+		lineageTag: 44d0a82f-d93b-51c8-b483-d0cce443d173
+		sourceColumn: order_item_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost_total
+		dataType: double
+		lineageTag: 7fc9ae04-10c4-5066-a5f8-51b4a3d7970d
+		sourceColumn: cost_total
+
+		annotation SummarizationSetBy = Automatic
+
+	column profit
+		dataType: double
+		lineageTag: 816779cd-c318-53b9-bd5d-1e123cbe7178
+		sourceColumn: profit
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: b3227a6f-7190-59a3-8eb5-e87792543b3e
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipping_cost
+		dataType: double
+		lineageTag: 635b20ac-9f1e-584e-a954-6099a70fed17
+		sourceColumn: shipping_cost
+
+		annotation SummarizationSetBy = Automatic
+

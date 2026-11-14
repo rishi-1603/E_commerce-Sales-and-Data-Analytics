@@ -1,0 +1,55 @@
+table Dim_Calendar
+	lineageTag: 3d38911e-789c-5f07-ac00-062b3b87dc1b
+	partition Dim_Calendar = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:/Users/user/portfolio-roadmaps/repos/ecom/powerbi/pbix/data/Dim_Calendar.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+					PromotedHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+					Typed = Table.TransformColumnTypes(PromotedHeaders, {{"Date", type date}, {"Year", Int64.Type}, {"MonthNumber", Int64.Type}}, "en-US")
+				in
+					Typed
+
+	column Date
+		dataType: dateTime
+		lineageTag: 5e209df4-a1f3-5c2a-aacd-eeb589e7ba3a
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		lineageTag: 39269f29-c527-50f0-a967-5667a0c5d9b7
+		summarizeBy: none
+		formatString: 0
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: 1cf9e6ce-fcda-5855-9e88-05a02573c5c5
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		dataType: int64
+		lineageTag: a2e537c5-6995-566b-a27d-43cd52d19fdd
+		isHidden
+		summarizeBy: none
+		formatString: 0
+		sourceColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 0516d671-c90e-58b8-987c-e66e77d802f2
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
