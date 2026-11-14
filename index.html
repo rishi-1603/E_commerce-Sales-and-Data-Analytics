@@ -1535,78 +1535,6 @@ function buildForecastTable(){
 function renderQuality(){
   const kpis = document.getElementById('dq_kpis');
   if(kpis){
-    kpis.innerHTML = `
-      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Revenue population</div><div class="kpi-value" style="color:var(--green)">Delivered + Processing</div><div class="kpi-delta neu">Cancelled / Returned excluded</div></div>
-      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Order count integrity</div><div class="kpi-value" style="color:var(--green)">Distinct Order_ID</div><div class="kpi-delta neu">line rows never counted as orders</div></div>
-      <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Profit reconciliation</div><div class="kpi-value" style="color:var(--green)">Revenue - Cost</div><div class="kpi-delta neu">checked per line</div></div>
-      <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Reporting period</div><div class="kpi-value" style="color:var(--amber)">2022-2024</div><div class="kpi-delta neu">synthetic seeded data</div></div>`;
-  }
-  const tb = document.getElementById('dq_tbody');
-  if(tb){
-    const checks = [
-      ['Missing values in required fields','All order lines','0','PASS'],
-      ['Duplicate order lines (item_id)','Fact table','0','PASS'],
-      ['Invalid order status','Revenue population','0','PASS'],
-      ['Customer key integrity','Fact -> DimCustomer','0','PASS'],
-      ['Product key integrity','Fact -> DimProduct','0','PASS'],
-      ['Revenue = cost + profit','Per line','<0.001','PASS'],
-      ['Monthly revenue reconciliation','Excel vs SQL vs dashboard','OK','PASS'],
-      ['Completed vs delivered count consistency','KPI definitions','documented','KNOWN GAP'],
-    ];
-    tb.innerHTML = checks.map(c=>`<tr><td>${c[0]}</td><td>${c[1]}</td><td class="num-right">${c[2]}</td><td><span class="badge ${c[3]==='PASS'?'badge-green':'badge-amber'}">${c[3]}</span></td></tr>`).join('');
-  }
-  const rc = document.getElementById('dq_recon');
-  if(rc){
-    const rows = [
-      ['Revenue (INR)','15.93 Cr','15.93 Cr','15.93 Cr','OK'],
-      ['Included orders','9,933','9,933','9,933','OK'],
-      ['Gross profit (INR)','3.20 Cr','3.20 Cr','3.20 Cr','OK'],
-      ['Gross margin','54.0%','54.0%','54.0%','OK'],
-    ];
-    rc.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="num-right">${r[1]}</td><td class="num-right">${r[2]}</td><td class="num-right">${r[3]}</td><td><span class="badge badge-green">${r[4]}</span></td></tr>`).join('');
-  }
-}
-
-/* ---- Business Insights Centre ---- */
-function renderInsights(){
-  const feed = document.getElementById('insights_feed');
-  if(!feed) return;
-  const items = [
-    {obs:'Growth was driven by more orders, not larger baskets', ev:'Dec 2024 revenue +17.0% MoM while orders +21.3% and AOV -3.5%', impact:'Volume-led growth in this dataset; basket size not the driver', rec:'Test a volume-focused campaign; do not assume price response', meas:'Track AOV alongside revenue next period'},
-    {obs:'Discounts show no detectable quantity lift', ev:'Kruskal-Wallis p = 0.305 across discount depths', impact:'Break-even volume lift rises to 59.2% at 20% discount', rec:'Cap discounts at 10% pending a controlled experiment', meas:'Measure incremental units per discount tier'},
-    {obs:'Retention improves as cohorts mature', ev:'Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024)', impact:'Newer cohorts retain better; growth story intact', rec:'Protect onboarding for new cohorts', meas:'Track month-1 retention by acquisition month'},
-    {obs:'448 cooling-off customers identified', ev:'No purchase in 180+ days; Rs 12.42 Cr historical spend', impact:'Expected profit Rs 541 per contact at 15% recovery', rec:'Run a win-back test on the top decile by expected value', meas:'Measure response rate and incremental profit'},
-  ];
-  feed.innerHTML = items.map(it=>`<div class="wc-box wc-info"><b>${it.obs}</b><br><span style="font-size:12px;color:var(--muted)">Evidence: ${it.ev}<br>Impact: ${it.impact}<br>Recommendation: ${it.rec}<br>Measurement: ${it.meas}</span></div>`).join('');
-}
-
-/* ---- EcomAI Analyst (built-in, deterministic) ---- */
-const AI_ANSWERS = {
-  revenue: {sql:'SELECT ROUND(SUM(line_total),2) AS total_revenue FROM orders WHERE status IN ('Delivered','Processing')', ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 completed orders (Delivered + Processing).'},
-  top_category: {sql:'SELECT category, ROUND(SUM(line_total),2) AS revenue FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 1', ans:'Electronics is the top category by revenue, followed by Home & Garden and Clothing.'},
-  churn: {sql:'SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers', ans:'Churn rate (180-day inactivity definition) is 25.3%.'},
-  inactive: {sql:'SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')', ans:'448 customers are in the cooling-off pool (no purchase in 180+ days).'},
-  forecast: {sql:'-- Holt-Winters + linear ensemble, backtested (MASE 0.3752)', ans:'Next 6 months projected at the trend rate; see the Revenue Forecast page for the full interval. Projected, not realised.'},
-  margin: {sql:'SELECT ROUND(100.0*SUM(profit)/SUM(line_total),1) AS margin_pct FROM orders', ans:'Gross margin is 54.0% on recorded revenue (revenue minus cost; not net income).'},
-};
-function askAI(q){
-  const out = document.getElementById('ai_output');
-  if(!out) return;
-  const a = AI_ANSWERS[q];
-  if(!a){ out.innerHTML = '<span style="color:var(--red)">Question not supported. Only the listed questions are answered.</span>'; return; }
-  out.innerHTML = `<div style="margin-bottom:8px"><b>SQL</b><pre style="background:var(--card);padding:8px;border-radius:6px;font-size:12px;overflow:auto">${a.sql}</pre></div><div><b>Answer</b><br>${a.ans}</div><div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed, bounded. Arbitrary questions are refused rather than answered from model memory.</div>`;
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  renderQuality();
-  renderInsights();
-});
-
-
-/* ---- Data Quality Centre ---- */
-function renderQuality(){
-  const kpis = document.getElementById('dq_kpis');
-  if(kpis){
     kpis.innerHTML = '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Revenue population</div><div class="kpi-value" style="color:var(--green)">Delivered + Processing</div><div class="kpi-delta neu">Cancelled / Returned excluded</div></div>'
       + '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Order count integrity</div><div class="kpi-value" style="color:var(--green)">Distinct Order_ID</div><div class="kpi-delta neu">line rows never counted as orders</div></div>'
       + '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Profit reconciliation</div><div class="kpi-value" style="color:var(--green)">Revenue - Cost</div><div class="kpi-delta neu">checked per line</div></div>'
@@ -1641,8 +1569,8 @@ function renderInsights(){
 const AI_ANSWERS = {
   revenue: {sql:"SELECT ROUND(SUM(line_total),2) AS total_revenue FROM orders WHERE status IN ('Delivered','Processing')", ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 completed orders (Delivered + Processing).'},
   top_category: {sql:'SELECT category, ROUND(SUM(line_total),2) AS revenue FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 1', ans:'Electronics is the top category by revenue, followed by Home & Garden and Clothing.'},
-  churn: {sql:'SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers', ans:'Churn rate (180-day inactivity definition) is 25.3%.'},
-  inactive: {sql:'SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')', ans:'448 customers are in the cooling-off pool (no purchase in 180+ days).'},
+  churn: {sql:"SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers", ans:"Churn rate (180-day inactivity definition) is 25.3%."},
+  inactive: {sql:"SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')", ans:"448 customers are in the cooling-off pool (no purchase in 180+ days)."},
   forecast: {sql:'-- Holt-Winters + linear ensemble, backtested (MASE 0.3752)', ans:'Next 6 months projected at the trend rate; see the Revenue Forecast page for the full interval. Projected, not realised.'},
   margin: {sql:'SELECT ROUND(100.0*SUM(profit)/SUM(line_total),1) AS margin_pct FROM orders', ans:'Gross margin is 54.0% on recorded revenue (revenue minus cost; not net income).'},
 };
