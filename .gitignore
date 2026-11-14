@@ -37,3 +37,7 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 .env
+
+# AI tooling (project-local, not part of the project)
+.agents/
+skills-lock.json
