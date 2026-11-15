@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "896cdafb7ab542ea988d",
+  "position": {
+    "x": 326,
+    "y": 16,
+    "z": 0,
+    "height": 96,
+    "width": 298
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Orders"
+                    }
+                  },
+                  "Property": "Total COGS"
+                }
+              },
+              "queryRef": "Fact_Orders.Total COGS",
+              "nativeQueryRef": "Total COGS"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cost of goods sold'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
