@@ -172,10 +172,12 @@ def cohort_matrix(master: pd.DataFrame, max_cohorts: int = 18, max_months: int =
 
 
 def funnel(master: pd.DataFrame) -> dict:
-    """Order-status funnel: placed -> delivered -> kept.
+    """Order-status funnel: placed -> delivered.
 
-    Uses the RAW orders file (data/raw/orders.csv, 12,000 rows, all statuses)
-    because master_orders.csv only carries Delivered/Processing rows.
+    Statuses are mutually exclusive (Delivered / Processing / Returned /
+    Cancelled), so 'Returned' is NOT subtracted from 'Delivered' - it is
+    its own exit. The earlier 'kept (delivered - returned)' stage was a
+    category error and has been removed.
     """
     raw = pd.read_csv(os.path.join(BASE, "data", "raw", "orders.csv"))
     counts = raw["status"].value_counts().to_dict()
@@ -184,13 +186,11 @@ def funnel(master: pd.DataFrame) -> dict:
     returned = int(counts.get("Returned", 0))
     cancelled = int(counts.get("Cancelled", 0))
     processing = int(counts.get("Processing", 0))
-    kept = delivered - returned
     return {
-        "stages": ["Placed", "Delivered", "Kept"],
-        "values": [placed, delivered, kept],
+        "stages": ["Placed", "Delivered"],
+        "values": [placed, delivered],
         "exits": {"Cancelled": cancelled, "Processing": processing, "Returned": returned},
         "delivery_rate_pct": round(delivered / placed * 100, 1),
-        "keep_rate_pct": round(kept / delivered * 100, 1),
     }
 
 

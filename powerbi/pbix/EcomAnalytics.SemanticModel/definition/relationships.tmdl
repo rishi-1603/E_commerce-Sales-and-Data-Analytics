@@ -10,13 +10,5 @@ relationship orders_calendar
 	fromColumn: Fact_Orders.order_date
 	toColumn: Dim_Calendar.Date
 
-relationship 1f4801af-40d7-4556-bb3d-ba464b5406e2
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Dim_Calendar.Date
-	toColumn: LocalDateTable_c38aa8f0-53f3-47d6-a89b-4fd84cd2da4c.Date
 
-relationship 302c9222-be00-4799-9a4c-bf13468ab377
-	joinOnDateBehavior: datePartOnly
-	fromColumn: Dim_Customers.registration_date
-	toColumn: LocalDateTable_4b205053-d213-4dc6-83ff-629aeafdf4c9.Date
 

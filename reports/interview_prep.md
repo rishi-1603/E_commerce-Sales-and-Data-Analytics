@@ -34,7 +34,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 
 1. **Is revenue growing?** Yes — Dec 2024: +17.0% revenue, +21.3% orders, +8.2% active customers, but AOV −3.5% — volume-led, not price-led growth.
 2. **Do customers stick?** Month-1 cohort retention improved from ~15–28% (2023 cohorts) to 55–88% (late 2024) across 18 first-purchase cohorts.
-3. **Where do orders leak?** Funnel: 12,000 placed → 9,312 delivered (77.6%) → 8,089 kept; exits are 844 cancelled, 621 processing, 1,223 returned.
+3. **Where do orders leak?** Funnel: 12,000 placed -> 9,312 delivered (77.6%); exits are 844 cancelled (7.0%), 621 processing (5.2%), 1,223 returned (10.2%). Statuses are mutually exclusive, so 'Returned' is its own exit - never subtracted from 'Delivered'.
 4. **Who should we win back?** 448 cooling-off customers (medium churn-risk band) with ₹1.24 Cr historical spend — *historical, not future revenue at risk*.
 5. **What's the win-back plan?** A designed experiment: baseline 34.5% 90-day repeat rate, MDE +13pp (core pool) / +8.5pp (expanded), with held-out control — design only.
 6. **How concentrated is CLV?** Top decile of customers holds ~42% of projected lifetime value.
@@ -53,7 +53,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 6. **How would you find customers who churned?** No order in the last N days *as of a cutoff date* — the cutoff is what makes the label leak-free.
 7. **How do you compute RFM in SQL?** Recency (days since last order), Frequency (order count), Monetary (total spend) per customer, then quintile buckets via `NTILE(5)`.
 8. **What's a BCG matrix query?** Category-level growth × share computed by joining revenue by category over two periods and quadrant-casing the result.
-9. **How do you handle returned orders in revenue?** Keep vs returned are separate stages in the funnel; revenue metrics are defined on kept orders and the definitions are documented in the data dictionary.
+9. **How do you handle returned orders in revenue?** Statuses are mutually exclusive: 'Returned' is its own exit, not a subtraction from 'Delivered'. Revenue metrics are defined on Delivered + Processing orders; returned orders are excluded from revenue and the definitions are documented in the data dictionary.
 10. **Why PostgreSQL for this project?** Window functions, date arithmetic, and reliable decimal handling for ₹ metrics; the schema and 11 analysis scripts live in `sql/`.
 
 ## 10 Python Questions

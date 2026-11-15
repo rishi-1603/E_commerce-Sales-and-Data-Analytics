@@ -89,13 +89,16 @@
       "verified_pattern": "Month-1 retention rises from ~15-28% (2023 cohorts) to 55-88% (late 2024)."
     },
     "order_funnel": {
-      "definition": "Placed (all 12,000) -> Delivered (9,312) -> Kept (delivered - returned = 8,089).",
+      "definition": "Placed (all 12,000) -> Delivered (9,312). Statuses are mutually exclusive, so 'Returned' is its own exit (1,223), not subtracted from 'Delivered'.",
       "delivery_rate_pct": 77.6,
-      "keep_rate_pct": 86.9,
       "exits": {
         "Cancelled": 844,
         "Processing": 621,
         "Returned": 1223
+      },
+      "exit_share_of_placed_pct": {
+        "Cancelled_plus_Returned": 17.2,
+        "Processing": 5.2
       }
     },
     "mom_delta": {

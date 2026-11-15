@@ -1,9 +1,10 @@
 {
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
   "pageOrder": [
-    "6b664e445b8f4635b55ba31dea796f5f",
-    "c519dbb0afa44ff9830dbaf192299acb",
-    "4f9744dff3be4dea9bfb1fd3c8eb01fd",
-    "d8801bf4b86e4807ae94f5c97273bc16"
+    "783f0a12f7454f32a59dba458c94cf12",
+    "25fd54665d8740cbaa5c4de81ceb7cbf",
+    "bab293745167469cbadd706bf5d309e8",
+    "1778e5cc79094577ab1ddd43310bc2c9"
   ],
-  "activePageName": "6b664e445b8f4635b55ba31dea796f5f"
+  "activePageName": "783f0a12f7454f32a59dba458c94cf12"
 }

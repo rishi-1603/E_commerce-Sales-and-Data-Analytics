@@ -58,11 +58,6 @@ table Dim_Customers
 		summarizeBy: none
 		sourceColumn: registration_date
 
-		variation Variation
-			isDefault
-			relationship: 302c9222-be00-4799-9a4c-bf13468ab377
-			defaultHierarchy: LocalDateTable_4b205053-d213-4dc6-83ff-629aeafdf4c9.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

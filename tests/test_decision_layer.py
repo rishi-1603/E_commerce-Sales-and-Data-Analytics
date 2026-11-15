@@ -61,10 +61,10 @@ def test_monthly_revenue_matches_dashboard_series():
 
 def test_funnel_pins_verified_values():
     f = funnel(_master())
-    assert f["values"] == [12000, 9312, 8089]
+    assert f["values"] == [12000, 9312]
     assert f["exits"] == {"Cancelled": 844, "Processing": 621, "Returned": 1223}
     assert f["delivery_rate_pct"] == 77.6
-    assert f["keep_rate_pct"] == 86.9
+    assert "keep_rate_pct" not in f
 
 
 def test_funnel_matches_dashboard_status_series():

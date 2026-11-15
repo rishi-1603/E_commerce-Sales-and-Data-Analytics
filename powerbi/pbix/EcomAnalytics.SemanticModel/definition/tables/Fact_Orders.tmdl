@@ -44,22 +44,6 @@ table Fact_Orders
 		formatString: #,0
 		lineageTag: bf64c015-19c9-5e79-bb14-11c5f6a76865
 
-	measure 'Return Rate %' =
-			VAR TotalCompleted =
-			    CALCULATE(
-			        DISTINCTCOUNT(Fact_Orders[order_id]),
-			        Fact_Orders[order_status] IN {"Delivered", "Returned"}
-			    )
-			VAR ReturnedCount =
-			    CALCULATE(
-			        DISTINCTCOUNT(Fact_Orders[order_id]),
-			        Fact_Orders[order_status] = "Returned"
-			    )
-			RETURN
-			    DIVIDE(COALESCE(ReturnedCount, 0), TotalCompleted, 0)
-		formatString: 0.00%
-		lineageTag: af48cc9d-c4cc-5940-be45-849055b95816
-
 	measure 'Average Order Value' =
 			DIVIDE(
 			    [Total Revenue],
@@ -91,6 +75,42 @@ table Fact_Orders
 			    DIVIDE(CurrentMonthRev - PrevMonthRev, PrevMonthRev, 0)
 		formatString: +0.0%;-0.0%;0.0%
 		lineageTag: 005ed2d9-5c1a-5577-871e-4d0dc287c052
+
+	measure 'Placed Orders' = DISTINCTCOUNT(Fact_Orders[order_id])
+		formatString: #,0
+		lineageTag: 40b423ed-06dc-445b-a6f7-542cdb69b413
+
+	measure 'Orders by Status' = DISTINCTCOUNT(Fact_Orders[order_id])
+		formatString: #,0
+		lineageTag: 5bf44402-9498-4b95-9839-7942f23cdd4e
+
+	measure 'Returned Orders' = CALCULATE(DISTINCTCOUNT(Fact_Orders[order_id]), Fact_Orders[order_status] = "Returned")
+		formatString: #,0
+		lineageTag: cda0c4c7-a1bd-4ab1-a986-fced1b8ea4b6
+
+	measure 'Cancelled Orders' = CALCULATE(DISTINCTCOUNT(Fact_Orders[order_id]), Fact_Orders[order_status] = "Cancelled")
+		formatString: #,0
+		lineageTag: ca5d5b87-5281-457b-9b44-06e5a9b7d634
+
+	measure 'Processing Orders' = CALCULATE(DISTINCTCOUNT(Fact_Orders[order_id]), Fact_Orders[order_status] = "Processing")
+		formatString: #,0
+		lineageTag: 4554ea09-b308-45fe-8dc4-83477e3b10c9
+
+	measure 'Delivery Rate %' = DIVIDE([Delivered Orders], [Placed Orders], 0)
+		formatString: 0.00%
+		lineageTag: 003606d4-82f8-40ab-9273-6d09521d36fd
+
+	measure 'Return Rate %' = DIVIDE([Returned Orders], [Placed Orders], 0)
+		formatString: 0.00%
+		lineageTag: 0e9bf93d-0c74-46c8-83bc-080fede8e92b
+
+	measure 'Shipping Cost' = CALCULATE(SUM(Fact_Orders[shipping_cost]), Fact_Orders[order_status] IN {"Delivered", "Processing"})
+		formatString: #,0.00
+		lineageTag: 0383dc01-3213-434e-a55e-59ec04c7851d
+
+	measure 'Units Sold' = CALCULATE(SUM(Fact_Orders[quantity]), Fact_Orders[order_status] IN {"Delivered", "Processing"})
+		formatString: #,0
+		lineageTag: bc5bf7a1-4f5e-4e49-a42c-cfcca197c836
 
 	column item_id
 		dataType: string

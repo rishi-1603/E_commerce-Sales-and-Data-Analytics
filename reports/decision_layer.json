@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14 15:26",
+  "generated_at": "2026-11-15 12:16",
   "mom": {
     "label": "2024-12",
     "prev_label": "2024-11",
@@ -374,21 +374,18 @@
   "funnel": {
     "stages": [
       "Placed",
-      "Delivered",
-      "Kept"
+      "Delivered"
     ],
     "values": [
       12000,
-      9312,
-      8089
+      9312
     ],
     "exits": {
       "Cancelled": 844,
       "Processing": 621,
       "Returned": 1223
     },
-    "delivery_rate_pct": 77.6,
-    "keep_rate_pct": 86.9
+    "delivery_rate_pct": 77.6
   },
   "segment_actions": [
     {

@@ -2,46 +2,46 @@
 --  11_order_funnel.sql
 --  E-Commerce Analytics — Order-Status Funnel
 --
---  Purpose : Where do orders leave between placed, delivered
---            and kept? The operational-leak view.
+--  Purpose : Where do orders leave between placed and delivered?
+--            The operational-leak view.
 --
 --  Definitions (data/metrics.json):
---    placed   = every order row (raw orders.csv, 12,000)
---    delivered= status Delivered
---    kept     = delivered - returned (a return unwinds a sale)
---    exits    = Cancelled (never shipped journey),
---               Processing (still open at snapshot),
---               Returned (unwound after delivery)
+--    placed    = every order row (raw orders.csv, 12,000)
+--    delivered = status Delivered
+--    exits     = Cancelled (never shipped), Processing (still open
+--                at snapshot), Returned (unwound after delivery)
+--
+--  Statuses are MUTUALLY EXCLUSIVE, so 'Returned' is its own exit —
+--  it is NOT subtracted from 'Delivered'. (Earlier versions of this
+--  file computed 'kept = delivered - returned', which was a category
+--  error and has been removed.)
 --
 --  Verified (Python: scripts/decision_layer.py, raw orders):
---    12,000 placed -> 9,312 delivered (77.6%) -> 8,089 kept.
---    Exits: 844 cancelled, 621 processing, 1,223 returned.
+--    12,000 placed -> 9,312 delivered (77.6%).
+--    Exits: 844 cancelled (7.0%), 621 processing (5.2%),
+--           1,223 returned (10.2%).
+--    Cancelled + Returned = 17.2% of placed; Processing = 5.2%.
 --    Decision: the 1,223 returns are a revenue-quality problem
 --    worth a root-cause pass (return reasons by category).
 -- ============================================================
 
--- ── 1. Funnel stages ───────────────────────────────────────
+-- ── 1. Funnel stages ─────────────────────────────────────────
 -- Business Question: Of everything customers placed, how much
---                    did we actually keep?
+--                    did we actually deliver?
 WITH status_counts AS (
     SELECT status, COUNT(*) AS n FROM orders GROUP BY status
 ), funnel AS (
     SELECT
         (SELECT SUM(n) FROM status_counts)                                     AS placed,
-        (SELECT n FROM status_counts WHERE status = 'Delivered')               AS delivered,
-        (SELECT COALESCE((SELECT n FROM status_counts WHERE status = 'Delivered'), 0)
-              - COALESCE((SELECT n FROM status_counts WHERE status = 'Returned'), 0)) AS kept
+        (SELECT n FROM status_counts WHERE status = 'Delivered')               AS delivered
 )
 SELECT
     placed,
     delivered,
-    kept,
-    ROUND(100.0 * delivered / placed, 1)          AS delivery_rate_pct,
-    ROUND(100.0 * kept    / delivered, 1)         AS keep_rate_pct,
-    ROUND(100.0 * kept    / placed, 1)            AS end_to_end_pct
+    ROUND(100.0 * delivered / placed, 1)          AS delivery_rate_pct
 FROM funnel;
 
--- ── 2. Funnel exits, ranked ────────────────────────────────
+-- ── 2. Funnel exits, ranked ──────────────────────────────────
 -- Business Question: Which exit drains the funnel most?
 SELECT status          AS exit_reason,
        COUNT(*)        AS orders,
@@ -51,7 +51,7 @@ WHERE status IN ('Cancelled', 'Processing', 'Returned')
 GROUP BY status
 ORDER BY orders DESC;
 
--- ── 3. Returned revenue at risk, by category ───────────────
+-- ── 3. Returned revenue at risk, by category ─────────────────
 -- Business Question: When an order is returned, which
 --                    categories lose the most revenue?
 -- Why It Matters:   Sizes the root-cause investigation.
