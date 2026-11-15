@@ -237,7 +237,6 @@ def main() -> None:
     segs = segment_actions(master, rfm)
 
     payload = {
-        "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "mom": mom,
         "what_changed": wc,
         "cohorts": cohorts,
