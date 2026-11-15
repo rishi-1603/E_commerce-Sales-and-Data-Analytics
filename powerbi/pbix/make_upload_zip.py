@@ -22,7 +22,7 @@ SQL, dashboard, Power BI assets). Everything below is verified in the repo's
 - Revenue (Delivered + Processing orders): 59,283,619.32 (currency: INR)
 - Total COGS: 27,286,277.68
 - Gross profit: 31,997,341.64 | Gross margin: 53.97%
-- Orders: 9,933 = 9,312 Delivered + 621 Processing
+- Orders: 12,000 placed = 9,312 Delivered + 621 Processing + 1,223 Returned + 844 Cancelled
 - Active customers: 1,991 | AOV: 5,968.35
 
 ## Reporting convention
@@ -36,12 +36,9 @@ disclosed as such in the README. Figures reconcile across SQL, Python, the
 dashboard and the Power BI model.
 
 ## Power BI contents
-- powerbi/pbix/EcomAnalytics.pbix — REAL file compiled by Power BI Desktop
-  (DataModel 887,581 bytes; verified on-screen: revenue 59,283,619.32 /
-  COGS 27,286,277.68 / active customers 1,991; screenshot in the same folder).
-- powerbi/pbix/ — PBIP source project (TMDL), generator script and the four
+- powerbi/pbix/EcomAnalytics.pbip — PBIP/PBIR source project (TMDL), generator script and the four
   star-schema CSVs the model imports (data/ subfolder).
-- powerbi/dax_measures.md — the 10 DAX measures; powerbi/model_diagram.md —
+- powerbi/dax_measures.md — the 18 current measures; powerbi/model_diagram.md —
   star-schema design; powerbi/reconciliation_matrix.csv — metric reconciliation.
 - Two Excel companions (BI companion + business reporting workbook).
 
@@ -54,10 +51,9 @@ dashboard and the Power BI model.
 - Tests: tests/ (227 analytical/API tests)
 - API: app/ (FastAPI)
 
-NOTE: A GitHub personal access token was used in a shell command during
-development but is NOT stored in any repository file (verified by scan).
-""".replace('NOTE: A GitHub personal access token was used in a shell command during\ndevelopment but is NOT stored in any repository file (verified by scan).',
-            'NOTE: No secrets are included in this package (.env does not exist in the\nrepository; no credentials are stored in any tracked file).')
+NOTE: No secrets are included in this package; `.env` does not exist in the
+repository and no credentials are stored in tracked files.
+"""
 
 count = 0
 total = 0

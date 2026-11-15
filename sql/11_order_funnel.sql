@@ -12,9 +12,8 @@
 --                at snapshot), Returned (unwound after delivery)
 --
 --  Statuses are MUTUALLY EXCLUSIVE, so 'Returned' is its own exit —
---  it is NOT subtracted from 'Delivered'. (Earlier versions of this
---  file computed 'kept = delivered - returned', which was a category
---  error and has been removed.)
+--  it is NOT subtracted from 'Delivered'. Earlier versions used a
+--  non-mutually-exclusive 'kept' subtraction; that logic has been removed.
 --
 --  Verified (Python: scripts/decision_layer.py, raw orders):
 --    12,000 placed -> 9,312 delivered (77.6%).
