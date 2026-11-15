@@ -24,6 +24,22 @@ from app.db.session import init_db
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_database():
     init_db()
+    yield
+    # Release SQLite file handles so the temp directory can be cleaned up on Windows
+    from app.db.session import async_engine, sync_engine
+    try:
+        sync_engine.dispose()
+    except Exception:
+        pass
+    try:
+        import asyncio
+        asyncio.run(async_engine.dispose())
+    except Exception:
+        pass
+    try:
+        _TEST_DATABASE.cleanup()
+    except Exception:
+        pass
 
 @pytest_asyncio.fixture
 async def async_client():
