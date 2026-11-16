@@ -6,7 +6,11 @@
   <a href="powerbi/pbix/EcomAnalytics.pbip">Power BI Project (PBIP)</a>
 </p>
 
-![E-Commerce Executive Overview](docs/screenshots/pbi_executive_overview.png)
+<p align="center">
+  <img src="docs/screenshots/publication_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
+  <br>
+  <em>Live web dashboard preview — Power BI Desktop editing screens are intentionally not used as the README hero image.</em>
+</p>
 
 A complete analytics project on a synthetic INR-denominated e-commerce dataset (12,000 orders, 150 products, 2,000 customers). It spans a star-schema data model, a 4-page Power BI report, a Python analytics pipeline (EDA, RFM, cohort retention, churn, forecasting, pricing, CLV), 11 SQL analysis scripts, and a static Chart.js dashboard deployed on Vercel. Every KPI is defined once in `data/metrics.json` and pinned by 227 tests.
 
