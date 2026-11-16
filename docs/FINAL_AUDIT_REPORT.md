@@ -1,7 +1,7 @@
 # Final Portfolio Audit
 
 **Repository:** E-Commerce Sales & Customer Analytics  
-**Audit scope:** data, analytics, Power BI PBIP, Excel workbooks, web dashboard,
+**Audit scope:** data, analytics, Power BI PBIP + compiled `.pbix`, Excel workbooks, web dashboard,
 tests, deployment surface, documentation, accessibility and recruiter readiness.  
 **Final commit:** `70988d8`  
 **Decision:** **GO — resume-ready, with documented limitations**
@@ -29,7 +29,8 @@ tests, deployment surface, documentation, accessibility and recruiter readiness.
 
 | Severity | Finding | Resolution | Status |
 |---|---|---|---|
-| High | Stale legacy `.pbix` binary conflicted with the complete PBIP report | Removed the stale binary; README and build specification identify PBIP as the source of truth | Fixed |
+| High | Stale legacy `.pbix` binary conflicted with the complete PBIP report | Removed the stale binary; shipped a freshly compiled `powerbi/pbix/EcomAnalytics.pbix` saved from the verified loaded report (data model embedded) alongside the PBIP source of truth | Fixed |
+| High | README carried a blank Power BI canvas capture showing editor warnings | Replaced with genuine screenshots of all four populated report pages captured from the compiled `.pbix`; README Power BI section now links the compiled report and shows the verified images | Fixed |
 | High | Funnel previously subtracted Returned from Delivered | Corrected SQL, Python, metrics, dashboard, tests and interview documentation | Fixed |
 | High | Power BI PBIR/TMDL load failures | Fixed PBIR version/location, page and visual identifiers, TMDL indentation, BOMs and auto-date references | Fixed |
 | Medium | Dashboard header claimed 55,867 transactions | Corrected to 25,384 order lines and 1,991 active customers | Fixed |
@@ -81,9 +82,9 @@ regenerated when source data changes.
 
 ## Remaining boundaries
 
-1. The repository intentionally ships PBIP/PBIR, not a legacy `.pbix` binary.
-   A local Power BI Desktop user can save the PBIP as `.pbix` when a binary
-   handoff is required.
+1. The repository ships both the PBIP/PBIR project (editable source of truth)
+   and a compiled `powerbi/pbix/EcomAnalytics.pbix` with the data model embedded,
+   so a local Power BI Desktop user can open the report with data immediately.
 2. The dataset is synthetic and all business findings are illustrative.
 3. The Vercel deployment is a static dashboard; Power BI Desktop refresh is a
    local desktop operation, not a claimed Power BI Service deployment.
@@ -96,5 +97,5 @@ regenerated when source data changes.
 dashboard or documentation blockers remain in the repository. The project is
 credible for a fresher Data Analyst / BI portfolio provided the candidate can
 explain the population definitions, synthetic-data limitation, order-line grain,
-churn/forecast caveats and why the PBIP—not a legacy PBIX—is the Power BI source
-artifact.
+churn/forecast caveats and why the PBIP is the editable source artifact while
+the compiled `.pbix` is the instant-open binary.

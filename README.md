@@ -3,7 +3,8 @@
 <p align="center">
   <a href="https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics">GitHub Repository</a> ·
   <a href="https://ecomanalytics-dashboard.vercel.app/">Live Web Dashboard (Vercel)</a> ·
-  <a href="powerbi/pbix/EcomAnalytics.pbip">Power BI Project (PBIP)</a>
+  <a href="powerbi/pbix/EcomAnalytics.pbip">Power BI Project (PBIP)</a> ·
+  <a href="powerbi/pbix/EcomAnalytics.pbix">Power BI Report (.pbix)</a>
 </p>
 
 <p align="center">
@@ -47,12 +48,23 @@ Order statuses are **mutually exclusive**: `Returned` is its own exit (10.2% of 
 
 ### Power BI report (4 pages)
 
-The report is authored in PBIR format under `powerbi/pbix/EcomAnalytics.Report/`. Open `EcomAnalytics.pbip` in Power BI Desktop.
+The report ships in two forms:
 
-- **Executive Overview** - 6 KPI cards, revenue by month (area), revenue by category (columns), segment table, payment method, delivered orders by region.
-- **Sales Performance** - revenue vs COGS vs profit by category, subcategory, monthly delivered orders.
-- **Customer Insights** - segment, region and acquisition-channel economics, top customers.
-- **Order Operations** - status mix (donut), status by month, shipping cost and return rate trend.
+- **`powerbi/pbix/EcomAnalytics.pbix`** — compiled report with the data model embedded. Open it directly in Power BI Desktop; visuals render immediately with data, no refresh required.
+- **`powerbi/pbix/EcomAnalytics.pbip`** — the editable Power BI project (PBIR format + TMDL semantic model), for development and version control.
+
+The screenshots below are captured from the compiled report and reconcile with the KPI table above to the penny.
+
+| Executive Overview | Sales Performance |
+|---|---|
+| ![Power BI Executive Overview: revenue, gross profit, margin, delivered orders, AOV and customer KPI cards with revenue trend, category revenue, segment table, payment mix and regional delivered orders](docs/screenshots/pbi_executive_overview.png) | ![Power BI Sales Performance: revenue, COGS, gross profit and margin KPIs with subcategory revenue, delivered orders trend and the category reconciliation table](docs/screenshots/pbi_sales_performance.png) |
+| **Customer Insights** | **Order Operations** |
+| ![Power BI Customer Insights: active customers and AOV KPIs with revenue by segment, region and acquisition channel plus top customers](docs/screenshots/pbi_customer_insights.png) | ![Power BI Order Operations: 12K placed orders, 9,312 delivered, 1,223 returned and 10.19% return rate with status mix donut, status by month, shipping cost and return rate trends](docs/screenshots/pbi_order_operations.png) |
+
+- **Executive Overview** — Revenue ₹59.28M, Gross Profit ₹32.00M, Margin 53.97%, Delivered 9,312, AOV ₹5.97K, Customers 1,991; the segment table totals exactly ₹59,283,619.32 and 1,991.
+- **Sales Performance** — the category reconciliation table sums to ₹59,283,619.32 revenue, ₹27,286,277.68 COGS, ₹31,997,341.64 gross profit, 53.97% margin.
+- **Customer Insights** — segment economics: B2B 403 + B2C 1,379 + Enterprise 209 = 1,991 customers; blended AOV ₹5,968.35.
+- **Order Operations** — statuses are mutually exclusive: 12,000 placed = 9,312 delivered + 621 processing + 844 cancelled + 1,223 returned; return rate 10.19% of placed orders.
 
 ### Web dashboard (Vercel)
 

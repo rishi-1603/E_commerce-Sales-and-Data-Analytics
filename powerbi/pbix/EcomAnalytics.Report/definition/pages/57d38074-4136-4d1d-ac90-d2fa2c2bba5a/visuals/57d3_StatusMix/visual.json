@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Fact_Orders.order_status",
-              "nativeQueryRef": "order_status"
+              "nativeQueryRef": "order_status",
+              "active": true
             }
           ]
         },

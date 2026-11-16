@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Fact_Orders.payment_method",
-              "nativeQueryRef": "payment_method"
+              "nativeQueryRef": "payment_method",
+              "active": true
             }
           ]
         },

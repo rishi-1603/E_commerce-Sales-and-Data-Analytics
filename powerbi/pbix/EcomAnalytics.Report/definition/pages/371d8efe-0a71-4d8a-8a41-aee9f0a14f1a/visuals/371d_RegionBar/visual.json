@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Dim_Customers.region",
-              "nativeQueryRef": "region"
+              "nativeQueryRef": "region",
+              "active": true
             }
           ]
         },

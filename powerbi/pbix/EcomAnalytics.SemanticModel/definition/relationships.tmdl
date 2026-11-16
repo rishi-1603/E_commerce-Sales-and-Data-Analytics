@@ -10,5 +10,3 @@ relationship orders_calendar
 	fromColumn: Fact_Orders.order_date
 	toColumn: Dim_Calendar.Date
 
-
-

@@ -26,25 +26,8 @@
                 }
               },
               "queryRef": "Dim_Calendar.MonthName",
-              "nativeQueryRef": "MonthName"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Fact_Orders"
-                    }
-                  },
-                  "Property": "Orders by Status"
-                }
-              },
-              "queryRef": "Fact_Orders.Orders by Status",
-              "nativeQueryRef": "Orders by Status"
+              "nativeQueryRef": "MonthName",
+              "active": true
             }
           ]
         },
@@ -63,6 +46,24 @@
               },
               "queryRef": "Fact_Orders.order_status",
               "nativeQueryRef": "order_status"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Fact_Orders"
+                    }
+                  },
+                  "Property": "Orders by Status"
+                }
+              },
+              "queryRef": "Fact_Orders.Orders by Status",
+              "nativeQueryRef": "Orders by Status"
             }
           ]
         }

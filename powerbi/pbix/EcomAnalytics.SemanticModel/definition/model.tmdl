@@ -16,9 +16,4 @@ ref table Dim_Calendar
 ref table Dim_Customers
 ref table Dim_Products
 ref table Fact_Orders
-ref table DateTableTemplate_58081206-58ad-44f0-bcf7-1f5b393831b1
-ref table LocalDateTable_c38aa8f0-53f3-47d6-a89b-4fd84cd2da4c
-ref table LocalDateTable_4b205053-d213-4dc6-83ff-629aeafdf4c9
-
-ref cultureInfo en-US
 

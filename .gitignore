@@ -44,3 +44,6 @@ skills-lock.json
 
 # OpenCode data-analytics skills and agent (local tooling)
 .opencode/
+
+# Power BI Desktop local editor state (per-machine, never commit)
+.pbi/

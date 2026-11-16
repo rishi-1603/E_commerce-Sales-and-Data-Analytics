@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Dim_Customers.acquisition_channel",
-              "nativeQueryRef": "acquisition_channel"
+              "nativeQueryRef": "acquisition_channel",
+              "active": true
             }
           ]
         },

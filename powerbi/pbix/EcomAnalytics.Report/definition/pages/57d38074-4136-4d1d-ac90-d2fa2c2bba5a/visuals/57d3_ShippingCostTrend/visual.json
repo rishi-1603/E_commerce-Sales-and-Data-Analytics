@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Dim_Calendar.MonthName",
-              "nativeQueryRef": "MonthName"
+              "nativeQueryRef": "MonthName",
+              "active": true
             }
           ]
         },

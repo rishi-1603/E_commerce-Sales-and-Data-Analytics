@@ -26,7 +26,8 @@
                 }
               },
               "queryRef": "Dim_Products.category",
-              "nativeQueryRef": "category"
+              "nativeQueryRef": "category",
+              "active": true
             }
           ]
         },
