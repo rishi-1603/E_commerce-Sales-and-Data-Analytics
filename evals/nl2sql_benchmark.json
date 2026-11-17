@@ -1,5 +1,5 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "project": "E-Commerce Sales & Customer Analytics",
   "system_under_test": "scripts/nl_to_sql.py \u2014 answer_question()",
   "description": "37-question NL-to-SQL benchmark across 4 classes. Ground truth is computed INDEPENDENTLY by the harness from data/processed/master_orders.csv (never from the system under test). Questions marked variant=canonical are in-scope for the deterministic pattern-matching fallback; variant=paraphrase are natural re-wordings that the fallback is not expected to cover (they exist to measure the LLM path and to document the paraphrase failure class honestly).",

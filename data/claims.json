@@ -10,7 +10,7 @@
       "value": 59283619.32,
       "formatted_value": "₹5.93 Cr (₹59,283,619.32)",
       "unit": "INR",
-      "population": "9,933 Delivered + Processing orders (25,384 order lines)",
+      "population": "9,933 valid (Delivered + Processing) orders, 21,066 order lines",
       "definition": "SUM(line_total) over orders with status Delivered or Processing; Cancelled and Returned excluded",
       "source_file": "python/eda/01_eda_preprocessing.py, sql/04_sales_analysis.sql",
       "test_file": "tests/test_dashboard_consistency.py",
@@ -59,7 +59,7 @@
       "formatted_value": "448 Customers (₹1.24 Cr historical spend)",
       "unit": "Customers",
       "population": "Churn-risk Medium Risk band",
-      "definition": "Win-back audience per churn_features.csv risk band; EV ₹541/contact, campaign EV ₹2.42L, break-even recovery 12.9%",
+      "definition": "Win-back audience per churn_features.csv risk band; EV ₹541/contact, campaign EV ₹2.42L, break-even churn probability 12.9%",
       "source_file": "python/pricing/winback.py, reports/winback_economics.json",
       "test_file": "tests/test_winback_economics.py",
       "limitations": "Historical spend; win-back recovery is a simulated scenario, not a run campaign"
@@ -71,7 +71,7 @@
       "formatted_value": "ROC-AUC ≈ 0.65 under a leakage-corrected forward-time split",
       "unit": "ROC-AUC",
       "population": "Time-based forward observation window",
-      "definition": "Temporal validation split preventing lookahead bias; isotonic calibration improves Brier 0.197 → 0.184; PR-AUC 0.36 is the operative number on this imbalanced population",
+      "definition": "Temporal validation split preventing lookahead bias; isotonic calibration improves Brier 0.196 → 0.183; PR-AUC 0.36 is the operative number on this imbalanced population",
       "source_file": "python/churn/03_churn_analysis.py, scripts/churn_calibration.py",
       "test_file": "tests/test_churn_calibration.py",
       "limitations": "A ranking/targeting tool, not calibrated probabilities without correction"

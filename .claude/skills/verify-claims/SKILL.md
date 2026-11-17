@@ -8,15 +8,15 @@ description: Recompute and reconcile this repo's pinned KPIs and claims from raw
 This repo's promise: **every displayed figure reconciles from raw CSVs to README to dashboards.**
 The pinned reference is `data/metrics.json` (+ `RESUME_EVIDENCE.md`, `data/claims.json`).
 
-## Pinned values (as of 2026-11-17, commit a697d4e)
+## Pinned values (re-verify against `data/metrics.json` and the reports after every data or pipeline change; last full verification 2026-11-17)
 
 - Revenue (Delivered+Processing): **₹59,283,619.32** | COGS **₹27,286,277.68** | Profit **₹31,997,341.64** | Margin **53.97%**
 - Funnel (mutually exclusive, of 12,000 placed): Delivered **9,312** (77.6%), Processing **621** (5.2%), Cancelled **844** (7.0%), Returned **1,223** (**10.19% of placed** — its own exit, NEVER subtracted from Delivered)
 - Valid order base: **9,933** | AOV **₹5,968.35** (= revenue / 9,933)
 - Active customers: **1,991** (distinct customers with ≥1 valid order; the other 8 of 1,999 placed only Cancelled/Returned orders) out of 2,000 records
-- Dataset: 12,000 orders / 25,384 order lines / 2,000 customers / 150 products across **5 categories, 40 subcategories**; window Jan 2022 – Dec 2024; synthetic + seeded
+- Dataset: 12,000 orders / 25,384 raw order lines (**21,066 in the valid Delivered+Processing base**) / 2,000 customers / 150 products across **5 categories, 40 subcategories**; window Jan 2022 – Dec 2024; synthetic + seeded
 - Forecast: ensemble MASE **0.68** vs drift baseline **0.468**; bootstrap CI coverage **9.5%**
-- Churn: forward-time split ROC-AUC **≈0.65** (PR-AUC 0.36); isotonic Brier 0.197 → 0.184
+- Churn: forward-time split ROC-AUC **≈0.65** (PR-AUC 0.36); isotonic Brier 0.196 → 0.183
 - Discount: no significant quantity response (Kruskal-Wallis p = 0.305); break-even lift at 20% = +59.2%; 10% cap recovers ₹644,518 (2.0%)
 - Win-back: 448 customers, ₹1.24 Cr historical spend, EV ₹541/contact, campaign EV ₹242,478, break-even 12.9%
 - NL-to-SQL: 36/37 = 97.3%, refusals 100%, fabricated 0 (mode=fallback, benchmark v1.1)

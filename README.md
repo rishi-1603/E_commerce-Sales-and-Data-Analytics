@@ -59,7 +59,7 @@ Regenerate it byte-identically with `python data/raw/generate_data.py`. Cleaning
 
 Order statuses are **mutually exclusive**: `Returned` is its own exit (10.2% of placed), not a subtraction from `Delivered`.
 
-Full definitions — numerator, denominator, population and pinned values for every KPI — are documented in [`data/metrics.json`](data/metrics.json).
+Full definitions — numerator, denominator, population and pinned values for the core KPIs — are documented in [`data/metrics.json`](data/metrics.json); the exact-to-the-penny values are enforced by the test suite.
 
 ## Dashboard showcase
 
@@ -133,8 +133,8 @@ flowchart LR
     B --> D["data/processed + reports/ + metrics.json"]
     D --> E["Chart.js dashboard — Vercel"]
     D --> F["Power BI report — .pbix / .pbip"]
-    D --> G["FastAPI app/ — REST + grounded NL-to-SQL"]
-    G --> H["evals/ — accuracy gate 0.90 in CI"]
+    D --> G["NL-to-SQL assistant - scripts/ + FastAPI query guard"]
+    G --> H["evals/ - accuracy gate 0.90 in CI"]
     B --> I["tests/ — 227 assertions"]
 ```
 
@@ -180,7 +180,7 @@ All 227 tests pass. The suite pins KPI values (revenue, COGS, profit, margin, or
 
 ## Grounded AI analyst
 
-A natural-language-to-SQL assistant (`scripts/nl_to_sql.py`, served through the FastAPI app) answers data questions in two modes: a **deterministic grounded path** used by CI (no external LLM key needed) and an optional LLM path that is scored separately. The query endpoint executes SQL behind a sqlglot AST guard — SELECT-only, whitelisted tables, enforced `LIMIT 100` — so mutating or off-scope statements are refused.
+A natural-language-to-SQL assistant (`scripts/nl_to_sql.py`) answers data questions in two modes: a **deterministic grounded path** used by CI (no external LLM key needed) and an optional LLM path that is scored separately. Alongside it, the FastAPI app (`app/`) exposes a query endpoint whose SQL executes behind a sqlglot AST guard — SELECT-only, whitelisted tables, enforced `LIMIT 100` — so mutating or off-scope statements are refused.
 
 Evaluation is independent by design: ground truth is computed with pandas straight from `data/processed/master_orders.csv`, never from the system under test, and refusals are scored on their own — an unanswerable question answered with a number is penalised harder than an admission. Benchmark v1.1 (37 questions): **36/37 = 97.3% execution accuracy, 100% refusal correctness, 0 fabricated numbers** (`mode=fallback`). CI fails below the 0.90 accuracy gate. Full report: `reports/ai_eval_report.md`.
 
