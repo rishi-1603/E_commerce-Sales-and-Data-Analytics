@@ -8,9 +8,11 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/publication_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
+  <a href="https://ecomanalytics-dashboard.vercel.app/">
+    <img src="docs/screenshots/publication_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
+  </a>
   <br>
-  <em>Live web dashboard preview — Power BI Desktop editing screens are intentionally not used as the README hero image.</em>
+  <em>Live web dashboard preview (click to open) — Power BI Desktop editing screens are intentionally not used as the README hero image.</em>
 </p>
 
 A complete analytics project on a synthetic INR-denominated e-commerce dataset (12,000 orders, 150 products, 2,000 customers). It spans a star-schema data model, a 4-page Power BI report, a Python analytics pipeline (EDA, RFM, cohort retention, churn, forecasting, pricing, CLV), 11 SQL analysis scripts, and a static Chart.js dashboard deployed on Vercel. Core KPI definitions are centralized in `data/metrics.json` and supported by automated regression tests.
@@ -25,6 +27,19 @@ The project answers four business questions end to end:
 4. **What should we do next?** - win-back targeting, discount economics, revenue forecast.
 
 The dataset is **synthetic and seeded** (fully reproducible via `data/raw/generate_data.py`). Methods and engineering are the substance; the numbers are illustrative and should not be read as real business performance.
+
+## Dataset
+
+A seeded, fully reproducible star schema covering **Jan 2022 – Dec 2024**, INR-denominated:
+
+| Table | Rows | Grain |
+|---|---|---|
+| `orders.csv` | 12,000 | one row per placed order — status Delivered / Processing / Cancelled / Returned |
+| `order_items.csv` | 25,384 | one row per order line — quantity, unit price, discount, cost |
+| `customers.csv` | 2,000 | one row per customer record — B2B / B2C / Enterprise |
+| `products.csv` | 150 | one row per SKU across 5 categories |
+
+Regenerate it byte-identically with `python data/raw/generate_data.py`. Cleaning and validation logic lives in `sql/02_data_cleaning.sql` and `python/eda/01_eda_preprocessing.py`.
 
 ## Key performance indicators
 
@@ -43,6 +58,8 @@ The dataset is **synthetic and seeded** (fully reproducible via `data/raw/genera
 | Average order value | ₹5,968.35 |
 
 Order statuses are **mutually exclusive**: `Returned` is its own exit (10.2% of placed), not a subtraction from `Delivered`.
+
+Full definitions — numerator, denominator, population and pinned values for every KPI — are documented in [`data/metrics.json`](data/metrics.json).
 
 ## Dashboard showcase
 
@@ -78,9 +95,10 @@ A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](htt
 
 | Layer | Technology |
 |---|---|
-| Data generation | Python (pandas, numpy, Faker) |
-| Analytics pipeline | Python 3.11 (scikit-learn, statsmodels, matplotlib, seaborn) |
-| Database | PostgreSQL (analysis scripts in `sql/`) |
+| Data generation | Python (pandas, numpy) — seeded, reproducible |
+| Analytics pipeline | Python 3.11 (scikit-learn, statsmodels, scipy, matplotlib, seaborn) |
+| Database | PostgreSQL (schema + analysis scripts in `sql/`) |
+| API & AI analyst | FastAPI + SQLAlchemy (SQLite) with sqlglot-guarded queries; grounded NL-to-SQL assistant (`app/`, `evals/`) |
 | BI modelling | Power BI semantic model via TMDL (`powerbi/pbix/EcomAnalytics.SemanticModel/`) |
 | Reporting | Power BI Desktop (PBIR format) |
 | Web dashboard | Chart.js, static HTML on Vercel |
@@ -93,15 +111,31 @@ A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](htt
 .
 ├── data/                  # raw + processed CSVs, metrics.json (semantic layer)
 ├── python/                # analytics pipeline (eda, segmentation, churn, forecast, ...)
-├── sql/                   # 11 analysis scripts
-├── powerbi/pbix/          # PBIP project (semantic model + report)
+├── sql/                   # database schema + 11 analysis scripts
+├── app/                   # FastAPI service — REST endpoints + grounded NL-to-SQL query API
+├── evals/                 # NL-to-SQL benchmark + eval runner (CI accuracy gate)
+├── powerbi/pbix/          # PBIP project (semantic model + report) and compiled .pbix
 ├── dashboard/             # Chart.js dashboard (source)
-├── dashboard.html / index.html   # deployed web dashboard
-├── scripts/               # decision_layer, calibration, backtest, challenger
-├── tests/                 # pytest suite
+├── dashboard.html / index.html   # deployed web dashboard copies (kept byte-identical)
+├── scripts/               # decision_layer, calibration, backtest, challenger, dashboard injection
+├── tests/                 # pytest suite (227 tests)
 ├── reports/               # generated JSON + markdown reports
-├── docs/                  # figures, screenshots, architecture
+├── docs/                  # figures, screenshots, specs and audit documents
 └── run_pipeline.py        # pipeline entry point
+```
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A["generate_data.py — seeded CSVs"] --> B["python/ pipeline — EDA, RFM, churn, forecast, CLV"]
+    A --> C["sql/ — schema + 11 analysis scripts"]
+    B --> D["data/processed + reports/ + metrics.json"]
+    D --> E["Chart.js dashboard — Vercel"]
+    D --> F["Power BI report — .pbix / .pbip"]
+    D --> G["FastAPI app/ — REST + grounded NL-to-SQL"]
+    G --> H["evals/ — accuracy gate 0.90 in CI"]
+    B --> I["tests/ — 227 assertions"]
 ```
 
 ## How to run locally
@@ -144,6 +178,12 @@ python -m pytest tests/ -v
 
 All 227 tests pass. The suite pins KPI values (revenue, COGS, profit, margin, order counts), the discount break-even ladder, the funnel, cohort retention, churn calibration, forecast backtest, and the dashboard's embedded `DATA` block against the computed layer.
 
+## Grounded AI analyst
+
+A natural-language-to-SQL assistant (`scripts/nl_to_sql.py`, served through the FastAPI app) answers data questions in two modes: a **deterministic grounded path** used by CI (no external LLM key needed) and an optional LLM path that is scored separately. The query endpoint executes SQL behind a sqlglot AST guard — SELECT-only, whitelisted tables, enforced `LIMIT 100` — so mutating or off-scope statements are refused.
+
+Evaluation is independent by design: ground truth is computed with pandas straight from `data/processed/master_orders.csv`, never from the system under test, and refusals are scored on their own — an unanswerable question answered with a number is penalised harder than an admission. Benchmark v1.1 (37 questions): **36/37 = 97.3% execution accuracy, 100% refusal correctness, 0 fabricated numbers** (`mode=fallback`). CI fails below the 0.90 accuracy gate. Full report: `reports/ai_eval_report.md`.
+
 ## Key business findings
 
 - **Revenue concentration**: top 10% of customers hold ~42% of projected lifetime value (observed concentration in this synthetic population).
@@ -166,6 +206,7 @@ All 227 tests pass. The suite pins KPI values (revenue, COGS, profit, margin, or
 
 - The dataset is **synthetic**; all figures are illustrative and methods are the deliverable.
 - The win-back experiment is a **design only** - no campaign has been run.
+- The discount and returns analyses are **observational** — association, not causation.
 - The revenue forecast assumes trend/seasonality continue and underestimates variance.
 - The churn model (AUC 0.65) is a targeting tool, not a per-customer oracle.
 

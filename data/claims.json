@@ -1,20 +1,20 @@
 {
   "project": "E-Commerce Sales & Customer Analytics Platform",
   "repository": "https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics",
-  "last_updated": "2026-10-30",
-  "verified_ci_tests": 195,
+  "last_updated": "2026-11-17",
+  "verified_ci_tests": 227,
   "claims": [
     {
       "metric_id": "ecom_sales_revenue",
       "display_name": "Sales Revenue Analyzed",
-      "value": 59328412.5,
-      "formatted_value": "\u20b95.93 Cr",
+      "value": 59283619.32,
+      "formatted_value": "₹5.93 Cr (₹59,283,619.32)",
       "unit": "INR",
-      "population": "9,933 Delivered & Processing orders",
-      "definition": "SUM(final_amount) for valid completed order population",
-      "source_file": "sql/01_revenue_overview.sql, src/metrics.py",
+      "population": "9,933 Delivered + Processing orders (25,384 order lines)",
+      "definition": "SUM(line_total) over orders with status Delivered or Processing; Cancelled and Returned excluded",
+      "source_file": "python/eda/01_eda_preprocessing.py, sql/04_sales_analysis.sql",
       "test_file": "tests/test_dashboard_consistency.py",
-      "limitations": "Synthetic retail distribution dataset"
+      "limitations": "Synthetic, seeded dataset generated from standard retail distributions"
     },
     {
       "metric_id": "ecom_customer_base",
@@ -22,95 +22,95 @@
       "value": 1991,
       "formatted_value": "1,991",
       "unit": "Customers",
-      "population": "Unique customer entities in valid orders",
-      "definition": "COUNT(DISTINCT customer_id)",
-      "source_file": "sql/02_customer_segmentation.sql",
+      "population": "Distinct customers with at least one valid (Delivered/Processing) order, out of 2,000 customer records",
+      "definition": "COUNT(DISTINCT customer_id) over valid orders",
+      "source_file": "sql/05_customer_analysis.sql",
       "test_file": "tests/test_data_quality.py",
-      "limitations": "Excludes zero-order profiles"
+      "limitations": "Excludes the 8 customers whose every order was Cancelled/Returned (inactive by the documented definition)"
     },
     {
       "metric_id": "ecom_product_catalog",
       "display_name": "Product Catalog Size",
       "value": 150,
-      "formatted_value": "150 SKUs across 8 Categories",
+      "formatted_value": "150 SKUs across 5 categories and 40 subcategories",
       "unit": "SKUs",
-      "population": "Active product catalog dimension",
-      "definition": "COUNT(DISTINCT sku_id)",
-      "source_file": "sql/03_product_profitability.sql",
+      "population": "Active product dimension",
+      "definition": "COUNT(DISTINCT product_id)",
+      "source_file": "data/raw/products.csv, sql/06_product_analysis.sql",
       "test_file": "tests/test_data_quality.py",
-      "limitations": "Fixed catalog domain"
+      "limitations": "Fixed synthetic catalog domain"
     },
     {
-      "metric_id": "ecom_sql_pandas_parity",
-      "display_name": "SQL vs Pandas Parity",
-      "value": 100.0,
-      "formatted_value": "100%",
-      "unit": "Percentage",
-      "population": "Revenue, AOV, MoM, and Gross Margin metrics",
-      "definition": "Parity tolerance < 0.01 floating-point variance",
-      "source_file": "src/reconciliation.py",
+      "metric_id": "ecom_order_funnel",
+      "display_name": "Order Funnel Semantics",
+      "value": 12000,
+      "formatted_value": "12,000 placed = 9,312 Delivered (77.6%) + 621 Processing (5.2%) + 844 Cancelled (7.0%) + 1,223 Returned (10.19% of placed)",
+      "unit": "Orders",
+      "population": "All placed orders; statuses mutually exclusive",
+      "definition": "Returned is its own exit (1,223), never subtracted from Delivered",
+      "source_file": "data/metrics.json (order_funnel), sql/11_order_funnel.sql",
       "test_file": "tests/test_dashboard_consistency.py",
-      "limitations": "Dual validation pipeline"
+      "limitations": "Delivered and Processing both count toward revenue; Cancelled orders never transacted"
     },
     {
       "metric_id": "ecom_cooling_off_customers",
       "display_name": "Cooling-Off Customer Exposure",
       "value": 448,
-      "formatted_value": "448 Customers (\u20b91.24 Cr historical spend)",
+      "formatted_value": "448 Customers (₹1.24 Cr historical spend)",
       "unit": "Customers",
-      "population": "Recency > 90 days with spend > median",
-      "definition": "Cohort filter on RFM segment",
-      "source_file": "sql/05_customer_churn_cohorts.sql",
+      "population": "Churn-risk Medium Risk band",
+      "definition": "Win-back audience per churn_features.csv risk band; EV ₹541/contact, campaign EV ₹2.42L, break-even recovery 12.9%",
+      "source_file": "python/pricing/winback.py, reports/winback_economics.json",
       "test_file": "tests/test_winback_economics.py",
-      "limitations": "Historical spend; win-back recovery is simulated scenario"
+      "limitations": "Historical spend; win-back recovery is a simulated scenario, not a run campaign"
     },
     {
       "metric_id": "ecom_leakage_correction_auc",
-      "display_name": "Target Leakage Correction",
+      "display_name": "Churn Model Integrity",
       "value": 0.65,
-      "formatted_value": "0.65 AUC (Forward-split) vs 0.89 (Random K-Fold)",
+      "formatted_value": "ROC-AUC ≈ 0.65 under a leakage-corrected forward-time split",
       "unit": "ROC-AUC",
       "population": "Time-based forward observation window",
-      "definition": "Temporal validation split preventing lookahead bias",
-      "source_file": "src/churn_model.py",
+      "definition": "Temporal validation split preventing lookahead bias; isotonic calibration improves Brier 0.197 → 0.184; PR-AUC 0.36 is the operative number on this imbalanced population",
+      "source_file": "python/churn/03_churn_analysis.py, scripts/churn_calibration.py",
       "test_file": "tests/test_churn_calibration.py",
-      "limitations": "Documented method fix on ML churn baseline"
+      "limitations": "A ranking/targeting tool, not calibrated probabilities without correction"
     },
     {
-      "metric_id": "ecom_discount_margin_erosion",
-      "display_name": "Discount Margin Erosion",
-      "value": 1645000.0,
-      "formatted_value": "\u20b916.45L",
+      "metric_id": "ecom_discount_repricing",
+      "display_name": "Discount Repricing Scenario",
+      "value": 644517.95,
+      "formatted_value": "₹6.45L margin recovered by a 10% discount cap (2.0% of total margin)",
       "unit": "INR",
-      "population": "Orders with discount > 20% on inelastic categories",
-      "definition": "Gross margin difference under optimal discount cap scenario",
-      "source_file": "src/pricing_engine.py",
+      "population": "Order line items by discount depth",
+      "definition": "Repricing scenario cap_10 — margin recovered vs status quo; break-even lift at 20% depth is +59.2%",
+      "source_file": "python/pricing/elasticity.py, reports/discount_analysis.json",
       "test_file": "tests/test_discount_engine.py",
-      "limitations": "Assumes constant sales volume elasticity"
+      "limitations": "Observational — association, not causation; no statistically significant quantity response (Kruskal-Wallis p = 0.305)"
     },
     {
       "metric_id": "ecom_nl_to_sql_accuracy",
       "display_name": "NL-to-SQL Benchmark Accuracy",
       "value": 97.3,
-      "formatted_value": "97.3% (36/37 queries)",
+      "formatted_value": "97.3% (36/37 questions)",
       "unit": "Percentage",
-      "population": "37 retail analytics test queries",
-      "definition": "Syntactic and execution accuracy on DuckDB/PostgreSQL data mart",
-      "source_file": "src/nl_to_sql.py",
-      "test_file": "tests/test_nl_to_sql.py",
-      "limitations": "Zero hallucinations; single failure is deeply nested subquery"
+      "population": "Benchmark v1.1 — 37 retail analytics questions, mode=fallback",
+      "definition": "Execution accuracy with independent pandas ground truth (computed from data/processed/master_orders.csv, never from the system under test); refusals scored separately",
+      "source_file": "scripts/nl_to_sql.py, evals/run_eval.py",
+      "test_file": "tests/test_nl_to_sql.py, tests/test_ai_eval.py",
+      "limitations": "100% refusal correctness and 0 fabricated numbers on the benchmark; the single failure is published in reports/ai_eval_report.md"
     },
     {
       "metric_id": "ecom_automated_ci_tests",
       "display_name": "Automated CI Test Suite",
-      "value": 195,
-      "formatted_value": "195 Passing Tests",
+      "value": 227,
+      "formatted_value": "227 Passing Tests",
       "unit": "Tests",
       "population": "Full automated test suite",
-      "definition": "pytest tests/ execution in GitHub Actions CI",
+      "definition": "pytest tests/ execution in GitHub Actions CI (Python 3.11)",
       "source_file": ".github/workflows/ci.yml",
       "test_file": "tests/",
-      "limitations": "100% passing across Python 3.10-3.14"
+      "limitations": "Same suite verified locally in the project venv; flake8 lint also runs in CI"
     }
   ]
 }
