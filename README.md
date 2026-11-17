@@ -13,7 +13,7 @@
   <em>Live web dashboard preview — Power BI Desktop editing screens are intentionally not used as the README hero image.</em>
 </p>
 
-A complete analytics project on a synthetic INR-denominated e-commerce dataset (12,000 orders, 150 products, 2,000 customers). It spans a star-schema data model, a 4-page Power BI report, a Python analytics pipeline (EDA, RFM, cohort retention, churn, forecasting, pricing, CLV), 11 SQL analysis scripts, and a static Chart.js dashboard deployed on Vercel. Every KPI is defined once in `data/metrics.json` and pinned by 227 tests.
+A complete analytics project on a synthetic INR-denominated e-commerce dataset (12,000 orders, 150 products, 2,000 customers). It spans a star-schema data model, a 4-page Power BI report, a Python analytics pipeline (EDA, RFM, cohort retention, churn, forecasting, pricing, CLV), 11 SQL analysis scripts, and a static Chart.js dashboard deployed on Vercel. Core KPI definitions are centralized in `data/metrics.json` and supported by automated regression tests.
 
 ## Project overview
 
@@ -59,12 +59,12 @@ The screenshots below are captured from the compiled report and reconcile with t
 |---|---|
 | ![Power BI Executive Overview: revenue, gross profit, margin, delivered orders, AOV and customer KPI cards with revenue trend, category revenue, segment table, payment mix and regional delivered orders](docs/screenshots/pbi_executive_overview.png) | ![Power BI Sales Performance: revenue, COGS, gross profit and margin KPIs with subcategory revenue, delivered orders trend and the category reconciliation table](docs/screenshots/pbi_sales_performance.png) |
 | **Customer Insights** | **Order Operations** |
-| ![Power BI Customer Insights: active customers and AOV KPIs with revenue by segment, region and acquisition channel plus top customers](docs/screenshots/pbi_customer_insights.png) | ![Power BI Order Operations: 12K placed orders, 9,312 delivered, 1,223 returned and 10.19% return rate with status mix donut, status by month, shipping cost and return rate trends](docs/screenshots/pbi_order_operations.png) |
+| ![Power BI Customer Insights: active customers and AOV KPIs with revenue by segment, region and acquisition channel plus top customers](docs/screenshots/pbi_customer_insights.png) | ![Power BI Order Operations: 12K placed orders, 9,312 delivered, 1,223 returned (10.19% of placed orders) with status mix donut, status by month, shipping cost and return-rate trends](docs/screenshots/pbi_order_operations.png) |
 
 - **Executive Overview** — Revenue ₹59.28M, Gross Profit ₹32.00M, Margin 53.97%, Delivered 9,312, AOV ₹5.97K, Customers 1,991; the segment table totals exactly ₹59,283,619.32 and 1,991.
 - **Sales Performance** — the category reconciliation table sums to ₹59,283,619.32 revenue, ₹27,286,277.68 COGS, ₹31,997,341.64 gross profit, 53.97% margin.
 - **Customer Insights** — segment economics: B2B 403 + B2C 1,379 + Enterprise 209 = 1,991 customers; blended AOV ₹5,968.35.
-- **Order Operations** — statuses are mutually exclusive: 12,000 placed = 9,312 delivered + 621 processing + 844 cancelled + 1,223 returned; return rate 10.19% of placed orders.
+- **Order Operations** — statuses are mutually exclusive: 12,000 placed = 9,312 delivered + 621 processing + 844 cancelled + 1,223 returned; 10.19% of placed orders had Returned status.
 
 ### Web dashboard (Vercel)
 
@@ -147,8 +147,8 @@ All 227 tests pass. The suite pins KPI values (revenue, COGS, profit, margin, or
 ## Key business findings
 
 - **Revenue concentration**: top 10% of customers hold ~42% of projected lifetime value (observed concentration in this synthetic population).
-- **Discounts don't pay for themselves**: no volume response detected (Kruskal-Wallis p = 0.305); break-even requires 10.61% / 23.12% / 38.14% / 59.24% volume lift at 5% / 10% / 15% / 20% depth.
-- **Returns are a quality problem**: 1,223 returned orders (10.2% of placed), concentrated in a few categories.
+- **Discount analysis did not detect a statistically significant overall quantity response**: Kruskal-Wallis p = 0.305; break-even requires 10.61% / 23.12% / 38.14% / 59.24% volume lift at 5% / 10% / 15% / 20% depth.
+- **Returned orders warrant further investigation**: 1,223 returned orders (10.19% of the 12,000 placed), concentrated in a few categories.
 - **Cohort retention improved**: month-1 retention rose from ~15-28% (2023 cohorts) to 55-88% (late 2024) - an observed cohort difference, not a proven intervention effect.
 - **Forecast is honest about its limits**: ensemble MASE 0.68 loses to the drift baseline (0.468); shipped bootstrap CI covers only 9.5% of actuals.
 

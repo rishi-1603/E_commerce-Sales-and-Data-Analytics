@@ -1,35 +1,41 @@
 # E-Commerce Sales & Customer Analytics — Resume Evidence Index
-**Repository:** https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics  
-**Live Application:** https://ecomanalytics-dashboard.vercel.app/  
-**Verification Date:** 2026-10-30  
-**CI Test Status:** 195 Passing Tests (100% Passing)
+**Repository:** https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics
+**Live Application:** https://ecomanalytics-dashboard.vercel.app/
+**Verification Date:** 2026-11-17
+**CI Test Status:** 227 Passing Tests (verified against the local venv run; same suite runs in GitHub Actions)
 
 ---
 
 ## 1. Resume Claim Verification Matrix
 
-| # | Resume Claim | Canonical Metric Value | Target Population / Grain | Source File / Implementation | Reproduction Command | Automated Test File | Documented Limitation |
-|---|---|---|---|---|---|---|---|
-| 1 | **Sales Revenue Analyzed** | Rs. 5.93 Cr (Rs. 59,283,619.32) | 9,933 Delivered & Processing orders | sql/01_revenue_overview.sql, src/metrics.py | python -m src.metrics --metric revenue | tests/test_dashboard_consistency.py | Synthetic dataset generated based on standard retail distributions. |
-| 2 | **Customer Base** | 1,991 Unique Customers | Unique customer IDs in valid orders | sql/02_customer_segmentation.sql | python -m src.metrics --metric customers | tests/test_data_quality.py | Excludes customer records with zero valid completed orders. |
-| 3 | **Product Catalog** | 150 SKUs across 8 Categories | Active product dimension | sql/03_product_profitability.sql | python -m src.metrics --metric skus | tests/test_data_quality.py | Fixed synthetic product catalog. |
-| 4 | **SQL Analytics Layer** | 8 Core Scripts, 45+ Queries | Analytical data mart queries | sql/01_ through sql/08_ | psql -f sql/run_all.sql | tests/test_decision_layer.py | Queries optimized for PostgreSQL / DuckDB syntax. |
-| 5 | **SQL vs Pandas Parity** | 100% Numerical Parity | Revenue, AOV, MoM, Margins | src/reconciliation.py | python -m src.reconciliation | tests/test_dashboard_consistency.py | Discrepancies bounded at < Rs. 0.01 floating-point precision. |
-| 6 | **Cooling-Off Customers** | 448 Customers (Rs. 1.24 Cr historical spend) | Recency > 90 days, spend > median | sql/05_customer_churn_cohorts.sql | python -m src.churn_analysis | tests/test_winback_economics.py | Spend is historical; win-back recovery is simulated potential. |
-| 7 | **Target Leakage Correction** | Forward-time validation split (AUC 0.65) | Churn modeling observation window | src/churn_model.py | python -m src.churn_model --eval | tests/test_churn_calibration.py | Random K-Fold splits produce inflated AUC (0.89) due to lookahead bias. |
-| 8 | **Discount Price Elasticity** | Discount erosion of Rs. 16.45L margin | 150 SKUs, elasticity vs discount depth | src/pricing_engine.py | python -m src.pricing_engine | tests/test_discount_engine.py | Assumes fixed demand elasticity under non-promotional baseline. |
-| 9 | **NL-to-SQL Assistant** | 97.3% execution accuracy (36/37) | 37 benchmark retail questions | src/nl_to_sql.py | python -m src.eval_nl_to_sql | tests/test_nl_to_sql.py | Zero hallucinations; 1 failed query is a complex multi-nested subquery. |
-| 10 | **Automated CI Footprint** | 195 Passing Tests | Unit, regression, API, & schema tests | tests/ directory | python -m pytest | GitHub Actions workflow .github/workflows/ci.yml | Requires statsmodels, pandas, fastapi, pytest. |
+| # | Resume Claim | Canonical Metric Value | Target Population / Grain | Source / Implementation | Automated Test File | Documented Limitation |
+|---|---|---|---|---|---|---|
+| 1 | **Sales Revenue Analyzed** | ₹5.93 Cr (₹59,283,619.32) | 9,933 Delivered + Processing orders (25,384 order lines) | `python/eda/01_eda_preprocessing.py`, `sql/01_revenue_overview.sql` | `tests/test_dashboard_consistency.py`, `tests/test_data_quality.py` | Synthetic, seeded dataset generated from standard retail distributions. |
+| 2 | **Customer Base** | 1,991 active customers | Distinct customers with ≥1 valid (Delivered/Processing) order, out of 2,000 customer records | `sql/02_customer_segmentation.sql`, `data/processed/churn_features.csv` | `tests/test_data_quality.py` | Excludes the 8 customers whose every order was Cancelled/Returned (inactive by the documented definition). |
+| 3 | **Product Catalog** | 150 SKUs across 8 categories | Active product dimension | `data/raw/products.csv`, `sql/03_product_profitability.sql` | `tests/test_data_quality.py` | Fixed synthetic product catalog. |
+| 4 | **SQL Analytics Layer** | 11 analysis scripts (star schema, CTEs, window functions, cohorts, funnel, returns) | Analytical data mart over `data/raw/*` | `sql/01_…` through `sql/11_…` (usage in `sql/README.md`) | Constraints and metric definitions mirrored by `tests/test_data_quality.py`, `tests/test_decision_layer.py` | PostgreSQL syntax; the scripts are an analytical layer and are not executed by CI. |
+| 5 | **Order Funnel Semantics** | 12,000 placed → 9,312 Delivered (77.6%) + 621 Processing (5.2%) + 844 Cancelled (7.0%) + 1,223 Returned (10.19% of placed) | All placed orders; statuses mutually exclusive | `data/metrics.json` (`order_funnel`), `sql/11_order_funnel.sql` | `tests/test_dashboard_consistency.py` | `Returned` is its own exit — never subtracted from `Delivered`. |
+| 6 | **Cooling-Off / Win-Back Economics** | 448 medium-risk customers · ₹1.24 Cr historical spend · EV ₹541/contact · campaign EV ₹2.42L · break-even recovery 12.9% | Churn-risk "Medium Risk" band | `python/pricing/winback.py`, `reports/winback_economics.json` | `tests/test_winback_economics.py` | Spend is historical; win-back recovery rates are simulated assumptions, not measured outcomes. |
+| 7 | **Churn Model Integrity** | Leakage-corrected forward-time split: ROC-AUC ≈ 0.65, PR-AUC 0.36; isotonic calibration improves Brier 0.197 → 0.184 | Customer-level churn risk | `python/churn/03_churn_analysis.py`, `scripts/churn_calibration.py` | `tests/test_churn_calibration.py` | Modest ranking power (PR-AUC is the operative number on this imbalanced population); a ranking tool, not calibrated probabilities without correction. |
+| 8 | **Discount Analysis** | No statistically significant overall quantity response (Kruskal-Wallis p = 0.305); break-even lift at 20% depth = +59.2%; a 10% discount cap recovers ₹6.45L margin (2.0% of total) | Order line items by discount depth | `python/pricing/elasticity.py`, `reports/discount_analysis.json` | `tests/test_discount_engine.py` | Observational data — measures association, not causality; assumes demand is otherwise fixed. |
+| 9 | **Forecast Honesty** | Ensemble MASE 0.69 loses to the drift baseline (0.468); shipped bootstrap CI covers 9.5% of actuals; challenger `holt_linear` (MASE 0.375) beats drift under the same protocol | Monthly revenue series, 10 rolling origins | `scripts/forecast_backtest.py`, `scripts/forecast_challenger.py` | `tests/test_forecast_backtest.py`, `tests/test_forecast_challenger.py` | Short synthetic series; empirical uncertainty is understated and stated as such. |
+| 10 | **NL-to-SQL Assistant** | 97.3% execution accuracy (36/37), refusals 100%, 0 fabricated numbers on unanswerable questions | Benchmark v1.1 — 37 retail questions, 4 classes, `mode=fallback` | `evals/run_eval.py`, `reports/ai_eval_report.md` | `tests/test_ai_eval.py`, `tests/test_nl_to_sql.py` | Benchmark scope is limited; answers are grounded in a verified fact sheet with refusals on out-of-scope questions. |
+| 11 | **Reproducibility** | Seeded generator reproduces raw CSVs byte-identically; pipeline completes 8/8 steps; full suite green | Whole pipeline | `data/raw/generate_data.py`, `run_pipeline.py` | full `pytest` suite | Pipeline reruns produce benign last-ulp float diffs in `data/processed` CSVs. |
+| 12 | **CI Footprint** | 227 tests + flake8 + evals gate (`--min-accuracy 0.90`) + dashboard byte-identity across 4 deployment copies | Every push / pull request | `.github/workflows/ci.yml` | GitHub Actions run history | Local runs should use the project venv (Python 3.14 global lacks pinned deps). |
 
 ---
 
 ## 2. Population & Order Status Hierarchy
 
-`
-Total Generated Orders: 12,000 (100.0%)
- ├── Excluded: Cancelled Orders: 1,042 (8.68%)  --> Excluded from Revenue & Margin calculations
- ├── Excluded: Returned Orders:  1,025 (8.54%)  --> Evaluated separately in Return Rate analytics
- └── Retained Valid Population: 9,933 (82.78%)
-      ├── Delivered Orders:   8,421 (70.18%)   --> Full realized revenue & customer loyalty
-      └── Processing Orders:  1,512 (12.60%)   --> In-flight committed pipeline revenue
-`
+```
+Total Placed Orders: 12,000 (100.0%)
+ ├── Cancelled:  844 (7.0%)    --> never transacted; excluded from revenue & margin
+ ├── Returned: 1,223 (10.19%)  --> own exit (NOT subtracted from Delivered); excluded from revenue, analyzed in sql/08_return_analysis.sql
+ └── Valid Population: 9,933 (82.8%)  --> revenue ₹59,283,619.32 · COGS ₹27,286,277.68 · margin 53.97%
+      ├── Delivered:  9,312 (77.6%)  --> fully realized revenue
+      └── Processing:   621 (5.2%)  --> in-flight committed pipeline revenue
+```
+
+Customer populations are reported on two clearly separated grains:
+- **2,000** customer records in `customers.csv` (raw dimension).
+- **1,991** active customers = distinct customers with ≥1 valid (Delivered/Processing) order; the remaining 8 placed only Cancelled/Returned orders and are inactive by the documented definition in `data/metrics.json`.
