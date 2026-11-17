@@ -41,6 +41,9 @@ Thumbs.db
 # AI tooling (project-local, not part of the project)
 .agents/
 skills-lock.json
+.claude/
+CLAUDE.md
+AGENTS.md
 
 # OpenCode data-analytics skills and agent (local tooling)
 .opencode/
