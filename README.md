@@ -103,7 +103,8 @@ The screenshots below are captured from the compiled report and reconcile with t
 
 A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](https://ecomanalytics-dashboard.vercel.app/). It is a separate artifact from the Power BI report.
 
-![Web dashboard - overview](docs/screenshots/publication_overview.png)
+This README shows seven dashboard views in total — the four Power BI pages above, plus the web dashboard's overview (the lead image at the top of this README), customers and pricing below — each shown exactly once.
+
 ![Web dashboard - customers](docs/screenshots/publication_customers.png)
 ![Web dashboard - pricing](docs/screenshots/publication_pricing.png)
 
