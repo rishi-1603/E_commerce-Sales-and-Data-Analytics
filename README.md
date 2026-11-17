@@ -8,6 +8,15 @@
 </p>
 
 <p align="center">
+  <img alt="Python 3.11" src="https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white">
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/SQL-PostgreSQL-4169E1?logo=postgresql&logoColor=white">
+  <img alt="Power BI: TMDL model, DAX measures, Power Query" src="https://img.shields.io/badge/Power%20BI-TMDL%20%2B%20DAX-F2C811?logo=powerbi&logoColor=black">
+  <img alt="Excel workbooks with live formulas" src="https://img.shields.io/badge/Excel-live%20formulas-217346?logo=microsoftexcel&logoColor=white">
+  <img alt="FastAPI with grounded NL-to-SQL assistant" src="https://img.shields.io/badge/FastAPI-NL--to--SQL%20assistant-009688?logo=fastapi&logoColor=white">
+  <a href="https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml"><img alt="CI: 227 tests, flake8, eval gate" src="https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/actions/workflows/ci.yml/badge.svg"></a>
+</p>
+
+<p align="center">
   <a href="https://ecomanalytics-dashboard.vercel.app/">
     <img src="docs/screenshots/publication_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
   </a>
@@ -16,6 +25,13 @@
 </p>
 
 A complete analytics project on a synthetic INR-denominated e-commerce dataset (12,000 orders, 150 products, 2,000 customers). It spans a star-schema data model, a 4-page Power BI report, a Python analytics pipeline (EDA, RFM, cohort retention, churn, forecasting, pricing, CLV), 11 SQL analysis scripts, and a static Chart.js dashboard deployed on Vercel. Core KPI definitions are centralized in `data/metrics.json` and supported by automated regression tests.
+
+## Quickstart
+
+```bash
+pip install -r requirements.txt
+python data/raw/generate_data.py && python run_pipeline.py && python -m pytest tests/ -q
+```
 
 ## Project overview
 
@@ -99,11 +115,31 @@ A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](htt
 | Analytics pipeline | Python 3.11 (scikit-learn, statsmodels, scipy, matplotlib, seaborn) |
 | Database | PostgreSQL (schema + analysis scripts in `sql/`) |
 | API & AI analyst | FastAPI + SQLAlchemy (SQLite) with sqlglot-guarded queries; grounded NL-to-SQL assistant (`app/`, `evals/`) |
-| BI modelling | Power BI semantic model via TMDL (`powerbi/pbix/EcomAnalytics.SemanticModel/`) |
+| Excel reporting | openpyxl-authored workbooks with live formulas — `Ecommerce_BI_Companion.xlsx` + `EcomAnalytics_Business_Reporting.xlsx` (`powerbi/`) |
+| BI modelling | Power BI semantic model via TMDL; DAX measure dictionary + Power Query M transformations (`powerbi/`) |
 | Reporting | Power BI Desktop (PBIR format) |
 | Web dashboard | Chart.js, static HTML on Vercel |
-| Testing | pytest (227 tests) |
+| Containerization | Docker (`Dockerfile`, `docker-compose.yml`) |
+| Migrations | Alembic (SQLAlchemy) |
+| Testing | pytest (227 tests) + flake8 + NL-to-SQL eval gate |
 | CI | GitHub Actions |
+
+## Skills demonstrated
+
+Every technology above is applied, not listed — each deliverable exercises it:
+
+| Deliverable | Skills it proves |
+|---|---|
+| Python pipeline (8 steps) | pandas / NumPy wrangling, RFM + K-Means segmentation, cohort retention, churn classification, CLV, time-series forecasting |
+| Statistical analysis | SciPy hypothesis testing (t-test, ANOVA, χ², Kruskal-Wallis), discount elasticity break-even math |
+| 11 SQL scripts | PostgreSQL star schema, CTEs, window functions, cohort and funnel queries, returns analysis |
+| Power BI (.pbix / .pbip) | TMDL semantic modeling, DAX measures at order-line grain, Power Query M transforms, 4-page report design |
+| Excel workbooks | openpyxl automation, live-formula executive models, monthly reconciliation tables |
+| FastAPI + NL-to-SQL | REST API design, SQLAlchemy, sqlglot injection guarding, LLM grounding with verified fact sheet + refusals |
+| Chart.js dashboard | static-site deployment (Vercel), responsive layout, WCAG-conscious markup |
+| 227 pytest tests | regression discipline — every displayed KPI pinned to the computed layer |
+| CI pipeline | GitHub Actions gates: pytest + flake8 + eval accuracy ≥ 0.90 |
+| Docker | containerized app deployment (`Dockerfile`, `docker-compose.yml`) |
 
 ## Repository structure
 
@@ -128,14 +164,12 @@ A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](htt
 
 ```mermaid
 flowchart LR
-    A["generate_data.py — seeded CSVs"] --> B["python/ pipeline — EDA, RFM, churn, forecast, CLV"]
+    A["generate_data.py — seeded CSVs"] --> B["python/ pipeline — EDA, RFM, churn, forecast, CLV + 227 tests"]
     A --> C["sql/ — schema + 11 analysis scripts"]
     B --> D["data/processed + reports/ + metrics.json"]
     D --> E["Chart.js dashboard — Vercel"]
     D --> F["Power BI report — .pbix / .pbip"]
-    D --> G["NL-to-SQL assistant - scripts/ + FastAPI query guard"]
-    G --> H["evals/ - accuracy gate 0.90 in CI"]
-    B --> I["tests/ — 227 assertions"]
+    D --> G["NL-to-SQL assistant + eval gate 0.90 in CI"]
 ```
 
 ## How to run locally
