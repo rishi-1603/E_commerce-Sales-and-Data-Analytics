@@ -17,7 +17,7 @@
 | 9 | Live KPI cross-check | **matches canonical** — ₹5.93 Cr revenue, ₹3.20 Cr profit · 54.0% margin, 9,933 orders, 1,991 customers, ₹5,968 AOV, 448 cooling-off, 317 Champions, return rate 10.2% (1,223 of 12,000); Sales page: 9,312 Delivered · 77.6%, 844 Cancellations · 7.0%, best category Sports (matches `reports/fact_sheet.json` `top_category_by_revenue`), top region West | DOM text extraction + genuine screenshot `docs/screenshots/live_deployment_2026-11-17.png` |
 | 10 | Live navigation | **pages switch correctly** — all 12 page sections present; Sales page activates and renders expected cards | executed the page's own `nav()` handler in the live DOM (see M-4) |
 | 11 | Responsive rules (live DOM) | viewport meta present; 6 `@media` rules incl. hamburger ≤900px, KPI grid collapse ≤1080/560px, `prefers-reduced-motion` support | live CSS inspection (rendered-390px limitation: M-3) |
-| 12 | Power BI surface | `.pbix` compiled + full PBIP/TMDL structure + 4 pages of visuals + `measure_verification.png`; master-prompt screenshots present (`pbi_executive_overview/sales_performance/customer_insights/order_operations.png`, `publication_*.png`, `v3_*.jpg`) | file-level verification |
+| 12 | Power BI surface | `.pbix` compiled + full PBIP/TMDL structure + 4 pages of visuals + `measure_verification.png`; master-prompt screenshots present (`pbi_executive_overview/sales_performance/customer_insights/order_operations.png`, `web_*.png` (12 web pages)) | file-level verification |
 | 13 | Resume evidence alignment | `RESUME_EVIDENCE.md` claim matrix (12 claims) matches canonical values; verification date 2026-11-17 | cross-checked against `data/metrics.json` + reports |
 
 ## 2. Findings register

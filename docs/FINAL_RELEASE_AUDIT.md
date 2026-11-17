@@ -7,7 +7,7 @@ Audit date: 2026-10-30. This follow-up supersedes the earlier snapshot that trea
 - Fresh-source branch with recoverable commits; no unrelated changes overwritten.
 - Independent raw-data calculations and actual PostgreSQL execution, with dialect boundaries documented.
 - Actual anonymous browser rendering, tab/navigation actions, representative filters, downloads and deterministic assistant workflows.
-- Fresh screenshots stored in `docs/screenshots/publication_*.png` and referenced by the README.
+- Fresh screenshots stored in `docs/screenshots/web_*.png` (all 12 web-dashboard pages, captured from the live Vercel deployment in November 2026) and referenced by the README.
 - axe-core WCAG 2 A/AA and 2.1 AA checks at desktop/mobile, with measured defects repaired. Automated scans do not certify screen-reader usability.
 - Direct deterministic AI benchmark execution, selected static checks and full regression: **197 tests**.
 - Reviewed integration of the related publication-audit PR. The unrelated E-Commerce revenue PR remains outside this release.

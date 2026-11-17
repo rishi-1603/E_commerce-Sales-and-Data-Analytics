@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://ecomanalytics-dashboard.vercel.app/">
-    <img src="docs/screenshots/publication_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
+    <img src="docs/screenshots/web_overview.png" alt="E-Commerce web dashboard executive overview with sales KPIs and analytical charts" width="100%">
   </a>
   <br>
   <em>Live web dashboard preview (click to open) — Power BI Desktop editing screens are intentionally not used as the README hero image.</em>
@@ -103,10 +103,33 @@ The screenshots below are captured from the compiled report and reconcile with t
 
 A static Chart.js dashboard deployed at [ecomanalytics-dashboard.vercel.app](https://ecomanalytics-dashboard.vercel.app/). It is a separate artifact from the Power BI report.
 
-This README shows seven dashboard views in total — the four Power BI pages above, plus the web dashboard's overview (the lead image at the top of this README), customers and pricing below — each shown exactly once.
+This README shows sixteen dashboard views in total — the four Power BI pages above and all twelve pages of the web dashboard (the lead image at the top is the web Executive Overview; the remaining eleven are below) — each shown exactly once. The web screenshots were captured from the live Vercel deployment in November 2026 and reconcile with the KPI table above.
 
-![Web dashboard - customers](docs/screenshots/publication_customers.png)
-![Web dashboard - pricing](docs/screenshots/publication_pricing.png)
+| Sales Performance | Customer RFM Segmentation |
+|---|---|
+| ![Web dashboard Sales Performance: delivered orders, category and region breakdowns](docs/screenshots/web_sales.png) | ![Web dashboard Customer RFM Segmentation: K-Means segments over recency, frequency and monetary value](docs/screenshots/web_customers.png) |
+| **Retention & Cohorts** | **Churn Analysis** |
+| ![Web dashboard Retention and Cohorts: first-purchase cohort retention heatmap](docs/screenshots/web_cohorts.png) | ![Web dashboard Churn Analysis: Random Forest risk scoring with 448 customers flagged](docs/screenshots/web_churn.png) |
+| **Product Profitability** | **Revenue Forecast** |
+| ![Web dashboard Product Profitability: BCG matrix over 150 products](docs/screenshots/web_products.png) | ![Web dashboard Revenue Forecast: Holt-Winters and linear ensemble for Jan-Jun 2025](docs/screenshots/web_forecast.png) |
+| **Data Quality** | **Business Insights** |
+| ![Web dashboard Data Quality: reconciliation checks with one documented known gap](docs/screenshots/web_quality.png) | ![Web dashboard Business Insights: insight feed following observation, evidence, impact, recommendation and measurement](docs/screenshots/web_insights.png) |
+| **AI Analyst** | **Pricing Lab & Win-Back** |
+| ![Web dashboard AI Analyst: grounded built-in question showing the SQL and the evidence-backed answer](docs/screenshots/web_ai.png) | ![Web dashboard Pricing Lab: discount break-even analysis with margin erosion chart](docs/screenshots/web_pricing.png) |
+| **Win-Back Economics** | |
+| ![Web dashboard Win-Back Economics: expected-value campaign economics and sensitivity analysis](docs/screenshots/web_winback.png) | |
+
+- **Sales Performance** — 9,312 delivered (77.6% of placed); Sports is the top category, West the top region.
+- **Customer RFM Segmentation** — K-Means segments over Recency · Frequency · Monetary, summing to exactly 1,991 customers.
+- **Retention & Cohorts** — first-purchase cohort heatmap; month-1 retention rises from ~15–28% (2023 cohorts) to 55–88% (late-2024 cohorts).
+- **Churn Analysis** — Random Forest risk scoring (AUC 0.649) flags the 448 cooling-off customers.
+- **Product Profitability** — BCG matrix over all 150 products: 36 Stars, 38 Cash Cows, 39 Question Marks, 37 Dogs.
+- **Revenue Forecast** — Holt-Winters + linear ensemble for Jan–Jun 2025; MASE 0.68.
+- **Data Quality** — automated reconciliation checks; one known gap disclosed in place.
+- **Business Insights** — every insight follows Observation → Evidence → Impact → Recommendation → Measurement, with no invented figures.
+- **AI Analyst** — built-in grounded questions show the SQL and refuse unanswerable ones; "Total revenue" returns ₹5.93 Cr across 9,933 completed orders (Delivered + Processing).
+- **Pricing Lab & Win-Back** — no statistically detectable volume lift across discount depths (Kruskal-Wallis p = 0.305); the 20% rung would need +59.2% volume to break even.
+- **Win-Back Economics** — 448 cooling-off customers (₹1.24 Cr historical spend); ₹541 expected profit per contact at 15% recovery; 12.9% break-even churn probability.
 
 ## Tech stack
 
