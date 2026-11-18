@@ -67,7 +67,7 @@ recomputed in Python and pinned by tests. Say "SQL showcase", not "SQL pipeline"
 - **Power BI:** `.pbix` compiled with embedded data (opens without refresh) and `.pbip`
   editable source (needs "Refresh now"). Separate artifact from the web dashboard.
 - **CI:** GitHub Actions (Python 3.11): flake8 → generate → pipeline → calibration/backtest →
-  pricing/win-back/eval/challenger/inject → init DB → pytest (227).
+  pricing/win-back/eval/challenger/inject → init DB → pytest (235).
 
 ## 5. Design rules
 

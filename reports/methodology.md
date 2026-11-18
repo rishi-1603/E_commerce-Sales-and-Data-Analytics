@@ -59,7 +59,7 @@ in `data/processed/` (see `data/DATA_DICTIONARY.md`).
 | Primary keys unique & not null | `tests/test_data_quality.py` | No duplicate entity rows |
 | Foreign keys resolve | `tests/test_data_quality.py` | No orphaned orders/items |
 | Business-logic sanity (positive amounts, valid categories, age ranges) | `tests/test_data_quality.py` | No impossible values |
-| 227 pytest tests, run in CI | `.github/workflows/ci.yml` | Pipeline output is reproducible on a clean checkout |
+| 235 pytest tests, run in CI | `.github/workflows/ci.yml` | Pipeline output is reproducible on a clean checkout |
 | Dashboard pinned to pipeline output | `tests/test_dashboard_consistency.py` | No hand-typed headline can drift from the data |
 | AI assistant gated on a benchmark | `evals/run_eval.py` | 36/37 execution accuracy; refusals and fabricated answers counted |
 | No target leakage in churn | temporal split in `03_churn_analysis.py` | Metrics are honest, not inflated |

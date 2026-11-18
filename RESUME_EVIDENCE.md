@@ -1,8 +1,8 @@
 # E-Commerce Sales & Customer Analytics — Resume Evidence Index
 **Repository:** https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics
 **Live Application:** https://ecomanalytics-dashboard.vercel.app/
-**Verification Date:** 2026-11-17
-**CI Test Status:** 227 Passing Tests (verified against the local venv run; same suite runs in GitHub Actions)
+**Verification Date:** 2026-11-18
+**CI Test Status:** 235 Passing Tests (verified against the local venv run; same suite runs in GitHub Actions)
 
 ---
 
@@ -21,7 +21,7 @@
 | 9 | **Forecast Honesty** | Ensemble MASE 0.68 loses to the drift baseline (0.468); shipped bootstrap CI covers 9.5% of actuals; challenger `holt_linear` (MASE 0.375) beats drift under the same protocol | Monthly revenue series, 10 rolling origins | `scripts/forecast_backtest.py`, `scripts/forecast_challenger.py` | `tests/test_forecast_backtest.py`, `tests/test_forecast_challenger.py` | Short synthetic series; empirical uncertainty is understated and stated as such. |
 | 10 | **NL-to-SQL Assistant** | 97.3% execution accuracy (36/37), refusals 100%, 0 fabricated numbers on unanswerable questions | Benchmark v1.1 — 37 retail questions, 4 classes, `mode=fallback` | `evals/run_eval.py`, `reports/ai_eval_report.md` | `tests/test_ai_eval.py`, `tests/test_nl_to_sql.py` | Benchmark scope is limited; answers are grounded in a verified fact sheet with refusals on out-of-scope questions. |
 | 11 | **Reproducibility** | Seeded generator reproduces raw CSVs byte-identically; pipeline completes 8/8 steps; full suite green | Whole pipeline | `data/raw/generate_data.py`, `run_pipeline.py` | full `pytest` suite | Pipeline reruns produce benign last-ulp float diffs in `data/processed` CSVs. |
-| 12 | **CI Footprint** | 227 tests + flake8 + evals gate (`--min-accuracy 0.90`) + dashboard byte-identity across 4 deployment copies | Every push / pull request | `.github/workflows/ci.yml` | GitHub Actions run history | Local runs should use the project venv (Python 3.14 global lacks pinned deps). |
+| 12 | **CI Footprint** | 235 tests + flake8 + evals gate (`--min-accuracy 0.90`) + dashboard byte-identity across 4 deployment copies | Every push / pull request | `.github/workflows/ci.yml` | GitHub Actions run history | Local runs should use the project venv (Python 3.14 global lacks pinned deps). |
 
 ---
 

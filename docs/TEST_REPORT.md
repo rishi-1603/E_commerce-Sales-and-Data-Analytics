@@ -1,5 +1,5 @@
 # TEST REPORT — E-Commerce
-### Last full run: 2026-10-18 — 182/182 passed
+### Last full run: 2026-11-18 — 235/235 passed
 
 | Suite | File | Pins |
 |---|---|---|
@@ -11,6 +11,8 @@
 | Discount engine | test_discount_engine.py | break-even band |
 | NL-to-SQL | test_nl_to_sql.py | eval harness invariants |
 | AI eval | test_ai_eval.py | benchmark results (97.3%, 0 fabricated) |
+| API NL accuracy | tests/api/test_nl_query_accuracy.py | aggregate definitions, refusal of off-scope questions |
+| API SQL guard | tests/api/test_security_nl_query.py | AST whitelist, read-only, LIMIT cap |
 
 ## How numbers are pinned
 Each analysis writes `reports/*_metrics.json`; tests assert values against those

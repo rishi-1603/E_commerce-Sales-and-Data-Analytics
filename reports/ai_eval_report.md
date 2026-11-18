@@ -1,6 +1,6 @@
 # AI Evaluation Report — NL-to-SQL Assistant
 
-**Mode:** `fallback` · **Run:** 2026-11-17T12:27:25+00:00 · **Benchmark:** `evals/nl2sql_benchmark.json` (v1.1, 37 questions, 4 classes)
+**Mode:** `fallback` · **Run:** 2026-11-18T07:41:48+00:00 · **Benchmark:** `evals/nl2sql_benchmark.json` (v1.1, 37 questions, 4 classes)
 
 > Ground truth is computed independently by the harness (pandas, from the raw processed table) — never from the system under test. Checks are alias-agnostic. Failures are listed below in full.
 
@@ -11,7 +11,7 @@
 | **Execution accuracy** | **36/37 = 97.3%** |
 | Refusal correctness | 100.0% |
 | Fabricated numbers on unanswerable questions | **0** |
-| Latency p50 / p95 | 641.0 ms / 659.2 ms |
+| Latency p50 / p95 | 463.4 ms / 505.3 ms |
 
 ## Before / after — measured improvement
 

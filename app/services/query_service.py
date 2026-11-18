@@ -5,8 +5,30 @@ import sqlglot
 from sqlglot import exp
 from typing import Tuple
 import logging
+import re
 
 logger = logging.getLogger("commerce_api")
+
+# Dimensions and time scopes this router does not break down by. If one appears
+# in an aggregate question, the question is refused rather than answered at the
+# wrong grain (e.g. "total revenue by customer segment").
+_SCOPE_TERMS = (
+    "category", "region", "product", "segment", "subcategory", "customer",
+    "status", "city", "state", "month", "year", "quarter",
+)
+_MONTH_RE = re.compile(
+    r"\b(january|february|march|april|may|june|july|august|september|"
+    r"october|november|december)\b",
+    re.IGNORECASE,
+)
+
+
+def _has_other_scope(q: str) -> bool:
+    return bool(
+        _MONTH_RE.search(q)
+        or re.search(r"\b20\d{2}\b", q)
+        or any(term in q for term in _SCOPE_TERMS)
+    )
 
 class QueryService:
     ALLOWED_TABLES = {"orders", "order_items", "customers", "products"}
@@ -64,7 +86,10 @@ class QueryService:
     def generate_sql_from_question(question: str) -> Tuple[str, str]:
         """
         Grounded NL-to-SQL logic adhering to the e-commerce semantic layer.
-        Maps common leadership questions into validated analytical queries.
+
+        Answers only questions this deterministic router can ground in the
+        relational schema. Anything else returns ("", "") so the endpoint can
+        refuse -- never an unrelated query that looks like an answer.
         """
         q = question.lower().strip()
 
@@ -127,8 +152,83 @@ class QueryService:
             exp = "Customer geographic distribution across regions."
             return sql.strip(), exp
 
-        else:
-            # Fallback safe query
+        elif "margin" in q and "category" in q:
+            sql = """
+            SELECT p.category,
+                   ROUND(100.0 * SUM(oi.line_total - oi.cost_total) / SUM(oi.line_total), 1) AS margin_pct
+            FROM products p
+            JOIN order_items oi ON p.product_id = oi.product_id
+            JOIN orders o ON oi.order_id = o.order_id
+            WHERE o.status NOT IN ('Cancelled', 'Returned')
+            GROUP BY p.category
+            ORDER BY margin_pct DESC;
+            """
+            exp = "Gross margin by product category for delivered and processing orders."
+            return sql.strip(), exp
+
+        elif "region" in q and ("revenue" in q or "sales" in q or "profit" in q):
+            sql = """
+            SELECT c.region, ROUND(SUM(oi.line_total), 2) AS region_revenue
+            FROM customers c
+            JOIN orders o ON c.customer_id = o.customer_id
+            JOIN order_items oi ON o.order_id = oi.order_id
+            WHERE o.status NOT IN ('Cancelled', 'Returned')
+            GROUP BY c.region
+            ORDER BY region_revenue DESC;
+            """
+            exp = "Revenue by customer region for delivered and processing orders."
+            return sql.strip(), exp
+
+        elif ("revenue" in q or "sales" in q or "turnover" in q) and not _has_other_scope(q):
+            sql = """
+            SELECT ROUND(SUM(oi.line_total), 2) AS total_revenue
+            FROM orders o
+            JOIN order_items oi ON o.order_id = oi.order_id
+            WHERE o.status NOT IN ('Cancelled', 'Returned');
+            """
+            exp = "Total revenue across delivered and processing orders."
+            return sql.strip(), exp
+
+        elif "profit" in q and not _has_other_scope(q):
+            sql = """
+            SELECT ROUND(SUM(oi.line_total - oi.cost_total), 2) AS total_profit
+            FROM orders o
+            JOIN order_items oi ON o.order_id = oi.order_id
+            WHERE o.status NOT IN ('Cancelled', 'Returned');
+            """
+            exp = "Total gross profit across delivered and processing orders."
+            return sql.strip(), exp
+
+        elif "margin" in q and not _has_other_scope(q):
+            sql = """
+            SELECT ROUND(100.0 * SUM(oi.line_total - oi.cost_total) / SUM(oi.line_total), 2) AS margin_pct
+            FROM orders o
+            JOIN order_items oi ON o.order_id = oi.order_id
+            WHERE o.status NOT IN ('Cancelled', 'Returned');
+            """
+            exp = "Overall gross margin across delivered and processing orders."
+            return sql.strip(), exp
+
+        elif "customer" in q and ("how many" in q or "how big" in q or "customer base" in q) \
+                and not any(t in q for t in ("region", "state", "city", "segment", "category")):
+            sql = """
+            SELECT COUNT(DISTINCT o.customer_id) AS total_customers
+            FROM orders o
+            WHERE o.status NOT IN ('Cancelled', 'Returned');
+            """
+            exp = "Customers with at least one delivered or processing order."
+            return sql.strip(), exp
+
+        elif "order" in q and ("how many" in q or "total" in q) and not _has_other_scope(q):
+            sql = """
+            SELECT COUNT(DISTINCT o.order_id) AS total_orders
+            FROM orders o
+            WHERE o.status NOT IN ('Cancelled', 'Returned');
+            """
+            exp = "Orders that are delivered or processing (excludes cancelled and returned)."
+            return sql.strip(), exp
+
+        elif "status" in q and ("order" in q or "distribution" in q):
             sql = """
             SELECT status, COUNT(*) AS order_count
             FROM orders
@@ -138,9 +238,28 @@ class QueryService:
             exp = "Distribution of orders by operational status."
             return sql.strip(), exp
 
+        # No grounded query: refuse instead of answering a different question.
+        return "", ""
+
     @staticmethod
     async def process_natural_language_query(db: AsyncSession, question: str) -> NLQueryResponse:
         sql, explanation = QueryService.generate_sql_from_question(question)
+
+        if not sql:
+            return NLQueryResponse(
+                question=question,
+                generated_sql="",
+                is_safe=True,
+                row_count=0,
+                data=[],
+                explanation=(
+                    "Refused: this question is outside the supported NL-to-SQL scope. "
+                    "No SQL was generated or executed. Supported: revenue/profit/margin "
+                    "totals and category/region breakdowns, top products, AOV, order and "
+                    "customer counts, cancellations, and order-status distribution."
+                ),
+            )
+
         is_safe, sanitized_sql, reason = QueryService.sanitize_sql(sql)
 
         if not is_safe:
