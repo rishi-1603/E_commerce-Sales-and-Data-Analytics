@@ -309,9 +309,13 @@ function buildPricing(){
   runBudgetWorklist();
 }
 
-function escapeHtml(text){
-  if(!text) return '';
-  return String(text).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"').replace(/'/g,'''');
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // PRICING_JS_END"""
