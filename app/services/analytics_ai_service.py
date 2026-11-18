@@ -95,7 +95,7 @@ class AnalyticsAIService:
                 raise ValueError("GEMINI_API_KEY environment variable not set")
             genai.configure(api_key=api_key)
             cls._gemini_model = genai.GenerativeModel(
-                "gemini-1.5-flash",
+                "gemini-3.8-flash",
                 generation_config=genai.GenerationConfig(
                     temperature=0.3,
                     max_output_tokens=2048,
