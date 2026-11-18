@@ -92,13 +92,20 @@ def test_cohort_matrix_shape_and_definition():
                 assert 0 <= v <= 100
 
 
-def test_cohort_retention_improves_over_time():
+def test_cohort_retention_late_cohort_gap_is_the_censoring_artifact():
+    """Pins the observed shape so a real change is noticed.
+
+    Late cohorts showing higher M1 is a RIGHT-CENSORING ARTIFACT (they have a
+    compressed observation window), not improving retention. If this assertion
+    ever fails, re-examine the cohort windows before reading it as a trend.
+    """
     c = cohort_matrix(_master())
     m1 = [row[1] for row in c["matrix"] if row[1] is not None]
     early = m1[: len(m1) // 2]
     late = m1[len(m1) // 2 :]
     assert sum(late) / len(late) > sum(early) / len(early), (
-        "verified pattern broken: newer cohorts should retain better")
+        "cohort shape changed: the late-cohort censoring artifact is no longer present — "
+        "check observation windows before interpreting retention as a trend")
 
 
 # ── What-changed + segment playbook ──────────────────────────────────────────

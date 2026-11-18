@@ -89,15 +89,16 @@ PAGES = """<!-- PRICING_PAGES_START -->
 
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cooling-off customers</div><div class="kpi-value" style="color:var(--blue)">__W_CUST__</div><div class="kpi-delta neu">__W_HIST__ historical spend</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected profit per contact</div><div class="kpi-value" style="color:var(--green)">__W_EVPC__</div><div class="kpi-delta up">at __W_RATE__% recovery</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign expected profit</div><div class="kpi-value" style="color:var(--green)">__W_EVTOT__</div><div class="kpi-delta neu">contact all __W_CUST__</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue / contact</div><div class="kpi-value" style="color:var(--green)">__W_EVPC__</div><div class="kpi-delta up">at __W_RATE__% recovery</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign net revenue</div><div class="kpi-value" style="color:var(--green)">__W_EVTOT__</div><div class="kpi-delta neu">contact all __W_CUST__</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">__W_BEP__%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
       </div>
+      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 541 per contact is about Rs 177 of contribution.</div>
 
       <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected profit per contact across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
+        <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected net revenue per contact (before cost of goods) across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
         <div class="chart-wrap" style="height:260px">
-          <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected profit sensitivity by recovery rate and offer cost"></canvas>
+          <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected net revenue sensitivity by recovery rate and offer cost"></canvas>
         </div>
       </div>
 
@@ -109,10 +110,10 @@ PAGES = """<!-- PRICING_PAGES_START -->
       </div>
 
       <div class="card">
-        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected profit in rupees -- including the do-nothing baseline</div></div></div>
+        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected net revenue in rupees, before cost of goods -- including the do-nothing baseline</div></div></div>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected profit</th></tr></thead>
+            <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected net revenue</th></tr></thead>
             <tbody id="winback_tbody"></tbody>
           </table>
         </div>
@@ -250,7 +251,7 @@ function buildWinbackSens(){
         tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + fmtINR(c.parsed.y) + ' per contact' } } },
       scales:{
         y:{ ticks:{ color:MUT }, grid:GRD,
-            title:{display:true,text:'Expected profit per contact',color:MUT} },
+            title:{display:true,text:'Expected net revenue per contact',color:MUT} },
         x:{ ticks:{ color:MUT }, grid:{display:false},
             title:{display:true,text:'Recovery rate assumption',color:MUT} }
       }
@@ -287,13 +288,13 @@ function runBudgetWorklist(){
       '<div class="kpi-value" style="color:var(--purple)">' + selected + '</div>' +
       '<div class="kpi-delta neu">' + eligible + ' eligible</div></div>' +
     '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div>' +
-      '<div class="kpi-label">Expected profit</div>' +
+      '<div class="kpi-label">Expected net revenue</div>' +
       '<div class="kpi-value" style="color:var(--green)">' + fmtINR(profit) + '</div>' +
       '<div class="kpi-delta up">' + fmtINR(W.ev_per_contact) + ' per contact</div></div>' +
     '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div>' +
       '<div class="kpi-label">Return per unit spent</div>' +
       '<div class="kpi-value" style="color:var(--amber)">' + (budget > 0 ? (profit/budget).toFixed(2) + 'x' : '--') + '</div>' +
-      '<div class="kpi-delta neu">expected profit / budget</div></div>';
+      '<div class="kpi-delta neu">net revenue / budget</div></div>';
 }
 
 function buildPricing(){

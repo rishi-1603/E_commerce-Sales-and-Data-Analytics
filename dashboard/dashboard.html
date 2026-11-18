@@ -423,9 +423,9 @@ tr:last-child td{border-bottom:0}
           <div class="hero-sub"><span class="up">▲ 54.0%</span> margin</div>
         </div>
         <div class="hero-card">
-          <div class="hero-head"><div class="hero-icon hi-amber">🛒</div><div class="hero-label">Completed Orders</div></div>
+          <div class="hero-head"><div class="hero-icon hi-amber">🛒</div><div class="hero-label">Eligible Orders</div></div>
           <div class="hero-value" style="color:var(--amber)">9,933</div>
-          <div class="hero-sub neu">77.6% delivery rate</div>
+          <div class="hero-sub neu">9,312 delivered + 621 processing</div>
         </div>
         <div class="hero-card">
           <div class="hero-head"><div class="hero-icon hi-purple">👤</div><div class="hero-label">Active Customers</div></div>
@@ -435,7 +435,7 @@ tr:last-child td{border-bottom:0}
         <div class="hero-card">
           <div class="hero-head"><div class="hero-icon hi-cyan">₹</div><div class="hero-label">Avg Order Value</div></div>
           <div class="hero-value" style="color:var(--cyan)">₹5,968</div>
-          <div class="hero-sub neu">Per completed order</div>
+          <div class="hero-sub neu">Per eligible order</div>
         </div>
         <div class="hero-card">
           <div class="hero-head"><div class="hero-icon hi-red">⏸</div><div class="hero-label">Cooling-off Customers</div></div>
@@ -939,15 +939,16 @@ tr:last-child td{border-bottom:0}
 
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cooling-off customers</div><div class="kpi-value" style="color:var(--blue)">448</div><div class="kpi-delta neu">₹1.24 Cr historical spend</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected profit per contact</div><div class="kpi-value" style="color:var(--green)">₹541</div><div class="kpi-delta up">at 15% recovery</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign expected profit</div><div class="kpi-value" style="color:var(--green)">₹2.42 L</div><div class="kpi-delta neu">contact all 448</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue / contact</div><div class="kpi-value" style="color:var(--green)">₹541</div><div class="kpi-delta up">at 15% recovery</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign net revenue</div><div class="kpi-value" style="color:var(--green)">₹2.42 L</div><div class="kpi-delta neu">contact all 448</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">12.9%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
       </div>
+      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 541 per contact is about Rs 177 of contribution.</div>
 
       <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected profit per contact across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
+        <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected net revenue per contact (before cost of goods) across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
         <div class="chart-wrap" style="height:260px">
-          <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected profit sensitivity by recovery rate and offer cost"></canvas>
+          <canvas id="ch_winback_sens" role="img" aria-label="Win-back expected net revenue sensitivity by recovery rate and offer cost"></canvas>
         </div>
       </div>
 
@@ -959,10 +960,10 @@ tr:last-child td{border-bottom:0}
       </div>
 
       <div class="card">
-        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected profit in rupees -- including the do-nothing baseline</div></div></div>
+        <div class="card-header"><div><div class="card-title">Tiered Scenarios</div><div class="card-sub">Expected net revenue in rupees, before cost of goods -- including the do-nothing baseline</div></div></div>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected profit</th></tr></thead>
+            <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected net revenue</th></tr></thead>
             <tbody id="winback_tbody"></tbody>
           </table>
         </div>
@@ -1545,12 +1546,12 @@ function renderQuality(){
   }
   const tb = document.getElementById('dq_tbody');
   if(tb){
-    const checks = [['Missing values in required fields','All order lines','0','PASS'],['Duplicate order lines (item_id)','Fact table','0','PASS'],['Invalid order status','Revenue population','0','PASS'],['Customer key integrity','Fact -> DimCustomer','0','PASS'],['Product key integrity','Fact -> DimProduct','0','PASS'],['Revenue = cost + profit','Per line','<0.001','PASS'],['Monthly revenue reconciliation','Excel vs SQL vs dashboard','OK','PASS'],['Completed vs delivered count consistency','KPI definitions','documented','KNOWN GAP']];
+    const checks = [['Missing values in required fields','All order lines','0','PASS'],['Duplicate order lines (item_id)','Fact table','0','PASS'],['Invalid order status','Revenue population','0','PASS'],['Customer key integrity','Fact -> DimCustomer','0','PASS'],['Product key integrity','Fact -> DimProduct','0','PASS'],['Revenue = cost + profit','Per line','<0.001','PASS'],['Monthly revenue reconciliation','Excel vs SQL vs dashboard','OK','PASS'],['Completed orders = Delivered status','KPI definitions','9,312','PASS']];
     tb.innerHTML = checks.map(c=>'<tr><td>'+c[0]+'</td><td>'+c[1]+'</td><td class="num-right">'+c[2]+'</td><td><span class="badge '+(c[3]==='PASS'?'badge-green':'badge-amber')+'">'+c[3]+'</span></td></tr>').join('');
   }
   const rc = document.getElementById('dq_recon');
   if(rc){
-    const rows = [['Revenue (INR)','15.93 Cr','15.93 Cr','15.93 Cr','OK'],['Included orders','9,933','9,933','9,933','OK'],['Gross profit (INR)','3.20 Cr','3.20 Cr','3.20 Cr','OK'],['Gross margin','54.0%','54.0%','54.0%','OK']];
+    const rows = [['Revenue (INR)','5.93 Cr','5.93 Cr','5.93 Cr','OK'],['Included orders','9,933','9,933','9,933','OK'],['Gross profit (INR)','3.20 Cr','3.20 Cr','3.20 Cr','OK'],['Gross margin','54.0%','54.0%','54.0%','OK']];
     rc.innerHTML = rows.map(r=>'<tr><td>'+r[0]+'</td><td class="num-right">'+r[1]+'</td><td class="num-right">'+r[2]+'</td><td class="num-right">'+r[3]+'</td><td><span class="badge badge-green">'+r[4]+'</span></td></tr>').join('');
   }
 }
@@ -1562,20 +1563,55 @@ function renderInsights(){
   const items = [
     {obs:'Growth was driven by more orders, not larger baskets', ev:'Dec 2024 revenue +17.0% MoM while orders +21.3% and AOV -3.5%', impact:'Volume-led growth in this dataset', rec:'Test a volume-focused campaign; do not assume price response', meas:'Track AOV alongside revenue next period'},
     {obs:'Discounts show no detectable quantity lift', ev:'Kruskal-Wallis p = 0.305 across discount depths', impact:'Break-even volume lift rises to 59.2% at 20% discount', rec:'Cap discounts at 10% pending a controlled experiment', meas:'Measure incremental units per discount tier'},
-    {obs:'Retention improves as cohorts mature', ev:'Month-1 retention rises from ~15-28% (2023) to 55-88% (late 2024)', impact:'Newer cohorts retain better', rec:'Protect onboarding for new cohorts', meas:'Track month-1 retention by acquisition month'},
-    {obs:'448 cooling-off customers identified', ev:'No purchase in 180+ days; Rs 12.42 Cr historical spend', impact:'Expected profit Rs 541 per contact at 15% recovery', rec:'Run a win-back test on the top decile by expected value', meas:'Measure response rate and incremental profit'},
+    {obs:'Cohort retention is right-censored, not improving', ev:'Late-2024 cohorts have under 12 months observed; the apparent rise from ~15-28% to 55-88% is an observation-window artifact', impact:'Cohort comparisons on unequal windows overstate newer cohorts', rec:'Compare retention only at a fixed months-since-first-purchase horizon', meas:'Re-run the cohort table as each cohort matures'},
+    {obs:'448 customers sit in the Medium Risk churn band', ev:'Model band on n=1,586; their historical spend is Rs 1.24 Cr, not Rs 12.42 Cr', impact:'Expected net revenue Rs 541 per contact at 15% recovery before COGS (about Rs 177 at 54% margin)', rec:'Run a win-back test on the top decile by expected value; treat Rs 541 as revenue, not profit', meas:'Measure response rate and incremental contribution margin'},
   ];
   feed.innerHTML = items.map(it=>'<div class="wc-box wc-info"><b>'+it.obs+'</b><br><span style="font-size:12px;color:var(--muted)">Evidence: '+it.ev+'<br>Impact: '+it.impact+'<br>Recommendation: '+it.rec+'<br>Measurement: '+it.meas+'</span></div>').join('');
 }
 
 /* ---- EcomAI Analyst (built-in, deterministic) ---- */
 const AI_ANSWERS = {
-  revenue: {sql:"SELECT ROUND(SUM(line_total),2) AS total_revenue FROM orders WHERE status IN ('Delivered','Processing')", ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 completed orders (Delivered + Processing).'},
-  top_category: {sql:'SELECT category, ROUND(SUM(line_total),2) AS revenue FROM orders GROUP BY category ORDER BY revenue DESC LIMIT 1', ans:'Electronics is the top category by revenue, followed by Home & Garden and Clothing.'},
-  churn: {sql:"SELECT ROUND(100.0*SUM(CASE WHEN last_order < date('now','-180 days') THEN 1 ELSE 0 END)/COUNT(*),1) AS churn_rate FROM customers", ans:"Churn rate (180-day inactivity definition) is 25.3%."},
-  inactive: {sql:"SELECT COUNT(*) AS inactive_customers FROM customers WHERE last_order < date('now','-180 days')", ans:"448 customers are in the cooling-off pool (no purchase in 180+ days)."},
-  forecast: {sql:'-- Holt-Winters + linear ensemble, backtested (MASE 0.3752)', ans:'Next 6 months projected at the trend rate; see the Revenue Forecast page for the full interval. Projected, not realised.'},
-  margin: {sql:'SELECT ROUND(100.0*SUM(profit)/SUM(line_total),1) AS margin_pct FROM orders', ans:'Gross margin is 54.0% on recorded revenue (revenue minus cost; not net income).'},
+  revenue: {sql:`SELECT ROUND(SUM(oi.line_total), 2) AS total_revenue
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+WHERE o.status IN ('Delivered', 'Processing')`, ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 eligible orders (Delivered + Processing).'},
+  top_category: {sql:`SELECT p.category, ROUND(SUM(oi.line_total), 2) AS revenue
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+JOIN products p ON p.product_id = oi.product_id
+WHERE o.status IN ('Delivered', 'Processing')
+GROUP BY p.category
+ORDER BY revenue DESC
+LIMIT 1`, ans:'Sports is the top category by revenue (Rs 1.39 Cr), just ahead of Electronics (Rs 1.36 Cr) and Clothing (Rs 1.27 Cr).'},
+  churn: {sql:`-- Raw end-of-data inactivity proxy: 402 of 1,991 customers (20.2%).
+-- The 25.3% model prevalence is evaluated on the 1,586-customer modelling split.
+WITH last_valid AS (
+  SELECT customer_id, MAX(order_date) AS last_order_date
+  FROM orders
+  WHERE status IN ('Delivered', 'Processing')
+  GROUP BY customer_id
+)
+SELECT COUNT(*) AS inactive_customers
+FROM last_valid
+WHERE last_order_date < DATE('2024-12-30', '-180 days')`, ans:'The churn model evaluates at 25.3% prevalence on 1,586 customers with a full 180-day window. A raw end-of-data 180-day inactivity count is 402 of 1,991 customers (20.2%) - a different population, not the model metric.'},
+  inactive: {sql:`-- Raw 180-day inactivity at the dataset end: 402 customers.
+WITH last_valid AS (
+  SELECT customer_id, MAX(order_date) AS last_order_date
+  FROM orders
+  WHERE status IN ('Delivered', 'Processing')
+  GROUP BY customer_id
+)
+SELECT COUNT(*) AS inactive_customers
+FROM last_valid
+WHERE last_order_date < DATE('2024-12-30', '-180 days')`, ans:'402 customers have no valid order in the final 180 days. The 448 figure is the Medium Risk band of the churn model (n=1,586), not a raw inactivity count.'},
+  forecast: {sql:`-- Shipped: Holt-Winters + linear ensemble.
+-- Rolling-origin backtest (10 origins x 3 horizons): shipped MASE 0.68 vs drift 0.468.
+-- Challenger holt_linear scores 0.3752 but is not deployed.
+-- The 95% bootstrap interval under-covers (9.5% empirical), so treat the band as indicative.`, ans:'The 6-month projection covers Jan-Jun 2025 and is a historical backtest, not a live forecast. The shipped ensemble scores MASE 0.68, worse than the drift baseline (0.468); the holt_linear challenger scores 0.3752 but is not deployed. Interval coverage is 9.5% against a 95% nominal band.'},
+  margin: {sql:`SELECT ROUND(100.0 * SUM(oi.line_total - oi.cost_total) / SUM(oi.line_total), 1) AS margin_pct
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+WHERE o.status IN ('Delivered', 'Processing')`, ans:'Gross margin is 54.0% on Rs 5.93 Cr of recorded revenue (revenue minus product cost; not net income).'},
 };
 function askAI(q){
   const out = document.getElementById('ai_output');
@@ -1719,7 +1755,7 @@ function buildWinbackSens(){
         tooltip:{ callbacks:{ label:c => c.dataset.label + ': ' + fmtINR(c.parsed.y) + ' per contact' } } },
       scales:{
         y:{ ticks:{ color:MUT }, grid:GRD,
-            title:{display:true,text:'Expected profit per contact',color:MUT} },
+            title:{display:true,text:'Expected net revenue per contact',color:MUT} },
         x:{ ticks:{ color:MUT }, grid:{display:false},
             title:{display:true,text:'Recovery rate assumption',color:MUT} }
       }
@@ -1756,13 +1792,13 @@ function runBudgetWorklist(){
       '<div class="kpi-value" style="color:var(--purple)">' + selected + '</div>' +
       '<div class="kpi-delta neu">' + eligible + ' eligible</div></div>' +
     '<div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div>' +
-      '<div class="kpi-label">Expected profit</div>' +
+      '<div class="kpi-label">Expected net revenue</div>' +
       '<div class="kpi-value" style="color:var(--green)">' + fmtINR(profit) + '</div>' +
       '<div class="kpi-delta up">' + fmtINR(W.ev_per_contact) + ' per contact</div></div>' +
     '<div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div>' +
       '<div class="kpi-label">Return per unit spent</div>' +
       '<div class="kpi-value" style="color:var(--amber)">' + (budget > 0 ? (profit/budget).toFixed(2) + 'x' : '--') + '</div>' +
-      '<div class="kpi-delta neu">expected profit / budget</div></div>';
+      '<div class="kpi-delta neu">net revenue / budget</div></div>';
 }
 
 function buildPricing(){

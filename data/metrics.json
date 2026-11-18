@@ -21,7 +21,7 @@
       "full_dataset_value": 9312
     },
     "active_customers": {
-      "definition": "Distinct customers with at least one order.",
+      "definition": "Distinct customers with at least one Delivered or Processing order (revenue-eligible). Of 2,000 customer records: 1,999 ordered, 8 only Cancelled/Returned, 1 never ordered — hence 1,991.",
       "full_dataset_value": 1991
     },
     "aov": {
@@ -30,8 +30,11 @@
     },
     "churn_model": {
       "definition": "Leakage-free churn model: features strictly before cutoff, label = no purchase in the 180 days after cutoff.",
-      "auc_5fold_cv": 0.65,
-      "caveat": "Honest post-leakage number; real churn models rarely score 0.9+ without leakage."
+      "roc_auc": 0.6484,
+      "pr_auc": 0.3616,
+      "prevalence": 0.2535,
+      "n_customers": 1586,
+      "caveat": "Honest post-leakage number; real churn models rarely score 0.9+ without leakage. The 25.35% prevalence is a MODEL LABEL RATE on the scored population, not a business churn rate. Full evidence in churn_calibration."
     },
     "cooling_off_customers": {
       "definition": "Medium churn-risk band — the win-back audience.",
@@ -64,7 +67,7 @@
       }
     },
     "bcg_matrix": {
-      "definition": "Products mapped to Star / Cash Cow / Question Mark / Dog by growth and relative share.",
+      "definition": "BCG-style PROXY, not the classic matrix: products are split on median units sold (x) and median gross margin (y) into Star / Cash Cow / Question Mark / Dog. No market-share or market-growth data exists in the dataset.",
       "counts": {
         "Star": 36,
         "Cash Cow": 38,
@@ -73,9 +76,9 @@
       }
     },
     "revenue_forecast": {
-      "definition": "H1 2025 projection, ensemble of linear trend + Holt-Winters, bootstrap 95% CI.",
+      "definition": "HISTORICAL backtest, not a live projection: ensemble of linear trend + Holt-Winters fitted through Dec 2024 and projected for Jan–Jun 2025, bootstrap 95% CI.",
       "total_projected": "₹3.27 Cr",
-      "caveat": "Assumes trend/seasonality continues; evaluate against actuals over time."
+      "caveat": "The horizon is in the past relative to publication — this is a holdout evaluation of the method. Rolling-origin MASE 0.68 loses to the drift baseline (0.468) and the 95% band covered only 9.5% of actuals; see reports/forecast_backtest.md."
     },
     "purchase": {
       "definition": "An order with status Delivered or Returned. Cancelled orders never transacted; Processing is not yet a purchase.",
@@ -86,7 +89,7 @@
     },
     "cohort_retention": {
       "definition": "Customers grouped by first-purchase month; retention M_k = share with >=1 purchase k months after the cohort month. M0 = 100% by definition.",
-      "verified_pattern": "Month-1 retention rises from ~15-28% (2023 cohorts) to 55-88% (late 2024)."
+      "verified_pattern": "Month-1 retention appears to rise for late-2024 cohorts — this is a RIGHT-CENSORING ARTIFACT, not a real improvement: those cohorts have a compressed observation window (12 of 36 cohorts have <12 months observed; Nov 2024 has 1 month, Dec 2024 has 0). Do not read it as improving retention."
     },
     "order_funnel": {
       "definition": "Placed (all 12,000) -> Delivered (9,312). Statuses are mutually exclusive, so 'Returned' is its own exit (1,223), not subtracted from 'Delivered'.",
@@ -177,9 +180,9 @@
         "note": "Same C/r/V as the churn model in reports/churn_calibration_metrics.json — a single source of truth."
       },
       "kpis": {
-        "expected_profit_per_contact": "P(churn) x recovery_rate x retained_value - contact_cost",
-        "break_even_churn_probability": "contact_cost / (recovery_rate x retained_value) — equals the churn model Bayes threshold by construction",
-        "campaign_expected_profit": "expected_profit_per_contact x audience"
+        "expected_net_revenue_per_contact": "P(churn) x recovery_rate x retained_value - contact_cost. Revenue before COGS: retained_value is 180-day SPEND, so at the 54.0% gross margin ≈₹177 of contribution per contact.",
+        "break_even_churn_probability": "contact_cost / (recovery_rate x retained_value) — equals the churn model Bayes threshold by construction. On a margin basis the break-even rises to ≈23.9%.",
+        "campaign_expected_net_revenue": "expected_net_revenue_per_contact x audience (before COGS)"
       },
       "measured_results": {
         "cooling_off_customers": 448,
@@ -187,7 +190,8 @@
         "mean_churn_probability": 0.408,
         "expected_profit_per_contact": 541.0,
         "campaign_expected_profit": 242478.0,
-        "break_even_churn_probability": 0.1289
+        "break_even_churn_probability": 0.1289,
+        "basis": "Revenue before COGS. The 'profit' key names are retained for compatibility with reports/winback_economics.json; read them as expected NET REVENUE. Margin-adjusted: ≈₹177 contribution per contact, break-even ≈23.9%."
       },
       "caveat": "Every figure is an expectation under stated assumptions — no campaign has been run. The recovery rate is not measured and is the most sensitive input, which is why a sensitivity grid is published rather than a point estimate alone."
     },
