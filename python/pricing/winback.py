@@ -3,7 +3,7 @@ winback.py — Win-Back Campaign Economics
 ==============================================================================
 The pricing question this module answers:
 
-    "Of the 448 cooling-off customers, who is worth saving, with what offer,
+    "Of the 441 cooling-off customers, who is worth saving, with what offer,
      and what does the campaign return before we spend a single rupee?"
 
 WHAT IT COMPUTES
@@ -11,7 +11,7 @@ WHAT IT COMPUTES
                                at a chosen offer cost and recovery rate.
     2. break_even_probability() — the churn probability at which a contact is
                                exactly worth its cost. Cross-checks the churn
-                               model's own Bayes threshold (0.1289).
+                               model's own Bayes threshold (0.1254).
     3. sensitivity_grid()     — expected profit across recovery rates × offer
                                costs. Shows how wrong an assumption can be
                                before the recommendation flips.
@@ -23,17 +23,17 @@ WHAT IT COMPUTES
 PARAMETERS (must match data/metrics.json and the churn cost model)
     contact cost  C = ₹250      (reports/churn_calibration_metrics.json)
     recovery rate r = 15%       (same file)
-    retained value V = ₹12,931  (mean 180-day spend of customers who did NOT churn)
+    retained value V = ₹13,292  (mean 180-day spend of customers who did NOT churn)
 
 HONESTY NOTES
     - Every figure is an EXPECTED value under stated assumptions. No campaign
       has been run. The experiment design (docs/experiment_design_winback.md)
       exists precisely because these are assumptions, not measurements.
-    - The 34.5% baseline 90-day repeat rate is measured; the recovery rate r is
+    - The 38.8% baseline 90-day repeat rate is measured; the recovery rate r is
       NOT measured — it is the single most sensitive assumption, so the module
       reports a sensitivity grid rather than a point estimate alone.
-    - The pool size (448) is only powered to detect a +13pp effect; smaller true
-      effects will be invisible. Underpowered ≠ no effect.
+    - The pool size (441) is only powered to detect a +13.3pp effect; smaller
+      true effects will be invisible. Underpowered ≠ no effect.
 
 Run:  python python/pricing/winback.py
 """
@@ -51,8 +51,8 @@ OUT = ROOT / "reports" / "winback_economics.json"
 # ── Canonical cost-model parameters (single source of truth) ────────────────
 CONTACT_COST_INR = 250.0        # C — per contact / per offer
 RECOVERY_RATE = 0.15            # r — share of reached churners who return
-RETAINED_VALUE_INR = 12931.3    # V — mean 180-day spend of retained customers
-BASELINE_REPEAT_RATE = 0.345    # measured 90-day repeat rate of the pool
+RETAINED_VALUE_INR = 13292.2    # V — mean 180-day spend of retained customers
+BASELINE_REPEAT_RATE = 0.3878   # measured 90-day repeat rate of the pool
 
 COOLING_OFF_BAND = "Medium Risk"
 
@@ -162,7 +162,7 @@ def tiered_scenarios(pool: pd.DataFrame) -> list[dict]:
     out = []
 
     # A. Contact the whole pool
-    out.append({"scenario": "A. Contact all 448 (blanket win-back)",
+    out.append({"scenario": f"A. Contact all {n} (blanket win-back)",
                 **economics(n, mean_p)})
 
     # B. Top decile by expected value (churn probability × historical spend).
@@ -196,7 +196,7 @@ def tiered_scenarios(pool: pd.DataFrame) -> list[dict]:
                 "expected_profit_per_contact": 0.0, "profitable": False,
                 "campaign_cost_total": 0.0,
                 "expected_recovered_revenue_total": 0.0,
-                "note": "Baseline: revenue is lost at the natural 34.5% repeat rate."})
+                "note": "Baseline: revenue is lost at the natural 38.8% repeat rate."})
     return out
 
 

@@ -116,7 +116,7 @@ class TestDiscountDataMatchesArtifact:
 class TestWinbackDataMatchesArtifact:
     def test_pool_matches(self, dash_data, winback):
         w = dash_data["pricing"]["winback"]
-        assert w["customers"] == winback["pool"]["customers"] == 448
+        assert w["customers"] == winback["pool"]["customers"] == 441
         assert w["historical_spend"] == winback["pool"]["historical_spend_inr"]
 
     def test_economics_match(self, dash_data, winback):

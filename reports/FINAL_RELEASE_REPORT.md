@@ -1,4 +1,9 @@
 # Final Release Report — E-Commerce Sales & Customer Analytics
+
+> **Current state (2026-11-18):** the values in the historical sections below
+> were superseded by the churn redefinition. See the v3 section at the end of
+> this file and `docs/AUDIT_2026-11-18.md`.
+
 **Date:** 2026-10-15 · **Release commit:** `57c980e` · **CI:** green (60/60 tests)
 
 ## A. Overall result
@@ -51,3 +56,21 @@ Live: https://ecomanalytics-dashboard.vercel.app/ (verified 200 after release)
 **Notable honest findings shipped this week:** churn calibration slope 0.39 → isotonic fix; t\*=0.10 beats contact-all; forecast ensemble loses to drift baseline (MASE 0.68 vs 0.47); shipped 95% CI covers 9.5%; rules tie ML at investigation cut sizes; readmission model errors sit exactly in the generator's stochastic conditions.
 
 **Status unchanged:** READY / READY WITH DISCLOSED LIMITATIONS — nothing this week weakened a claim; several were tightened downward on purpose.
+
+---
+
+## Release v3 (2026-11-18) — purchase-definition and churn-evaluation rework
+
+| Change | Verified result |
+|---|---|
+| Single purchase definition (Delivered or Returned from raw orders) across churn labels, cohorts, experiment baselines | `scripts/churn_data.py`; churn n = 1,597, prevalence 23.54%; cohorts rebuilt from `orders.csv` |
+| Model selection by 5-fold CV on the training split; one held-out 20% evaluation | LR CV ROC-AUC 0.6742 ± 0.0303; holdout ROC-AUC 0.6621, PR-AUC 0.3322 |
+| Published per-customer scores are out-of-fold (train) and holdout (test) — no in-sample refits | `reports/churn_model_metrics.json`; `churn_probability_raw` retained |
+| Real temporal evidence, separated from the random 80/20 split | `reports/churn_temporal_backtest.json` — 5 origins, CV AUC 0.5611–0.6710 |
+| Honest calibration reporting | OOF isotonic (1,278 rows): Brier 0.1726 → 0.1715; 256-row slice isotonic overfits: 0.172 → 0.1815 |
+| Win-back economics recomputed on the new band | 441 customers, ₹1.30 Cr historical spend, ₹523/contact, ₹2.30 L campaign, break-even 12.54% |
+| Experiment design updated | core baseline 38.8%, 441 pool, MDE +13.3 pp; expanded union pool 772, MDE +10.0 pp |
+
+**Disclosed limitations:** isotonic calibration is sample-size sensitive; the
+early rolling-origin AUCs are weak (≈0.56); no campaign has been run; the
+dashboard screenshots predate this redefinition (layout only).

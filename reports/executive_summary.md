@@ -16,7 +16,7 @@ A 10% discount-cap scenario adds approximately ₹6.45 lakh of margin if volume 
 
 ## Retention
 
-The win-back scenario covers 448 cooling-off customers. Under its documented contact-cost, recovery-rate and customer-value assumptions, expected profit is approximately ₹541 per contact. Historical spend is not future revenue at risk, and no campaign uplift has been measured.
+The win-back scenario covers 441 cooling-off customers. Under its documented contact-cost, recovery-rate and customer-value assumptions, expected net revenue is approximately ₹523 per contact (before COGS). Historical spend is not future revenue at risk, and no campaign uplift has been measured.
 
 A proposed campaign should therefore be evaluated against a control group. The useful outcomes would be incremental reactivation and contribution after contact and offer costs—not the number of messages sent.
 

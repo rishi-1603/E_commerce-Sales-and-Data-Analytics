@@ -121,7 +121,7 @@ This README shows sixteen dashboard views in total — the four Power BI pages a
 |---|---|
 | ![Web dashboard Sales Performance: delivered orders, category and region breakdowns](docs/screenshots/web_sales.png) | ![Web dashboard Customer RFM Segmentation: K-Means segments over recency, frequency and monetary value](docs/screenshots/web_customers.png) |
 | **Retention & Cohorts** | **Churn Analysis** |
-| ![Web dashboard Retention and Cohorts: first-purchase cohort retention heatmap](docs/screenshots/web_cohorts.png) | ![Web dashboard Churn Analysis: gradient-boosted risk scoring with a 448-customer Medium Risk band](docs/screenshots/web_churn.png) |
+| ![Web dashboard Retention and Cohorts: first-purchase cohort retention heatmap](docs/screenshots/web_cohorts.png) | ![Web dashboard Churn Analysis: logistic-regression risk scoring with a 441-customer Medium Risk band](docs/screenshots/web_churn.png) |
 | **Product Profitability** | **Revenue Forecast** |
 | ![Web dashboard Product Profitability: BCG-style proxy matrix over 150 products](docs/screenshots/web_products.png) | ![Web dashboard Revenue Forecast: Holt-Winters and linear ensemble backtest for Jan-Jun 2025](docs/screenshots/web_forecast.png) |
 | **Data Quality** | **Business Insights** |
@@ -131,17 +131,22 @@ This README shows sixteen dashboard views in total — the four Power BI pages a
 | **Win-Back Economics** | |
 | ![Web dashboard Win-Back Economics: expected-value campaign economics and sensitivity analysis](docs/screenshots/web_winback.png) | |
 
+> Screenshots were captured on 2026-11-17. The live dashboard reflects the
+> 2026-11-18 churn redefinition (unified purchase definition, out-of-fold
+> scoring and 5-fold CV model selection); the screenshots are visual evidence
+> of layout, not of the current KPI values.
+
 - **Sales Performance** — 9,312 delivered (77.6% of placed); Sports is the top category (₹1.39 Cr), West the top region (₹1.23 Cr).
 - **Customer RFM Segmentation** — K-Means segments over Recency · Frequency · Monetary, summing to exactly 1,991 customers.
 - **Retention & Cohorts** — first-purchase cohort heatmap. Month-1 retention *appears* to rise to 55–88% for late-2024 cohorts, but that is a **right-censoring artifact**: 12 of 36 cohorts have fewer than 12 months observed (Nov 2024 has 1, Dec 2024 has 0). It is not evidence of improving retention.
-- **Churn Analysis** — gradient-boosted classifier, ROC-AUC 0.6484, PR-AUC 0.3616 on a held-out forward-time split. The 448 customers are the **Medium Risk band** — a targeting pool, not confirmed churners.
+- **Churn Analysis** — leakage-free Logistic Regression selected by 5-fold CV (CV ROC-AUC 0.674, holdout ROC-AUC 0.662 / PR-AUC 0.332). The 441 customers are the **Medium Risk band** — a targeting pool, not confirmed churners.
 - **Product Profitability** — a BCG-style **proxy** over all 150 products, split on median units sold and median margin: 36 Stars, 38 Cash Cows, 39 Question Marks, 37 Dogs. There is no market-share data, so it is not the classic BCG matrix.
 - **Revenue Forecast** — a **historical backtest**, not a live projection: the ensemble is fitted through Dec 2024 and evaluated on Jan–Jun 2025. Shipped MASE 0.68 loses to the drift baseline (0.468); the 95% bootstrap band covered 9.5% of actuals. A `holt_linear` challenger scores 0.3752 but is not deployed.
 - **Data Quality** — automated reconciliation checks all pass: 0 duplicate keys, 0 nulls, 0 orphan rows, 0 non-positive line totals, 0 invalid statuses, discounts within 0–20%. The 9 customers with no revenue-eligible order are disclosed, not silently dropped.
 - **Business Insights** — every insight follows Observation → Evidence → Impact → Recommendation → Measurement, with no invented figures.
 - **AI Analyst** — built-in grounded questions show the SQL and refuse unanswerable ones; "Total revenue" returns ₹5.93 Cr across 9,933 eligible orders (Delivered + Processing).
 - **Pricing Lab** — no statistically detectable volume lift across discount depths (Kruskal-Wallis H = 4.834, df = 4, p = 0.305); the 20% rung would need +59.24% volume to hold margin flat. Capping discounts at 10% recovers ₹644,518 of margin (2.0%).
-- **Win-Back Economics** — 448 Medium Risk customers (₹1.24 Cr historical spend); ₹541 **expected net revenue before COGS** per contact at 15% recovery, i.e. ≈₹177 of contribution at the 54.0% gross margin. Revenue break-even churn probability 12.89%; margin-adjusted ≈23.9%.
+- **Win-Back Economics** — 441 Medium Risk customers (₹1.30 Cr historical spend); ₹523 **expected net revenue before COGS** per contact at 15% recovery, i.e. ≈₹167 of contribution at the 54.0% gross margin. Revenue break-even churn probability 12.54%; margin-adjusted ≈23.2%.
 
 ## Tech stack
 
@@ -284,8 +289,8 @@ Evaluation is independent by design: ground truth is computed with pandas straig
 - **Returns deserve investigation, not alarm**: 1,223 returned orders (10.19% of the 12,000 placed; 11.61% of terminal orders), worth ₹7,234,984.25 in line value. Returned is an exit status, not a subtraction from Delivered.
 - **The cohort "improvement" is an artifact**: month-1 retention looks higher for late-2024 cohorts only because their observation windows are shorter. 12 of 36 cohorts have under 12 months observed. No retention trend is claimed.
 - **The forecast is honest about its limits**: shipped ensemble MASE 0.68 loses to the drift baseline (0.468); the 95% bootstrap band covers 9.5% of actuals; a `holt_linear` challenger at 0.3752 is published but not deployed.
-- **The churn model is a targeting tool**: ROC-AUC 0.6484 / PR-AUC 0.3616 on a forward-time split (n = 1,586; label prevalence 25.35%). At the profit-maximizing threshold t\* = 0.10 it contacts 217 of 318 test customers, catches 70 of 81 churners (86.4%), and returns ₹81,529 expected net revenue vs ₹77,615 for contact-all — with 101 fewer contacts.
-- **The win-back case survives a margin check**: 448 Medium Risk customers, ₹1.24 Cr historical spend, ₹541 expected net revenue per contact at 15% recovery. Before COGS that is a 12.89% break-even churn probability; at 54.0% margin it is ≈₹177 per contact and ≈23.9% break-even — still below the band's mean churn probability of 40.8%. No campaign has been run.
+- **The churn model is a targeting tool**: Logistic Regression, 5-fold CV ROC-AUC 0.674 and held-out ROC-AUC 0.662 / PR-AUC 0.332 (n = 1,597; label prevalence 23.54%). Published scores are out-of-fold on training customers and holdout predictions on the test slice — no in-sample refit probabilities. At the profit-maximizing threshold t\* = 0.12 the calibration slice yields ₹72,849 expected net revenue vs ₹69,537 for contact-all with 93 fewer contacts. A separate 5-origin rolling backtest gives CV AUC 0.56–0.67; the 80/20 split is **not** described as temporal.
+- **The win-back case survives a margin check**: 441 Medium Risk customers, ₹1.30 Cr historical spend, ₹523 expected net revenue per contact at 15% recovery. Before COGS that is a 12.54% break-even churn probability; at 54.0% margin it is ≈₹167 per contact and ≈23.2% break-even — still below the band's mean churn probability of 38.75%. No campaign has been run.
 
 ### Discount break-even ladder
 
@@ -303,9 +308,9 @@ Evaluation is independent by design: ground truth is computed with pandas straig
 |---|---|---|
 | Contact cost | ₹250 per customer | Illustrative |
 | Recovery rate | 15% | Not measured; most sensitive input |
-| Retained value | ₹12,931 (mean 180-day spend) | Observed on retained customers, **revenue before COGS** |
-| Audience | 448 Medium Risk customers | Model band, not confirmed churners |
-| Break-even churn probability | 12.89% revenue / ≈23.9% margin-adjusted | Derived |
+| Retained value | ₹13,292 (mean 180-day spend) | Observed on retained customers, **revenue before COGS** |
+| Audience | 441 Medium Risk customers | Model band, not confirmed churners |
+| Break-even churn probability | 12.54% revenue / ≈23.2% margin-adjusted | Derived |
 | Campaign run? | No | Design only — [`docs/experiment_design_winback.md`](docs/experiment_design_winback.md) |
 
 ## Limitations & future improvements
@@ -314,11 +319,11 @@ Evaluation is independent by design: ground truth is computed with pandas straig
 - The discount, returns and churn analyses are **observational** — association, not causation. Discounts are assigned by the business, not randomly.
 - The win-back experiment is a **design only** — no campaign has been run and no uplift has been measured.
 - The revenue forecast is a historical backtest that **underperforms a drift baseline** and its interval under-covers badly (9.5% vs 95% nominal).
-- The churn model (ROC-AUC 0.6484) is a targeting tool, not a per-customer oracle; probabilities are consumed through an isotonic calibrator because the raw scores are over-confident (slope 0.388).
+- The churn model (CV ROC-AUC 0.674, holdout 0.662) is a targeting tool, not a per-customer oracle. Calibration is not uniformly helpful: isotonic fitted on 1,278 out-of-fold predictions improves holdout Brier 0.1726 → 0.1715, while the script's 256-row calibration slice overfits (Brier 0.172 → 0.1815). Both results are published.
 - The BCG view is a **proxy** (median units vs median margin), not the classic market-share/market-growth matrix.
 - The FastAPI app and SQL scripts are not deployed publicly and the SQL is not executed in CI — they are a runnable showcase, not a production service.
 
-Next steps: run the win-back experiment as designed and measure incremental lift; replace the shipped forecast with the `holt_linear` challenger or a drift baseline; retrain churn monthly with a temporal backtest; add a real data source and re-run the pipeline end to end.
+Next steps: run the win-back experiment as designed and measure incremental lift; replace the shipped forecast with the `holt_linear` challenger or a drift baseline; extend the published 5-origin churn backtest and retrain monthly; add a real data source and re-run the pipeline end to end.
 
 ## Author
 

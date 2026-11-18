@@ -88,7 +88,7 @@ def main():
     at_risk = churn[churn["churn_risk"].isin(["Medium Risk", "High Risk"])]
     facts["churn"] = {
         "definition": "no purchase in the 180 days after the model cutoff",
-        "model_note": "forward-time split; target-leakage-free",
+        "model_note": "leakage-free CV selection + holdout; model label prevalence, not a business churn rate",
         "overall_churn_rate_pct": round(churn["churned"].mean() * 100, 1),
         "risk_band_counts": {str(k): int(v) for k, v in risk.items()},
         "cooling_off_customers": int(len(at_risk)),

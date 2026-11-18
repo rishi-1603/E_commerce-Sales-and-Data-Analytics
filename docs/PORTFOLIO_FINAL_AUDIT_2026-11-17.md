@@ -1,5 +1,8 @@
 # Independent Final Portfolio Audit — 2026-11-17
 
+> **Historical snapshot (2026-11-17).** The 448 cooling-off figure below was
+> superseded by 441 on 2026-11-18. Screenshots document layout, not current KPIs.
+
 **Auditor basis:** fresh independent pass executed today against `main` @ `a8bf7e9` (clean tree, `origin/main` synced). Every anchor below was **re-run live on 2026-11-17**; no result is inherited from prior audit claims. This report supersedes the 2026-10-30/31 snapshot (`docs/FINAL_RELEASE_AUDIT.md`) as the current gate and does not rely on prior agents' completion statements.
 
 ## 1. Verification anchors (all run today)

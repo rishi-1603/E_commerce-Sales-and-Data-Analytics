@@ -15,10 +15,10 @@
 
 ## 1. Background
 
-The churn model (leakage-free, AUC 0.65, 5-fold CV, calibrated via isotonic
-scaling) flags **448 medium-risk ("cooling-off") customers** whose historical
-spend is **₹1.24 Cr** (`churn_features.csv`). Historical spend — NOT future
-revenue at risk.
+The churn model (leakage-free, 5-fold CV model selection, isotonic-calibrated on
+out-of-fold predictions, holdout AUC 0.66) flags **441 medium-risk
+("cooling-off") customers** whose historical spend is **₹1.30 Cr**
+(`churn_features.csv`). Historical spend — NOT future revenue at risk.
 
 The business question: **does a win-back offer cause these customers to
 repeat-purchase?** Only an experiment can answer that — observational lift is
@@ -46,8 +46,8 @@ recovery rate for contacted at-risk customers.
 
 | Pool | Size | Source |
 |---|---|---|
-| Core: medium churn-risk ("cooling-off") | 448 | `churn_features.csv` |
-| Expanded: + About To Sleep + At Risk (RFM) | 1,023 | `rfm_segments.csv` |
+| Core: medium churn-risk ("cooling-off") | 441 | `churn_features.csv` |
+| Expanded: core ∪ About To Sleep ∪ At Risk (RFM) | 772 | `rfm_segments.csv` (575, 244 overlap with core) |
 
 **Eligibility filters (pre-randomization):** ≥1 delivered order before cutoff;
 no offer contact in the previous 30 days (prerequisite — not measurable in this
@@ -59,15 +59,15 @@ randomization so the analyzed population equals the randomized population.
 - **Type:** randomized controlled experiment, 50/50 allocation
 - **Unit of randomization:** customer (not order — orders within a customer
   are not independent)
-- **Core pool:** 224 treatment / 224 control
+- **Core pool:** 220 treatment / 220 control (441 allocated; one held out)
 - **Randomization:** seeded stratified assignment on risk band and historical
   revenue tercile (balances spend across arms); allocation table is
   pre-registered and immutable
 - **Primary metric:** 90-day repeat purchase rate (share of the audience with
   ≥1 purchase within 90 days of assignment)
 - **Baseline (measured, not assumed):** the cooling-off segment's historical
-  90-day repeat rate = **34.5%** (447 of 448 evaluable; computed from
-  `master_orders.csv`, purchase = Delivered/Returned — see `data/metrics.json`)
+  90-day repeat rate = **38.8%** (441 of 441 evaluable; computed from
+  `data/raw/orders.csv`, purchase = Delivered/Returned — see `data/metrics.json`)
 - **Secondary metrics:** 90-day revenue per customer; second-purchase latency;
   unsubscribe/complaint rate (guardrail)
 - **Guardrails:** unsubscribe rate must not rise by >2 pp; complaint volume
@@ -79,14 +79,15 @@ Formula used (two-proportion, equal arms):
 
     n per arm = ( z_{1-α/2}·√(2·p̄·(1-p̄)) + z_{1-β}·√(p1·(1-p1)+p2·(1-p2)) )² / (p2-p1)²
 
-with p1 = 0.345 (baseline), p̄ = midpoint, z_{1-α/2} = 1.96, z_{1-β} = 0.84.
+with p1 = 0.388 (core baseline) or 0.507 (expanded baseline), p̄ = midpoint,
+z_{1-α/2} = 1.96, z_{1-β} = 0.84.
 
 | Audience | n/arm | Detectable lift (MDE) | Verdict |
 |---|---|---|---|
-| Core pool (448) | 224 | **+13.0 pp** (34.5% → 47.5%) | Only large effects |
-| Expanded pool (1,023) | 511 | **+8.5 pp** | Recommended if offers are cheap |
+| Core pool (441) | 220 | **+13.3 pp** (38.8% → 52.0%) | Only large effects |
+| Expanded pool (772) | 386 | **+10.0 pp** (50.7% → 60.7%) | Recommended if offers are cheap |
 
-**Honest limitation:** with 448 customers the experiment is only powered for
+**Honest limitation:** with 441 customers the experiment is only powered for
 big lifts. If the expected effect is ~5 pp, the honest options are (a) expand
 the audience, or (b) accept a wider confidence interval and treat the result as
 directional. Running an underpowered test and celebrating noise is the failure
@@ -129,9 +130,9 @@ mode this section exists to prevent.
 
 | Outcome | Action |
 |---|---|
-| Δ significant, lower CI > +13 pp | Roll out to the expanded pool; recompute t\* with measured r |
-| Δ significant, lower CI between +5 and +13 pp | Roll out to core pool only; treat effect as modest; re-estimate power for expansion |
-| Δ not significant, CI wide (includes 0 and +13) | Inconclusive (underpowered) — expand audience or pool with a later cohort; do NOT claim "no effect" |
+| Δ significant, lower CI > +13.3 pp | Roll out to the expanded pool; recompute t\* with measured r |
+| Δ significant, lower CI between +5 and +13.3 pp | Roll out to core pool only; treat effect as modest; re-estimate power for expansion |
+| Δ not significant, CI wide (includes 0 and +13.3) | Inconclusive (underpowered) — expand audience or pool with a later cohort; do NOT claim "no effect" |
 | Δ CI entirely below 0 | Offer harms repeat purchase — kill the campaign; investigate offer design |
 | Guardrail breach (unsubscribe > +2 pp) | Suspend offer regardless of primary result |
 
@@ -139,7 +140,7 @@ mode this section exists to prevent.
 
 - Whether the *model* is right (that is the AUC/leakage/calibration work, done).
 - Long-term retention (90-day window only).
-- Effects below ~13 pp on the core pool (underpowered — stated up front).
+- Effects below ~13.3 pp on the core pool (underpowered — stated up front).
 - Offer economics end-to-end (offer cost data does not exist in this dataset —
   tracked as a real-world prerequisite).
 

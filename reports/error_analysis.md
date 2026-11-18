@@ -1,94 +1,84 @@
 # Error Analysis — Churn Model
 ### Who the model misses, who it over-contacts, and what would fix it
 
-> Failure cases extracted from the fit/cal/test protocol (`scripts/churn_calibration.py`),
-> operating point **t\* = 0.10** (isotonic probabilities). Customer IDs and feature
-> values are real rows from the seeded dataset.
+> Failure cases are summarized from the regenerated
+> `reports/churn_calibration_metrics.json` (`error_analysis` section), operating
+> point **t\* = 0.12** on the 320-customer holdout. Score bands and per-customer
+> IDs changed with the 2026-11-18 purchase-definition rework, so the old
+> hand-copied ID tables were removed rather than left stale.
 
-## 1. The confusion at t\* = 0.10 (test slice, n = 318)
+## 1. The confusion at t\* = 0.12 (holdout, n = 320)
 
 | | Predicted churn | Predicted stay |
 |---|---|---|
-| **Actually churned** | 70 | **11 (FN)** |
-| **Actually stayed** | **147 (FP)** | 90 |
+| **Actually churned** | 65 | **10 (FN)** |
+| **Actually stayed** | **162 (FP)** | 83 |
 
-Precision 32.1% · Recall 86.4% — recall-oriented by design (contacts are cheap
-relative to lost customers under the stated cost model).
+Precision 28.6% · Recall 86.7% — recall-oriented by design (a missed churner
+costs more than an extra contact under the stated cost model).
 
-## 2. False negatives — the 11 missed churners
+## 2. False negatives — the 10 missed churners
 
-| Customer | p | Recency | Orders | Tenure | Frequency | Revenue |
-|---|---|---|---|---|---|---|
-| CUST01971 | 0.069 | 11d | 1 | 11d | 1.00/mo | ₹6,375 |
-| CUST00462 | 0.069 | 21d | 6 | 157d | 1.15/mo | ₹40,801 |
-| CUST00108 | 0.069 | 5d | 1 | 5d | 1.00/mo | ₹7,449 |
-| CUST00923 | 0.069 | 1d | 1 | 1d | 1.00/mo | ₹9,201 |
-| CUST00036 | 0.069 | 6d | 3 | 94d | 0.96/mo | ₹14,470 |
-| CUST00997 | 0.096 | 16d | 1 | 16d | 1.00/mo | ₹15,878 |
+| Group | n | Churn rate | FPs | FNs |
+|---|---|---|---|---|
+| Recent | 108 | 18.5% | 32 | 4 |
+| Mid recency | 105 | 22.9% | 59 | 4 |
+| Lapsed | 107 | 29.0% | 71 | 2 |
+| **New tenure** | 108 | 13.0% | 14 | **10** |
+| Established tenure | 106 | 23.6% | 78 | 0 |
+| Veteran tenure | 106 | 34.0% | 70 | 0 |
 
-**Profile of the miss:**
-
-| Group | Median recency | Median orders | Median tenure |
-|---|---|---|---|
-| Missed churners (FN) | **16d** | **2** | **94d** |
-| All churners | 100d | 3 | 480d |
-| Whole test set | 83d | 3 | 325d |
-
-**Why the model misses them:** the dominant learned pattern is *"recent purchase
-→ stays"*. These customers bought recently (low recency) and therefore score
-low — but they are **new, low-history customers who never return**. One purchase
-in their first weeks, then nothing. The model cannot distinguish "active loyal"
-from "one-and-done new" because it never sees a *recency × tenure interaction*.
+**Profile of the miss:** all 10 FNs are in the **new-tenure** band. The model
+learned "recent purchase → stays"; new customers have short histories, so a
+single recent purchase scores low even when they never return. It cannot yet
+separate "active loyal" from "one-and-done new" because there is no
+recency × tenure interaction feature.
 
 **What would fix it (ranked by cost):**
-1. **Feature:** `orders_per_tenure_week` × `recency` interaction, plus an
-   `is_new_customer` flag (tenure < 60d). Cheap, likely recovers most of the 11.
-2. **Segment-specific threshold:** lower t for tenure < 60d (new customers churn
-   at a different rate; the cost model already supports per-segment thresholds).
+1. **Feature:** `orders_per_tenure_week` × `recency` interaction plus an
+   `is_new_customer` flag (tenure < 60d). Cheap; targets the only band with FNs.
+2. **Segment-specific threshold:** lower t for new customers (their churn rate
+   is 13.0% vs 34.0% for veterans; the cost model supports per-segment t).
 3. **Data:** first-purchase channel / acquisition source (not in this dataset).
 
-## 3. False positives — the 147 over-contacted customers
+## 3. False positives — the 162 over-contacted customers
 
-Top of the list (highest predicted risk among customers who stayed anyway):
-
-| Customer | p | Recency | Orders | Tenure | Frequency | Revenue |
-|---|---|---|---|---|---|---|
-| CUST01061 | **0.945** | 217d | 8 | 854d | 0.28/mo | ₹56,339 |
-| CUST00898 | 0.571 | 21d | 10 | 411d | 0.73/mo | ₹69,379 |
-| CUST01820 | 0.467 | 99d | 5 | 633d | 0.24/mo | ₹26,671 |
-| CUST01764 | 0.467 | 200d | 4 | 633d | 0.19/mo | ₹29,943 |
-| CUST01853 | 0.467 | 3d | 4 | 601d | 0.20/mo | ₹40,034 |
-| CUST00542 | 0.467 | 303d | 6 | 833d | 0.22/mo | ₹43,712 |
+| Group | n | Churn rate | FPs |
+|---|---|---|---|
+| Recent | 108 | 18.5% | 32 |
+| Mid recency | 105 | 22.9% | 59 |
+| Lapsed | 107 | 29.0% | 71 |
+| Low frequency | 107 | 15.9% | 43 |
+| Mid frequency | 106 | 25.5% | 56 |
+| High frequency | 107 | 29.0% | 63 |
 
 **Why the model over-contacts them:** long-tenure, low-frequency customers with
-long gaps look exactly like churners *on average* — but this group contains
-**seasonal/episodic returners** (e.g., CUST01061: 217-day gap, 8 orders over
-854 days — a pattern of long pauses, then return). The model has no seasonality
-signal; a 217-day gap is not the same as a broken relationship.
+long gaps look like churners *on average*, but this group contains
+seasonal/episodic returners. A 180-day gap is not necessarily a broken
+relationship; the model has no seasonality signal.
 
 **What would fix it (ranked by cost):**
 1. **Feature:** `historical_max_gap` and `gaps_over_180d` — customers with a
-   history of long pauses are known-returners, not churners.
-2. **Policy:** the cost model already prices this — 147 FPs × ₹250 = ₹36,750 of
-   "wasted" contact cost, which the expected-profit calculation *accepts*
-   because the 70 TPs are worth more. The FP count is not a bug; it is the
-   priced-in cost of recall.
-3. **Do NOT "fix" it by raising the threshold blindly** — that trades recall for
-   precision and moves the profit curve in the wrong direction under base
-   assumptions (see `reports/churn_calibration_and_thresholds.md`).
+   history of long pauses are known returners.
+2. **Policy:** the cost model already prices this — 162 FPs × ₹250 = ₹40,500 of
+   contact cost, accepted because the 65 TPs are worth more. The FP count is the
+   priced-in cost of recall, not a bug.
+3. **Do NOT raise the threshold blindly** — that trades recall for precision and
+   moves the profit curve in the wrong direction under base assumptions (see
+   `reports/churn_calibration_and_thresholds.md`).
 
 ## 4. What this analysis changes
 
 - The next model iteration should add the two interaction features above **and
   re-run the backtest + threshold analysis** — the error analysis predicts where
   the gains are.
-- Until then: treat the cooling-off band as a *campaign audience with a 32%
+- Until then: treat the cooling-off band as a *campaign audience with a ~29%
   hit rate*, not a churn list. The win-back experiment design
   (`docs/experiment_design_winback.md`) already prices this reality.
 
 ## 5. Limitations
 
-1. Synthetic data — these customers do not exist; the *patterns* are the value.
-2. One operating point (t\* = 0.10) analyzed; other thresholds move the FN/FP mix.
+1. Synthetic data — these patterns are the value, not the individual rows.
+2. One operating point (t\* = 0.12) is analyzed; other thresholds move the FN/FP mix.
 3. The FP "waste" framing assumes the base-case cost model; with higher recovery
    rates the FPs cost even less relative to the TPs found.

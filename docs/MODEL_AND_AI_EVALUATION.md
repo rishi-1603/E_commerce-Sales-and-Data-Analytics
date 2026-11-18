@@ -1,21 +1,22 @@
 # MODEL & AI EVALUATION — E-Commerce
 
 ## Models
-1. **Churn classifier** (gradient boosting, RFM-derived features). Forward-time
-   split; honest ROC-AUC 0.6484 (an earlier 1.0 was leakage — caught and fixed).
+1. **Churn classifier** (Logistic Regression selected by 5-fold CV, RFM-derived
+   features). Hard cutoff with out-of-fold training scores; CV ROC-AUC 0.6742,
+   holdout 0.6621 (an earlier 1.0 was leakage — caught and fixed).
 2. **Revenue forecast** (Holt-Winters + trend ensemble).
 3. **NL-to-SQL assistant** (deterministic grounded path evaluated; optional LLM path).
 
 ## Evaluation chain (each stage produced a published artifact)
 | Stage | Method | Finding |
 |---|---|---|
-| Discrimination | ROC-AUC + PR-AUC on untouched test | 0.6484 / 0.3616 vs prevalence 0.2535 |
-| Calibration | reliability curve, Brier, slope; isotonic fix | slope 0.388 -> Brier 0.1957->0.1829, ECE 0.0963->0.0378 |
-| Decision | cost matrix, profit-maximizing threshold | t*=0.10 beats contact-all with 101 fewer contacts |
-| Robustness | sensitivity +/-30% on cost and recovery rate | Bayes threshold range 0.09-0.24 |
+| Discrimination | 5-fold CV ROC-AUC / holdout ROC-AUC + PR-AUC | 0.6742 CV / 0.6621 + 0.3322 holdout vs prevalence 0.2354 |
+| Calibration | reliability curve, Brier, slope; isotonic sample-size check | slope 0.7875; OOF isotonic Brier 0.1726->0.1715, 256-row slice 0.172->0.1815 (overfit) |
+| Decision | cost matrix, profit-maximizing threshold | t*=0.12 beats contact-all with 93 fewer contacts |
+| Robustness | sensitivity +/-30% on cost and recovery rate | Bayes threshold range 0.09-0.23 |
 | Backtest | rolling-origin (10 origins x 3 horizons), MASE | drift baseline wins (0.468 vs 0.680); holt_linear challenger 0.3752 not deployed |
 | Uncertainty | CI empirical coverage | 9.5% vs 95% nominal — flagged |
-| Errors | FN/FP customer catalogs at t*=0.10 | FNs = new customers; FPs = seasonal returners |
+| Errors | FN/FP aggregates at t*=0.12 | all 10 FNs are new-tenure customers; FPs = seasonal returners |
 | AI system | 37-question NL-to-SQL benchmark (v1.1) on `scripts/nl_to_sql.py` | 48.6% -> 97.3% execution accuracy, 100% refusal correctness, 0 fabricated numbers |
 
 The FastAPI `/api/v1/query/nl-to-sql` endpoint is a separate deterministic intent router. Its
@@ -29,5 +30,5 @@ proxy, not measured CLV. The 97.3% figure is execution accuracy **on this
 37-question benchmark only**, not a general accuracy claim.
 
 ## What this evaluation defends in interviews
-"Why is AUC 0.65 good?" · "How do you choose a threshold?" · "How do you prove a
+"Why is AUC ~0.67 good?" · "How do you choose a threshold?" · "How do you prove a
 forecast beats naive?" · "What's the worst failure you found?" (see reports/interview_prep.md)

@@ -54,41 +54,35 @@ def test_recomputation_matches_committed_json(metrics, recomputed):
 
 
 # ── Pinned values (re-verified against the pinned environment) ────────
-# CORRECTED 2026-10-17: these pins previously read 0.6489 / 0.3664 / 0.1952 /
-# 0.1811 / 0.0299. Those figures were NOT reproducible from this repository —
-# the script is deterministic, the data is byte-identical, and the pinned
-# library versions (scikit-learn 1.6.1, numpy 2.3.5, scipy 1.17.1) match, yet
-# a fresh run produced the values below every time. A cross-version binning
-# hypothesis (commit e2aa3c4) was tested and falsified: the pinned versions were
-# already in place when the old figures were committed, so no version difference
-# can explain the gap. The stale pins survived only because CI did not execute
-# scripts/churn_calibration.py; the Day-6 CI change wired that script in, which
-# exposed the drift as a red build. Both the corrected pins (below) and the
-# direction invariant are kept.
+# CORRECTED 2026-10-17, then RE-DERIVED 2026-11-18. The 2026-10-17 pins were
+# replaced after the purchase definition was unified (Delivered or Returned,
+# from raw orders) and the label/score split was made leakage-free with
+# out-of-fold training scores. Both corrections are reproducible from the
+# committed code and data; the scripts now run in CI on every push.
 def test_pinned_headline_metrics(metrics):
-    assert metrics["roc_auc"] == pytest.approx(0.6484, abs=5e-3)
-    assert metrics["pr_auc"] == pytest.approx(0.3616, abs=5e-3)
-    assert metrics["prevalence"] == pytest.approx(0.2535, abs=5e-3)
+    assert metrics["roc_auc"] == pytest.approx(0.657, abs=5e-3)
+    assert metrics["pr_auc"] == pytest.approx(0.3307, abs=5e-3)
+    assert metrics["prevalence"] == pytest.approx(0.2354, abs=5e-3)
+    assert metrics["n_total"] == 1597
 
 
 def test_pinned_calibration(metrics):
     cal = metrics["calibration"]
-    assert cal["raw"]["brier"] == pytest.approx(0.1957, abs=5e-3)
-    assert cal["isotonic"]["brier"] == pytest.approx(0.1829, abs=5e-3)
-    # Pin the reproducible pipeline value (tight house-style band), and keep the
-    # direction invariant from e2aa3c4: whatever the exact binning, isotonic
-    # calibration must stay far below the raw model's ECE.
-    assert cal["isotonic"]["ece_10bin"] == pytest.approx(0.0378, abs=5e-3)
-    assert cal["isotonic"]["ece_10bin"] < 0.5 * cal["raw"]["ece_10bin"]
+    assert cal["raw"]["brier"] == pytest.approx(0.172, abs=5e-3)
+    assert cal["isotonic"]["brier"] == pytest.approx(0.1815, abs=5e-3)
+    assert cal["isotonic"]["ece_10bin"] == pytest.approx(0.0774, abs=5e-3)
+    assert cal["raw"]["ece_10bin"] == pytest.approx(0.032, abs=5e-3)
+    # Both are far below the always-predict-base-rate reference (0.2344).
+    assert max(cal["raw"]["brier"], cal["isotonic"]["brier"]) < metrics["brier_prevalence_reference"]
 
 
 def test_pinned_threshold_and_profits(metrics):
     cm = metrics["cost_model"]
-    assert cm["bayes_threshold"] == pytest.approx(0.1289, abs=5e-3)
-    assert cm["t_star_selected_on_cal"] == pytest.approx(0.10, abs=5e-3)
+    assert cm["bayes_threshold"] == pytest.approx(0.1254, abs=5e-3)
+    assert cm["t_star_selected_on_cal"] == pytest.approx(0.12, abs=5e-3)
     pol = metrics["policies_on_test"]
-    assert pol["data_driven_t_star (p>=0.1)"]["expected_profit"] == pytest.approx(81279, rel=5e-2)
-    assert pol["contact_all"]["expected_profit"] == pytest.approx(77615, rel=5e-2)
+    assert pol["data_driven_t_star (p>=0.12)"]["expected_profit"] == pytest.approx(72849, rel=5e-2)
+    assert pol["contact_all"]["expected_profit"] == pytest.approx(69537, rel=5e-2)
 
 
 # ── Statistical invariants (the report's claims depend on these) ──────
@@ -103,10 +97,19 @@ def test_pr_auc_beats_random_ranking(metrics):
     assert metrics["pr_auc"] > metrics["prevalence"]
 
 
-def test_calibration_improves_with_isotonic(metrics):
+def test_small_slice_isotonic_overfits_here(metrics):
+    """The 256-row calibration slice is too small for a stable isotonic fit.
+
+    On this slice isotonic makes both Brier and ECE worse (0.172 -> 0.1815,
+    0.032 -> 0.0774) and collapses the calibration slope to 0.13. The pipeline
+    in 03_churn_analysis.py fits isotonic on 1,278 out-of-fold predictions
+    instead and improves holdout Brier 0.1726 -> 0.1715. Both facts are
+    published; neither is hidden behind an averaging claim.
+    """
     cal = metrics["calibration"]
-    assert cal["isotonic"]["brier"] < cal["raw"]["brier"]
-    assert cal["isotonic"]["ece_10bin"] < cal["raw"]["ece_10bin"]
+    assert cal["isotonic"]["brier"] > cal["raw"]["brier"]
+    assert cal["isotonic"]["ece_10bin"] > cal["raw"]["ece_10bin"]
+    assert cal["isotonic"]["calibration_slope"] == pytest.approx(0.1299, abs=5e-3)
 
 
 def test_raw_model_is_overconfident(metrics):
@@ -125,7 +128,9 @@ def test_current_bands_leave_value_on_the_table(metrics):
     pol = metrics["policies_on_test"]
     tstar_key = [k for k in pol if k.startswith("data_driven")][0]
     band = pol["current_band_medium_plus (p>=0.33)"]
-    assert pol[tstar_key]["expected_profit"] > band["expected_profit"] * 2
+    # t* captures ~1.83x the expected profit of the current p>=0.33 band on
+    # this smaller pool; the old ">2x" pin belonged to the previous definition.
+    assert pol[tstar_key]["expected_profit"] > band["expected_profit"] * 1.5
 
 
 def test_reliability_table_has_10_bins(metrics):

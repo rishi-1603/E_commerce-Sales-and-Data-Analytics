@@ -1,0 +1,46 @@
+{
+  "cutoff": "2024-07-03",
+  "horizon_days": 180,
+  "purchase_definition": "Delivered or Returned",
+  "value_definition": "master_orders.csv (Delivered + Processing)",
+  "n_customers": 1597,
+  "prevalence": 0.2354,
+  "cv": {
+    "Logistic Regression": {
+      "roc_auc_mean": 0.6742,
+      "roc_auc_std": 0.0303,
+      "f1_mean": 0.3994
+    },
+    "Random Forest": {
+      "roc_auc_mean": 0.6417,
+      "roc_auc_std": 0.0219,
+      "f1_mean": 0.3994
+    },
+    "Gradient Boosting": {
+      "roc_auc_mean": 0.6149,
+      "roc_auc_std": 0.0353,
+      "f1_mean": 0.317
+    }
+  },
+  "selected_model": "Logistic Regression",
+  "holdout": {
+    "n": 320,
+    "roc_auc": 0.6621,
+    "pr_auc": 0.3322,
+    "brier_raw": 0.1726,
+    "brier_calibrated": 0.1715,
+    "ece_calibrated": 0.0352
+  },
+  "calibration": "isotonic fitted on out-of-fold training predictions; published scores are cross-validated for training customers and holdout predictions for test customers",
+  "risk_bands": {
+    "Low Risk": 1156,
+    "Medium Risk": 441,
+    "High Risk": 0
+  },
+  "risk_bins": [
+    -0.001,
+    0.33,
+    0.66,
+    1.0
+  ]
+}

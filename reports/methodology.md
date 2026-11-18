@@ -32,13 +32,18 @@ in `data/processed/` (see `data/DATA_DICTIONARY.md`).
   Cancelled and Returned excluded).
 - **K-Means** runs on standardized R/F/M; **`k` is chosen by silhouette score**
   (data-driven), not hardcoded. The elbow curve is shown alongside for context.
-- **Churn model** uses a **forward-time (temporal) split**: features are
-  computed only from behaviour *before* a cutoff (~6 months before data end);
-  the label is "no purchase in the 180 days *after* the cutoff." This removes
+- **Churn model** uses a **hard cutoff** (2024-07-03): features are computed
+  only from behaviour *before* the cutoff; the label is "no purchase (Delivered
+  or Returned, from raw orders) in the 180 days *after* the cutoff." This removes
   the target leakage present in the original version (where `recency_days`
-  was both a feature and the basis of the label). AUC is reported as a
-  **5-fold cross-validated mean ± std** (not a single split), and a
-  **cumulative gains/lift chart** quantifies targeting efficiency.
+  was both a feature and the basis of the label). Model selection is a
+  **5-fold CV ROC-AUC mean ± std on the training split** (LR 0.6742 ± 0.0303,
+  RF 0.6417, GB 0.6149); the selected model is scored once on a held-out 20%
+  (ROC-AUC 0.6621, PR-AUC 0.3322). Training customers get out-of-fold scores,
+  never in-sample refits. A **cumulative gains/lift chart** quantifies targeting
+  efficiency, and a separate **5-origin rolling backtest** (`reports/churn_temporal_backtest.json`,
+  AUC 0.56–0.67) supplies the actual temporal evidence. The 80/20 split is not
+  called temporal.
 - **Forecasting** combines a linear-trend baseline with Holt-Winters triple
   exponential smoothing and an ensemble average. Skill is measured by a
   **rolling-origin backtest** (10 origins × horizons 1–3 months) and reported
@@ -59,10 +64,11 @@ in `data/processed/` (see `data/DATA_DICTIONARY.md`).
 | Primary keys unique & not null | `tests/test_data_quality.py` | No duplicate entity rows |
 | Foreign keys resolve | `tests/test_data_quality.py` | No orphaned orders/items |
 | Business-logic sanity (positive amounts, valid categories, age ranges) | `tests/test_data_quality.py` | No impossible values |
-| 235 pytest tests, run in CI | `.github/workflows/ci.yml` | Pipeline output is reproducible on a clean checkout |
+| 243 pytest tests, run in CI | `.github/workflows/ci.yml` | Pipeline output is reproducible on a clean checkout |
 | Dashboard pinned to pipeline output | `tests/test_dashboard_consistency.py` | No hand-typed headline can drift from the data |
 | AI assistant gated on a benchmark | `evals/run_eval.py` | 36/37 execution accuracy; refusals and fabricated answers counted |
-| No target leakage in churn | temporal split in `03_churn_analysis.py` | Metrics are honest, not inflated |
+| No target leakage in churn | CV selection + OOF scores in `03_churn_analysis.py`, `scripts/churn_data.py` | Metrics are honest, not inflated |
+| Temporal churn evidence | `reports/churn_temporal_backtest.json` | 5 rolling origins; not conflated with the 80/20 split |
 | Forecast evaluated out-of-sample | `scripts/forecast_backtest.py` | Forecast skill is measured against naive baselines |
 | Reproducibility | fixed `random_state=42` throughout | Same input → same output |
 

@@ -15,8 +15,8 @@ The investigation covers three areas: dormant-customer risk in cooling-off segme
 ## 2. Key Analytical Findings
 
 ### Finding 1: Customer Retention & Cooling-Off Spend Exposure
-- **Observation:** Cohort analysis identified that **448 previously high-value customers** have had zero purchase activity in the last 90+ days.
-- **Financial Dimension:** These 448 accounts historically contributed **Rs. 1.24 Cr** (20.9% of cumulative sales).
+- **Observation:** The leakage-free churn model flags **441 medium-risk ("cooling-off") customers**; 376 of 1,995 purchasing customers have no purchase in the final 180 days.
+- **Financial Dimension:** These 441 accounts historically contributed **Rs. 1.30 Cr** (historical spend, not revenue at risk).
 - **Underlying Driver:** Reported onboarding drop-off between order 2 and order 3 (see limitations).
 
 ### Finding 2: Discount Margin Economics & Observed Response
@@ -32,8 +32,8 @@ The investigation covers three areas: dormant-customer risk in cooling-off segme
 ## 3. Concrete Business Recommendations
 
 ### Recommendation 1: Implement Automated Tiered Win-Back Campaigns
-- **Action:** Transition from mass email blasts to an automated 60-day and 90-day RFM trigger workflow. Offer targeted 10% personalized replenishment incentives to the 448 cooling-off accounts before they transition into permanent churn.
-- **Projected Impact:** Design-only estimate under stated assumptions (contact cost Rs. 250, recovery 15%, retained value Rs. 12,931). No campaign has been run; projected recovered revenue is illustrative.
+- **Action:** Transition from mass email blasts to an automated 60-day and 90-day RFM trigger workflow. Offer targeted 10% personalized replenishment incentives to the 441 cooling-off accounts before they transition into permanent churn.
+- **Projected Impact:** Design-only estimate under stated assumptions (contact cost Rs. 250, recovery 15%, retained value Rs. 13,292). No campaign has been run; projected recovered revenue is illustrative.
 
 ### Recommendation 2: Cap Blanket Promotional Discounts
 - **Action:** Restrict aggressive discounting; substitute blanket markdowns with bundle thresholds (e.g., minimum cart value for free express shipping).

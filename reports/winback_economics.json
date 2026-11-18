@@ -4,276 +4,276 @@
   "parameters": {
     "contact_cost_inr": 250.0,
     "recovery_rate": 0.15,
-    "retained_value_inr": 12931.3,
-    "baseline_repeat_rate": 0.345,
+    "retained_value_inr": 13292.2,
+    "baseline_repeat_rate": 0.3878,
     "source": "reports/churn_calibration_metrics.json cost_model"
   },
   "pool": {
-    "customers": 448,
-    "historical_spend_inr": 12405259.36,
-    "mean_historical_spend_inr": 27690.31,
-    "mean_churn_probability": 0.4079,
-    "baseline_repeat_rate": 0.345
+    "customers": 441,
+    "historical_spend_inr": 12998872.58,
+    "mean_historical_spend_inr": 29475.9,
+    "mean_churn_probability": 0.3875,
+    "baseline_repeat_rate": 0.3878
   },
   "baseline_campaign": {
-    "audience": 448,
-    "mean_churn_prob": 0.4079,
+    "audience": 441,
+    "mean_churn_prob": 0.3875,
     "contact_cost": 250.0,
     "recovery_rate": 0.15,
-    "retained_value": 12931.3,
-    "expected_value_recovered_per_contact": 791.24,
-    "expected_profit_per_contact": 541.24,
-    "expected_profit_total": 242477.57,
-    "campaign_cost_total": 112000.0,
-    "expected_recovered_revenue_total": 354477.57,
+    "retained_value": 13292.2,
+    "expected_value_recovered_per_contact": 772.55,
+    "expected_profit_per_contact": 522.55,
+    "expected_profit_total": 230443.56,
+    "campaign_cost_total": 110250.0,
+    "expected_recovered_revenue_total": 340693.56,
     "profitable": true
   },
   "break_even": {
-    "break_even_churn_probability": 0.1289,
+    "break_even_churn_probability": 0.1254,
     "formula": "C / (r \u00d7 V)",
     "contact_cost": 250.0,
     "recovery_rate": 0.15,
-    "retained_value": 12931.3,
-    "interpretation": "Only contact customers whose churn probability exceeds 12.9%; below that, the offer costs more than it recovers in expectation."
+    "retained_value": 13292.2,
+    "interpretation": "Only contact customers whose churn probability exceeds 12.5%; below that, the offer costs more than it recovers in expectation."
   },
   "bayes_threshold_cross_check": {
-    "campaign_break_even": 0.1289,
-    "churn_model_bayes_threshold": 0.1289,
+    "campaign_break_even": 0.1254,
+    "churn_model_bayes_threshold": 0.1254,
     "consistent": true
   },
   "sensitivity": [
     {
       "recovery_rate": 0.05,
       "contact_cost": 100.0,
-      "profit_per_contact": 163.75,
-      "profit_total": 73359.19,
+      "profit_per_contact": 157.52,
+      "profit_total": 69464.52,
       "profitable": true
     },
     {
       "recovery_rate": 0.05,
       "contact_cost": 250.0,
-      "profit_per_contact": 13.75,
-      "profit_total": 6159.19,
+      "profit_per_contact": 7.52,
+      "profit_total": 3314.52,
       "profitable": true
     },
     {
       "recovery_rate": 0.05,
       "contact_cost": 400.0,
-      "profit_per_contact": -136.25,
-      "profit_total": -61040.81,
+      "profit_per_contact": -142.48,
+      "profit_total": -62835.48,
       "profitable": false
     },
     {
       "recovery_rate": 0.05,
       "contact_cost": 500.0,
-      "profit_per_contact": -236.25,
-      "profit_total": -105840.81,
+      "profit_per_contact": -242.48,
+      "profit_total": -106935.48,
       "profitable": false
     },
     {
       "recovery_rate": 0.1,
       "contact_cost": 100.0,
-      "profit_per_contact": 427.5,
-      "profit_total": 191518.38,
+      "profit_per_contact": 415.03,
+      "profit_total": 183029.04,
       "profitable": true
     },
     {
       "recovery_rate": 0.1,
       "contact_cost": 250.0,
-      "profit_per_contact": 277.5,
-      "profit_total": 124318.38,
+      "profit_per_contact": 265.03,
+      "profit_total": 116879.04,
       "profitable": true
     },
     {
       "recovery_rate": 0.1,
       "contact_cost": 400.0,
-      "profit_per_contact": 127.5,
-      "profit_total": 57118.38,
+      "profit_per_contact": 115.03,
+      "profit_total": 50729.04,
       "profitable": true
     },
     {
       "recovery_rate": 0.1,
       "contact_cost": 500.0,
-      "profit_per_contact": 27.5,
-      "profit_total": 12318.38,
+      "profit_per_contact": 15.03,
+      "profit_total": 6629.04,
       "profitable": true
     },
     {
       "recovery_rate": 0.15,
       "contact_cost": 100.0,
-      "profit_per_contact": 691.24,
-      "profit_total": 309677.57,
+      "profit_per_contact": 672.55,
+      "profit_total": 296593.56,
       "profitable": true
     },
     {
       "recovery_rate": 0.15,
       "contact_cost": 250.0,
-      "profit_per_contact": 541.24,
-      "profit_total": 242477.57,
+      "profit_per_contact": 522.55,
+      "profit_total": 230443.56,
       "profitable": true
     },
     {
       "recovery_rate": 0.15,
       "contact_cost": 400.0,
-      "profit_per_contact": 391.24,
-      "profit_total": 175277.57,
+      "profit_per_contact": 372.55,
+      "profit_total": 164293.56,
       "profitable": true
     },
     {
       "recovery_rate": 0.15,
       "contact_cost": 500.0,
-      "profit_per_contact": 291.24,
-      "profit_total": 130477.57,
+      "profit_per_contact": 272.55,
+      "profit_total": 120193.56,
       "profitable": true
     },
     {
       "recovery_rate": 0.2,
       "contact_cost": 100.0,
-      "profit_per_contact": 954.99,
-      "profit_total": 427836.77,
+      "profit_per_contact": 930.06,
+      "profit_total": 410158.08,
       "profitable": true
     },
     {
       "recovery_rate": 0.2,
       "contact_cost": 250.0,
-      "profit_per_contact": 804.99,
-      "profit_total": 360636.77,
+      "profit_per_contact": 780.06,
+      "profit_total": 344008.08,
       "profitable": true
     },
     {
       "recovery_rate": 0.2,
       "contact_cost": 400.0,
-      "profit_per_contact": 654.99,
-      "profit_total": 293436.77,
+      "profit_per_contact": 630.06,
+      "profit_total": 277858.08,
       "profitable": true
     },
     {
       "recovery_rate": 0.2,
       "contact_cost": 500.0,
-      "profit_per_contact": 554.99,
-      "profit_total": 248636.77,
+      "profit_per_contact": 530.06,
+      "profit_total": 233758.08,
       "profitable": true
     },
     {
       "recovery_rate": 0.3,
       "contact_cost": 100.0,
-      "profit_per_contact": 1482.49,
-      "profit_total": 664155.15,
+      "profit_per_contact": 1445.1,
+      "profit_total": 637287.12,
       "profitable": true
     },
     {
       "recovery_rate": 0.3,
       "contact_cost": 250.0,
-      "profit_per_contact": 1332.49,
-      "profit_total": 596955.15,
+      "profit_per_contact": 1295.1,
+      "profit_total": 571137.12,
       "profitable": true
     },
     {
       "recovery_rate": 0.3,
       "contact_cost": 400.0,
-      "profit_per_contact": 1182.49,
-      "profit_total": 529755.15,
+      "profit_per_contact": 1145.1,
+      "profit_total": 504987.12,
       "profitable": true
     },
     {
       "recovery_rate": 0.3,
       "contact_cost": 500.0,
-      "profit_per_contact": 1082.49,
-      "profit_total": 484955.15,
+      "profit_per_contact": 1045.1,
+      "profit_total": 460887.12,
       "profitable": true
     },
     {
       "recovery_rate": 0.4,
       "contact_cost": 100.0,
-      "profit_per_contact": 2009.99,
-      "profit_total": 900473.53,
+      "profit_per_contact": 1960.13,
+      "profit_total": 864416.17,
       "profitable": true
     },
     {
       "recovery_rate": 0.4,
       "contact_cost": 250.0,
-      "profit_per_contact": 1859.99,
-      "profit_total": 833273.53,
+      "profit_per_contact": 1810.13,
+      "profit_total": 798266.17,
       "profitable": true
     },
     {
       "recovery_rate": 0.4,
       "contact_cost": 400.0,
-      "profit_per_contact": 1709.99,
-      "profit_total": 766073.53,
+      "profit_per_contact": 1660.13,
+      "profit_total": 732116.17,
       "profitable": true
     },
     {
       "recovery_rate": 0.4,
       "contact_cost": 500.0,
-      "profit_per_contact": 1609.99,
-      "profit_total": 721273.53,
+      "profit_per_contact": 1560.13,
+      "profit_total": 688016.17,
       "profitable": true
     }
   ],
   "tiered_scenarios": [
     {
-      "scenario": "A. Contact all 448 (blanket win-back)",
-      "audience": 448,
-      "mean_churn_prob": 0.4079,
+      "scenario": "A. Contact all 441 (blanket win-back)",
+      "audience": 441,
+      "mean_churn_prob": 0.3875,
       "contact_cost": 250.0,
       "recovery_rate": 0.15,
-      "retained_value": 12931.3,
-      "expected_value_recovered_per_contact": 791.24,
-      "expected_profit_per_contact": 541.24,
-      "expected_profit_total": 242477.57,
-      "campaign_cost_total": 112000.0,
-      "expected_recovered_revenue_total": 354477.57,
+      "retained_value": 13292.2,
+      "expected_value_recovered_per_contact": 772.55,
+      "expected_profit_per_contact": 522.55,
+      "expected_profit_total": 230443.56,
+      "campaign_cost_total": 110250.0,
+      "expected_recovered_revenue_total": 340693.56,
       "profitable": true
     },
     {
       "scenario": "B. Contact top decile by expected value (44)",
       "audience": 44,
-      "mean_churn_prob": 0.4356,
+      "mean_churn_prob": 0.3988,
       "contact_cost": 250.0,
       "recovery_rate": 0.15,
-      "retained_value": 12931.3,
-      "expected_value_recovered_per_contact": 845.01,
-      "expected_profit_per_contact": 595.01,
-      "expected_profit_total": 26180.45,
+      "retained_value": 13292.2,
+      "expected_value_recovered_per_contact": 795.11,
+      "expected_profit_per_contact": 545.11,
+      "expected_profit_total": 23984.72,
       "campaign_cost_total": 11000.0,
-      "expected_recovered_revenue_total": 37180.45,
+      "expected_recovered_revenue_total": 34984.72,
       "profitable": true
     },
     {
-      "scenario": "C. Contact only p > break-even 12.9% (448)",
-      "audience": 448,
-      "mean_churn_prob": 0.4079,
+      "scenario": "C. Contact only p > break-even 12.5% (441)",
+      "audience": 441,
+      "mean_churn_prob": 0.3875,
       "contact_cost": 250.0,
       "recovery_rate": 0.15,
-      "retained_value": 12931.3,
-      "expected_value_recovered_per_contact": 791.24,
-      "expected_profit_per_contact": 541.24,
-      "expected_profit_total": 242477.57,
-      "campaign_cost_total": 112000.0,
-      "expected_recovered_revenue_total": 354477.57,
+      "retained_value": 13292.2,
+      "expected_value_recovered_per_contact": 772.55,
+      "expected_profit_per_contact": 522.55,
+      "expected_profit_total": 230443.56,
+      "campaign_cost_total": 110250.0,
+      "expected_recovered_revenue_total": 340693.56,
       "profitable": true
     },
     {
       "scenario": "D. Do nothing",
-      "audience": 448,
+      "audience": 441,
       "expected_profit_total": 0.0,
       "expected_profit_per_contact": 0.0,
       "profitable": false,
       "campaign_cost_total": 0.0,
       "expected_recovered_revenue_total": 0.0,
-      "note": "Baseline: revenue is lost at the natural 34.5% repeat rate."
+      "note": "Baseline: revenue is lost at the natural 38.8% repeat rate."
     }
   ],
   "budget_worklist": {
     "budget_inr": 25000,
     "calls_affordable": 100,
-    "eligible_customers": 448,
+    "eligible_customers": 441,
     "selected": 100,
-    "expected_profit_inr": 69657.64,
+    "expected_profit_inr": 58563.71,
     "spend_inr": 25000.0,
-    "mean_churn_prob_selected": 0.488,
-    "break_even_probability": 0.1289,
+    "mean_churn_prob_selected": 0.4191,
+    "break_even_probability": 0.1254,
     "note": "Ranked by expected value (p x r x V - C) rather than churn probability alone - a likely churner who spends little is not worth a call. Written without apostrophes or comma-colon sequences so the dashboard JS-to-JSON parser stays valid."
   }
 }

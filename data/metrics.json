@@ -29,17 +29,20 @@
       "formula": "SUM(line_total) / COUNT(DISTINCT order_id)"
     },
     "churn_model": {
-      "definition": "Leakage-free churn model: features strictly before cutoff, label = no purchase in the 180 days after cutoff.",
-      "roc_auc": 0.6484,
-      "pr_auc": 0.3616,
-      "prevalence": 0.2535,
-      "n_customers": 1586,
-      "caveat": "Honest post-leakage number; real churn models rarely score 0.9+ without leakage. The 25.35% prevalence is a MODEL LABEL RATE on the scored population, not a business churn rate. Full evidence in churn_calibration."
+      "definition": "Leakage-free churn model: features strictly before the 2024-07-03 cutoff, label = no purchase (Delivered or Returned) in the following 180 days. Model chosen by 5-fold CV on the training split; the selected model is scored once on a held-out 20%. Published per-customer scores are out-of-fold for training customers and holdout predictions for test customers — in-sample refit probabilities are never published.",
+      "selected_model": "Logistic Regression",
+      "cv_roc_auc": 0.6742,
+      "roc_auc": 0.6621,
+      "pr_auc": 0.3322,
+      "prevalence": 0.2354,
+      "n_customers": 1597,
+      "caveat": "Honest post-leakage numbers; real churn models rarely score 0.9+ without leakage. The 23.54% prevalence is a MODEL LABEL RATE on the scored population, not a business churn rate. Rolling-origin backtest AUC 0.56-0.67 across five cutoffs — see reports/churn_temporal_backtest.json. Full evidence in reports/churn_model_metrics.json.",
+      "source": "reports/churn_model_metrics.json (pinned by tests/test_churn_model_metrics.py)"
     },
     "cooling_off_customers": {
       "definition": "Medium churn-risk band — the win-back audience.",
-      "full_dataset_value": 448,
-      "historical_spend": "₹1.24 Cr",
+      "full_dataset_value": 441,
+      "historical_spend": "₹1.30 Cr",
       "spend_source": "churn_features.total_revenue (same as reports/fact_sheet.json)",
       "caveat": "Historical spend, NOT future revenue at risk."
     },
@@ -119,24 +122,32 @@
     },
     "winback_experiment": {
       "definition": "DESIGN ONLY — no experiment has been run. See docs/experiment_design_winback.md.",
-      "segment_baseline_90d_repeat_pct": 34.5,
-      "mde_core_pool_pp": 13.0,
-      "mde_expanded_pool_pp": 8.5
+      "segment_baseline_90d_repeat_pct": 38.8,
+      "core_pool_customers": 441,
+      "expanded_pool_customers": 772,
+      "mde_core_pool_pp": 13.3,
+      "mde_expanded_pool_pp": 10.0,
+      "note": "Expanded pool = core Medium band union RFM About To Sleep + At Risk (575, of which 244 already in core), so 772 — not 1,023 (which double-counted the overlap). Its own measured 90-day baseline is 50.7%."
     },
     "churn_calibration": {
-      "definition": "Probability quality and decision thresholds for the churn model (fit/cal/test 64/16/20).",
-      "roc_auc": 0.6484,
-      "pr_auc": 0.3616,
-      "brier_raw": 0.1957,
-      "brier_isotonic": 0.1829,
-      "ece_raw": 0.0963,
-      "ece_isotonic": 0.0378,
-      "calibration_slope_raw": 0.388,
-      "operating_threshold_t_star": 0.1,
-      "threshold_selection": "expected-profit maximizing on the calibration slice; cost model: C=INR250/contact, r=15% recovery, V=INR12,931 (mean 180-day spend of retained customers)",
+      "definition": "Probability quality and decision thresholds for the churn model (fit/cal/test 64/16/20) on scripts/churn_data.py's frame.",
+      "n_total": 1597,
+      "roc_auc": 0.657,
+      "pr_auc": 0.3307,
+      "brier_prevalence_reference": 0.2344,
+      "brier_raw": 0.172,
+      "brier_isotonic": 0.1815,
+      "ece_raw": 0.032,
+      "ece_isotonic": 0.0774,
+      "calibration_slope_raw": 0.7875,
+      "calibration_slope_isotonic": 0.1299,
+      "bayes_threshold": 0.1254,
+      "operating_threshold_t_star": 0.12,
+      "threshold_selection": "expected-profit maximizing on the calibration slice; cost model: C=INR250/contact, r=15% recovery, V=INR13,292.2 (mean observed 180-day spend of retained customers)",
       "source": "reports/churn_calibration_metrics.json (pinned by tests/test_churn_calibration.py)",
-      "caveat": "Profit figures are expected values under illustrative assumptions; no campaign has been run.",
-      "correction_note": "Values corrected 2026-10-17 to the reproducible output of scripts/churn_calibration.py under the pinned environment (scikit-learn 1.6.1, numpy 2.3.5, scipy 1.17.1). The previous figures (roc_auc 0.6489, pr_auc 0.3664, brier_raw 0.1952, brier_isotonic 0.1811, ece_isotonic 0.0299) were not reproducible from this repository by any combination of committed code and committed data; they survived because CI did not run the calibration script. The registry now matches the pipeline, and CI regenerates and re-verifies these figures on every push."
+      "caveat": "Profit figures are expected values under illustrative assumptions; no campaign has been run. Calibration is NOT uniformly helpful here: the pipeline's isotonic fit on 1,278 out-of-fold training predictions improves holdout Brier 0.1726 to 0.1715, while the separate script's isotonic fit on only 256 calibration rows overfits (Brier 0.172 to 0.1815, slope 0.7875 to 0.13). Both results are reported, not averaged away.",
+      "correction_note": "Values re-derived 2026-11-18 after unifying the purchase definition (Delivered or Returned) across cohort retention, churn labels and experiment baselines, and replacing in-sample scoring with out-of-fold + holdout scoring. Earlier registry values (roc_auc 0.6484, pr_auc 0.3616, prevalence 0.2535, n 1586, brier_raw 0.1957, t*=0.10) came from the older definition/split and are superseded. An earlier 2026-10-17 correction removed a set of figures (0.6489 / 0.3664 / 0.1952 / 0.1811 / 0.0299) that were not reproducible from the committed code and data.",
+      "temporal_backtest": "reports/churn_temporal_backtest.json — 5 rolling origins, CV AUC 0.5611, 0.5515, 0.5861, 0.6378, 0.6710; the 80/20 split is NOT described as a temporal split."
     },
     "forecast_backtest": {
       "definition": "Rolling-origin backtest of the revenue forecast vs naive baselines (10 origins x 3 horizons).",
@@ -176,22 +187,23 @@
       "cost_model": {
         "contact_cost_inr": 250.0,
         "recovery_rate": 0.15,
-        "retained_value_inr": 12931.3,
+        "retained_value_inr": 13292.2,
         "note": "Same C/r/V as the churn model in reports/churn_calibration_metrics.json — a single source of truth."
       },
       "kpis": {
-        "expected_net_revenue_per_contact": "P(churn) x recovery_rate x retained_value - contact_cost. Revenue before COGS: retained_value is 180-day SPEND, so at the 54.0% gross margin ≈₹177 of contribution per contact.",
-        "break_even_churn_probability": "contact_cost / (recovery_rate x retained_value) — equals the churn model Bayes threshold by construction. On a margin basis the break-even rises to ≈23.9%.",
+        "expected_net_revenue_per_contact": "P(churn) x recovery_rate x retained_value - contact_cost. Revenue before COGS: retained_value is 180-day SPEND, so at the 54.0% gross margin ≈₹167 of contribution per contact.",
+        "break_even_churn_probability": "contact_cost / (recovery_rate x retained_value) — equals the churn model Bayes threshold by construction. On a margin basis the break-even rises to ≈23.2%.",
         "campaign_expected_net_revenue": "expected_net_revenue_per_contact x audience (before COGS)"
       },
       "measured_results": {
-        "cooling_off_customers": 448,
-        "historical_spend_inr": 12405259.0,
-        "mean_churn_probability": 0.408,
-        "expected_profit_per_contact": 541.0,
-        "campaign_expected_profit": 242478.0,
-        "break_even_churn_probability": 0.1289,
-        "basis": "Revenue before COGS. The 'profit' key names are retained for compatibility with reports/winback_economics.json; read them as expected NET REVENUE. Margin-adjusted: ≈₹177 contribution per contact, break-even ≈23.9%."
+        "cooling_off_customers": 441,
+        "historical_spend_inr": 12998872.58,
+        "mean_churn_probability": 0.3875,
+        "baseline_repeat_rate": 0.3878,
+        "expected_profit_per_contact": 523.0,
+        "campaign_expected_profit": 230444.0,
+        "break_even_churn_probability": 0.1254,
+        "basis": "Revenue before COGS. The 'profit' key names are retained for compatibility with reports/winback_economics.json; read them as expected NET REVENUE. Margin-adjusted: ≈₹167 contribution per contact, break-even ≈23.2%."
       },
       "caveat": "Every figure is an expectation under stated assumptions — no campaign has been run. The recovery rate is not measured and is the most sensitive input, which is why a sensitivity grid is published rather than a point estimate alone."
     },

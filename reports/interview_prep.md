@@ -5,9 +5,9 @@
 
 ## Resume Bullets (verified numbers only)
 
-- **Built a nine-page decision-layer analytics product over 12,000 orders / 1,991 customers / 150 SKUs (2022–24)** — RFM + K-Means segmentation, cohort retention, churn modeling, BCG product matrix, Holt-Winters forecasting with bootstrap CIs, and an NL-to-SQL assistant where the LLM never computes numbers; **235 automated tests cover analytical outputs, dashboard consistency and API behavior**.
-- **Rebuilt the churn model to be leakage-aware** (forward-time split: features strictly before cutoff, label = no purchase in the next 180 days) after identifying that the original recency-based features leaked the label — the honest 5-fold CV AUC is **0.65**, and the gains/lift chart quantifies targeting efficiency instead of chasing a fake 0.99.
-- **Delivered a decision layer, not just charts**: MoM decomposition (Dec 2024: revenue +17.0%, orders +21.3%, AOV −3.5% → volume-led growth), 18-cohort retention analysis (month-1 retention rose from ~15–28% in 2023 to 55–88% in late 2024), and a statistically powered win-back experiment design (baseline 34.5% 90-day repeat rate; MDE +13pp core pool / +8.5pp expanded) — design only, results not fabricated.
+- **Built a nine-page decision-layer analytics product over 12,000 orders / 1,991 customers / 150 SKUs (2022–24)** — RFM + K-Means segmentation, cohort retention, churn modeling, BCG product matrix, Holt-Winters forecasting with bootstrap CIs, and an NL-to-SQL assistant where the LLM never computes numbers; **an automated test suite covers analytical outputs, dashboard consistency and API behavior**.
+- **Rebuilt the churn model to be leakage-free** (hard cutoff: features strictly before it, label = no purchase with status Delivered or Returned in the next 180 days) after identifying that the original recency-based features leaked the label — 5-fold CV ROC-AUC **0.674** on the training split and **0.662** on the held-out 20%, plus a 5-origin rolling backtest (0.56–0.67). Gains/lift quantifies targeting efficiency instead of chasing a fake 0.99.
+- **Delivered a decision layer, not just charts**: MoM decomposition (Dec 2024: revenue +17.0%, orders +21.3%, AOV −3.5% → volume-led growth), 18-cohort retention analysis (month-1 retention rose from ~15–28% in 2023 to 55–88% in late 2024), and a powered win-back experiment design (baseline 38.8% 90-day repeat rate; MDE +13.3 pp on the 441-customer core pool / +10.0 pp on the 772-customer expanded pool) — design only, results not fabricated.
 
 ## One-Line Description
 
@@ -19,13 +19,13 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 "An e-commerce business has orders, customers, and products — and no reliable answer to three questions: is the business actually growing, which customers are about to leave, and what should we do next. Dashboards show what happened; this project adds why it changed and what to do about it."
 
 **[60s] Data & pipeline**
-"12,000 orders across 1,991 customers and 150 SKUs over 2022–24, generated reproducibly and documented with a data dictionary. Twelve SQL scripts and a pandas pipeline compute the same metrics with zero drift — and 235 automated tests check selected calculations and application behavior; production verification remains a separate task."
+"12,000 orders across 1,991 customers and 150 SKUs over 2022–24, generated reproducibly and documented with a data dictionary. Twelve SQL scripts and a pandas pipeline compute the same metrics with zero drift — and an automated test suite checks selected calculations and application behavior; production verification remains a separate task."
 
 **[90s] Modeling — the churn story**
-"The churn model is where I show judgment. The first version scored AUC near 1.0 — and that was target leakage: recency features that defined the label were also feeding the model. I rebuilt it with a forward-time split: all features computed strictly before a cutoff date, label = no purchase in the 180 days after. The honest score is AUC 0.65 by 5-fold CV — and that's a realistic number for churn. A gains/lift chart describes ranking concentration; campaign profitability remains an assumption to test. The comparison is useful only when the target definition and validation protocol are clear."
+"The churn model is where I show judgment. The first version scored AUC near 1.0 — and that was target leakage: recency features that defined the label were also feeding the model. I rebuilt it with a hard cutoff: all features computed strictly before it, label = no purchase (Delivered or Returned) in the 180 days after. Model choice is made by 5-fold CV on the training split (LR 0.674, RF 0.642, GB 0.615), then scored once on a held-out 20% (AUC 0.662). Published scores are out-of-fold on training customers — never in-sample refits. The 80/20 split is not called temporal; a separate 5-origin backtest is. That is a realistic number for churn. A gains/lift chart describes ranking concentration; campaign profitability remains an assumption to test. The comparison is useful only when the target definition and validation protocol are clear."
 
 **[60s] Decision layer**
-"Three upgrades turn analysis into decisions. First, the 'What changed?' strip: December revenue grew 17% on 21% more orders while AOV fell 3.5% — volume-led growth, not price-led. Second, cohort retention: month-1 retention improved from 15–28% in 2023 to 55–88% in late 2024. Third, a win-back experiment design for the 448 cooling-off customers (₹1.24 Cr historical spend): power analysis puts the minimum detectable effect at +13pp against a 34.5% baseline — designed, not fabricated."
+"Three upgrades turn analysis into decisions. First, the 'What changed?' strip: December revenue grew 17% on 21% more orders while AOV fell 3.5% — volume-led growth, not price-led. Second, cohort retention: month-1 retention improved from 15–28% in 2023 to 55–88% in late 2024. Third, a win-back experiment design for the 441 cooling-off customers (₹1.30 Cr historical spend): power analysis puts the minimum detectable effect at +13.3 pp against a 38.8% baseline — designed, not fabricated."
 
 **[30s] Limitations**
 "The data is synthetic and disclosed as such. Historical spend is not revenue at risk. The forecast assumes trend and seasonality continue. The experiment is a design — no results are claimed. Every one of those caveats lives in the reports, and the tests enforce the numbers."
@@ -35,13 +35,13 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 1. **Is revenue growing?** Yes — Dec 2024: +17.0% revenue, +21.3% orders, +8.2% active customers, but AOV −3.5% — volume-led, not price-led growth.
 2. **Do customers stick?** Month-1 cohort retention improved from ~15–28% (2023 cohorts) to 55–88% (late 2024) across 18 first-purchase cohorts.
 3. **Where do orders leak?** Funnel: 12,000 placed -> 9,312 delivered (77.6%); exits are 844 cancelled (7.0%), 621 processing (5.2%), 1,223 returned (10.2%). Statuses are mutually exclusive, so 'Returned' is its own exit - never subtracted from 'Delivered'.
-4. **Who should we win back?** 448 cooling-off customers (medium churn-risk band) with ₹1.24 Cr historical spend — *historical, not future revenue at risk*.
-5. **What's the win-back plan?** A designed experiment: baseline 34.5% 90-day repeat rate, MDE +13pp (core pool) / +8.5pp (expanded), with held-out control — design only.
+4. **Who should we win back?** 441 cooling-off customers (medium churn-risk band) with ₹1.30 Cr historical spend — *historical, not future revenue at risk*.
+5. **What's the win-back plan?** A designed experiment: baseline 38.8% 90-day repeat rate, MDE +13.3 pp (441 core) / +10.0 pp (772 expanded), with held-out control — design only.
 6. **How concentrated is CLV?** Top decile of customers holds ~42% of projected lifetime value.
-7. **Is the churn model trustworthy?** Yes, as a targeting tool: leakage-aware temporal split, AUC 0.65 CV, gains/lift chart. Not a per-customer oracle.
+7. **Is the churn model trustworthy?** Yes, as a targeting tool: leakage-free design, 5-fold CV AUC 0.674 / holdout 0.662, separate 5-origin temporal backtest, gains/lift chart. Not a per-customer oracle.
 8. **What's the forecast?** H1 2025 projected ≈ ₹3.27 Cr — ensemble of linear trend + Holt-Winters with bootstrap 95% CI; assumes trend/seasonality continue.
 9. **How do you prevent the dashboard from lying?** The pipeline produces dashboard inputs; selected figures are regression-tested, and definitions are recorded in `data/metrics.json`.
-10. **What would you do next with real data?** Run the win-back experiment as designed, validate the forecast against actuals, and retrain churn monthly with a temporal backtest.
+10. **What would you do next with real data?** Run the win-back experiment as designed, validate the forecast against actuals, and extend the published rolling churn backtest with retraining monthly.
 
 ## 10 SQL Questions
 
@@ -58,12 +58,12 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 
 ## 10 Python Questions
 
-1. **How is the churn model leak-free?** `python/churn/03_churn_analysis.py`: features computed strictly before the cutoff, label = no purchase 180 days after; forward-time split replaces random split.
-2. **Why is AUC 0.65 the honest number?** 5-fold CV on the leakage-aware design; the earlier ~1.0 came from using the label's own ingredients as features. Real churn models land 0.65–0.80 without leakage.
+1. **How is the churn model leak-free?** `python/churn/03_churn_analysis.py` + `scripts/churn_data.py`: features computed strictly before the cutoff, label = no purchase (Delivered or Returned) 180 days after; training scores are out-of-fold and the model is chosen on the training split only.
+2. **Why is AUC ≈0.67 the honest number?** 5-fold CV on the leakage-free design (0.6742 ± 0.0303), with 0.6621 on the untouched holdout; the earlier ~1.0 came from using the label's own ingredients as features.
 3. **How do you evaluate a churn model beyond AUC?** Cumulative gains/lift: how many churners the top decile captures vs random targeting — that's what makes a campaign profitable.
 4. **How does the NL-to-SQL assistant work?** The LLM generates SQL from the schema; the engine executes it; **the LLM never computes or states numbers itself** — results come from the database only.
 5. **How is the forecast built?** Holt-Winters triple exponential smoothing + linear-trend ensemble with bootstrap 95% CI — naive baseline comparison included (`python/forecasting/04_revenue_forecasting.py`).
-6. **What does the test suite check?** 235 tests: data quality invariants, metric reconciliation (pipeline vs dashboard embed), decision-layer consistency, and NL-to-SQL behavior.
+6. **What does the test suite check?** Data quality invariants, metric reconciliation (pipeline vs dashboard embed), churn/CV/backtest artifacts, decision-layer consistency, and NL-to-SQL behavior.
 7. **How do you keep the deployed dashboard in sync?** `tests/test_dashboard_consistency.py` asserts the dashboard's embedded data equals the pipeline output — the live site can't silently drift.
 8. **How were RFM segments built?** Recency/Frequency/Monetary quintiles + K-Means with elbow analysis; segment actions documented in the retention playbook.
 9. **What statistical tests did you use?** `python/stats/06_statistical_analysis.py` — significance tests on segment differences (documented in `reports/statistical_analysis.md`).
@@ -72,33 +72,33 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 ## 10 ML / Analytics Questions
 
 1. **What is target leakage?** When information from after (or inside) the label definition enters the features — e.g., using "days since last purchase" to predict "no purchase next 180 days." It inflates metrics and destroys trust.
-2. **How do you prevent it?** Time-based splits and a hard cutoff: every feature must be computable at prediction time, and validation must respect time order.
-3. **Why does churn AUC of 0.65 matter more than a 0.99?** The evaluation protocol limits target leakage; the observed score does not guarantee performance on future data.
+2. **How do you prevent it?** A hard cutoff plus out-of-fold scoring: every feature must be computable at prediction time, the model is chosen by CV on the training split, and temporal evidence comes from a separate rolling-origin backtest.
+3. **Why does churn AUC of ~0.67 matter more than a 0.99?** The evaluation protocol removes target leakage; the observed score does not guarantee performance on future data, hence the rolling backtest.
 4. **When do you pick precision vs recall for churn?** When the intervention (discount) is cheap, favor recall (reach more at-risk customers); when it's expensive, favor precision — which is why the gains chart matters.
 5. **What's the naive forecast baseline and why check it?** Last-period value or drift; Holt-Winters must beat it on a temporal backtest or it adds nothing.
 6. **How do you interpret a bootstrap CI on the forecast?** The range holding 95% of bootstrap projections — uncertainty the business should plan around, not a single promised number.
-7. **What is an MDE?** Minimum detectable effect — the smallest lift an experiment can reliably detect at its sample size. +13pp on a 34.5% baseline for the core pool here.
+7. **What is an MDE?** Minimum detectable effect — the smallest lift an experiment can reliably detect at its sample size. +13.3 pp on a 38.8% baseline for the 441-customer core pool here.
 8. **Why is the win-back plan called 'design only'?** No experiment was run; reporting uplift now would be fabrication. The design (baseline, MDE, control) is the deliverable.
 9. **What does the CLV number actually mean?** Share of *projected* lifetime value in the top decile (42%) — a concentration statistic under CLV assumptions, not booked revenue.
 10. **How do you explain AOV falling while revenue grows?** Volume-led growth: more orders at lower average value — the MoM decomposition makes that distinction explicit.
 
 ## 10 Project Deep-Dive Questions
 
-1. **What did you build end-to-end?** Synthetic-but-documented data → SQL + pandas pipeline (8 stages) → analytics (RFM, churn, forecast, BCG, CLV) → decision layer (MoM, cohorts, funnel, experiment design) → NL-to-SQL → deployed nine-page dashboard with 235 automated tests.
-2. **Why 235 tests for a dashboard project?** Regression checks help detect changes to selected metrics, data rules and application behavior; they do not certify every production state.
+1. **What did you build end-to-end?** Synthetic-but-documented data → SQL + pandas pipeline (8 stages) → analytics (RFM, churn, forecast, BCG, CLV) → decision layer (MoM, cohorts, funnel, experiment design) → NL-to-SQL → deployed nine-page dashboard with an automated test suite.
+2. **Why so many tests for a dashboard project?** Regression checks help detect changes to selected metrics, data rules and application behavior; they do not certify every production state.
 3. **What's the 'Trust Layer'?** The test suite + `data/metrics.json` definitions + SQL/pandas parity: every visible number has a definition, a computation, and a test.
-4. **What would you improve?** Real data with a true temporal horizon (to run the win-back experiment and a proper backtest), calibrated churn probabilities, and a decision-threshold analysis per campaign cost.
+4. **What would you improve?** Real data with a longer horizon (to run the win-back experiment and extend the published backtest), larger calibration samples for isotonic fitting, and a decision-threshold analysis per campaign cost.
 5. **Why not deep learning here?** Tabular data with 12K rows; gradient-boosted or linear models are the right tool. Choosing simple models on purpose is part of the judgment I'd show a team.
 6. **How does the project show business thinking?** Every module ends in a decision: what changed (MoM), who to target (churn bands + lift), what to test (win-back design), what to stock (forecast + BCG).
-7. **What's the risk of this project?** Someone reads ₹1.24 Cr as recoverable revenue — mitigated by the caveat in `data/metrics.json` and the reports (historical spend only).
+7. **What's the risk of this project?** Someone reads ₹1.30 Cr as recoverable revenue — mitigated by the caveat in `data/metrics.json` and the reports (historical spend only).
 8. **How do you defend synthetic data?** It's disclosed everywhere; its value is that it lets me demonstrate leakage-aware design, reconciliation, and testing — the methods transfer, the numbers don't.
 9. **How is the forecast presented honestly?** Ensemble with bootstrap CI plus a caveat that it assumes trend/seasonality continue — and the pipeline compares against naive baselines.
 10. **If the CTO asked 'why should I trust this dashboard?', what do you say?** The repository provides metric definitions, selected independent SQL/Python checks and reproducible outputs. The audit also lists unverified production and accessibility checks.
 
 ## Evaluation Depth — Days 2–3 additions (2026-10-17)
 
-1. **Your churn model's raw probabilities were untrustworthy — how did you catch it?** Calibration analysis on a held-out calibration slice: the raw GBM had calibration slope 0.39 (over-confident), Brier 0.196. After isotonic scaling: Brier 0.183, ECE 0.096→0.038. The rule: never consume raw tree-ensemble probabilities as if they were risks.
-2. **How do you choose a decision threshold when false positives cost money?** Derive it: contact iff p > C/(r·V) — cost over recovery-rate-times-value. With illustrative assumptions (₹250/contact, 15% recovery, V = measured 180-day spend of retained customers ₹12,931), t\* = 0.10 selected on a calibration slice, never the test set. It beats contact-all (₹81.3K vs ₹77.6K expected profit) with 101 fewer contacts.
-3. **What happens if your cost assumptions are wrong?** Sensitivity analysis: ±30% on cost and recovery rate moves the Bayes threshold from 0.09 to 0.19 — the recovery rate is the assumption that matters, which is exactly why the win-back experiment (which measures it) is the priority experiment.
+1. **Your churn model's raw probabilities were untrustworthy — how did you catch it?** Calibration analysis: the raw LR had slope 0.7875 (over-confident), Brier 0.172. Isotonic fitted on 1,278 out-of-fold predictions improves holdout Brier 0.1726 → 0.1715, but the same fit on the 256-row calibration slice overfits (Brier 0.1815, slope 0.13). Both are published. The rule: never consume raw model probabilities as if they were risks, and check the calibration sample size.
+2. **How do you choose a decision threshold when false positives cost money?** Derive it: contact iff p > C/(r·V) — cost over recovery-rate-times-value. With illustrative assumptions (₹250/contact, 15% recovery, V = measured 180-day spend of retained customers ₹13,292), t\* = 0.12 selected on a calibration slice, never the test set. It beats contact-all (₹72.8K vs ₹69.5K expected revenue) with 93 fewer contacts.
+3. **What happens if your cost assumptions are wrong?** Sensitivity analysis: ±30% on cost and recovery rate moves the Bayes threshold from 0.09 to 0.23 — the recovery rate is the assumption that matters, which is exactly why the win-back experiment (which measures it) is the priority experiment.
 4. **How do you prove a forecasting model beats a naive baseline?** Rolling-origin backtest: 10 origins × 3 horizons, MASE with seasonal scaling. Mine found the shipped ensemble (0.68) LOSES to the drift baseline (0.47) — and I published that, with the recommendation to use drift operationally.
 5. **What was wrong with your forecast's 95% confidence interval?** Empirical coverage was 9.5% vs nominal 95% — the bootstrap band is built from 3 residuals, which cannot estimate forecast variance. Spot-checked at one origin: band ±8%, actual outside. The fix: estimate error variance from the full rolling-origin residual history.

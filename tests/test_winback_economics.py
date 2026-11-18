@@ -116,7 +116,7 @@ class TestSensitivity:
     """Direction of movement must be right, or the grid misleads."""
 
     def test_higher_recovery_rate_never_reduces_profit(self):
-        grid = sensitivity_grid(448, 0.40)
+        grid = sensitivity_grid(441, 0.40)
         by_cost = {}
         for row in grid:
             by_cost.setdefault(row["contact_cost"], []).append(row)
@@ -126,7 +126,7 @@ class TestSensitivity:
             assert all(a <= b for a, b in zip(profits, profits[1:])), (cost, profits)
 
     def test_higher_contact_cost_never_increases_profit(self):
-        grid = sensitivity_grid(448, 0.40)
+        grid = sensitivity_grid(441, 0.40)
         by_rate = {}
         for row in grid:
             by_rate.setdefault(row["recovery_rate"], []).append(row)
@@ -136,7 +136,7 @@ class TestSensitivity:
             assert all(a >= b for a, b in zip(profits, profits[1:])), (rate, profits)
 
     def test_grid_is_complete(self):
-        grid = sensitivity_grid(448, 0.40)
+        grid = sensitivity_grid(441, 0.40)
         assert len(grid) == 6 * 4  # 6 recovery rates × 4 costs
 
 
@@ -206,5 +206,8 @@ class TestCommittedArtifact:
         for key in ("pool", "baseline_campaign", "break_even",
                     "sensitivity", "tiered_scenarios", "budget_worklist"):
             assert key in d, f"missing {key}"
-        assert d["pool"]["customers"] == 448
+        assert d["pool"]["customers"] == 441
+        assert d["parameters"]["retained_value_inr"] == pytest.approx(13292.2)
+        assert d["parameters"]["baseline_repeat_rate"] == pytest.approx(0.3878)
+        assert d["break_even"]["break_even_churn_probability"] == pytest.approx(0.1254, abs=5e-3)
         assert d["bayes_threshold_cross_check"]["consistent"] is True

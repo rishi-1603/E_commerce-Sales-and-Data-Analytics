@@ -33,6 +33,10 @@ Supersedes the 2026-10-18 HTTP-200-only check above. Independent audit pass
 (documented in `docs/PORTFOLIO_FINAL_AUDIT_2026-11-17.md`).
 
 ## Machine-verified (2026-11-17, real Chromium against the live URL)
+
+> Snapshot: the 448 cooling-off figure below predates the 2026-11-18 churn
+> redefinition (current value: 441). The browser check verifies layout and
+> availability, not the current KPI values.
 - Page loads, title "EcomAnalytics — E-Commerce Sales & Customer Intelligence".
 - **Console: 0 errors, 0 warnings.** Network: 10 requests, 0 failed / 4xx / 5xx.
 - Hero KPIs match canonical: ₹5.93 Cr revenue · ₹3.20 Cr profit · 54.0% margin ·

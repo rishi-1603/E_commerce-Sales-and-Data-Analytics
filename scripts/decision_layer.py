@@ -136,15 +136,21 @@ def structural_facts(master: pd.DataFrame, rfm: pd.DataFrame, clv: pd.DataFrame)
     return facts
 
 
-def cohort_matrix(master: pd.DataFrame, max_cohorts: int = 18, max_months: int = 12) -> dict:
+def cohort_matrix(max_cohorts: int = 18, max_months: int = 12) -> dict:
     """First-purchase-month cohorts x months-since retention (%).
 
     Definition: a 'purchase' = order with status Delivered or Returned
     (cancelled orders never transacted; processing is not yet a purchase).
     Retention(month k) = share of the cohort with at least one purchase
     k months after the cohort's first-purchase month.
+
+    Source: data/raw/orders.csv. master_orders.csv only contains valid
+    revenue rows (Delivered + Processing), so it cannot represent a purchase
+    that was later returned — the definition would silently drop them.
     """
-    pu = master[master["status"].isin(PURCHASE_STATUSES)]
+    raw = pd.read_csv(os.path.join(BASE, "data", "raw", "orders.csv"),
+                      parse_dates=["order_date"])
+    pu = raw[raw["status"].isin(PURCHASE_STATUSES)]
     first = pu.groupby("customer_id")["order_date"].min().dt.to_period("M").rename("cohort")
     act = (
         pu.assign(ym=pu["order_date"].dt.to_period("M"))
@@ -232,7 +238,7 @@ def main() -> None:
     mom = mom_block(g)
     structural = structural_facts(master, rfm, clv)
     wc = what_changed(mom, structural)
-    cohorts = cohort_matrix(master)
+    cohorts = cohort_matrix()
     fun = funnel(master)
     segs = segment_actions(master, rfm)
 

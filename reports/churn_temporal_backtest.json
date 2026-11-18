@@ -1,0 +1,42 @@
+{
+  "evaluation": "rolling-origin backtest: at each cutoff, features use purchases strictly before it and the label is no purchase in the following 180 days; the selected model is re-fit under 5-fold stratified CV within each frame",
+  "model": "Logistic Regression",
+  "horizon_days": 180,
+  "origins": [
+    {
+      "cutoff": "2023-07-01",
+      "n_customers": 748,
+      "prevalence": 0.0321,
+      "cv_roc_auc_mean": 0.5611,
+      "cv_roc_auc_std": 0.1244
+    },
+    {
+      "cutoff": "2023-10-01",
+      "n_customers": 969,
+      "prevalence": 0.0495,
+      "cv_roc_auc_mean": 0.5515,
+      "cv_roc_auc_std": 0.0922
+    },
+    {
+      "cutoff": "2024-01-01",
+      "n_customers": 1161,
+      "prevalence": 0.0784,
+      "cv_roc_auc_mean": 0.5861,
+      "cv_roc_auc_std": 0.0596
+    },
+    {
+      "cutoff": "2024-04-01",
+      "n_customers": 1396,
+      "prevalence": 0.1304,
+      "cv_roc_auc_mean": 0.6378,
+      "cv_roc_auc_std": 0.0253
+    },
+    {
+      "cutoff": "2024-07-03",
+      "n_customers": 1597,
+      "prevalence": 0.2354,
+      "cv_roc_auc_mean": 0.671,
+      "cv_roc_auc_std": 0.022
+    }
+  ]
+}

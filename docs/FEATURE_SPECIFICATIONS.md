@@ -4,8 +4,8 @@
 |---|---|---|---|
 | RFM segmentation | orders | RFM scores, segments | segment counts pinned |
 | Cohort retention | orders | retention matrix | cohort figures pinned |
-| Churn scoring | RFM features | churn probabilities | AUC/PR-AUC pinned (0.6484 / 0.3616) |
-| Churn calibration + thresholds | churn model | calibrated probs, t* table | Brier/slope/profit pinned |
+| Churn scoring | RFM features | out-of-fold + holdout churn probabilities | CV AUC 0.6742 / holdout AUC 0.6621, PR-AUC 0.3322 pinned |
+| Churn calibration + thresholds | churn model | calibrated probs, t* table, rolling backtest | Brier/slope/profit + 5 origins pinned |
 | BCG classification | product sales | stars/cash cows/etc. | category counts pinned |
 | Revenue forecasting | monthly revenue | Holt-Winters + trend ensemble | forecast metrics pinned |
 | Forecast backtest | revenue history | MASE vs 3 naive baselines | MASE values pinned (drift 0.468) |

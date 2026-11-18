@@ -181,7 +181,7 @@ AI answers are traceable, and the project is reproducible.
 - Analysed 12,000 orders across 1,991 customers and 150 products using Python and SQL, identifying
   sales trends, customer segments and product-performance patterns across the 2022–2024 reporting period.
 - Applied RFM segmentation and cohort analysis to evaluate customer purchasing behaviour and retention,
-  identifying 448 customers meeting the project's 180-day inactivity definition for targeted
+  identifying 441 medium-risk cooling-off customers from a leakage-free churn model for targeted
   re-engagement analysis.
 - Developed an interactive commerce intelligence platform with Power BI reporting, Excel-based KPI
   reconciliation and an AI-assisted analytics copilot, enabling business users to explore performance

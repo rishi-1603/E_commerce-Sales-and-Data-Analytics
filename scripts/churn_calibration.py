@@ -12,7 +12,9 @@ actually asks:
 
 Protocol (stricter than the pipeline's 80/20 split):
   fit 64% / calibration 16% / test 20%  -- stratified, random_state=42
-  - base model fit on the fit slice
+  - dataset from scripts/churn_data.py (same purchase definition as the pipeline:
+    activity/label = Delivered or Returned; revenue = master_orders.csv)
+  - base model = the pipeline's selected model family (Logistic Regression)
   - Platt (sigmoid) and isotonic calibrators fit on the calibration slice
   - operating threshold SELECTED on the calibration slice (expected profit)
   - everything reported on the untouched test slice
@@ -34,6 +36,7 @@ Run:  python scripts/churn_calibration.py
 """
 import json
 import os
+import sys
 import warnings
 
 import numpy as np
@@ -41,7 +44,6 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
@@ -51,12 +53,16 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 warnings.filterwarnings("ignore")
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from churn_data import FEATURES, build_churn_frame, load_purchase_lines  # noqa: E402
+
 PROC = os.path.join(BASE, "data", "processed")
-RAW = os.path.join(BASE, "data", "raw")
 FIGS = os.path.join(BASE, "docs", "figures")
 REPORTS = os.path.join(BASE, "reports")
 os.makedirs(FIGS, exist_ok=True)
@@ -73,56 +79,8 @@ C_SENS = (175.0, 250.0, 325.0)  # ±30% sensitivity
 
 
 # ════════════════════════════════════════════════════════════════════
-# 1. Rebuild the leakage-free churn dataset exactly like 03_churn_analysis
+# 1. Dataset comes from scripts/churn_data.py (single source of truth)
 # ════════════════════════════════════════════════════════════════════
-def build_churn_frame():
-    from sklearn.preprocessing import LabelEncoder
-
-    master = pd.read_csv(os.path.join(PROC, "master_orders.csv"), parse_dates=["order_date"])
-    customers = pd.read_csv(os.path.join(RAW, "customers.csv"), parse_dates=["registration_date"])
-
-    data_end = master["order_date"].max()
-    cutoff = data_end - pd.Timedelta(days=180)
-
-    past = master[master["order_date"] < cutoff].copy()
-    future = master[master["order_date"] >= cutoff].copy()
-    eligible = set(past["customer_id"].unique())
-
-    feat = past.groupby("customer_id").agg(
-        total_orders=("order_id", "nunique"),
-        total_revenue=("line_total", "sum"),
-        avg_order_value=("line_total", "mean"),
-        total_items=("quantity", "sum"),
-        avg_discount=("discount_pct_x", "mean"),
-        unique_categories=("category", "nunique"),
-        first_order_date=("order_date", "min"),
-        last_order_date=("order_date", "max"),
-    ).reset_index()
-
-    feat["recency_days"] = (cutoff - feat["last_order_date"]).dt.days
-    feat["tenure_days"] = (cutoff - feat["first_order_date"]).dt.days
-    feat["order_frequency"] = feat["total_orders"] / (feat["tenure_days"] / 30).clip(lower=1)
-    feat["avg_days_between"] = feat["tenure_days"] / feat["total_orders"].clip(lower=1)
-
-    feat = feat.merge(
-        customers[["customer_id", "segment", "region", "acquisition_channel", "age", "gender"]],
-        on="customer_id", how="left")
-
-    le = LabelEncoder()
-    for col in ["segment", "region", "acquisition_channel", "gender"]:
-        feat[col + "_enc"] = le.fit_transform(feat[col].fillna("Unknown"))
-
-    future_buyers = set(future.loc[future["customer_id"].isin(eligible), "customer_id"].unique())
-    feat["churned"] = (~feat["customer_id"].isin(future_buyers)).astype(int)
-    return feat
-
-
-FEATURES = [
-    "total_orders", "total_revenue", "avg_order_value", "total_items",
-    "avg_discount", "unique_categories", "recency_days", "tenure_days",
-    "order_frequency", "avg_days_between", "age",
-    "segment_enc", "region_enc", "acquisition_channel_enc", "gender_enc",
-]
 
 
 # ════════════════════════════════════════════════════════════════════
@@ -173,7 +131,7 @@ def ece(y, p, n_bins=10):
 # 3. Main analysis
 # ════════════════════════════════════════════════════════════════════
 def run_analysis():
-    feat = build_churn_frame()
+    feat, cutoff = build_churn_frame()
     X = feat[FEATURES].fillna(0)
     y = feat["churned"].values
     prevalence = float(y.mean())
@@ -184,7 +142,11 @@ def run_analysis():
     X_fit, X_cal, y_fit, y_cal = train_test_split(
         X_fit, y_fit, test_size=0.20, random_state=42, stratify=y_fit)
 
-    base = GradientBoostingClassifier(n_estimators=200, random_state=42)
+    # Same model family as the pipeline's CV-selected model.
+    base = Pipeline([
+        ("scaler", StandardScaler()),
+        ("clf", LogisticRegression(max_iter=500, random_state=42)),
+    ])
     base.fit(X_fit, y_fit)
 
     p_raw_cal = base.predict_proba(X_cal)[:, 1]
@@ -235,11 +197,11 @@ def run_analysis():
     # -- Cost model ----------------------------------------------------
     # V = what a retained customer actually spent during the 180-day label
     # window (observed in the data) -- horizon-aligned and directly measurable.
-    # Lifetime historical spend is reported as context only.
+    # Spend uses purchase lines (Delivered + Returned) so it matches the label;
+    # lifetime historical spend is reported as context only.
     future_buyers = set(feat.loc[feat["churned"] == 0, "customer_id"])
-    master = pd.read_csv(os.path.join(PROC, "master_orders.csv"), parse_dates=["order_date"])
-    cutoff = master["order_date"].max() - pd.Timedelta(days=180)
-    fut = master[master["order_date"] >= cutoff]
+    fut = load_purchase_lines()
+    fut = fut[fut["order_date"] >= cutoff]
     fut_rev = fut[fut["customer_id"].isin(future_buyers)].groupby("customer_id")["line_total"].sum()
     v_value = round(float(fut_rev.mean()), 2)          # Rs. retained-value proxy (180d)
     v_lifetime = round(float(feat["total_revenue"].mean()), 2)  # context only
@@ -357,7 +319,9 @@ def run_analysis():
     }
 
     metrics = {
-        "protocol": "fit 64% / calibration 16% / test 20%, stratified, random_state=42",
+        "protocol": ("fit 64% / calibration 16% / test 20%, stratified, random_state=42; "
+                     "dataset from scripts/churn_data.py (purchases = Delivered or "
+                     "Returned; revenue = master_orders.csv)"),
         "n_total": int(len(feat)), "n_fit": int(len(X_fit)),
         "n_cal": int(len(X_cal)), "n_test": int(len(X_test)),
         "prevalence": round(prevalence, 4),
@@ -436,9 +400,12 @@ def write_report(metrics):
     lines = []
     a = lines.append
     a("# Churn Model -- Calibration, Decision Thresholds & Error Analysis")
-    a("### What the AUC of 0.65 does NOT tell you -- and what to do instead")
+    a("### What the AUC of 0.66 does NOT tell you -- and what to do instead")
     a("")
     a(f"> Generated by `scripts/churn_calibration.py` · protocol: **{metrics['protocol']}**")
+    a("> Dataset: `scripts/churn_data.py` -- activity/label uses the project purchase "
+      "definition (Delivered or Returned); revenue features use `master_orders.csv` "
+      "(Delivered + Processing).")
     a(f"> n = {metrics['n_total']:,} eligible customers "
       f"(fit {metrics['n_fit']:,} / calibration {metrics['n_cal']:,} / test {metrics['n_test']:,}) · "
       f"churn prevalence {metrics['prevalence']:.1%}")
@@ -461,8 +428,10 @@ def write_report(metrics):
         a(f"| {name} | {v['brier']} | {v['ece_10bin']} | {v['calibration_intercept']} | {v['calibration_slope']} |")
     a("")
     a("**Reading the table:** a slope < 1 means predictions are too extreme (over-confident); "
-      "a slope > 1 means too timid. Isotonic/Platt scaling fix probability quality without "
-      "changing the ranking (AUC is invariant to monotone transforms).")
+      "a slope > 1 means too timid. Calibration only helps when it improves the held-out "
+      "Brier/ECE — on this split the raw model is already close to calibrated, and the "
+      "calibrators fit on the 256-row calibration slice overfit. `03_churn_analysis.py` "
+      "therefore fits isotonic on 1,278 out-of-fold rows instead of a small slice.")
     a("")
     a("### Reliability table (isotonic, test slice)")
     a("")
@@ -562,10 +531,13 @@ def write_report(metrics):
     a("")
     a("## 5. What this changes in the project")
     a("")
-    a("- The risk bands in `03_churn_analysis.py` (0.33/0.66) were arbitrary quantile cuts. "
-      f"They are defensible as *communication* bands; the **action** threshold is t\\* = "
-      f"{cm['t_star_selected_on_cal']:.2f} under the stated cost model.")
-    a("- Probabilities should be consumed through the isotonic calibrator, not the raw GBM output.")
+    a("- `churn_features.csv` publishes cross-validated, isotonic-calibrated probabilities "
+      "(`03_churn_analysis.py`); the raw score is kept as `churn_probability_raw`.")
+    a("- The 0.33/0.66 risk bands are *communication* bands on the calibrated scale, not the "
+      f"action rule. Under the stated cost model the action threshold is t\\* = "
+      f"{cm['t_star_selected_on_cal']:.2f}, which contacts more customers than the Medium band alone.")
+    a("- The 256-row calibration slice is too small for a stable isotonic/Platt fit; the pipeline "
+      "calibrates on out-of-fold predictions from the full training split instead.")
     a("- `docs/MODEL_CARD.md` now carries these sections.")
     a("")
     a("---")

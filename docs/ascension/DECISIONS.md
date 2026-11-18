@@ -1,5 +1,9 @@
 # Ascension Log — Decisions & Evidence
 
+> **Historical record.** Churn/calibration figures below predate the 2026-11-18
+> redefinition; current values live in `data/metrics.json` and the regenerated
+> `reports/*_metrics.json` artifacts.
+
 > Working log for the v2 upgrade work (started 2026-10-16). One entry per change.
 > Format follows the handoff contract: what changed, evidence, assumptions, regressions.
 

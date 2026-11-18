@@ -93,7 +93,7 @@ PAGES = """<!-- PRICING_PAGES_START -->
         <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign net revenue</div><div class="kpi-value" style="color:var(--green)">__W_EVTOT__</div><div class="kpi-delta neu">contact all __W_CUST__</div></div>
         <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">__W_BEP__%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
       </div>
-      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 541 per contact is about Rs 177 of contribution.</div>
+      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 523 per contact is about Rs 167 of contribution.</div>
 
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected net revenue per contact (before cost of goods) across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>

@@ -80,7 +80,7 @@ def test_funnel_matches_dashboard_status_series():
 # ── Cohorts ──────────────────────────────────────────────────────────────────
 
 def test_cohort_matrix_shape_and_definition():
-    c = cohort_matrix(_master())
+    c = cohort_matrix()
     assert len(c["labels"]) == 18
     assert c["labels"][0] == "2023-07" and c["labels"][-1] == "2024-12"
     assert all(row[0] == 100.0 for row in c["matrix"])  # M0 = 100% by definition
@@ -99,7 +99,7 @@ def test_cohort_retention_late_cohort_gap_is_the_censoring_artifact():
     compressed observation window), not improving retention. If this assertion
     ever fails, re-examine the cohort windows before reading it as a trend.
     """
-    c = cohort_matrix(_master())
+    c = cohort_matrix()
     m1 = [row[1] for row in c["matrix"] if row[1] is not None]
     early = m1[: len(m1) // 2]
     late = m1[len(m1) // 2 :]
@@ -118,7 +118,7 @@ def test_what_changed_carries_verified_structural_facts():
     wc = what_changed(mom_block(monthly_kpis(master)), structural_facts(master, rfm, clv))
     assert len(wc) == 6
     cooling = [w for w in wc if "cooling-off" in w["headline"]]
-    assert cooling and "448" in cooling[0]["headline"] and "1.24" in cooling[0]["headline"]
+    assert cooling and "441" in cooling[0]["headline"] and "1.30" in cooling[0]["headline"]
     for w in wc:
         assert w["level"] in {"ok", "watch", "alert", "info"}
 
@@ -180,7 +180,7 @@ def test_metrics_json_semantic_layer():
     for key in ["revenue", "churn_model", "cooling_off_customers", "purchase",
                 "cohort_retention", "order_funnel", "mom_delta", "winback_experiment"]:
         assert key in m and "definition" in m[key], f"missing: {key}"
-    assert m["cooling_off_customers"]["full_dataset_value"] == 448
+    assert m["cooling_off_customers"]["full_dataset_value"] == 441
     assert m["order_funnel"]["delivery_rate_pct"] == 77.6
 
 
@@ -189,25 +189,31 @@ def test_experiment_doc_is_design_with_real_baselines():
     assert os.path.exists(path), "experiment design doc missing"
     text = open(path, encoding="utf-8").read()
     assert "DESIGN, NOT RESULTS" in text
-    assert "34.5%" in text          # measured segment baseline
-    assert "+13.0 pp" in text       # core-pool MDE
-    assert "+8.5 pp" in text        # expanded-pool MDE
+    assert "38.8%" in text          # measured segment baseline
+    assert "+13.3 pp" in text       # core-pool MDE
+    assert "+10.0 pp" in text       # expanded-pool MDE
 
 
 def test_experiment_baselines_recompute_from_data():
-    """The doc's 34.5% baseline must be reproducible from the data."""
-    m = load_master()
+    """The doc's 38.8% baseline must be reproducible from the data.
+
+    Purchase = raw orders with status Delivered or Returned (the repo-wide
+    definition). master_orders.csv cannot be used here: it carries only
+    revenue rows (Delivered + Processing), so returned purchases are missing.
+    """
+    raw = pd.read_csv(os.path.join(BASE, "data", "raw", "orders.csv"),
+                      parse_dates=["order_date"])
     churn = pd.read_csv(os.path.join(PROC, "churn_features.csv"))
     med = churn[churn["churn_risk"].str.contains("Medium")]
-    pu = m[m["status"].isin(["Delivered", "Returned"])]
+    pu = raw[raw["status"].isin(["Delivered", "Returned"])]
     first = pu.groupby("customer_id")["order_date"].min()
     second = pu[pu["order_date"] > pu.groupby("customer_id")["order_date"].transform("min")] \
         .groupby("customer_id")["order_date"].min()
     df = pd.DataFrame({"first": first, "second": second})
     df = df[df.index.isin(med["customer_id"])]
-    df = df[df["first"] <= m["order_date"].max() - pd.Timedelta(days=90)]
+    df = df[df["first"] <= raw["order_date"].max() - pd.Timedelta(days=90)]
     baseline = (df["second"] - df["first"] <= pd.Timedelta(days=90)).mean()
-    assert abs(baseline - 0.345) < 0.005
+    assert abs(baseline - 0.3878) < 0.005
 
 
 def test_decision_layer_script_runs_and_writes_report():
