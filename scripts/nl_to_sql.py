@@ -47,7 +47,7 @@ Key columns:
 - product_name (text): product name
 - status (text): Delivered, Processing (revenue orders only in this table)
 - year (int), month (int): derived from order_date
-- discount_pct (real): 0, 0.05, 0.10, 0.15, 0.20
+- discount_pct_x (real), discount_pct_y (real): line-level discount fractions (0, 0.05, 0.10, 0.15, 0.20)
 
 Business rules:
 - Revenue = SUM(line_total)

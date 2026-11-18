@@ -11,7 +11,7 @@ retention team can budget win-back spend per customer.
 
 2) PREDICTIVE CLV (forward-looking, risk-adjusted):
      CLV_pred = AOV × annual_frequency × gross_margin × horizon_years × (1 - churn_prob)
-   Risk-adjusted by the leakage-free churn model's probability. This is the
+   Risk-adjusted by the churn model's probability (median-imputed for unscored customers; see docs). This is the
    number to use when deciding "how much is this customer worth keeping?"
 
 3) VALUE TIER:

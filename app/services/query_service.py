@@ -121,7 +121,7 @@ class QueryService:
             exp = "Top 5 best-selling products ranked by revenue."
             return sql.strip(), exp
 
-        elif "average order" in q or "aov" in q:
+        elif ("average order" in q or "aov" in q) and not _has_other_scope(q):
             sql = """
             SELECT ROUND(SUM(oi.line_total) / COUNT(DISTINCT o.order_id), 2) AS average_order_value
             FROM orders o

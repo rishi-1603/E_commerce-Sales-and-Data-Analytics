@@ -30,7 +30,7 @@ dashboard/dashboard.html  (canonical Chart.js source)
 
 | Module | Input | Output | Contract |
 |---|---|---|---|
-| `run_pipeline.py` | raw CSVs | processed CSVs, metrics JSON, figures | exits non-zero on any step failure; logs to `pipeline.log` |
+| `run_pipeline.py` | raw CSVs | processed CSVs, figures | exits non-zero on any step failure; logs to `pipeline.log` (metrics JSON is written by the evaluation scripts, not this pipeline) |
 | `python/eda/01_eda_preprocessing.py` | raw CSVs | `master_orders.csv` | revenue population = Delivered + Processing only |
 | `python/segmentation/02_rfm_segmentation.py` | `master_orders.csv` | RFM segments, cluster labels | 5-quantile scoring; 8 named segments; sizes sum to 1,991 |
 | `python/churn/03_churn_analysis.py` | `master_orders.csv` | churn scores, features, gains chart | features strictly pre-cutoff; label is the 180-day post-cutoff window |

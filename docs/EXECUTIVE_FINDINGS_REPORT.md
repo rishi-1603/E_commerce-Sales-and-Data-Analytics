@@ -1,12 +1,14 @@
 # Executive Findings & Business Recommendations Report
-**Target Audience:** Commercial Leadership, VP of E-Commerce, Head of Product  
-**Author:** Rishi Dappu, Data Analyst  
+**Target Audience:** Commercial Leadership, VP of E-Commerce, Head of Product
+**Author:** Rishi Dappu, Data Analyst
 **Dataset Scope:** Rs. 5.93 Cr in Gross Sales, 9,933 Valid Orders, 1,991 Customers
 
 ---
 
 ## 1. Executive Summary
-This analysis evaluates 18 months of retail transaction records across customer cohorts, SKU pricing sensitivity, and logistics operations. The investigation uncovered three critical commercial levers: significant dormant revenue risk in cooling-off customer segments, destructive margin erosion caused by blanket discounting, and strong geographic revenue concentration.
+This analysis evaluates 36 months (2022-2024) of synthetic retail transaction records across customer cohorts, SKU pricing sensitivity, and logistics operations. The dataset is disclosed as synthetic and seeded; the methods transfer but the numbers are illustrative.
+
+The investigation covers three areas: dormant-customer risk in cooling-off segments, discount margin economics, and returns/cancellation handling.
 
 ---
 
@@ -15,14 +17,15 @@ This analysis evaluates 18 months of retail transaction records across customer 
 ### Finding 1: Customer Retention & Cooling-Off Spend Exposure
 - **Observation:** Cohort analysis identified that **448 previously high-value customers** have had zero purchase activity in the last 90+ days.
 - **Financial Dimension:** These 448 accounts historically contributed **Rs. 1.24 Cr** (20.9% of cumulative sales).
-- **Underlying Driver:** Retention drops sharply between order 2 and order 3, indicating an onboarding drop-off.
+- **Underlying Driver:** Reported onboarding drop-off between order 2 and order 3 (see limitations).
 
-### Finding 2: Price Elasticity & Discount Margin Dilution
-- **Observation:** Statistical testing across 150 SKUs using Kruskal-Wallis non-parametric variance testing demonstrated that deep discounting (>25%) **failed to drive statistically significant incremental sales volume** (p = 0.305).
-- **Financial Dimension:** Heavy discounting diluted gross product margin by **Rs. 16.45L** across the catalog without expanding customer acquisition.
+### Finding 2: Discount Margin Economics & Observed Response
+- **Observation:** Statistical testing across discount depths found **no statistically significant quantity response** to discount depth (Kruskal-Wallis p = 0.305).
+- **Financial Dimension:** Because the synthetic generator assigns discounts randomly, the observed margin erosion is a demonstration of the cost model, not a measured causal leak. The break-even analysis quantifies the volume lift required for each depth to hold margin.
 
-### Finding 3: Regional Margin & Returns Concentration
-- **Observation:** While Tier-1 metros accounted for 64.2% of order volume, return rates in specific apparel and home goods subcategories reached 14.8% in select regional zones, eroding operating margins by 4.2 percentage points relative to national averages.
+### Finding 3: Returns & Cancellations
+- **Observation:** Returns and cancellations are quantified at the order level; returned-basket value is computed from raw order status.
+- **Financial Dimension:** Return/cancellation exposure is tracked as a margin-relevant operational cost.
 
 ---
 
@@ -30,14 +33,21 @@ This analysis evaluates 18 months of retail transaction records across customer 
 
 ### Recommendation 1: Implement Automated Tiered Win-Back Campaigns
 - **Action:** Transition from mass email blasts to an automated 60-day and 90-day RFM trigger workflow. Offer targeted 10% personalized replenishment incentives to the 448 cooling-off accounts before they transition into permanent churn.
-- **Projected Impact:** Recovering just 15% of this cooling-off segment protects an estimated Rs. 18.6L in recurring annual revenue.
+- **Projected Impact:** Design-only estimate under stated assumptions (contact cost Rs. 250, recovery 15%, retained value Rs. 12,931). No campaign has been run; projected recovered revenue is illustrative.
 
-### Recommendation 2: Cap Blanket Promotional Discounts at 15%
-- **Action:** Restrict aggressive discounting on inelastic categories and substitute blanket markdowns with bundle thresholds (e.g., minimum cart value for free express shipping).
-- **Projected Impact:** Preserves an estimated Rs. 12.5L to Rs. 16.45L in annualized gross profit margin with zero measurable loss in transaction volume.
+### Recommendation 2: Cap Blanket Promotional Discounts
+- **Action:** Restrict aggressive discounting; substitute blanket markdowns with bundle thresholds (e.g., minimum cart value for free express shipping).
+- **Projected Impact:** The break-even table quantifies the volume lift needed at each depth to hold margin; a 10% cap was modelled to recover approximately Rs. 6.45L in margin.
 
 ---
 
 ## 4. Methodological Limitations
-1. **Synthetic Nature:** Revenue and customer profiles reflect a calibrated synthetic distribution.
+1. **Synthetic Nature:** Revenue and customer profiles reflect a calibrated synthetic distribution. Methods transfer; numbers do not.
 2. **Fixed-Volume Assumption:** Discount elasticity scenarios model immediate unit economics and assume competitor pricing remains static.
+3. **Processing Orders:** Revenue basis includes Delivered + Processing orders; Processing orders are not yet fulfilled. Separately reported.
+4. **Evaluation Status:** Churn scoring, purchase definitions, and statistical tests have been corrected to align with raw-source semantics (see `docs/AUDIT_2026-11-18.md`).
+
+---
+
+## 5. Verification Status
+All findings above are supported by reproducible artifacts in `reports/`, `data/`, `docs/` and pinned by the 235-test suite plus the AI evaluation harness. See `docs/AUDIT_2026-11-18.md` for the final ledger.

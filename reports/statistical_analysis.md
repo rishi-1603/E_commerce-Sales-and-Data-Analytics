@@ -31,13 +31,15 @@
 - **H0:** Status and discount band are independent.  **H1:** They are associated.
 - **Test:** Chi-square test of independence.
 ```
-disc_band   No discount  Low (≤10%)  High (>10%)
-status                                          
-Delivered          3780        3808         1724
-Processing          225         283          113
+disc_band   No discount  Low (5%)  Low (10%)  Medium (15%)  High (20%)
+status                                                                
+Cancelled           329       210        186            83          36
+Delivered          3780      2251       1844           977         460
+Processing          225       185        112            67          32
+Returned            484       304        262           116          57
 ```
-- **χ² = 5.87, dof = 2, p = 0.0531**
-- **Effect size (Cramér's V):** 0.024 (negligible)
+- **χ² = 17.46, dof = 12, p = 0.1330**
+- **Effect size (Cramér's V):** 0.022 (negligible)
 - **Result:** **Not statistically significant** (fail to reject H₀)
 - **Business read:** A significant association would warn that aggressive discounting increases returns — a margin leak. **Correlation ≠ causation**; confirm with an A/B test before changing discount policy.
 

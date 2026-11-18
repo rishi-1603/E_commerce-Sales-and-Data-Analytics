@@ -89,13 +89,14 @@ FROM orders o
 GROUP BY 1
 ORDER BY MIN(o.discount_pct);
 
--- ── 5. Most-returned products ─────────────────────────────
--- Business Question: Which SKUs trigger the most returns?
--- Why It Matters:   Product-specific return clusters usually
---                   indicate sizing, quality or description
---                   problems worth fixing at the source.
--- Key Insight:      Products ranked by number and value of
---                   returns — the fix-this-first list.
+-- ── 5. Products appearing in returned baskets ─────────────
+-- Business Question: Which SKUs appear in returned orders?
+-- Why It Matters:   On this dataset returns are order-level, so every
+--                   product in a returned order is counted as returned —
+--                   a returned basket, not an item-level return.
+-- Key Insight:      Products ranked by returned-basket volume/value.
+--                   (Not genuine per-SKU return rates; the source has no
+--                   item-level return records.)
 SELECT
     p.product_id, p.product_name, p.category,
     COUNT(DISTINCT o.order_id) AS returned_orders,

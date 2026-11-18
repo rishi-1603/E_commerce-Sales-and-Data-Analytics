@@ -23,10 +23,7 @@ WHAT IT COMPUTES
                                project revenue and margin at a chosen depth.
 
 HONESTY NOTES (read before quoting any number)
-    - This is OBSERVATIONAL data. Discount depth is chosen by the business, not
-      randomly assigned, so a measured association is not automatically a causal
-      effect. The scenario engine therefore reports what WOULD have to be true
-      (break-even lift) rather than claiming what WILL happen.
+    - This is OBSERVATIONAL data. In this SYNTHETIC dataset discount depth is assigned randomly, so a measured association is not automatically a causal effect. The scenario engine therefore reports what WOULD have to be true (break-even lift) rather than claiming what WILL happen.
     - In this dataset the measured quantity response to discount is
       statistically indistinguishable from zero (see the report). The finding
       is published as-is — it is the most decision-relevant result in the module.

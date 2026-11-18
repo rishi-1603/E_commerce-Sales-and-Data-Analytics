@@ -130,11 +130,12 @@ report.append("")
 report.append("- **Question:** Do higher-discount orders get returned/cancelled at a different rate?")
 report.append("- **H0:** Status and discount band are independent.  **H1:** They are associated.")
 report.append("- **Test:** Chi-square test of independence.")
-orders_full = master.groupby("order_id").agg(
+orders_raw = pd.read_csv(os.path.join(BASE, "data", "raw", "orders.csv"), parse_dates=["order_date"])
+orders_full = orders_raw.groupby("order_id").agg(
     status=("status", "first"),
-    discount=("discount_pct_x", "mean")).reset_index()
-orders_full["disc_band"] = pd.cut(orders_full["discount"], bins=[-0.01, 0, 0.1, 0.21],
-                                  labels=["No discount", "Low (≤10%)", "High (>10%)"])
+    discount=("discount_pct", "mean")).reset_index()
+orders_full["disc_band"] = pd.cut(orders_full["discount"], bins=[-0.01, 0, 0.05, 0.10, 0.15, 0.21],
+                                  labels=["No discount", "Low (5%)", "Low (10%)", "Medium (15%)", "High (20%)"])
 ct = pd.crosstab(orders_full["status"], orders_full["disc_band"])
 chi2, p_chi, dof, _ = stats.chi2_contingency(ct)
 cramers_v = np.sqrt(chi2 / (len(orders_full) * (min(ct.shape)-1)))
