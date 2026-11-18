@@ -31,8 +31,8 @@ This is documented in `reports/methodology.md` and enforced by the pipeline code
 
 | Metric | Value | Interpretation |
 |---|---|---|
-| 5-fold CV ROC-AUC | **0.65** | Realistic for churn; real-world models land 0.65–0.80 without leakage |
-| PR-AUC (fit/cal/test protocol) | **0.366** | vs prevalence 0.254 — the ranking metric that matters on this imbalance |
+| ROC-AUC (fit/cal/test protocol) | **0.6484** | Realistic for churn; real-world models land 0.65–0.80 without leakage |
+| PR-AUC (fit/cal/test protocol) | **0.3616** | vs prevalence 0.2535 — the ranking metric that matters on this imbalance |
 | Gains/lift | top decile concentrates churners | The targeting story that makes a campaign profitable (see `docs/figures/11b_churn_lift.png`) |
 
 **Baselines:** random targeting (lift = 1) is the reference; the lift chart is the operating justification.
@@ -46,34 +46,40 @@ metrics pinned by `tests/test_churn_calibration.py`.
 
 | Variant | Brier ↓ | ECE (10-bin) ↓ | Calibration slope (=1 ideal) |
 |---|---|---|---|
-| Raw GBM | 0.195 | 0.097 | 0.39 (over-confident) |
-| Platt-scaled | 0.182 | 0.060 | 0.88 |
-| **Isotonic** | **0.181** | **0.030** | 0.65 |
+| Raw GBM | 0.1957 | 0.0963 | 0.388 (over-confident) |
+| Platt-scaled | 0.1819 | 0.0581 | 0.855 |
+| **Isotonic** | **0.1829** | **0.0378** | 0.618 |
 
 **Operational rule:** consume probabilities through the isotonic calibrator, not the raw GBM output.
 
 **Which customers should a campaign contact?** Under the stated illustrative cost model
 (₹250/contact, 15% recovery, retained value = observed 180-day spend of retained customers ≈ ₹12,931):
 
-| Policy | Contacts | Churners captured | Expected profit |
+| Policy | Contacts | Churners captured | Expected net revenue (before COGS) |
 |---|---|---|---|
 | Contact all | 318 | 81 (100%) | ₹77,615 |
-| Current bands (p ≥ 0.33) | 39 | 14 (17%) | ₹17,406 |
-| **Data-driven t\* = 0.10** | **218** | **70 (86%)** | **₹81,279** |
+| Current bands (p ≥ 0.33) | 63 | 22 (27.2%) | ₹26,923 |
+| Current bands, high only (p ≥ 0.66) | 3 | 2 (2.5%) | ₹3,129 |
+| **Data-driven t\* = 0.10** | **217** | **70 (86.4%)** | **₹81,529** |
 | Oracle (upper bound) | 81 | 81 | ₹157,115 |
 
-The t\* policy beats contact-all while contacting 100 fewer customers; the 0.33/0.66 risk
+The t\* policy beats contact-all while contacting 101 fewer customers; the 0.33/0.66 risk
 bands are **communication** bands, not action thresholds. Sensitivity (±30% on cost and
 recovery rate) moves the Bayes threshold between 0.09 and 0.24 — recovery rate is the
-assumption that matters most. No campaign has been run; profits are expected values.
+assumption that matters most. No campaign has been run; these are expected values.
+
+**Revenue, not profit.** The value proxy is 180-day *spend*, so the column above is net
+revenue after contact cost but **before cost of goods**. At the 54.0% gross margin,
+₹541 per contact is roughly ₹177 of contribution and the break-even churn probability
+rises from 12.9% to about 23.9% — still below the Medium Risk band mean of 40.8%.
 
 ## 5. Limitations
 
 1. Synthetic data — metrics do not transfer to a real customer base.
 2. AUC 0.65 means meaningful ranking signal, not per-customer certainty; use bands (high/medium/low), not binary verdicts.
-3. Raw GBM probabilities are over-confident (calibration slope 0.39) — use the isotonic calibrator; even after scaling, the slope (0.65) shows residual spread issues.
+3. Raw GBM probabilities are over-confident (calibration slope 0.388) — use the isotonic calibrator; even after scaling, the slope (0.618) shows residual spread issues.
 4. The 448-customer cooling-off audience (₹1.24 Cr *historical* spend) is a targeting pool — not future revenue at risk.
-5. The win-back intervention itself is a **design only** (`docs/experiment_design_winback.md`); no uplift has been measured. All profit figures in the threshold analysis are expected values under illustrative cost assumptions.
+5. The win-back intervention itself is a **design only** (`docs/experiment_design_winback.md`); no uplift has been measured. All net-revenue figures in the threshold analysis are expected values under illustrative cost assumptions, before cost of goods.
 
 ## 6. Responsible use
 

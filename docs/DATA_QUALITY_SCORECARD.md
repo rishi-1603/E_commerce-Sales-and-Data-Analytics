@@ -12,6 +12,6 @@
 | **Foreign Key Referencing** | 25,384 order lines | 0 orphan keys | Verified all order, customer and product references exist in their dimensions | 100% Valid | PASS |
 | **Negative Price / Quantity** | 25,384 order lines | 0 negative values | Validated `unit_price > 0` and `quantity > 0` | 100% Positive | PASS |
 | **Status Classification** | 12,000 orders | 2,067 non-revenue rows | Categorized into Cancelled (844) and Returned (1,223); excluded from revenue measures | 9,933 Revenue-eligible Orders | PASS |
-| **Date Boundary Validation** | 12,000 orders | 0 future dates | Asserted `order_date <= CURRENT_DATE` and `order_date >= '2023-01-01'` | 100% Compliant | PASS |
-| **Discount Boundary Sanity** | 12,000 orders | 0 invalid discounts | Asserted `0.0 <= discount_percent <= 0.50` | 100% Compliant | PASS |
+| **Date Boundary Validation** | 12,000 orders | 0 future dates | Asserted `order_date <= CURRENT_DATE` and `order_date >= '2022-01-31'` (actual min) | 100% Compliant | PASS |
+| **Discount Boundary Sanity** | 12,000 orders | 0 invalid discounts | Asserted `0.0 <= discount_pct <= 0.20` (generator max is 20%) | 100% Compliant | PASS |
 | **SQL-Pandas Calculation Parity** | 10 core commercial KPIs | 0 discrepant values | Cross-calculated in DuckDB/PostgreSQL vs Pandas | 100% Parity | PASS |
