@@ -308,4 +308,10 @@ function buildPricing(){
   runDiscountLab();
   runBudgetWorklist();
 }
+
+function escapeHtml(text){
+  if(!text) return '';
+  return String(text).replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"').replace(/'/g,'''');
+}
+
 // PRICING_JS_END"""
