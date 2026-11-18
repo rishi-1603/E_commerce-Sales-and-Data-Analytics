@@ -1801,7 +1801,10 @@ function runBudgetWorklist(){
       '<div class="kpi-delta neu">net revenue / budget</div></div>';
 }
 
+let _pricingBuilt = false;
 function buildPricing(){
+  if (_pricingBuilt) return;   // called at load and by both pricing/winback nav; charts must not be rebuilt
+  _pricingBuilt = true;
   buildPricingMargin();
   buildPricingTable();
   buildWinbackSens();
