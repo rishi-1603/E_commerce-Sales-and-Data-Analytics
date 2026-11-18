@@ -18,6 +18,9 @@ REFUSED = [
     "What is the weather tomorrow?",
     "What is total revenue by customer segment?",
     "What is total revenue in 2024?",
+    # Scoped questions the deterministic router must refuse (fail-closed),
+    # not answer at overall grain.
+    "What is the average order value by category?",
 ]
 
 

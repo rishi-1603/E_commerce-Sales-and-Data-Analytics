@@ -168,7 +168,7 @@
         "margin_recovered_by_10pct_cap": 644518.0,
         "significant_category": "Sports (p=0.003) with a NEGATIVE effect of -6.96% at 20pp"
       },
-      "caveat": "Observational data: discount depth is chosen by the business, not randomly assigned, so the measured association is not automatically causal. The scenario engine reports what would have to be true (break-even lift) rather than claiming what will happen."
+      "caveat": "Observational data: in this synthetic dataset discount depth is assigned randomly, so the measured association is not automatically causal. The scenario engine reports what would have to be true (break-even lift) rather than claiming what will happen."
     },
     "winback_campaign": {
       "definition": "Expected-value economics of the win-back campaign on the cooling-off churn band (python/pricing/winback.py).",
