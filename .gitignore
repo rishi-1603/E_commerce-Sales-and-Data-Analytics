@@ -50,3 +50,5 @@ AGENTS.md
 
 # Power BI Desktop local editor state (per-machine, never commit)
 .pbi/
+.vercel
+.env*

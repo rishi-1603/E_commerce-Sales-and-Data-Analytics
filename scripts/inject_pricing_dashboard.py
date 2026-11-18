@@ -60,11 +60,12 @@ COPIES = [
 
 
 def strip_between(text: str, start: str, end: str) -> str:
-    """Remove every occurrence of start..end (inclusive) plus one trailing newline."""
+    """Remove every occurrence of start..end (inclusive) plus trailing newlines."""
     while start in text:
         i = text.index(start)
         j = text.index(end, i) + len(end)
-        if j < len(text) and text[j] == "\n":
+        # Remove trailing newlines after the end marker
+        while j < len(text) and text[j] in "\r\n":
             j += 1
         text = text[:i] + text[j:]
     return text
@@ -241,8 +242,9 @@ def inject(path: str, data_block: str, pages: str) -> None:
     # This is what makes repeated runs byte-identical: strip_between removes the
     # block but leaves its trailing newlines behind, and without this the file
     # would grow one blank line per run.
-    html = re.sub(r"\n*" + re.escape(page_anchor),
-                  "\n\n" + page_anchor.replace("\\", "\\\\"), html, count=1)
+    # Use a more precise pattern to avoid adding extra newlines on repeated runs
+    html = re.sub(r"\n*\s*" + re.escape(page_anchor),
+                  "\n\n" + page_anchor, html, count=1)
     html = html.replace(page_anchor, pages + "\n\n" + page_anchor, 1)
 
     # 4. DATA — inject the pricing key before DATA closes
