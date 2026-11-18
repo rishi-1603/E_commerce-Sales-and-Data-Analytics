@@ -7,11 +7,21 @@ All endpoints are versioned under `/api/v1`.
 ---
 
 ## 1. Analytics Endpoints (`/api/v1/analytics`)
-- `GET /api/v1/analytics/kpis`: Retrieves executive headline metrics (Total Revenue, AOV, Gross Margin %, Orders, Active Customers).
-- `GET /api/v1/analytics/cohorts`: Returns customer retention cohort matrices grouped by acquisition month.
-- `GET /api/v1/analytics/pricing-elasticity`: Provides SKU-level price elasticity coefficients and discount margin impact.
+- `GET /api/v1/analytics/overview`: Retrieves executive headline metrics (Total Revenue, AOV, Gross Margin %, Orders, Active Customers) with optional `start_date`/`end_date` filters.
+- `GET /api/v1/analytics/top-products`: Returns top-performing products ranked by total revenue, including profit margins (optional `limit` param, max 50).
+- `GET /api/v1/analytics/trends`: Returns monthly revenue, order volume, and average order value trends.
 
-## 2. Natural Language to SQL Copilot (`/api/v1/query`)
+## 2. Resource Endpoints (`/api/v1`)
+- `GET /api/v1/orders`: List orders with pagination and optional `status` filter.
+- `GET /api/v1/orders/{order_id}`: Retrieve a single order by ID.
+- `POST /api/v1/orders`: Create a new order (idempotent via `Idempotency-Key` header).
+- `GET /api/v1/products`: List all products.
+- `GET /api/v1/products/{product_id}`: Retrieve a single product by ID.
+- `GET /api/v1/customers`: List all customers.
+- `GET /api/v1/customers/{customer_id}`: Retrieve a single customer by ID.
+- `GET /api/v1/health`: Health check with database connectivity verification.
+
+## 3. Natural Language to SQL Copilot (`/api/v1/query`)
 - `POST /api/v1/query/nl-to-sql`:
   - **Input:** JSON payload `{"question": "What is total revenue?"}`
   - **Supported scope:** total revenue, profit and margin; revenue and margin by category; revenue by region; top products by revenue; average order value; order and customer counts; cancellations; order-status distribution.

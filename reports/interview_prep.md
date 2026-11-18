@@ -5,7 +5,7 @@
 
 ## Resume Bullets (verified numbers only)
 
-- **Built a nine-page decision-layer analytics product over 12,000 orders / 1,991 customers / 150 SKUs (2022–24)** — RFM + K-Means segmentation, cohort retention, churn modeling, BCG product matrix, Holt-Winters forecasting with bootstrap CIs, and an NL-to-SQL assistant where the LLM never computes numbers; **197 automated tests cover analytical outputs, dashboard consistency and API behavior**.
+- **Built a nine-page decision-layer analytics product over 12,000 orders / 1,991 customers / 150 SKUs (2022–24)** — RFM + K-Means segmentation, cohort retention, churn modeling, BCG product matrix, Holt-Winters forecasting with bootstrap CIs, and an NL-to-SQL assistant where the LLM never computes numbers; **235 automated tests cover analytical outputs, dashboard consistency and API behavior**.
 - **Rebuilt the churn model to be leakage-aware** (forward-time split: features strictly before cutoff, label = no purchase in the next 180 days) after identifying that the original recency-based features leaked the label — the honest 5-fold CV AUC is **0.65**, and the gains/lift chart quantifies targeting efficiency instead of chasing a fake 0.99.
 - **Delivered a decision layer, not just charts**: MoM decomposition (Dec 2024: revenue +17.0%, orders +21.3%, AOV −3.5% → volume-led growth), 18-cohort retention analysis (month-1 retention rose from ~15–28% in 2023 to 55–88% in late 2024), and a statistically powered win-back experiment design (baseline 34.5% 90-day repeat rate; MDE +13pp core pool / +8.5pp expanded) — design only, results not fabricated.
 
@@ -19,7 +19,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 "An e-commerce business has orders, customers, and products — and no reliable answer to three questions: is the business actually growing, which customers are about to leave, and what should we do next. Dashboards show what happened; this project adds why it changed and what to do about it."
 
 **[60s] Data & pipeline**
-"12,000 orders across 1,991 customers and 150 SKUs over 2022–24, generated reproducibly and documented with a data dictionary. Twelve SQL scripts and a pandas pipeline compute the same metrics with zero drift — and 197 automated tests check selected calculations and application behavior; production verification remains a separate task."
+"12,000 orders across 1,991 customers and 150 SKUs over 2022–24, generated reproducibly and documented with a data dictionary. Twelve SQL scripts and a pandas pipeline compute the same metrics with zero drift — and 235 automated tests check selected calculations and application behavior; production verification remains a separate task."
 
 **[90s] Modeling — the churn story**
 "The churn model is where I show judgment. The first version scored AUC near 1.0 — and that was target leakage: recency features that defined the label were also feeding the model. I rebuilt it with a forward-time split: all features computed strictly before a cutoff date, label = no purchase in the 180 days after. The honest score is AUC 0.65 by 5-fold CV — and that's a realistic number for churn. A gains/lift chart describes ranking concentration; campaign profitability remains an assumption to test. The comparison is useful only when the target definition and validation protocol are clear."
@@ -63,7 +63,7 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 3. **How do you evaluate a churn model beyond AUC?** Cumulative gains/lift: how many churners the top decile captures vs random targeting — that's what makes a campaign profitable.
 4. **How does the NL-to-SQL assistant work?** The LLM generates SQL from the schema; the engine executes it; **the LLM never computes or states numbers itself** — results come from the database only.
 5. **How is the forecast built?** Holt-Winters triple exponential smoothing + linear-trend ensemble with bootstrap 95% CI — naive baseline comparison included (`python/forecasting/04_revenue_forecasting.py`).
-6. **What does the test suite check?** 196 tests: data quality invariants, metric reconciliation (pipeline vs dashboard embed), decision-layer consistency, and NL-to-SQL behavior.
+6. **What does the test suite check?** 235 tests: data quality invariants, metric reconciliation (pipeline vs dashboard embed), decision-layer consistency, and NL-to-SQL behavior.
 7. **How do you keep the deployed dashboard in sync?** `tests/test_dashboard_consistency.py` asserts the dashboard's embedded data equals the pipeline output — the live site can't silently drift.
 8. **How were RFM segments built?** Recency/Frequency/Monetary quintiles + K-Means with elbow analysis; segment actions documented in the retention playbook.
 9. **What statistical tests did you use?** `python/stats/06_statistical_analysis.py` — significance tests on segment differences (documented in `reports/statistical_analysis.md`).
@@ -84,8 +84,8 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 
 ## 10 Project Deep-Dive Questions
 
-1. **What did you build end-to-end?** Synthetic-but-documented data → SQL + pandas pipeline (8 stages) → analytics (RFM, churn, forecast, BCG, CLV) → decision layer (MoM, cohorts, funnel, experiment design) → NL-to-SQL → deployed nine-page dashboard with 60 pinning tests.
-2. **Why 197 tests for a dashboard project?** Regression checks help detect changes to selected metrics, data rules and application behavior; they do not certify every production state.
+1. **What did you build end-to-end?** Synthetic-but-documented data → SQL + pandas pipeline (8 stages) → analytics (RFM, churn, forecast, BCG, CLV) → decision layer (MoM, cohorts, funnel, experiment design) → NL-to-SQL → deployed nine-page dashboard with 235 automated tests.
+2. **Why 235 tests for a dashboard project?** Regression checks help detect changes to selected metrics, data rules and application behavior; they do not certify every production state.
 3. **What's the 'Trust Layer'?** The test suite + `data/metrics.json` definitions + SQL/pandas parity: every visible number has a definition, a computation, and a test.
 4. **What would you improve?** Real data with a true temporal horizon (to run the win-back experiment and a proper backtest), calibrated churn probabilities, and a decision-threshold analysis per campaign cost.
 5. **Why not deep learning here?** Tabular data with 12K rows; gradient-boosted or linear models are the right tool. Choosing simple models on purpose is part of the judgment I'd show a team.
@@ -97,8 +97,8 @@ An end-to-end e-commerce analytics product — SQL + Python pipeline, leakage-aw
 
 ## Evaluation Depth — Days 2–3 additions (2026-10-17)
 
-1. **Your churn model's raw probabilities were untrustworthy — how did you catch it?** Calibration analysis on a held-out calibration slice: the raw GBM had calibration slope 0.39 (over-confident), Brier 0.195. After isotonic scaling: Brier 0.181, ECE 0.097→0.030. The rule: never consume raw tree-ensemble probabilities as if they were risks.
-2. **How do you choose a decision threshold when false positives cost money?** Derive it: contact iff p > C/(r·V) — cost over recovery-rate-times-value. With illustrative assumptions (₹250/contact, 15% recovery, V = measured 180-day spend of retained customers ₹12,931), t\* = 0.10 selected on a calibration slice, never the test set. It beats contact-all (₹81.3K vs ₹77.6K expected profit) with 100 fewer contacts.
+1. **Your churn model's raw probabilities were untrustworthy — how did you catch it?** Calibration analysis on a held-out calibration slice: the raw GBM had calibration slope 0.39 (over-confident), Brier 0.196. After isotonic scaling: Brier 0.183, ECE 0.096→0.038. The rule: never consume raw tree-ensemble probabilities as if they were risks.
+2. **How do you choose a decision threshold when false positives cost money?** Derive it: contact iff p > C/(r·V) — cost over recovery-rate-times-value. With illustrative assumptions (₹250/contact, 15% recovery, V = measured 180-day spend of retained customers ₹12,931), t\* = 0.10 selected on a calibration slice, never the test set. It beats contact-all (₹81.3K vs ₹77.6K expected profit) with 101 fewer contacts.
 3. **What happens if your cost assumptions are wrong?** Sensitivity analysis: ±30% on cost and recovery rate moves the Bayes threshold from 0.09 to 0.19 — the recovery rate is the assumption that matters, which is exactly why the win-back experiment (which measures it) is the priority experiment.
 4. **How do you prove a forecasting model beats a naive baseline?** Rolling-origin backtest: 10 origins × 3 horizons, MASE with seasonal scaling. Mine found the shipped ensemble (0.68) LOSES to the drift baseline (0.47) — and I published that, with the recommendation to use drift operationally.
 5. **What was wrong with your forecast's 95% confidence interval?** Empirical coverage was 9.5% vs nominal 95% — the bootstrap band is built from 3 residuals, which cannot estimate forecast variance. Spot-checked at one origin: band ±8%, actual outside. The fix: estimate error variance from the full rolling-origin residual history.

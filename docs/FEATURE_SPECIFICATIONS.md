@@ -4,7 +4,7 @@
 |---|---|---|---|
 | RFM segmentation | orders | RFM scores, segments | segment counts pinned |
 | Cohort retention | orders | retention matrix | cohort figures pinned |
-| Churn scoring | RFM features | churn probabilities | AUC/PR-AUC pinned (0.6489 / 0.3664) |
+| Churn scoring | RFM features | churn probabilities | AUC/PR-AUC pinned (0.6484 / 0.3616) |
 | Churn calibration + thresholds | churn model | calibrated probs, t* table | Brier/slope/profit pinned |
 | BCG classification | product sales | stars/cash cows/etc. | category counts pinned |
 | Revenue forecasting | monthly revenue | Holt-Winters + trend ensemble | forecast metrics pinned |
