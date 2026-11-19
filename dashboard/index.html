@@ -104,6 +104,7 @@ body{
 
 /* CARDS */
 .card-row{display:grid;gap:12px;margin-bottom:12px}
+.card-row>.card{min-width:0} /* Chart.js writes an inline canvas width; without this the grid item cannot shrink below it on resize */
 .c2{grid-template-columns:1fr 1fr}
 .c3l{grid-template-columns:2fr 1fr}
 .c3r{grid-template-columns:1fr 2fr}
@@ -704,13 +705,13 @@ tr:last-child td{border-bottom:0}
 
       <div class="card-row c2">
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Churn Risk Bands</div><div class="card-sub">Logistic Regression (best by CV AUC) · forward window · 5-fold CV selection</div></div></div>
+          <div class="card-header"><div><div class="card-title">Churn Risk Bands</div><div class="card-sub">Logistic Regression (best by CV AUC) · 180-day forward label · 5-fold CV selection</div></div></div>
           <div class="chart-wrap" style="height:240px">
             <canvas id="ch_churnpie" role="img" aria-label="Churn risk distribution pie chart">Churn risk by band.</canvas>
           </div>
         </div>
         <div class="card">
-          <div class="card-header"><div><div class="card-title">Model Accuracy Comparison</div><div class="card-sub">3 algorithms benchmarked</div></div></div>
+          <div class="card-header"><div><div class="card-title">Model Comparison (AUC &amp; F1)</div><div class="card-sub">Cross-validated mean, 5-fold CV · 3 algorithms benchmarked</div></div></div>
           <div class="chart-wrap" style="height:240px">
             <canvas id="ch_models" role="img" aria-label="Model accuracy comparison bar chart">Model comparison.</canvas>
           </div>
@@ -796,7 +797,7 @@ tr:last-child td{border-bottom:0}
 
       <div class="card" style="margin-bottom:12px">
         <div class="card-header">
-          <div><div class="card-title">Revenue Forecast — Jan to Jun 2025</div><div class="card-sub">Last 6 months historical + 6-month ensemble projection at 3.5% monthly growth (bootstrap 95% CI)</div></div>
+          <div><div class="card-title">Revenue Forecast — Jan to Jun 2025</div><div class="card-sub">Last 6 months historical + 6-month ensemble projection at 3.5% monthly growth (bootstrap 95% band — indicative only: 9.5% empirical coverage, ensemble loses to drift baseline)</div></div>
           <div class="legend">
             <div class="leg-item"><div class="leg-dot" style="background:#388bfd"></div>Historical</div>
             <div class="leg-item"><div class="leg-dot" style="background:#d29922;border:1px dashed #d29922"></div>Forecast</div>
@@ -819,10 +820,6 @@ tr:last-child td{border-bottom:0}
         </div>
       </div>
     </div>
-
-  </div>
-</div>
-
 
     <!-- DATA QUALITY -->
     <div class="page" id="page-quality">
@@ -871,8 +868,6 @@ tr:last-child td{border-bottom:0}
         <p style="font-size:13px;color:var(--muted);line-height:1.6">Question → approved KPI definition → validated read-only SQL → result → evidence-backed answer. Built-in questions map to precomputed answers from the same dataset. Arbitrary questions are refused rather than answered from a model's memory.</p>
       </div>
     </div>
-
-  </main>
 
 <!-- PRICING_PAGES_START -->
     <div class="page" id="page-pricing">
@@ -969,6 +964,8 @@ tr:last-child td{border-bottom:0}
         </div>
       </div>
     </div>
+  </main>
+</div>
     <!-- PRICING_PAGES_END -->
 
 <script>
@@ -1901,7 +1898,7 @@ function buildMargin(){
       plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'% margin'}}},
       scales:{
         x:{ticks:{color:MUT,font:{size:10}},grid:{display:false},border:{display:false}},
-        y:{min:45,ticks:{color:MUT,callback:v=>v+'%'},grid:GRD,border:{display:false}}
+        y:{beginAtZero:true,ticks:{color:MUT,callback:v=>v+'%'},grid:GRD,border:{display:false}}
       }}
   });
 }

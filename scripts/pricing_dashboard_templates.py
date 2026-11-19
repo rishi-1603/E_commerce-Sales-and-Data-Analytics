@@ -119,6 +119,8 @@ PAGES = """<!-- PRICING_PAGES_START -->
         </div>
       </div>
     </div>
+  </main>
+</div>
     <!-- PRICING_PAGES_END -->"""
 
 JS = r"""// PRICING_JS_START
