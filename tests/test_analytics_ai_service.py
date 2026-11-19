@@ -229,6 +229,18 @@ class TestAPIEndpoint:
         resp = client.post("/api/v1/ai/ai-analyst", json={"question": ""})
         assert resp.status_code == 422  # Pydantic validation
 
+    def test_cors_does_not_reflect_unlisted_origins(self):
+        # Wildcard + allow_credentials would reflect any origin; explicit
+        # origins must echo only allowlisted ones.
+        from fastapi.testclient import TestClient
+        from app.main import app
+
+        client = TestClient(app)
+        evil = client.get("/health", headers={"Origin": "https://evil.example"})
+        assert evil.headers.get("access-control-allow-origin") is None
+        good = client.get("/health", headers={"Origin": "http://localhost:3000"})
+        assert good.headers.get("access-control-allow-origin") == "http://localhost:3000"
+
     def test_ai_analyst_endpoint_rejects_too_short_question(self):
         from fastapi.testclient import TestClient
         from app.main import app

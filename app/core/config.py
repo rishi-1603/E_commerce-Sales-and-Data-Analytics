@@ -29,7 +29,6 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://localhost:8000",
         "https://ecomanalytics-dashboard.vercel.app",
-        "*"
     ]
 
     model_config = SettingsConfigDict(env_file=".env", extra="allow")
