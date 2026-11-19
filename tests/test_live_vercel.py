@@ -2,11 +2,16 @@
 Playwright tests for live Vercel deployment - cross-browser, responsive, full UI verification.
 """
 import asyncio
+import os
 import subprocess
 import sys
-from playwright.async_api import async_playwright
 
-VERCEL_URL = "https://ecomanalytics-dashboard.vercel.app/"
+import pytest
+
+pytest.importorskip("playwright.async_api")
+from playwright.async_api import async_playwright  # noqa: E402
+
+VERCEL_URL = os.getenv("VERCEL_URL", "https://ecomanalytics-dashboard.vercel.app/")
 
 
 async def main():

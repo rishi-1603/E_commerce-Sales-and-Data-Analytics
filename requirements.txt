@@ -25,6 +25,9 @@ psycopg2-binary>=2.9.9
 # Query Security & Parsing
 sqlglot>=23.0.0
 
+# AI Analyst (Gemini explains Python-computed KPIs; never calculates itself)
+google-generativeai>=0.8.0
+
 # Testing & Client
 httpx>=0.27.0
 pytest-asyncio>=0.23.0
