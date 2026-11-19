@@ -50,4 +50,4 @@ The investigation covers three areas: dormant-customer risk in cooling-off segme
 ---
 
 ## 5. Verification Status
-All findings above are supported by reproducible artifacts in `reports/`, `data/`, `docs/` and pinned by the 235-test suite plus the AI evaluation harness. See `docs/AUDIT_2026-11-18.md` for the final ledger.
+All findings above are supported by reproducible artifacts in `reports/`, `data/`, `docs/` and pinned by the 272-test suite plus the AI evaluation harness. See `docs/AUDIT_2026-11-18.md` for the final ledger.
