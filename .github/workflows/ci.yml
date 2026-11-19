@@ -59,4 +59,18 @@ jobs:
       - name: Initialize Backend Database Schema
         run: python -c "from app.db.session import init_db; init_db()"
       - name: Run test suite (Data Quality, Econometrics, and API Integration)
-        run: python -m pytest tests/ -v
+        run: |
+          set +e
+          python -m pytest tests/ -v > pytest.log 2>&1
+          status=$?
+          tail -n 40 pytest.log
+          if [ $status -ne 0 ]; then
+            # Surface failures as check-run annotations so they are visible without log access.
+            grep -E "^(FAILED|ERROR)" pytest.log | head -n 8 | while IFS= read -r line; do
+              echo "::error title=pytest::$(printf '%s' "$line" | cut -c1-900)"
+            done
+            if ! grep -qE "^(FAILED|ERROR)" pytest.log; then
+              echo "::error title=pytest collection error::$(grep -iE 'error' pytest.log | tail -n 1 | cut -c1-900)"
+            fi
+          fi
+          exit $status
