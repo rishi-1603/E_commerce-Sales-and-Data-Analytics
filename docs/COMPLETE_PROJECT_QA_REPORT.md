@@ -1,192 +1,134 @@
-# COMPLETE PROJECT QA REPORT — E-Commerce Sales & Customer Analytics
+# Complete Project QA Report — EcomAnalytics
 
-**Repository:** https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics  
-**Branch:** main  
-**Final Commit:** `8a92974` (pushed to `origin/main`)  
-**Audit Date:** 2026-11-18  
-**Auditor:** AI QA Agent (automated verification)
+| Field | Value |
+|---|---|
+| Project | E-Commerce Sales & Customer Analytics Platform (EcomAnalytics) |
+| Repository | https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics |
+| Audit date | 2026-11-19 |
+| Branch | `main` (repo operating contract: Conventional Commits, push to `main`; the suggested `qa/full-project-audit-fixes` branch was not used — no PR/merge step exists in this repo's workflow) |
+| Starting commit | `6fe8177` |
+| Final code commit | `890f66f` (pushed; `origin/main` confirmed at this SHA) |
+| Audit reports | Added in a follow-up docs commit on `main`; see `git log` for its SHA |
+| Production URL | https://ecomanalytics-dashboard.vercel.app/ |
+| Overall verdict | **RELEASE-READY WITH DISCLOSURES** — no known unresolved P0/P1 defect; fixes have source/test evidence, with applicable dashboard fixes also re-verified on the live deployment. Limitations and NOT VERIFIED items are listed in §K and are not hidden. |
 
----
+**Issues found:** 24 register entries — 1 P0, 5 P1, 9 P2, 9 P3. The P0 was a crore-conversion error in the README headline and two older audit documents (including the Delivered-only comparison); all three surfaces are fixed and independently reconciled. Suspected defects that investigation disproved are logged separately as non-defects in `docs/QA_REMEDIATION_LOG.md`.
+**Fixed and regression-verified:** 17, with applicable dashboard fixes also re-verified on production. **Documented analytical limitation:** 1 (AN-01). **Open:** 6, all P3 housekeeping/tech-debt items; none is a known functional or analytical defect in the shipped application.
 
-## A. AUDIT SUMMARY
-
-| Metric | Result |
-|--------|--------|
-| **Overall Release Verdict** | **CONDITIONAL GO** — Analytical core 100% verified; live deployment needs redeploy |
-| **Tests Passed** | 263 / 263 (58 warnings) |
-| **Lint (flake8)** | Clean |
-| **AI Eval Gate** | 97.3% (36/37), 100% refusals, 0 fabricated |
-| **Dashboard Copies** | 4 files byte-identical (SHA256 `f2b4fdd2...`) |
-| **JS Syntax** | Valid (`node --check` passes) |
-| **Local Dashboard UI** | 40 KPI cards, 15 charts, 12-page nav, 0 console errors |
-| **Live API** | Health ✅, NL-to-SQL ✅, AI Analyst ✅ (all 200) |
-| **Responsive (4 viewports)** | 390px, 768px, 1366px, 1920px — all pass |
-| **Cross-browser (local)** | Chromium, Firefox, WebKit — all pass |
-| **Git Push** | `8a92974` → `origin/main` ✅ |
+Companion reports: `QA_REMEDIATION_LOG.md`, `METRIC_RECONCILIATION_REPORT.md`, `DASHBOARD_TEST_REPORT.md`, `VERCEL_DEPLOYMENT_AUDIT.md`, `AI_ANALYST_EVALUATION.md`, `PUBLIC_RELEASE_READINESS.md`.
 
 ---
 
-## B. VERIFICATION STATUS BY AREA
+## A. Executive audit summary
 
-### ✅ FULLY VERIFIED (Green)
+The project was audited end to end: repository, raw CSVs, pipeline, analytics modules, SQL, FastAPI service, the deployed Vercel dashboard (every page, every chart, every interactive control), the Vercel project via the authenticated CLI, security, dependencies, performance, CI, and recruiter-facing presentation.
 
-| Area | Evidence |
-|------|----------|
-| **Python Analytics Pipeline** | 263 tests pass; all KPIs independently recomputed from `master_orders.csv` and match `data/metrics.json` to the cent |
-| **Test Suite** | 263 tests pass; flake8 clean; AI eval 97.3% |
-| **Dashboard UI (local)** | 40 KPI cards, 15 Chart.js charts, 12-page navigation, 0 console errors — verified via Playwright on Chromium/Firefox/WebKit |
-| **Dashboard Copies** | 4 deployment copies byte-identical (SHA256 `f2b4fdd2faf3aad0...`) |
-| **JS Syntax** | `node --check` passes; `escapeHtml()` syntax error fixed |
-| **Live API (local)** | Health 200, NL-to-SQL 200 (correct SQL + ₹59.28M result), AI Analyst 200 (full analysis + disclaimer) |
-| **Responsive Design** | 390px, 768px, 1366px, 1920px — no horizontal overflow, sidebar works |
-| **Cross-browser (local)** | Chromium, Firefox, WebKit — all pass with 0 console errors |
-| **README Accuracy** | All 40+ KPIs match verified source data; test count corrected to 263 |
-| **Git History** | Clean commits; `8a92974` pushed to `origin/main` |
+Headline outcome:
 
-### ⚠️ REQUIRES EXTERNAL TOOLS / REDEPLOY (Yellow)
+- **Revenue truth re-derived independently from the raw CSVs**: `SUM(line_total)` over Delivered + Processing = **₹59,283,619.32 (₹5.93 Cr)** across **9,933** eligible orders and **21,066** order lines. Every surface (dashboard, API, AI answers, claims registry, README) now agrees with that recomputation.
+- **Two genuine high-severity engineering defects were found and fixed**: five dashboard pages were rendered outside the layout container (malformed DOM), and charts overflowed horizontally on mobile. Both are fixed and verified on production.
+- **One genuine security misconfiguration fixed**: CORS wildcard combined with `allow_credentials=True`. Removed, with a regression test.
+- **The claims registry had drifted from the data** (stale win-back audience, churn metrics quoted from the wrong evaluation protocol, an unsupported "temporal split" claim). Corrected and pinned by a new 7-test anti-drift gate.
+- **Test suite: 272 passed** locally (fresh regenerated data, CI-equivalent copy) **and in GitHub Actions** on the audit commit (Python 3.11, `test` check-run conclusion `success`). A later local full-suite attempt transiently failed only the AI wall-clock p95 floor (3,316.9 ms); an immediate standalone rerun measured 750.9 ms with 12/12 AI tests passing, and the next full run passed 272/272 without code or threshold changes. The exact external contention cause is NOT VERIFIED.
+- **Live deployment after the fixes: 96/96 cross-browser checks passed**, 12 pages, 15 charts, 0 console errors, **22/22 chart series reconcile** with independent recomputation.
 
-| Area | Status | What's Needed |
-|------|--------|---------------|
-| **Live Vercel Deployment** | ⚠️ Stale JS | Local dashboard fixed; Vercel needs redeploy (`vercel --prod` or GitHub Actions) |
-| **Power BI Visuals** | ⚠️ Not opened | Power BI Desktop (Windows) required to open `.pbix`, verify DAX, slicers |
-| **PostgreSQL SQL Scripts** | ⚠️ Not executed | 12 scripts exist; only SQLite tested in CI; PG requires external DB |
-| **Live API + DB (production)** | ⚠️ Not tested | Only local uvicorn + SQLite tested; production deployment untested |
-| **Cross-browser (live Vercel)** | ⚠️ Same JS errors | Same stale `nav is not defined` error on live deployment |
+## B. Repository and architecture
 
-### ❌ CANNOT BE VERIFIED IN THIS ENVIRONMENT (Red)
+| Layer | Canonical source | Notes |
+|---|---|---|
+| Data generation | `data/raw/generate_data.py` | Seeded; regenerates 2,000 customers / 150 products / 12,000 orders / 25,384 order lines byte-identically |
+| Pipeline | `run_pipeline.py` (8 steps, `python/`) | EDA → RFM → churn → cohorts → forecasting → profitability/BCG → hypothesis tests → CLV; 106.5s locally |
+| Metric source of truth | `data/metrics.json` + `reports/*_metrics.json` | Regenerated by evaluation scripts, pinned by tests |
+| Claims registry | `data/claims.json` | Recruiter-facing numbers; now pinned by `tests/test_claims_registry.py` |
+| Dashboard source | `dashboard/dashboard.html` | **This** is the injector's canonical input. `dashboard.html`, `index.html`, `dashboard/index.html` are generated copies; `scripts/inject_pricing_dashboard.py` rewrites the canonical file then syncs all four |
+| Dashboard data | Embedded `DATA` block (static JSON in the HTML) | No runtime backend dependency; no external data files fetched |
+| Backend | `app/main.py` (FastAPI), `app/api/`, `app/services/`, `app/core/config.py` | SQLite default, PostgreSQL optional; **not deployed to Vercel** |
+| AI | `app/services/` (Gemini explains Python-computed KPIs) + deterministic dashboard `AI_ANSWERS` | See `AI_ANALYST_EVALUATION.md` |
+| SQL | `sql/01…12*.sql` | PostgreSQL dialect; 12 files / 75 statements |
+| Deployment | `vercel.json` → static, `outputDirectory: dashboard`, no build, no functions | Four Vercel projects point at this repo (housekeeping note, P3) |
+| CI | `.github/workflows/ci.yml` | Python 3.11: flake8 → generate_data → pipeline → analyses → eval gate → injector → `node --check` → init DB → pytest |
 
-| Area | Reason |
-|------|--------|
-| **Power BI DAX Reconciliation** | Requires Power BI Desktop (Windows only) |
-| **PostgreSQL Execution** | No PostgreSQL server in environment |
-| **Production Deployment** | Requires Vercel/Cloud credentials |
+Data flow: seeded CSVs → pipeline artifacts (`data/metrics.json`, `reports/`) → injector embeds `DATA` + generated pages into the dashboard → four byte-identical copies → Vercel serves `dashboard/` statically. The FastAPI app is an independent, separately runnable surface; the live dashboard never calls it.
 
----
+## C. Data and KPI report (summary)
 
-## C. METRICS RECONCILIATION (All Verified)
+Full detail in `METRIC_RECONCILIATION_REPORT.md`.
 
-| Metric | Independent Recomputation | README | `metrics.json` | Match |
-|--------|---------------------------|--------|----------------|-------|
-| Revenue | ₹59,283,619.32 | ✅ | ✅ | ✅ |
-| Gross Profit | ₹31,997,341.64 | ✅ | ✅ | ✅ |
-| Gross Margin | 53.97% | ✅ | 54.0% | ✅ (rounding) |
-| Valid Orders | 9,933 | ✅ | ✅ | ✅ |
-| Active Customers | 1,991 | ✅ | ✅ | ✅ |
-| AOV | ₹5,968.35 | ✅ | — | ✅ |
-| Order Funnel | 9,312 / 621 / 844 / 1,223 | ✅ | ✅ | ✅ |
-| Churn Prevalence | 23.54% (n=1,597) | ✅ | 23.54% | ✅ |
-| Medium Risk | 441 | ✅ | 441 | ✅ |
-| Win-back EV/contact | ₹523 | ✅ | 523.0 | ✅ |
-| Break-even | 12.54% / 23.2% margin | ✅ | 12.54% / 23.2% | ✅ |
-| Forecast Total | ₹3.27 Cr | ✅ | ₹3.27 Cr | ✅ |
-| Ensemble MASE | 0.68 vs drift 0.468 | ✅ | 0.68 / 0.468 | ✅ |
-| AI Accuracy | 97.3% (36/37) | ✅ | 97.3% | ✅ |
+- Dataset quality **VERIFIED**: no duplicate `order_id`/`item_id`, no orphan foreign keys, zero nulls in required columns, no negative `line_total`, no zero quantities, discounts within 0.0–0.2, no join row multiplication.
+- Revenue, COGS, gross profit, margin, AOV, order/status counts, category revenue, customer counts and churn/win-back/pricing figures were **recomputed independently from the raw CSVs** and match the displayed values (rounding disclosed where applicable).
+- Funnel semantics preserved: statuses are mutually exclusive; Returned = 1,223 (10.19% of 12,000 placed) is its own exit and is never subtracted from Delivered (9,312).
+- Synthetic-data disclosure is intact in README, `metrics.json` and docs.
 
----
+## D. Dashboard-by-dashboard report (summary)
 
-## D. ANALYTICS VERIFICATION
+Full detail in `DASHBOARD_TEST_REPORT.md`. All 12 actual pages (Executive Overview, Sales Performance, Customer RFM, Retention & Cohorts, Churn Analysis, Product Profitability, Revenue Forecast, Data Quality, Business Insights, AI Analyst, Pricing Lab, Win-Back Economics) were opened on production and tested: KPIs, charts, tables, filters, sliders, buttons, export, AI question set and refusal, navigation, refresh, and four viewports. Result: **all VERIFIED**, 0 console errors, no overflow at 375/768/1366/1920 px.
 
-| Module | Status | Verification Method |
-|--------|--------|---------------------|
-| **EDA/Preprocessing** | ✅ | 263 tests; `master_orders.csv` reconciled |
-| **RFM Segmentation** | ✅ | 8 segments, 1,991 customers, spend sums match |
-| **Cohort Retention** | ✅ | Purchase = Delivered+Returned from raw orders; right-censoring documented |
-| **Churn Analysis** | ✅ | Leakage-free; CV AUC 0.674, holdout 0.662; OOF scoring; 5-origin backtest |
-| **Revenue Forecasting** | ✅ | Ensemble MASE 0.68 vs drift 0.468; holt_linear 0.3752; 9.5% CI coverage |
-| **Product Profitability** | ✅ | BCG proxy (median units × margin); 150 products |
-| **Statistical Analysis** | ✅ | Kruskal-Wallis H=4.834, p=0.305; break-even lifts calculated |
-| **Pricing/Win-back** | ✅ | ₹523 EV/contact; 12.54% break-even; 441 audience; ₹2.30L campaign |
-| **CLV** | ✅ | Top decile 42% concentration; historical + projected |
-| **Decision Layer** | ✅ | MoM +17% rev, +21% orders, -3.5% AOV; 441 cooling-off / ₹1.30 Cr |
+## E. Analytics report (summary)
 
----
+| Module | Result | Evidence |
+|---|---|---|
+| EDA / preprocessing | VERIFIED | Pipeline exit 0; artifacts byte-identical on regeneration |
+| Sales analysis | VERIFIED | 22/22 series reconcile; category totals match raw-CSV recomputation |
+| RFM segmentation | VERIFIED | `chart:seg_values` max diff 0 over 8 segments; segment table renders |
+| Cohort retention | VERIFIED | 156-cell matrix reconciles exactly; heat table shows all 18 cohorts, chart intentionally shows the last 7 (design, not a defect) |
+| Churn | VERIFIED with corrected labeling | Holdout AUC 0.662 (CV 0.674), PR-AUC 0.332, Brier 0.1715; registry no longer quotes CV as holdout; stratified 64/16/20 holdout is not a temporal split and is no longer described as one |
+| Forecasting | VERIFIED as an honest negative result | Ensemble MASE 0.680 loses to drift 0.468; holt_linear challenger 0.3752 beats drift under identical protocol; **95% bootstrap band covers only 9.5% of actuals — disclosed in report, metrics, README and now on the dashboard card itself** |
+| Product profitability | VERIFIED | Top-10 table ranked by profit (matches its card title); category margins reconcile |
+| Statistical tests | VERIFIED (source + tests) | No causal claims from correlation found in the reviewed surfaces |
+| CLV | VERIFIED as illustrative | Not presented as a validated predictive model |
+| Pricing / win-back | VERIFIED | Live slider 20%/20% → −24.6% margin, −4.0% revenue, +59.2% break-even; ₹50,000 → 200 contacts, ₹1.05 L, ₹523/contact, 2.09× |
+| Decision layer | VERIFIED | `decision_layer.json` pinned by tests; business-value form produces a decision record live |
 
-## E. UI/UX VERIFICATION (Playwright)
+## F. AI Analyst report (summary)
 
-| Test | Chromium | Firefox | WebKit | Responsive (4 viewports) |
-|------|----------|---------|--------|--------------------------|
-| **Load Dashboard** | ✅ | ✅ | ✅ | ✅ |
-| **40 KPI Cards** | ✅ | ✅ | ✅ | ✅ |
-| **15 Charts** | ✅ | ✅ | ✅ | N/A |
-| **12-Page Navigation** | ✅ | ✅ | ✅ | ✅ |
-| **Console Errors** | 0 | 0 | 0 | 0 |
-| **Responsive (390/768/1366/1920)** | N/A | N/A | N/A | ✅ No overflow |
-| **Sidebar Navigation** | ✅ | ✅ | ✅ | ✅ |
+See `AI_ANALYST_EVALUATION.md`. The **live** analyst is a deterministic built-in question set and says so in the UI ("Built-in questions only (deterministic, no API key)", "No LLM key required") — it is not presented as a live LLM. All six live answers were numerically reconciled; refusal works. The FastAPI Gemini path (real NL-to-SQL + LLM interpretation) is not deployed and could not be executed without a key: **NOT VERIFIED** for real provider calls. Eval gate: **36/37 (97.3%), refusals 100%, 0 fabricated numbers**, p95 532 ms, exit 0.
 
-**Live Vercel Deployment:** Same tests fail due to stale JS (`nav is not defined` — needs redeploy)
+## G. Vercel report (summary)
 
----
+See `VERCEL_DEPLOYMENT_AUDIT.md`. New production deployment `ecom-e6jv49zlv-rishi-1603.vercel.app` (`dpl_5kbUkqNcA2KFovP8hgpKrY7Zjedg`), Ready, 3s build, serves commit `890f66f`; production content is byte-for-byte the audited source (127,506 bytes LF-normalized). `vercel env ls`: **no environment variables** — consistent with a fully static site. Two auto-generated hostnames currently return HTTP 200 non-application `Login – Vercel` HTML of about 334 KB; their exact protection settings were not inspected or changed, and the public canonical domain is unaffected. Private runtime logs beyond CLI metadata: NOT VERIFIED.
 
-## F. BACKEND & SECURITY
+## H. Security and performance
 
-| Component | Status |
-|-----------|--------|
-| **FastAPI Health** | ✅ 200 `{"status":"ok","database":"connected"}` |
-| **NL-to-SQL** | ✅ 200, correct SQL, correct result (₹59.28M) |
-| **AI Analyst** | ✅ 200, full analysis + disclaimer (no GEMINI_API_KEY in test) |
-| **SQL Injection Guard** | ✅ `sqlglot` AST validation (SELECT-only, whitelist, LIMIT 100) |
-| **Read-only Enforcement** | ✅ `sqlglot` blocks DDL/DML |
-| **Environment Variables** | ✅ No secrets in repo; `.env.example` provided |
-| **Secret Scanning** | ✅ No keys in repo; GEMINI_API_KEY via env only |
+- Secret scan over 367 tracked files (311 text): **0 findings** after replacing literal `password123` placeholders in `.env.example` with `${POSTGRES_PASSWORD}`. No key material is printed anywhere in these reports.
+- `pip-audit -r requirements.txt`: **no known vulnerabilities**. Local venv initially showed 12 CVEs in `pip 25.0.1` itself → upgraded to `pip 26.3` → clean.
+- Static dangerous-pattern scan over 94 Python files: 2 hits, both MD5 used as a file-byte equality fingerprint in `tests/test_pricing_dashboard.py` — not a security control, documented as benign, not changed.
+- CORS fixed (above). NL-to-SQL is read-only with an AST whitelist and LIMIT cap; hostile prompts return a refusal with no SQL executed.
+- Live performance (median of 3): Chromium TTFB 86 ms / LCP 1280 ms / CLS 0.0004; Firefox TTFB 138 ms / LCP 859 ms; WebKit TTFB 24 ms / LCP 933 ms; HTML 127,506 bytes → ~34 KB compressed; 4 external resources (Chart.js 4.4.1 on cdnjs, Google Fonts).
+- API latency (n=30, single client): all p95 < 160 ms (slowest: AI analyst 155.7 ms; top-products 106.5 ms).
 
----
+## I. Recruiter and HR review (summary)
 
-## G. POWER BI
+Full review in `PUBLIC_RELEASE_READINESS.md`. The credibility risks that actually existed — drifted claims registry, ambiguous CV-vs-holdout labeling, a truncated margin axis, mobile chart overflow, stale test report, debris files in the repo root — are **fixed and verified**. The strongest remaining talking points are the honest negative results (forecast loses to drift; 9.5% interval coverage; win-back "profit" is revenue before COGS in the disclosed cost model) which are documented rather than hidden, and are therefore defensible in an interview. No recruiter reaction is invented and no shortlisting is guaranteed.
 
-| Artifact | Status |
-|----------|--------|
-| `.pbix` (compiled) | Exists (1.0 MB) — opens in Power BI Desktop |
-| `.pbip` (project) | Exists — TMDL semantic model + report |
-| **DAX Measures** | Not independently recalculated (requires Power BI Desktop) |
-| **Visual Verification** | Not performed (requires Power BI Desktop) |
-| **Data Reconciliation** | Not performed (requires Power BI Desktop) |
-
----
-
-## H. TESTING & CI
-
-| Check | Command | Result |
-|-------|---------|--------|
-| **Tests** | `pytest tests/ -q` | 263 passed, 58 warnings |
-| **Lint** | `flake8 python/ run_pipeline.py app/...` | Clean |
-| **AI Eval** | `evals/run_eval.py --min-accuracy 0.90` | Exit 0, 97.3% |
-| **Dashboard Copies** | SHA256 of 4 files | Identical (`f2b4fdd2...`) |
-| **JS Syntax** | `node --check main_script.js` | Pass |
-| **GitHub Actions** | CI on `main` | 4/4 green |
-
----
-
-## I. REMAINING ISSUES (Honest Disclosure)
-
-| Issue | Severity | Resolution |
-|-------|----------|------------|
-| **Live Vercel JS stale** | High | Run `vercel --prod` or push to trigger GitHub Actions redeploy |
-| **Power BI DAX unverified** | Medium | Open `.pbix` in Power BI Desktop; recalc measures |
-| **PostgreSQL untested** | Medium | Run 12 SQL scripts against PostgreSQL 14+ |
-| **Production API untested** | Low | Deploy to staging; test with real traffic |
-| **Cross-browser live** | Low | Fixed by Vercel redeploy |
-| **AI Analyst gemini key** | None | Expected in test env; set `GEMINI_API_KEY` for full LLM |
-
----
-
-## J. GITHUB RELEASE
+## J. GitHub and release information
 
 | Item | Value |
-|------|-------|
-| **Branch** | `main` |
-| **Final Commit** | `8a92974` — "fix: complete project QA - JS syntax fix, UI tests, dashboard verification" |
-| **Previous Commit** | `88114e1` |
-| **Push Result** | `88114e1..8a92974 main → main` ✅ |
-| **GitHub URL** | https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/commit/8a92974 |
+|---|---|
+| Branch | `main` |
+| Commits | `4df3bcd` repo cleanup · `5022e15` env placeholders **+ CORS fix and its regression test (staged together; the message names only the env change — recorded here for accuracy)** · `b55af30` dashboard fixes · `ef76134` claims registry + tests · `890f66f` docs/eval refresh |
+| Push result | `6fe8177..890f66f main -> main`, exit 0; `origin/main` verified at `890f66f` |
+| Commit URL | https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics/commit/890f66f |
+| Pull request | None (direct-to-`main` per repo contract) |
+| GitHub Actions | Run `44496785646`, job `test` `135465903572`: **conclusion `success`** at 2026-11-19T09:30:35Z (Python 3.11). Vercel checks `build` / `deploy` / `report-build-status` all `success`. Single annotation: Node.js 20 deprecation warning for `actions/checkout@v4` / `actions/setup-python@v5` (P3) |
+| Production deployment | `dpl_5kbUkqNcA2KFovP8hgpKrY7Zjedg`, Ready, 3s build |
+| No destructive operations | No force-push, no reset, no history rewrite, no branch-protection bypass, no deletion of user work |
 
----
+## K. Final issues — nothing hidden
 
-## FINAL VERDICT
+**Open defects:** none at P0/P1/P2. P3 open items: (1) two auto-generated Vercel hostnames return HTTP 200 non-application `Login – Vercel` HTML instead of the dashboard (protection/housekeeping — settings not inspected or changed); (2) four Vercel projects deploy this same repo (housekeeping); (3) `google.generativeai` is deprecated → migrate to `google.genai` (untestable without a key); (4) Node 20 deprecation warning in CI actions; (5) SQL scripts 09–12 use an alternate but equivalent contract-header wording; (6) NL-to-SQL refusal responses keep `is_safe=True` with empty SQL — semantically ambiguous, documented, functionally safe.
 
-**CONDITIONAL GO** — The analytical core, data pipeline, test suite, dashboard UI, and local API are **100% verified and working**. All headline metrics independently reconcile to source data. The only blocker for "full green" is redeploying the fixed JavaScript to Vercel (a 2-minute operation).
+**Unresolved pytest failures:** none. Final evidence: 272/272 local and CI; 96/96 live browser checks; 22/22 series. One transient local AI wall-clock latency-floor failure and its successful isolated/full reruns are disclosed in §A; no pytest accuracy assertion failed. Separately, the recorded 37-case offline AI benchmark remains **36/37 with A13 FAILED-UNRESOLVED**, as detailed in `AI_ANALYST_EVALUATION.md`.
 
-**To achieve full green:** Run `vercel --prod` (or push to trigger GitHub Actions) to deploy the fixed `dashboard.html` to `https://ecomanalytics-dashboard.vercel.app/`.
+**Skipped tests:** none in the pytest run. The live browser suite is a standalone script and is reported separately, never folded into the 272.
 
----
+**NOT VERIFIED (tool/credential/access limits):**
+1. PostgreSQL execution of `sql/` — local PG 17 requires `scram-sha-256`, no credential available, `psql -w` fails with `fe_sendauth`. Static audit only (PASS). No credentials guessed, no server config changed.
+2. Real Gemini provider calls — no `GEMINI_API_KEY` locally; zero env vars on the Vercel project.
+3. Power BI Desktop report execution — Desktop unavailable; source-level inspection only.
+4. Vercel private runtime logs beyond CLI-visible metadata; GitHub raw job logs (403 unauthenticated, `gh` absent) — CI status was instead read from the check-runs API.
+5. Exact Linux/Python 3.11 local reproduction — no WSL/Docker; covered by the real CI run instead of a local claim.
+6. Concurrent multi-client load testing of FastAPI — single-client latency only.
 
-*Report generated by automated QA audit on 2026-11-18. All verifiable claims independently recomputed from source data.*
+**Known analytical limitations (documented, not defects hidden for appearances):** forecast ensemble loses to the drift baseline; the 95% bootstrap band covers 9.5% of actuals (root cause: 3-residual variance estimate; remedy: rolling-origin residual history) and is labeled indicative everywhere including the dashboard card; win-back EV uses an illustrative C=₹250/contact, r=15%, V=₹13,292.2 cost model — expected values, no campaign has been run; the forecast horizon (Jan–Jun 2025) is a historical holdout evaluation, not a live forecast; churn threshold profits are expected values under the same assumptions.
+
+**Deployment limitations:** the FastAPI backend and the real Gemini analyst are not part of the Vercel deployment; the public dashboard is a static, self-contained artifact by design.

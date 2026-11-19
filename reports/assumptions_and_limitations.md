@@ -51,7 +51,7 @@ from this dataset. In a real engagement these would require:
   defensible CLV needs retention/probability-of-alive modelling (e.g. BG/NBD).
 
 ## 6. Assumptions we are explicitly making
-- **Revenue/profit basis is Delivered + Processing** (Cancelled and Returned excluded). Processing is booked but not yet fulfilled; Delivered-only revenue is ₹55.49 Cr vs ₹59.28 Cr on the stated basis, so the choice must be named whenever a figure is quoted.
+- **Revenue/profit basis is Delivered + Processing** (Cancelled and Returned excluded). Processing is booked but not yet fulfilled; Delivered-only revenue is ₹5.55 Cr vs ₹5.93 Cr on the stated basis, so the choice must be named whenever a figure is quoted.
 - A 180-day inactivity window is a reasonable proxy for "churned."
 - The forecast is a **historical backtest over Jan–Jun 2025**, not a live projection; the shipped ensemble (MASE 0.68) underperforms the drift baseline (0.468) and its 95% interval covers only 9.5% of outcomes.
 - Win-back expected value treats retained value (₹13,292) as **revenue**, not contribution margin. At the 54.0% gross margin, ₹523 per contact is about ₹167 of contribution; the break-even churn probability rises from 12.54% to about 23.2%.

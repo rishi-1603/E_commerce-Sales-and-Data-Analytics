@@ -1,64 +1,56 @@
-# QA REMEDIATION LOG — E-Commerce Sales & Customer Analytics
+# QA Remediation Log — 2026-11-19
 
-**Audit Date:** 2026-11-18  
-**Auditor:** AI QA Agent  
-**Final Commit:** `8a92974`
+Defect register for the full release audit. Severity: **P0** critical (financially wrong headline numbers, security exposure, data corruption, broken app, fabricated answers, major deployment failure) · **P1** high (broken main functionality, materially incorrect analytics, inconsistent metrics, major API failure, unusable analyst) · **P2** medium (misleading labels, documentation defects, missing validation, partial UI issues) · **P3** low.
 
----
+Every "Fixed" row names its regression evidence. Nothing was closed by weakening a test, hardcoding a value, or hiding output.
 
-## REMEDIATION SUMMARY
+| ID | Sev | Category | Location | Evidence (before) | Root cause | Fix | Regression test / re-verification | Result |
+|---|---|---|---|---|---|---|---|---|
+| DASH-01 | P1 | UI | `scripts/pricing_dashboard_templates.py`, `dashboard/dashboard.html` | `page-quality`, `page-insights`, `page-ai`, `page-pricing`, `page-winback` were outside `.main`/`.content` | Injected `PAGES` block emitted its content after the layout closers; stray premature closers in the canonical file | Moved `</main></div>` inside `PAGES` before `PRICING_PAGES_END`; removed premature closers | Live DOM query: all five pages `insideMain=True`, `insideContent=True`; 96/96 browser checks | **Fixed — VERIFIED on production** |
+| DASH-02 | P1 | UI | dashboard CSS (`.card-row > .card`) | Charts blew out to 760 px inside a 390 px viewport; horizontal overflow | Flex children default `min-width:auto`, so the canvas intrinsic width forced the track open | `min-width:0` on the card | Live resize 760 → 314 → 760; mobile chartW 314, no overflow at any of 4 viewports | **Fixed — VERIFIED on production** |
+| DASH-03 | P2 | Analytics/UI | `ch_margin` (Product Profitability) | Y axis truncated (`min:45`) exaggerated margin differences | Hardcoded axis minimum | `beginAtZero:true`, no `min` | Live Chart.js config: `beginAtZero=True`, `min=None`; series [56.5, 53.5, 54.9, 54.8, 47.3] still reconciles | **Fixed — VERIFIED on production** |
+| DASH-04 | P2 | Analytics/UI | `ch_models` card | Card implied holdout performance while plotting cross-validated AUC/F1 | Title/subtitle did not name the evaluation protocol | Retitled **"Model Comparison (AUC & F1)"**, subtitle "Cross-validated mean, 5-fold CV · 3 algorithms benchmarked" | Live DOM: title and subtitle read back verbatim; both series still reconcile exactly | **Fixed — VERIFIED on production** |
+| DASH-05 | P2 | Analytics/UI | Churn card subtitle | "180-day" phrasing read like an evaluation split | Label horizon and model-selection protocol were conflated | Subtitle: "Logistic Regression (best by CV AUC) · 180-day forward label · 5-fold CV selection" | Live DOM read-back | **Fixed — VERIFIED on production** |
+| DASH-06 | P2 | Analytics/UI | Forecast card subtitle | "(bootstrap 95% CI)" presented the band as calibrated while measured coverage is 9.5% | Caveat existed in reports/metrics but not at the point of display | Subtitle now: "bootstrap 95% band — indicative only: 9.5% empirical coverage, ensemble loses to drift baseline" | Live DOM read-back; injector idempotent, four copies byte-identical (`e82fe755…`) | **Fixed — VERIFIED on production** |
+| SEC-01 | P1 | Security/API | `app/core/config.py` | `ALLOWED_ORIGINS` contained `"*"` with `allow_credentials=True` → any origin reflected with credentials | Wildcard left in the allowlist | Wildcard removed; explicit origins only | New `test_cors_does_not_reflect_unlisted_origins`: unlisted origin → no `ACAO`; allowlisted origin echoes. 22/22 module tests, 272/272 suite | **Fixed — VERIFIED** (commit `5022e15`) |
+| DATA-01 | P1 | Data/Docs | `data/claims.json` | Win-back audience 448 (actual 441), recoverable ₹1.24 Cr (actual ₹1.30 Cr), EV ₹541 (actual ₹522.55), campaign ₹2.42L (actual ₹2.30L), break-even 12.9% (actual 12.54%) | Registry edited by hand; nothing consumed it, so drift was invisible | Values corrected to `reports/winback_economics.json` / `discount_analysis.json` | New `tests/test_claims_registry.py` (7 tests) pins registry ↔ artifacts and recomputes revenue from raw CSVs; live nav shows 441 | **Fixed — VERIFIED** |
+| DATA-02 | P1 | Data/Docs | `data/claims.json` | Churn AUC quoted as 0.65 with "temporal split / forward window" wording; Brier 0.1726 | CV and holdout metrics conflated; split protocol misdescribed | Holdout AUC 0.662 (CV 0.674), Brier 0.1715, PR-AUC 0.332; protocol stated as stratified 64/16/20 holdout, **not** a temporal split | Registry tests + `test_churn_model_metrics.py`; live AI churn answer states 23.5% prevalence on 1,597 customers with full 180-day window | **Fixed — VERIFIED** |
+| DOC-01 | P2 | Docs | `docs/TEST_REPORT.md` | "235/235 passed", "no browser automation", unevidenced CI "success" | Report never updated as the suite grew | Rewritten: 272 tests, separate 96-check live suite (standalone script, 0 pytest collections), explicit not-covered list, CI status only with evidence | Content matches the observed runs cited in `COMPLETE_PROJECT_QA_REPORT.md` §J | **Fixed** |
+| DOC-02 | P2 | Docs | README, RESUME_EVIDENCE, claims.json, 2 docs | Public test count 271 while 272 tests were collected | Count drifted after new tests were added | All surfaces moved to 272 | `pytest --collect-only` → "272 tests collected"; registry agreement test | **Fixed — VERIFIED** |
+| DOC-03 | P2 | Docs | `.claude/skills/verify-claims/SKILL.md`, `AGENTS.md` | Final cross-surface review found stale churn/win-back/235-test snapshots and instructions to edit the generated root `dashboard.html`, which the injector overwrites | Local audit guidance was not updated when analytics and the canonical dashboard input changed | Updated the snapshots to current artifacts and named `dashboard/dashboard.html` as the canonical input | Raw-CSV/artifact reconciliation; source inspection of the injector; documentation consistency check | **Fixed — VERIFIED** |
+| DOC-04 | P0 | Docs | `README.md`, `reports/assumptions_and_limitations.md`, `docs/AUDIT_2026-11-18.md` | Narrative figures said **₹59.28 Cr** and Delivered-only **₹55.49 Cr**, ten times the independently computed ₹59,283,619.32 = ₹5.928361932 Cr and ₹55,492,687.66 = ₹5.549268766 Cr | Crore conversion error propagated into the README executive summary and two older audit surfaces; exact-rupee and dashboard figures had the correct scale | Corrected all three surfaces to **₹5.93 Cr** and **₹5.55 Cr** as applicable | Raw-CSV revenue recomputation and read-back of all three corrected surfaces; repo-wide scan shows remaining old values only as DOC-04 before/after evidence | **Fixed — VERIFIED** |
+| SEC-02 | P2 | Security/Docs | `.env.example` | Commented PostgreSQL URLs contained `admin:password123` | Literal placeholder credential trips scanners and invites copy-paste | `${POSTGRES_PASSWORD}` references, mirroring `docker-compose.yml` | Secret scan: 367 tracked files, 311 text, **0 findings** | **Fixed — VERIFIED** |
+| REPO-01 | P3 | Repo hygiene | repo root | 14 debris files: `deployed.html` (stale 131,720-byte snapshot, different hash) + 8 `check_*.py` + 3 `fix_*.py` + 2 `test_*_deploy.py` | Leftover debugging scripts from earlier sessions | Removed after confirming zero references; `vercel.json` serves only `dashboard/` | `git grep` showed no references; 272/272 after deletion; deployment serves the correct file | **Fixed** (commit `4df3bcd`) |
+| REPO-02 | P3 | Repo hygiene | `tests/test_live_final.py` | Weaker duplicate of the 96-check suite pointing at a different host (`ecom-zeta-one` vs `ecomanalytics-dashboard`) | Two live suites drifting apart | Removed | 96/96 from the single remaining suite | **Fixed** |
+| AN-01 | P2 | Analytics | `python/` forecast CI, `reports/forecast_backtest.md` | Nominal 95% band covers 9.5% of actuals (21 points; h1 28.6%, h2/h3 0%) | Variance estimated from only 3 holdout residuals | **Not re-engineered** — the honest labeling fix (DASH-06) plus the existing ⚠️ finding, root cause and remediation path in the report; operational model guidance already prefers drift/holt_linear | Report, `metrics.json` caveat, README and dashboard card all disclose it | **Documented limitation — no calibrated-interval claim remains** |
+| VERCEL-01 | P3 | Vercel | `ecom-rishi-1603.vercel.app`, `ecom-git-main-rishi-1603.vercel.app` | Fresh HTTP checks return 200 with non-application `Login – Vercel` HTML (about 334 KB; byte counts vary slightly between requests) instead of the app; exact protection settings were not inspected | Auto-generated hostname protection/housekeeping | **Not changed** — project settings are outside authorized scope; canonical domain unaffected | Canonical `ecomanalytics-dashboard.vercel.app` and `ecom-zeta-one.vercel.app` serve identical audited app responses (127,506 bytes; SHA256 `5aafd176…d4a1d`) | **Open — documented, no functional impact on the public URL** |
+| VERCEL-02 | P3 | Vercel | Account | Four projects (`ecomanalytics-dashboard`, `e-commerce-sales-and-data-analytics`, `ecom`, `dashboard`) deploy this repo | Historical project duplication | Not changed; no project deleted without authorization | All previously served identical content; canonical project verified after this release | **Open — housekeeping** |
+| TECH-01 | P3 | Dependencies | `app/services/` | `All support for the google.generativeai package has ended` FutureWarning | Deprecated SDK | Not migrated: `google.genai` migration cannot be tested without a provider key | Warning recorded; deterministic fallback unaffected | **Open — tech debt** |
+| TECH-02 | P3 | Dependencies | local `.venv` | `pip-audit`: 12 CVEs in `pip 25.0.1` (installer only, not an app dependency) | Outdated installer | Upgraded to `pip 26.3` | Re-audit: **no known vulnerabilities**; `pip-audit -r requirements.txt` was already clean | **Fixed (local env)** |
+| CI-01 | P3 | CI | `.github/workflows/ci.yml` | Annotation: Node.js 20 deprecated; `actions/checkout@v4`, `actions/setup-python@v5` forced onto Node 24 | Action runtime deprecation | Not changed — warning only, run succeeds | Check-run `test` conclusion `success` with this single annotation | **Open — cosmetic** |
+| SQL-01 | P3 | Docs | `sql/09…12*.sql` | Headers use `Purpose`/`Why`/`Verified` instead of `Business Question`/`Why It Matters`/`Key Insight` | Two documentation conventions | Left as-is (equivalent contract, not a defect) | Static audit records 8 canonical + 4 alternate, 0 missing | **Open — consistency note** |
+| API-01 | P3 | API semantics | NL-to-SQL refusal path | Refusals return `is_safe=True` with empty SQL and 0 rows | "Safe" flags the query, not the answer | Not changed — functionally safe (nothing executed, explicit refusal text) | Hostile-prompt tests: refusal, no SQL executed | **Open — semantics documented** |
 
-| ID | Issue | Severity | Root Cause | Fix | Verification |
-|----|-------|----------|------------|-----|--------------|
-| JS-001 | `escapeHtml()` syntax error: `missing ) after argument list` | P0 (Critical) | Invalid regex replacement: `replace(/'/g,'''')` — three single quotes invalid in JS string | Fixed to `replace(/'/g,"'")` in `dashboard.html` line 1277 | `node --check` passes; Playwright 0 console errors |
-| JS-002 | `nav is not defined` ReferenceError on all pages | P0 (Critical) | `nav()` function defined after first `DOMContentLoaded` handler that calls it; also missing `toggleSidebar` reference | Verified `nav()` defined before first use; `buildPage('overview')` calls `nav()` indirectly via `buildPricing()` | Playwright: 0 console errors across Chromium/Firefox/WebKit |
-| UI-001 | Dashboard KPI cards not found by Playwright | P1 (High) | Test used wrong selectors (`#revenue_kpi` etc.) — actual KPI cards are static HTML with class `.kpi-card`, no IDs | Updated test to check for text content in page and `.kpi-card` count | 40 KPI cards verified; all 16 key values present |
-| UI-002 | Charts not visible on non-overview pages | P2 (Medium) | Charts built lazily by `buildPage()` on navigation; not pre-rendered | Verified charts exist in DOM and render on navigation click | 15 charts verified (1 visible on overview, 14 on respective pages) |
-| UI-003 | Live Vercel deployment has stale JS | P1 (High) | Local `dashboard.html` fixed but not redeployed to Vercel | **Action required:** `vercel --prod` or push to trigger GitHub Actions | Local dashboard: 0 errors; Live Vercel: `nav is not defined` (stale) |
-| TEST-001 | Test count mismatch: README said 235, actual 263 | P2 (Medium) | New tests added (AI Analyst, UI, churn model metrics) not reflected in README | Updated 7 occurrences: 235 → 263 | All 7 occurrences fixed in README.md |
-| TEST-002 | `test_dashboard_ui.py` import error (missing `time` import) | P2 (Medium) | Missing `import time` | Added `import time` | Test runs without error |
-| TEST-003 | `test_dashboard_ui.py` Playwright error (test_page fixture) | P2 (Medium) | Old test file with broken fixture | Removed old file; kept `test_dashboard_ui_final.py` | 263 tests pass |
-| API-001 | AI Analyst endpoint slicing error in test | P3 (Low) | Test code `r.json()[:200]` on dict response | Fixed test code | AI Analyst returns 200 with full analysis |
-| DOC-001 | README stale test counts and metric references | P2 (Medium) | Multiple files referenced old 235 count | Updated all 7 occurrences to 263 | All 7 occurrences fixed |
-| DOC-002 | Vercel deployment stale | P1 (High) | Fixed JS not deployed | **Action required:** `vercel --prod` | Local fixed; live needs redeploy |
+## Investigated and explicitly **not** defects
 
----
+| Item | Why it is not a defect |
+|---|---|
+| `metrics.json` revenue "₹15.93 Cr" | PowerShell console mojibake. The file already read `₹5.93 Cr`; confirmed by reading UTF-8 content directly. No change made. |
+| `DATA.top10` ordering | Ranked by **profit**, matching the card title "Top 10 Products by Profit". The audit script's expectation (revenue) was wrong, not the data. |
+| `ch_cohort` shows 7 of 18 cohorts | Intentional window (indexes `len-7 … len-2`); the heat table renders all 18. |
+| MD5 in `tests/test_pricing_dashboard.py` | File-byte equality fingerprint for idempotency, not a security control. |
+| Transient local AI latency-floor failure | One full-suite attempt measured p95 3,316.9 ms and failed the 2,000 ms wall-clock floor; an immediate standalone rerun measured p95 750.9 ms with 12/12 AI tests passing, and a full-suite rerun passed 272/272. No code or threshold changed. This supports a timing-sensitive transient, but the exact external contention cause is NOT VERIFIED; it is not counted as an application analytics defect. |
+| Four Vercel projects serving identical content | Account housekeeping, not an application defect (see VERCEL-02). |
 
-## VERIFICATION CHECKLIST
+## Commit mapping
 
-| Check | Command | Result |
-|-------|---------|--------|
-| Python Tests | `pytest tests/ -q` | 263 passed |
-| Lint | `flake8 python/ run_pipeline.py app/...` | Clean |
-| AI Eval Gate | `evals/run_eval.py --min-accuracy 0.90` | 97.3% (exit 0) |
-| Dashboard Copies | SHA256 of 4 files | Identical |
-| JS Syntax | `node --check main_script.js` | Pass |
-| UI Tests (Playwright) | `tests/test_dashboard_ui_final.py` | All pass (40 KPIs, 15 charts, 12 nav) |
-| Responsive | 390/768/1366/1920px | No overflow |
-| Cross-browser | Chromium/Firefox/WebKit | 0 console errors |
-| Live API | uvicorn + requests | Health 200, NL-to-SQL 200, AI Analyst 200 |
-| Git Push | `git push origin main` | `8a92974` pushed |
+| Commit | Contents |
+|---|---|
+| `4df3bcd` | REPO-01, REPO-02 |
+| `5022e15` | SEC-01 + SEC-02 (staged together; the message names only SEC-02 — recorded here so the CORS fix is traceable) |
+| `b55af30` | DASH-01 … DASH-06 |
+| `ef76134` | DATA-01, DATA-02, DOC-02 + `tests/test_claims_registry.py` |
+| `890f66f` | DOC-01 + regenerated AI eval evidence |
+| follow-up docs commit | DOC-04 (`README.md`, `reports/assumptions_and_limitations.md`, `docs/AUDIT_2026-11-18.md`) + the seven audit reports. DOC-03 is fixed in local-only, gitignored `AGENTS.md` and `.claude/skills/verify-claims/SKILL.md`; those files are intentionally not force-added. |
 
----
-
-## OUTSTANDING ACTIONS (Manual Required)
-
-| Action | Command | Owner |
-|--------|---------|-------|
-| Redeploy Vercel | `vercel --prod` (or push to trigger GitHub Actions) | User |
-| Verify Power BI DAX | Open `.pbip` in Power BI Desktop | User |
-| Run PostgreSQL scripts | `psql -f sql/*.sql` against PG 14+ | User |
-| Set GEMINI_API_KEY for full AI | `export GEMINI_API_KEY=...` | User |
-
----
-
-## NOTES
-
-- All verifiable claims in this audit were independently recomputed from `data/raw/*.csv` and `data/processed/*.csv` using pandas.
-- No fabricated numbers; every KPI cross-referenced against `data/metrics.json` and source CSVs.
-- The analytical core is production-ready; only deployment and external-tool verifications remain.
-- The live Vercel deployment serves stale JS — this is the **only** blocker for a fully green live site.
-
----
-
-*Log generated 2026-11-18 by automated QA audit. All fixes committed in `8a92974`.*
+Final state: **272/272 tests** (local fresh-data run and GitHub Actions `test` = success), **96/96** live browser checks, **22/22** chart series reconcile, **0** console errors, **0** secret-scan findings, **0** known dependency vulnerabilities, production serving the audited source at commit `890f66f`.
