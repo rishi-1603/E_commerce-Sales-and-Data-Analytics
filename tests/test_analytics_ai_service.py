@@ -9,12 +9,24 @@ Verifies:
 5. API failure handling
 """
 import os
+import re
+import shutil
+import subprocess
 import sys
+import tempfile
+
 import pytest
 from unittest.mock import patch, MagicMock
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE)
+
+DASHBOARD_COPIES = [
+    "dashboard.html",
+    "index.html",
+    "dashboard/dashboard.html",
+    "dashboard/index.html",
+]
 
 from app.services.analytics_ai_service import AnalyticsAIService
 
@@ -253,15 +265,53 @@ class TestFrontendHelpers:
         assert fmt_inr(523) == "Rs.523"
 
     def test_escape_html_js_source_has_replacements(self):
-        # The escapeHtml is a JS function in dashboard.html using regex.
-        # Verified by checking the source has the 5 replacements.
-        js_path = os.path.join(BASE, "dashboard.html")
-        with open(js_path, encoding="utf-8") as f:
-            js = f.read()
-        assert "replace(/&/g,'&')" in js
-        assert "replace(/</g,'<')" in js
-        assert "replace(/>/g,'>')" in js
-        assert "replace" in js and "/g," in js
+        # The helper must entity-encode in all four byte-identical copies.
+        # A raw-character replacement (e.g. replace(/&/g, '&')) is an XSS bug, not a fix.
+        expected = [
+            "replace(/&/g, '&amp;')",
+            "replace(/</g, '&lt;')",
+            "replace(/>/g, '&gt;')",
+            "replace(/\"/g, '&quot;')",
+            "replace(/'/g, '&#39;')",
+        ]
+        for rel in DASHBOARD_COPIES:
+            with open(os.path.join(BASE, rel), encoding="utf-8") as f:
+                js = f.read()
+            for snippet in expected:
+                assert snippet in js, f"{rel} missing {snippet}"
+            assert "replace(/'/g, '''" not in js, f"{rel} has malformed quote replacement"
+
+    def test_inline_scripts_pass_node_syntax_check(self):
+        node = shutil.which("node")
+        if not node:
+            pytest.skip("node not installed")
+        for rel in DASHBOARD_COPIES:
+            with open(os.path.join(BASE, rel), encoding="utf-8") as f:
+                html = f.read()
+            blocks = re.findall(
+                r"<script(?![^>]*\bsrc=)(?![^>]*type=[\"']application/(?:ld\+json|json)[\"'])[^>]*>"
+                r"(.*?)</script>",
+                html,
+                re.S,
+            )
+            assert blocks, f"{rel}: no inline script blocks found"
+            for i, block in enumerate(blocks):
+                if not block.strip():
+                    continue
+                with tempfile.NamedTemporaryFile(
+                    "w", suffix=".js", delete=False, encoding="utf-8"
+                ) as fh:
+                    fh.write(block)
+                    tmp = fh.name
+                try:
+                    result = subprocess.run(
+                        [node, "--check", tmp], capture_output=True, text=True
+                    )
+                finally:
+                    os.unlink(tmp)
+                assert result.returncode == 0, (
+                    f"{rel} inline block {i} has a syntax error: {result.stderr[:500]}"
+                )
 
 
 if __name__ == "__main__":

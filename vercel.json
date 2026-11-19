@@ -1,17 +1,8 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "echo 'Static site - no build needed'",
   "devCommand": "python -m http.server 8080",
   "installCommand": "echo 'No install needed'",
   "framework": null,
-  "outputDirectory": "dashboard",
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/dashboard.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dashboard/$1"
-    }
-  ]
+  "outputDirectory": "dashboard"
 }
