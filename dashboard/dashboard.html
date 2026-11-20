@@ -2186,7 +2186,7 @@ function generateOfflineAnswer(question) {
   // ============================================================
   // HELPER FUNCTIONS
   // ============================================================
-  function growthPct(curr, prev) { return ((curr - prev) / prev * 100).toFixed(1); }
+  function growthPct(curr, prev) { return prev ? ((curr - prev) / prev * 100).toFixed(1) : '0.0'; }
   function pctOf(part, whole) { return (part / whole * 100).toFixed(1); }
   function safeAvg(arr) { const v = arr.filter(x => x !== null && x !== undefined); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : 'N/A'; }
   function topN(arr, n, key) { return [...arr].sort((a,b)=>b[key]-a[key]).slice(0,n); }
@@ -2208,7 +2208,7 @@ function generateOfflineAnswer(question) {
       return '\u2022 ' + reg + ': ' + fmtCr(rev) + ' (' + pctOf(rev, r.total) + '%)';
     }).join('\n');
     var statusDist = K.status.labels.map(function(s,i) {
-      return '\u2022 ' + s + ': ' + K.status.values[i].toLocaleString() + ' (' + pctOf(K.status.values[i], K.status.values.reduce(function(a,b){return a+b,0})) + '%)';
+      return '\u2022 ' + s + ': ' + K.status.values[i].toLocaleString() + ' (' + pctOf(K.status.values[i], K.status.values.reduce(function(a,b){return a+b}, 0)) + '%)';
     }).join('\n');
     return {
       text: '**Executive Summary (Jan 2022 \u2013 Dec 2024)\n\n' +
@@ -2246,12 +2246,12 @@ function generateOfflineAnswer(question) {
         '**Overall Growth:** ' + growth + '% (' + fmtL(r.monthly[0]) + ' \u2192 ' + fmtCr(r.monthly[r.monthly.length-1]) + ')\n' +
         '**Peak Month:** ' + r.labels[peakIdx] + ' (' + fmtCr(peak) + ')\n' +
         '**Lowest Month:** ' + r.labels[troughIdx] + ' (' + fmtL(trough) + ')\n' +
-        '**Average Monthly Revenue:** ' + fmtCr(r.monthly.reduce(function(a,b){return a+b,0})/r.monthly.length) + '\n' +
+        '**Average Monthly Revenue:** ' + fmtCr(r.monthly.reduce(function(a,b){return a+b}, 0)/r.monthly.length) + '\n' +
         '**Months with Growth:** ' + r.monthly.slice(1).filter(function(v,i){return v>r.monthly[i];}).length + ' / ' + (r.monthly.length-1) + '\n\n' +
         '**Year-over-Year Comparison:**\n' +
-        '- 2022 Total: ' + fmtCr(r.monthly.slice(0,12).reduce(function(a,b){return a+b,0})) + '\n' +
-        '- 2023 Total: ' + fmtCr(r.monthly.slice(12,24).reduce(function(a,b){return a+b,0})) + ' (' + growthPct(r.monthly.slice(12,24).reduce(function(a,b){return a+b,0}), r.monthly.slice(0,12).reduce(function(a,b){return a+b,0})) + '% YoY)\n' +
-        '- 2024 Total: ' + fmtCr(r.monthly.slice(24,36).reduce(function(a,b){return a+b,0})) + ' (' + growthPct(r.monthly.slice(24,36).reduce(function(a,b){return a+b,0}), r.monthly.slice(12,24).reduce(function(a,b){return a+b,0})) + '% YoY)\n\n' +
+        '- 2022 Total: ' + fmtCr(r.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0)) + '\n' +
+        '- 2023 Total: ' + fmtCr(r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0)) + ' (' + growthPct(r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0), r.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0)) + '% YoY)\n' +
+        '- 2024 Total: ' + fmtCr(r.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0)) + ' (' + growthPct(r.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0), r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0)) + '% YoY)\n\n' +
         '**Latest 6 Months:**\n' + latest6 + '\n\n' +
         '*Offline analysis from master_orders.csv (Delivered + Processing orders only).*',
       meta: { source: 'offline' }
@@ -2349,9 +2349,9 @@ function generateOfflineAnswer(question) {
     var momCustomers = mom.active_customers ? growthPct(mom.active_customers[1], mom.active_customers[0]) : 'N/A';
     var momAOV = mom.aov ? growthPct(mom.aov[1], mom.aov[0]) : 'N/A';
     
-    var y2022 = K.revenue.monthly.slice(0,12).reduce(function(a,b){return a+b,0});
-    var y2023 = K.revenue.monthly.slice(12,24).reduce(function(a,b){return a+b,0});
-    var y2024 = K.revenue.monthly.slice(24,36).reduce(function(a,b){return a+b,0});
+    var y2022 = K.revenue.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0);
+    var y2023 = K.revenue.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0);
+    var y2024 = K.revenue.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0);
     
     var momRevAbs = momRevenue >= 0 ? momRevenue : (-momRevenue);
     var momOrdAbs = momOrders >= 0 ? momOrders : (-momOrders);
@@ -2387,7 +2387,7 @@ function generateOfflineAnswer(question) {
   if (/(customer|rfm|segment|churn|retention|loyal|inactive|loyal|at.risk|champion|sleep)/.test(q)) {
     var c = K.churn;
     var rfm = K.rfm;
-    var segLines = rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b,0})) + '%)';}).join('\n');
+    var segLines = rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b},0)) + '%)';}).join('\n');
     var safeAvgVal = safeAvg(D.cohorts?.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}));
     var matureCount = (D.cohorts?.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}).length) || 0;
     return {
@@ -2397,7 +2397,7 @@ function generateOfflineAnswer(question) {
         '- **Cooling-off Customers:** ' + c.cooling_off_customers.toLocaleString() + ' (Medium + High risk) \u2014 ' + fmtCr(c.cooling_off_spend) + ' historical spend\n' +
         '- **Raw 180-day Inactivity:** ' + c.inactive_180d.toLocaleString() + ' customers with no purchase in final 180 days\n\n' +
         '**RFM Segments (8 segments, 1,991 active customers):**\n' +
-        rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b,0})) + '%)';}).join('\n') + '\n\n' +
+        rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b},0)) + '%)';}).join('\n') + '\n\n' +
         '**Segment Strategies:**\n' +
         '\u2022 **Champions** (' + rfm.counts[2].toLocaleString() + '): Highest R/F/M \u2014 Retain at all costs, loyalty perks, early access\n' +
         '\u2022 **Loyal Customers** (' + rfm.counts[0].toLocaleString() + '): Largest segment \u2014 Cross-sell adjacent categories, referral program\n' +
@@ -2705,7 +2705,7 @@ function generateOfflineAnswer(question) {
   if (/(aov|average.order|basket.size|order.value)/.test(q)) {
     return {
       text: '**Average Order Value (AOV) Analysis**\n\n' +
-        '**Overall AOV:** ' + fmt(K.revenue.aov) + ' (' + K.revenue.total_orders.toLocaleString() + ' orders, ' + fmtCr(K.revenue.total) + ' revenue)\n\n' +
+        '**Overall AOV:** ' + fmt(K.revenue.aov) + ' (' + K.revenue.orders.toLocaleString() + ' orders, ' + fmtCr(K.revenue.total) + ' revenue)\n\n' +
         '**Monthly AOV Trend (Latest 6 Months):**\n' +
         K.revenue.labels.slice(-6).map(function(lbl,i){return '\u2022 ' + lbl + ': AOV data in monthly breakdown';}).join('\n') + '\n\n' +
         '**Key Context:**\n' +
