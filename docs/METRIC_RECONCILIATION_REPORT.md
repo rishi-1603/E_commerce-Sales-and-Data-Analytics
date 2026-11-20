@@ -12,7 +12,7 @@
 | Evidence layer | Result | Boundary |
 |---|---|---|
 | Independent raw recomputation | **VERIFIED** | Two independent supplied scripts were run against raw CSVs, then cross-checked with a separate read-only `Decimal` calculation. No project metric function was used. |
-| Automated-test evidence | **VERIFIED** | Recorded evidence is 272/272 locally and GitHub Actions `test` = success. Pytest was not rerun for this document. |
+| Automated-test evidence | **VERIFIED** | Recorded evidence is 273/273 locally and GitHub Actions `test` = success. Pytest was not rerun for this document. |
 | Live display evidence | **VERIFIED** at displayed rounding | Recorded 2026-11-19 result: 96/96 browser checks and 22/22 chart-series reconciliations. No new browser run or stronger current-live claim is made here. |
 | PostgreSQL runtime execution | **NOT VERIFIED** | Local PG 17 SCRAM authentication requires an unavailable password; SQL source review is not execution. |
 | Narrative crore conversions in `README.md`, `reports/assumptions_and_limitations.md`, and `docs/AUDIT_2026-11-18.md` | **VERIFIED — fixed** | The figures previously said “₹59.28 Cr” and “₹55.49 Cr”, ten times the exact ₹59,283,619.32 = **₹5.928361932 Cr** and ₹55,492,687.66 = **₹5.549268766 Cr**. All three surfaces now use **₹5.93 Cr** and **₹5.55 Cr** as applicable; logged as fixed P0 DOC-04 in `QA_REMEDIATION_LOG.md`. |
@@ -47,7 +47,7 @@ Formulas were evaluated from raw order lines after joining `order_items.order_id
 | AOV | `59,283,619.32 / 9,933 eligible orders = ₹5,968.3499` | **₹5,968.35** at 2 dp; **₹5,968** on the live card | **VERIFIED** |
 | Active customers | Distinct customers with ≥1 Delivered/Processing order = **1,991** | Registry and live card agree | **VERIFIED** |
 
-Recorded test evidence: [`test_claims_registry.py`](../tests/test_claims_registry.py) exactly pins the revenue claim to ₹59,283,619.32 and independently recomputes it from raw CSVs; [`test_dashboard_consistency.py`](../tests/test_dashboard_consistency.py) pins dashboard data to processed outputs. [`TEST_REPORT.md`](TEST_REPORT.md) records 272/272 locally, while [`COMPLETE_PROJECT_QA_REPORT.md`](COMPLETE_PROJECT_QA_REPORT.md) §J records CI run `44496785646`, job `135465903572`, as successful.
+Recorded test evidence: [`test_claims_registry.py`](../tests/test_claims_registry.py) exactly pins the revenue claim to ₹59,283,619.32 and independently recomputes it from raw CSVs; [`test_dashboard_consistency.py`](../tests/test_dashboard_consistency.py) pins dashboard data to processed outputs. [`TEST_REPORT.md`](TEST_REPORT.md) records 273/273 locally, while [`COMPLETE_PROJECT_QA_REPORT.md`](COMPLETE_PROJECT_QA_REPORT.md) §J records CI run `44496785646`, job `135465903572`, as successful.
 
 ## 3. Mutually exclusive statuses and value bridge
 
@@ -132,7 +132,7 @@ The corresponding repository checks are in [`test_data_quality.py`](../tests/tes
 
 ## 7. Live-display and PostgreSQL boundaries
 
-- **Live display — VERIFIED from recorded evidence, not a fresh run.** [`DASHBOARD_TEST_REPORT.md`](DASHBOARD_TEST_REPORT.md) and [`COMPLETE_PROJECT_QA_REPORT.md`](COMPLETE_PROJECT_QA_REPORT.md) record 96/96 Chromium/Firefox/WebKit checks, 12 pages, 15 charts, 0 console errors, and 22/22 chart-series reconciliations on 2026-11-19. [`TEST_REPORT.md`](TEST_REPORT.md) identifies this as a standalone suite, separate from the 272 pytest tests. The earlier real-browser readback in [`AUDIT_2026-11-18.md`](AUDIT_2026-11-18.md) §10 specifically records the 10.2% return-rate display. This report does not claim any additional live measurements.
+- **Live display — VERIFIED from recorded evidence, not a fresh run.** [`DASHBOARD_TEST_REPORT.md`](DASHBOARD_TEST_REPORT.md) and [`COMPLETE_PROJECT_QA_REPORT.md`](COMPLETE_PROJECT_QA_REPORT.md) record 96/96 Chromium/Firefox/WebKit checks, 12 pages, 15 charts, 0 console errors, and 22/22 chart-series reconciliations on 2026-11-19. [`TEST_REPORT.md`](TEST_REPORT.md) identifies this as a standalone suite, separate from the 273 pytest tests. The earlier real-browser readback in [`AUDIT_2026-11-18.md`](AUDIT_2026-11-18.md) §10 specifically records the 10.2% return-rate display. This report does not claim any additional live measurements.
 - **PostgreSQL — NOT VERIFIED.** The recorded local PG 17 attempt requires `scram-sha-256`; no password was available and `psql -w` failed with `fe_sendauth`. The 12 SQL files / 75 statements received static source review, but parsing/source inspection is not runtime execution. The older [`DATA_AND_METRIC_VALIDATION.md`](DATA_AND_METRIC_VALIDATION.md) execution account is dated 2026-10-30 and does not establish a successful 2026-11-19 local runtime run. See [`COMPLETE_PROJECT_QA_REPORT.md`](COMPLETE_PROJECT_QA_REPORT.md) §K and [`TEST_REPORT.md`](TEST_REPORT.md) “Not covered.”
 
 ## Reproduction evidence

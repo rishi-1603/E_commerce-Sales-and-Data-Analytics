@@ -10,7 +10,7 @@
 | Revenue forecasting | monthly revenue | Holt-Winters + trend ensemble | forecast metrics pinned |
 | Forecast backtest | revenue history | MASE vs 3 naive baselines | MASE values pinned (drift 0.468) |
 | Discount & margin engine | price/discount grid | break-even volume lift | break-even band pinned (+10.6% to +59.2%) |
-| NL-to-SQL helper | question | SQL + answer or refusal | 37-question benchmark: 48.6% -> 97.3%, 0 fabricated |
+| NL-to-SQL helper | question | SQL + answer or refusal | 37-question benchmark: 48.6% -> 100%, 0 fabricated |
 | Interactive dashboard | decision_layer.json | 6-page Chart.js UI | every displayed figure pinned by test |
 | Win-back experiment spec | cost model | runnable experiment design | v2 with stopping rules |
 

@@ -30,7 +30,7 @@ No **FAILED-UNRESOLVED** P0/P1/P2 deployment defect is evidenced for the canonic
 
 One build annotation was recorded: the Node.js 20 deprecation warning affecting the current GitHub Actions runtime usage. It did not fail the run and remains an open P3 maintenance item — **FAILED-UNRESOLVED**, non-blocking.
 
-The successful `test` check corresponds to the **272 pytest tests**. The separate **96-check standalone live browser script** is not part of that pytest count, and the two totals are never added together.
+The successful `test` check corresponds to the **273 pytest tests**. The separate **96-check standalone live browser script** is not part of that pytest count, and the two totals are never added together.
 
 ## 2. Production deployment identity
 

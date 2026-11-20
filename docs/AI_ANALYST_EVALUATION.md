@@ -1,7 +1,7 @@
 # AI Analyst Evaluation
 
-**Date:** 2026-11-19<br>
-**Audited code:** `890f66f`<br>
+**Date:** 2026-11-20<br>
+**Audited code:** `890f66f` plus the A13 fix committed after it (identify with `git log`)<br>
 **Public URL:** https://ecomanalytics-dashboard.vercel.app/<br>
 **Status terms:** **VERIFIED** = supported by the evidence layer named; **FAILED-UNRESOLVED** = a reproduced failure remains; **NOT VERIFIED** = execution or access evidence is insufficient.
 
@@ -12,7 +12,7 @@ Evidence layers are kept distinct: **source** inspection, recorded **test** runs
 | Surface / claim | Status | Evidence-based conclusion |
 |---|---|---|
 | Public Vercel AI Analyst | **VERIFIED** — source + live + deployment | A deterministic in-browser template router with six curated, dataset-grounded answers and visible SQL. It is **not real Gemini**, does not call the FastAPI provider, and does not execute the displayed SQL in the browser. |
-| Offline fallback benchmark | **FAILED-UNRESOLVED** — test | The recorded fallback run scores 36/37, but A13 still returns product-level profit for a category-margin paraphrase. The CI floor passes; the failure is not hidden or claimed fixed. |
+| Offline fallback benchmark | **VERIFIED** — test | The recorded fallback run scores **37/37 (100%)** on benchmark v1.1 after fixing A13. A13 now returns category percentage margin instead of product-level profit and is pinned by a regression test. |
 | FastAPI Gemini-backed analyst | **NOT VERIFIED** for real provider execution — source + mocked test only | Python computes KPIs and source code asks Gemini to interpret them. No local `GEMINI_API_KEY` was available, no Vercel production environment variables exist, and this backend is not deployed to Vercel. |
 | FastAPI database-executing NL-to-SQL | **VERIFIED** within recorded local source/test scope; **NOT VERIFIED** as a deployed provider service | Deterministic query templates, AST validation and database execution exist in FastAPI source and have local tests. This is a separate path from the Gemini interpretation endpoint and is not part of the static Vercel deployment. |
 | Credential exposure | **VERIFIED** — source/audit evidence | No credentials are reproduced here. The release audit records zero secret-scan findings; no API key was printed or configured during this evaluation. |
@@ -59,38 +59,38 @@ The standalone [`scripts/nl_to_sql.py`](../scripts/nl_to_sql.py) evaluated below
 ## 3. Fallback evaluation results
 
 **Committed test evidence:** [`evals/results_fallback.json`](../evals/results_fallback.json), [`reports/ai_eval_report.md`](../reports/ai_eval_report.md), and [`evals/run_eval.py`](../evals/run_eval.py).<br>
-**Committed run:** 2026-11-19T08:25:10+00:00 · **mode:** `fallback` · **benchmark:** v1.1, 37 questions, four classes.
+**Committed run:** 2026-11-20T03:20:20+00:00 · **mode:** `fallback` · **benchmark:** v1.1, 37 questions, four classes.
 
 The harness evaluates `scripts/nl_to_sql.py::answer_question`, not the six Vercel templates and not the FastAPI Gemini endpoint. Ground truth is independently computed with pandas from `data/processed/master_orders.csv`; it is not supplied by the system under test.
 
 | Metric | Baseline | Current fallback | Status |
 |---|---:|---:|---|
-| Overall execution accuracy | 18/37 = 48.6% | **36/37 = 97.3%** | **FAILED-UNRESOLVED** overall because one case remains |
-| Simple aggregation | — | **12/13 = 92.3%** | **FAILED-UNRESOLVED**: A13 |
+| Overall execution accuracy | 18/37 = 48.6% | **37/37 = 100.0%** | **VERIFIED** on this benchmark |
+| Simple aggregation | — | **13/13 = 100%** | **VERIFIED** on this benchmark |
 | Segment breakdown | — | **10/10 = 100%** | **VERIFIED** in this harness |
 | Time intelligence | — | **9/9 = 100%** | **VERIFIED** in this harness |
 | Refusal correctness | 4/5 = 80% | **5/5 = 100%** | **VERIFIED** in this harness |
 | Fabricated numbers on unanswerable questions | **1** | **0** | **VERIFIED** in this harness |
-| Latency p50 / p95 | — | **511.4 ms / 532.0 ms** | **VERIFIED** for this committed local fallback run only |
+| Latency p50 / p95 | — | **632.0 ms / 699.0 ms** | **VERIFIED** for this committed local fallback run only |
 
 The baseline’s fabricated next-year revenue answer reused historical all-time revenue; the current fallback refuses that unsupported forecast request. Latency is harness latency, not Gemini latency, public Vercel latency, or concurrent-load performance.
 
-### Sole current regression failure — A13
+### A13 — resolved regression (was the sole failure)
 
-**FAILED-UNRESOLVED — recorded test evidence.**
+**VERIFIED fixed — recorded test evidence.**
 
 | Field | Evidence |
 |---|---|
 | Question | “Which product line gives us the best percentage profit?” |
 | Variant / class | Paraphrase / `simple_aggregation` |
-| Actual SQL grain | `product_name`, `SUM(profit)` — top product by total profit |
-| Expected grain | `category`, percentage margin |
-| Harness detail | `no column matching ['category'] in ['product_name', 'profit']` |
-| Record | A13 in [`evals/results_fallback.json`](../evals/results_fallback.json) |
+| Root cause | The highest-profit-product rule matched `product` + `best` before any category-margin rule, and the margin rule required the literal words `margin` or `category`. |
+| Fix | A category/product-line percentage-profit rule now runs before the highest-profit-product rule and returns `category` + `margin_pct`. |
+| Regression test | `tests/test_nl_to_sql.py::TestResultAccuracy::test_product_line_percentage_profit_is_margin` asserts the category grain, `margin_pct`, and the verified top category (Sports). |
+| Record | A13 in [`evals/results_fallback.json`](../evals/results_fallback.json): `passed: true`, “correct extreme: Sports”. |
 
-This is a wrong-grain answer to an uncovered paraphrase, not a passing result and not evidence of a resolved regression. A repair should add a focused A13 regression assertion for category percentage margin, preserve canonical category-margin cases, then rerun the 37-case evaluation and the project suite. Separately, `--mode llm` must be run and reported before making any provider-quality comparison.
+The rerun scores 37/37. The question, expected ground truth, and benchmark were not changed; only the fallback routing was repaired.
 
-**Do not overclaim:** 97.3% is the deterministic fallback harness score. It is not proof of live Gemini quality, open-ended language coverage, production security, or the behavior of the six-question public template router. The eval gate enforces a floor; it does not require 37/37.
+**Do not overclaim:** 100% is the deterministic fallback harness score on this 37-question benchmark. It is not proof of live Gemini quality, open-ended language coverage, production security, or the behavior of the six-question public template router. The eval gate still enforces a 0.90 floor rather than requiring a perfect score.
 
 ## 4. Source safety review and its limits
 
@@ -108,6 +108,6 @@ FastAPI refusals return `is_safe=True`, empty SQL, zero rows, and explicit refus
 ## 5. Final AI release statement
 
 - **VERIFIED:** the public analyst is an honestly disclosed deterministic template experience with visible SQL and curated grounded answers.
-- **FAILED-UNRESOLVED:** fallback A13 remains the sole failure in the recorded 37-case run.
+- **VERIFIED:** the fallback engine scores 37/37 on benchmark v1.1, with 100% refusal correctness and zero fabricated numbers; A13 is fixed and pinned by a regression test.
 - **NOT VERIFIED:** real Gemini provider execution/quality/security, provider-backed NL generation, and any deployed FastAPI AI service. Mocked tests and fallback scores are not substitutes for those checks.
 - The real Gemini-backed interpretation and database-executing NL-to-SQL implementations remain source-side capabilities, not features of the public Vercel deployment.

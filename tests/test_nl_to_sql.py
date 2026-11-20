@@ -82,6 +82,15 @@ class TestResultAccuracy:
         # Sports is the verified top-margin category at 56.5%
         assert r["result"][0]["category"] == "Sports"
 
+    def test_product_line_percentage_profit_is_margin(self):
+        """A13 regression: "percentage profit" means margin %, not absolute profit."""
+        r = answer_question(
+            "Which product line gives us the best percentage profit?", use_llm=False)
+        assert r["ok"]
+        row = r["result"][0]
+        assert "category" in row and "margin_pct" in row
+        assert row["category"] == "Sports"
+
 
 class TestGuardrails:
     """The system must never hide failures or invent results."""

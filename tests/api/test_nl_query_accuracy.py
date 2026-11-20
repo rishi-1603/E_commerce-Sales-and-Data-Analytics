@@ -62,6 +62,7 @@ async def test_aggregates_match_the_database(async_client):
     for question, (column, value) in expected.items():
         data = await _ask(async_client, question)
         assert data["is_safe"] is True, question
+        assert data["refused"] is False, question
         assert data["row_count"] == 1, question
         assert data["data"][0][column] == pytest.approx(value, rel=1e-6), question
 
@@ -96,6 +97,7 @@ async def test_status_distribution_is_available_when_asked(async_client):
 async def test_unsupported_questions_are_refused(async_client, question):
     data = await _ask(async_client, question)
     assert data["generated_sql"] == ""
+    assert data["refused"] is True
     assert data["row_count"] == 0
     assert data["data"] == []
     assert data["explanation"].startswith("Refused:")

@@ -1,8 +1,8 @@
 {
   "project": "E-Commerce Sales & Customer Analytics Platform",
   "repository": "https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics",
-  "last_updated": "2026-11-19",
-  "verified_ci_tests": 272,
+  "last_updated": "2026-11-20",
+  "verified_ci_tests": 273,
   "claims": [
     {
       "metric_id": "ecom_sales_revenue",
@@ -91,20 +91,20 @@
     {
       "metric_id": "ecom_nl_to_sql_accuracy",
       "display_name": "NL-to-SQL Benchmark Accuracy",
-      "value": 97.3,
-      "formatted_value": "97.3% (36/37 questions)",
+      "value": 100.0,
+      "formatted_value": "100.0% (37/37 questions)",
       "unit": "Percentage",
       "population": "Benchmark v1.1 — 37 retail analytics questions, mode=fallback",
       "definition": "Execution accuracy with independent pandas ground truth (computed from data/processed/master_orders.csv, never from the system under test); refusals scored separately",
       "source_file": "scripts/nl_to_sql.py, evals/run_eval.py",
       "test_file": "tests/test_nl_to_sql.py, tests/test_ai_eval.py",
-      "limitations": "100% refusal correctness and 0 fabricated numbers on the benchmark; the single failure is published in reports/ai_eval_report.md"
+      "limitations": "100% refusal correctness and 0 fabricated numbers on the benchmark; A13 fixed with regression test"
     },
     {
       "metric_id": "ecom_automated_ci_tests",
       "display_name": "Automated CI Test Suite",
-      "value": 272,
-      "formatted_value": "272 Passing Tests",
+      "value": 273,
+      "formatted_value": "273 Passing Tests",
       "unit": "Tests",
       "population": "Full automated test suite",
       "definition": "pytest tests/ execution in GitHub Actions CI (Python 3.11)",

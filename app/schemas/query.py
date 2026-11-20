@@ -8,6 +8,10 @@ class NLQueryResponse(BaseModel):
     question: str
     generated_sql: str
     is_safe: bool
+    refused: bool = Field(
+        default=False,
+        description="True when the question was outside the supported scope and no SQL was generated or executed.",
+    )
     row_count: int
     data: List[Dict[str, Any]]
     explanation: str

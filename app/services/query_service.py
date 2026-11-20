@@ -250,6 +250,7 @@ class QueryService:
                 question=question,
                 generated_sql="",
                 is_safe=True,
+                refused=True,
                 row_count=0,
                 data=[],
                 explanation=(

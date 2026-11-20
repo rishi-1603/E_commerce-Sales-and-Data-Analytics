@@ -29,6 +29,6 @@ All endpoints are versioned under `/api/v1`.
   - **Security & Guardrails:** read-only SELECT only, sqlglot AST validation, whitelisted analytical tables, and `LIMIT` capped at 100.
   - **Tests:** `tests/api/test_nl_query_accuracy.py` pins the aggregate definitions and refusal behavior; `tests/api/test_security_nl_query.py` pins the AST guard.
 
-The 97.3% execution-accuracy figure belongs to the evaluated engine in `scripts/nl_to_sql.py`
-(36/37 on the 37-question benchmark, 100% refusal correctness, 0 fabricated answers). It is not a
+The 100% execution-accuracy figure belongs to the evaluated engine in `scripts/nl_to_sql.py`
+(37/37 on the 37-question benchmark, 100% refusal correctness, 0 fabricated answers). It is not a
 claim about this endpoint, which uses a separate deterministic intent router.

@@ -21,7 +21,8 @@ from datetime import datetime
 from dataclasses import dataclass, asdict
 
 import pandas as pd
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 from app.core.config import settings
 
@@ -88,19 +89,12 @@ class AnalyticsAIService:
 
     @classmethod
     def _get_gemini(cls):
-        """Lazy-initialize Gemini model."""
+        """Lazy-initialize the Gemini client."""
         if cls._gemini_model is None:
             api_key = os.getenv("GEMINI_API_KEY")
             if not api_key:
                 raise ValueError("GEMINI_API_KEY environment variable not set")
-            genai.configure(api_key=api_key)
-            cls._gemini_model = genai.GenerativeModel(
-                "gemini-3.8-flash",
-                generation_config=genai.GenerationConfig(
-                    temperature=0.3,
-                    max_output_tokens=2048,
-                ),
-            )
+            cls._gemini_model = genai.Client(api_key=api_key)
         return cls._gemini_model
 
     @classmethod
@@ -383,14 +377,21 @@ Provide a professional business analysis following the structure above."""
 
         # 2. Get Gemini interpretation
         try:
-            model = cls._get_gemini()
+            client = cls._get_gemini()
             system_prompt, user_prompt = cls._build_gemini_prompt(analysis)
 
-            response = model.generate_content([
-                {"role": "user", "parts": [system_prompt]},
-                {"role": "model", "parts": ["Understood. I will provide professional business analysis based only on the verified numbers you provide."]},
-                {"role": "user", "parts": [user_prompt]},
-            ])
+            response = client.models.generate_content(
+                model="gemini-3.8-flash",
+                contents=[
+                    {"role": "user", "parts": [system_prompt]},
+                    {"role": "model", "parts": ["Understood. I will provide professional business analysis based only on the verified numbers you provide."]},
+                    {"role": "user", "parts": [user_prompt]},
+                ],
+                config=types.GenerateContentConfig(
+                    temperature=0.3,
+                    max_output_tokens=2048,
+                ),
+            )
 
             gemini_text = response.text if response.text else "Analysis completed but LLM response was empty."
         except Exception as e:

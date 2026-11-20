@@ -1,12 +1,12 @@
 # Public Release Readiness
 
-**Date:** 2026-11-19<br>
+**Date:** 2026-11-20<br>
 **Overall verdict:** **RELEASE-READY WITH DISCLOSURES** for the public synthetic-data portfolio scope<br>
 **Known unresolved P0/P1:** **none**<br>
-**Code evidence SHA:** `890f66f`<br>
+**Code evidence SHA:** `890f66f` plus the A13 fix committed after it<br>
 **Production:** https://ecomanalytics-dashboard.vercel.app/
 
-The follow-up documentation commit SHA is intentionally not guessed: identify it with `git log` after the documentation commit. CI/deployment results below attach to code SHA `890f66f`, not to an invented docs SHA.
+The follow-up commit SHA is intentionally not guessed: identify it with `git log` after the commit. CI/deployment results below attach to code SHA `890f66f` unless a newer run is cited.
 
 **Status terms:** **VERIFIED** = supported by the named source, test, live, or deployment evidence; **FAILED-UNRESOLVED** = a reproduced failure remains; **NOT VERIFIED** = execution or access evidence is insufficient. Source inspection, tests, live browser checks, and deployment evidence are not interchangeable.
 
@@ -14,30 +14,30 @@ The follow-up documentation commit SHA is intentionally not guessed: identify it
 
 | Gate | Status | Evidence and scope |
 |---|---|---|
-| Source and local regression | **VERIFIED** — test | **272 pytest tests passed** on a fresh regenerated, CI-equivalent copy; collection independently reported 272. See [TEST_REPORT.md](TEST_REPORT.md) and [COMPLETE_PROJECT_QA_REPORT.md](COMPLETE_PROJECT_QA_REPORT.md). |
+| Source and local regression | **VERIFIED** — test | **273 pytest tests passed** on the final local run after the A13 fix. See [TEST_REPORT.md](TEST_REPORT.md) and [COMPLETE_PROJECT_QA_REPORT.md](COMPLETE_PROJECT_QA_REPORT.md). |
 | Real CI gate | **VERIFIED** — test/deployment API evidence | GitHub Actions `test` succeeded on Python 3.11 at code SHA `890f66f` (run `44496785646`, job `135465903572`). This is real CI evidence, not a claimed local Linux reproduction. |
 | Four check runs | **VERIFIED** — deployment/check-runs evidence | At code SHA `890f66f`: GitHub `test` plus Vercel `build`, `deploy`, and `report-build-status` all concluded `success`. These are four check runs, not four repetitions of pytest. |
-| Public dashboard behavior | **VERIFIED** — live | **96/96 standalone live checks passed** across the recorded browser run: 12 pages, 15 charts, zero console errors, and responsive checks. The 96 checks are separate from the 272 pytest tests. |
+| Public dashboard behavior | **VERIFIED** — live | **96/96 standalone live checks passed** across the recorded browser run: 12 pages, 15 charts, zero console errors, and responsive checks. The 96 checks are separate from the 273 pytest tests. |
 | Chart data | **VERIFIED** — live + independent recomputation | **22/22 chart series reconcile** with independently recomputed values. This is a series count, not a claim that only 22 charts exist. |
 | Deployment identity/content | **VERIFIED** — deployment | Deployment `dpl_5kbUkqNcA2KFovP8hgpKrY7Zjedg` is Ready and serves `890f66f`. Canonical live responses exactly equal the LF-normalized local canonical dashboard bytes (127,506 bytes). |
 | Security/dependency audit | **VERIFIED** within recorded scan/test scope | CORS wildcard-with-credentials was removed and regression-tested; secret scan reported zero findings; requirements audit reported no known vulnerabilities. No credentials are exposed in these reports. |
 | Public AI analyst | **VERIFIED** as a bounded deterministic feature — source + live + deployment | Six curated grounded answers, visible SQL, and refusal of arbitrary prompts. It is not Gemini and does not call FastAPI. See [AI_ANALYST_EVALUATION.md](AI_ANALYST_EVALUATION.md). |
-| Offline AI fallback quality | **FAILED-UNRESOLVED** — test | Fallback scores 36/37 (97.3%), with A13 still returning product-level profit for a category-margin paraphrase. This is not a live Gemini score and is not presented as resolved. |
+| Offline AI fallback quality | **VERIFIED** — test | Fallback scores **37/37 (100%)** on benchmark v1.1 after the A13 fix, with 100% refusal correctness and zero fabricated numbers. A regression test pins the category-margin answer. This is not a live Gemini score. |
 | Real Gemini provider | **NOT VERIFIED** — credential/deployment limit | FastAPI Gemini source and mocked tests exist, but no local `GEMINI_API_KEY` or Vercel production environment variables were available. The FastAPI backend is not deployed to Vercel. |
 
 The release verdict means the audited static portfolio and its documented source/test evidence are suitable to publish with these caveats. It is not a guarantee of production business impact, provider quality, real campaign returns, or every unexecuted runtime.
 
-## 2. Issue register reconciliation — exactly 24 entries
+## 2. Issue register reconciliation — exactly 25 entries
 
-Authoritative defect details and regression evidence: [QA_REMEDIATION_LOG.md](QA_REMEDIATION_LOG.md). Investigated non-defects are separate and are not counted in these 24 entries.
+Authoritative defect details and regression evidence: [QA_REMEDIATION_LOG.md](QA_REMEDIATION_LOG.md). Investigated non-defects are separate and are not counted in these 25 entries.
 
 | Severity | Fixed | Documented limitation | Open | Total |
 |---|---:|---:|---:|---:|
 | P0 | 1 | 0 | 0 | **1** |
-| P1 | 5 | 0 | 0 | **5** |
+| P1 | 6 | 0 | 0 | **6** |
 | P2 | 8 | 1 (AN-01) | 0 | **9** |
-| P3 | 3 | 0 | 6 | **9** |
-| **Total** | **17** | **1** | **6** | **24** |
+| P3 | 7 | 0 | 2 | **9** |
+| **Total** | **22** | **1** | **2** | **25** |
 
 | # | ID | Severity | Disposition | Evidence layer / concise outcome |
 |---:|---|---|---|---|
@@ -47,26 +47,27 @@ Authoritative defect details and regression evidence: [QA_REMEDIATION_LOG.md](QA
 | 4 | SEC-01 | P1 | Fixed | Source + regression tests; unsafe CORS reflection removed |
 | 5 | DATA-01 | P1 | Fixed | Source artifacts + registry tests + live value; win-back claims reconciled |
 | 6 | DATA-02 | P1 | Fixed | Source artifacts + tests + live answer; holdout/CV and split wording corrected |
-| 7 | DASH-03 | P2 | Fixed | Live Chart.js configuration; margin axis starts at zero |
-| 8 | DASH-04 | P2 | Fixed | Live DOM; model card names cross-validation protocol |
-| 9 | DASH-05 | P2 | Fixed | Live DOM; churn horizon separated from model-selection protocol |
-| 10 | DASH-06 | P2 | Fixed | Live DOM; forecast band labeled indicative with 9.5% coverage |
-| 11 | DOC-01 | P2 | Fixed | Documentation aligned to observed 272-test and 96-live-check evidence |
-| 12 | DOC-02 | P2 | Fixed | Collection + registry agreement; public test count aligned to 272 |
-| 13 | DOC-03 | P2 | Fixed | Local-only audit guidance reconciled with artifacts and canonical dashboard input |
-| 14 | SEC-02 | P2 | Fixed | Placeholder credentials removed; secret scan reports zero findings |
-| 15 | AN-01 | P2 | **Documented limitation** | Forecast uncertainty remains under-covered and honestly labeled; not re-engineered |
-| 16 | REPO-01 | P3 | Fixed | Source references checked; debris removed and regression run passed |
-| 17 | REPO-02 | P3 | Fixed | Duplicate weaker live suite removed; single 96-check suite retained |
-| 18 | TECH-02 | P3 | Fixed (local environment) | Installer upgraded; local and requirements audits clean |
-| 19 | VERCEL-01 | P3 | **Open** | Two auto-generated hosts return non-app responses; canonical app unaffected |
-| 20 | VERCEL-02 | P3 | **Open** | Four Vercel projects point at the same repository |
-| 21 | TECH-01 | P3 | **Open** | Deprecated `google.generativeai` remains in FastAPI source |
-| 22 | CI-01 | P3 | **Open** | Node 20 deprecation annotation remains on successful CI run |
-| 23 | SQL-01 | P3 | **Open** | SQL 09–12 use alternate equivalent contract-header wording |
-| 24 | API-01 | P3 | **Open** | Refusal responses use semantically ambiguous `is_safe=True` |
+| 7 | AI-01 | P1 | Fixed | Source fix + regression test; A13 returns category percentage margin; 37/37 eval, 0 fabricated |
+| 8 | DASH-03 | P2 | Fixed | Live Chart.js configuration; margin axis starts at zero |
+| 9 | DASH-04 | P2 | Fixed | Live DOM; model card names cross-validation protocol |
+| 10 | DASH-05 | P2 | Fixed | Live DOM; churn horizon separated from model-selection protocol |
+| 11 | DASH-06 | P2 | Fixed | Live DOM; forecast band labeled indicative with 9.5% coverage |
+| 12 | DOC-01 | P2 | Fixed | Documentation aligned to observed test and 96-live-check evidence |
+| 13 | DOC-02 | P2 | Fixed | Collection + registry agreement; public test count aligned |
+| 14 | DOC-03 | P2 | Fixed | Local-only audit guidance reconciled with artifacts and canonical dashboard input |
+| 15 | SEC-02 | P2 | Fixed | Placeholder credentials removed; secret scan reports zero findings |
+| 16 | AN-01 | P2 | **Documented limitation** | Forecast uncertainty remains under-covered and honestly labeled; not re-engineered |
+| 17 | REPO-01 | P3 | Fixed | Source references checked; debris removed and regression run passed |
+| 18 | REPO-02 | P3 | Fixed | Duplicate weaker live suite removed; single 96-check suite retained |
+| 19 | TECH-02 | P3 | Fixed (local environment) | Installer upgraded; local and requirements audits clean |
+| 20 | VERCEL-01 | P3 | **Open** | Two auto-generated hosts return non-app responses; canonical app unaffected |
+| 21 | VERCEL-02 | P3 | **Open** | Four Vercel projects point at the same repository |
+| 22 | TECH-01 | P3 | Fixed | Source/mock tests; `google-genai` client + config; real provider still NOT VERIFIED |
+| 23 | CI-01 | P3 | Fixed | `checkout@v7` / `setup-python@v7`; the next CI run is the confirming gate |
+| 24 | SQL-01 | P3 | Fixed | Static audit; all 12 analysis scripts use the canonical header trio |
+| 25 | API-01 | P3 | Fixed | API tests; explicit `refused` flag on refusal responses |
 
-The separate fallback A13 evaluation failure is disclosed in [AI_ANALYST_EVALUATION.md](AI_ANALYST_EVALUATION.md); it is not relabeled as a fixed item or used to inflate this register.
+AI-01 records the former fallback A13 failure and its verified repair; the benchmark question and ground truth were unchanged. Details: [AI_ANALYST_EVALUATION.md](AI_ANALYST_EVALUATION.md).
 
 ### Six open P3 items — complete enumeration
 
@@ -79,7 +80,7 @@ The separate fallback A13 evaluation failure is disclosed in [AI_ANALYST_EVALUAT
 | **SQL-01** | SQL scripts 09–12 use `Purpose` / `Why` / `Verified` instead of `Business Question` / `Why It Matters` / `Key Insight`. Static audit found eight canonical and four alternate headers with none missing; wording consistency only. |
 | **API-01** | NL-to-SQL refusals return `is_safe=True`, empty SQL, zero rows, and explicit refusal text. Nothing executes, but the flag describes query safety rather than answer success; semantics remain open and documented. |
 
-**No known unresolved P0/P1 remains. Six P3 items do remain open. No settings were changed.**
+**No known unresolved P0/P1 remains. Two P3 Vercel account items remain open pending authorization; all code-level P3 items are fixed. No settings were changed.**
 
 ## 3. Analytical limitations that ship with the release
 
@@ -122,7 +123,7 @@ No win-back campaign has been run. Sensitivity cases disclose how results change
 
 The public Vercel analyst is a deterministic in-browser template router with visible SQL and curated grounded answers. It is **not real Gemini** and **not the FastAPI provider**. Real Gemini-backed interpretation and database-executing NL-to-SQL remain source-side capabilities outside the static Vercel deployment.
 
-The committed offline fallback eval from **2026-11-19T08:25:10+00:00** is **36/37 = 97.3%**, with 12/13 simple aggregation, 10/10 segment breakdown, 9/9 time intelligence, 5/5 refusal, zero fabricated numbers, p50 511.4 ms and p95 532.0 ms. Baseline was 18/37 = 48.6%, with 80% refusal correctness and one fabricated answer. **A13 remains FAILED-UNRESOLVED.** These figures evaluate the fallback harness only; they do not certify live Gemini quality or security. Full evidence and safety boundaries: [AI_ANALYST_EVALUATION.md](AI_ANALYST_EVALUATION.md).
+The committed offline fallback eval from **2026-11-20T03:20:20+00:00** is **37/37 = 100.0%**, with 13/13 simple aggregation, 10/10 segment breakdown, 9/9 time intelligence, 5/5 refusal, zero fabricated numbers, p50 632.0 ms and p95 699.0 ms. Baseline was 18/37 = 48.6%, with 80% refusal correctness and one fabricated answer. A13 was fixed at the routing level and is pinned by a regression test; the benchmark question and ground truth were unchanged. These figures evaluate the fallback harness only; they do not certify live Gemini quality or security. Full evidence and safety boundaries: [AI_ANALYST_EVALUATION.md](AI_ANALYST_EVALUATION.md).
 
 ## 5. Explicitly NOT VERIFIED
 
@@ -149,6 +150,6 @@ The committed offline fallback eval from **2026-11-19T08:25:10+00:00** is **36/3
 
 ## 7. Final statement
 
-**RELEASE-READY WITH DISCLOSURES.** The code at `890f66f` has recorded local/CI regression evidence and matching live deployment evidence; no known unresolved P0/P1 remains. Six open P3 items, AN-01, the unresolved fallback A13 case, modest churn performance, assumption-driven win-back economics, and every NOT VERIFIED boundary remain visible.
+**RELEASE-READY WITH DISCLOSURES.** The code at `890f66f` plus the A13 fix has recorded local regression evidence and matching live deployment evidence; no known unresolved P0/P1 remains. Open P3 items, AN-01, modest churn performance, assumption-driven win-back economics, and every NOT VERIFIED boundary remain visible. The fallback benchmark is now 37/37 with zero fabricated answers.
 
 No settings were changed, no credentials are exposed, and no commit SHA for the follow-up documentation commit is invented; use `git log` after commit to identify it.

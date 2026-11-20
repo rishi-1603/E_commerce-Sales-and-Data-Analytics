@@ -1,9 +1,9 @@
 # TEST REPORT — E-Commerce
-### Last full local run: 2026-11-19 — 272/272 passed (96.35s, Python 3.12 venv, `pytest tests/ -q`)
+### Last full local run: 2026-11-20 — 273/273 passed (131.71s, Python 3.12 venv, `pytest tests/ -q`)
 
 The run was executed on a CI-equivalent copy (tracked files only, no `.env`, no `.venv`)
 after regenerating the dataset and every analytics artifact from source, mirroring the
-GitHub Actions step order. Collection independently re-confirmed: `272 tests collected`.
+GitHub Actions step order. Collection independently re-confirmed: `273 tests collected`.
 
 ## Suites
 
@@ -22,18 +22,18 @@ GitHub Actions step order. Collection independently re-confirmed: `272 tests col
 | Win-back economics | test_winback_economics.py | eligible audience, EV per contact, budget sensitivity |
 | Revenue PVM | test_revenue_pvm.py | price/volume/mix decomposition |
 | NL-to-SQL | test_nl_to_sql.py | eval harness invariants |
-| AI eval | test_ai_eval.py | benchmark results (97.3%, 0 fabricated) |
+| AI eval | test_ai_eval.py | benchmark results (100%, 0 fabricated) |
 | AI service + API | test_analytics_ai_service.py | analyst endpoint, honest no-key fallback, CORS regression (unlisted origin gets no `Access-Control-Allow-Origin`) |
 | API NL accuracy | tests/api/test_nl_query_accuracy.py | aggregate definitions, refusal of off-scope questions |
 | API SQL guard | tests/api/test_security_nl_query.py | AST whitelist, read-only, LIMIT cap |
 | API surface | tests/api/test_health.py, test_analytics.py, test_orders.py, test_idempotency.py | health, analytics responses, order pagination/validation, create-order idempotency |
 | Reporting artifacts | test_business_reporting_workbook.py, test_excel_companion.py, test_business_value_engine.py | workbook/Excel outputs, business-value decision record |
 
-## Live browser suite (separate from the 272)
+## Live browser suite (separate from the 273)
 
 `tests/test_live_vercel.py` is a **standalone script** (`python tests/test_live_vercel.py`,
 optionally `VERCEL_URL=...`). It contains no `test_*` functions, so pytest collects 0 tests
-from it by design; it is not part of the 272 and must not be counted as such.
+from it by design; it is not part of the 273 and must not be counted as such.
 
 Latest result against production (2026-11-19): **96 passed / 0 failed** across
 Chromium, Firefox and WebKit — 12 nav pages, 0 console errors, no horizontal overflow at

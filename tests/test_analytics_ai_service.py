@@ -164,11 +164,11 @@ class TestGeminiIntegration:
     @patch("app.services.analytics_ai_service.genai")
     def test_ask_returns_structured_response(self, mock_genai):
         # Mock the Gemini response
-        mock_model = MagicMock()
+        mock_client = MagicMock()
         mock_response = MagicMock()
         mock_response.text = "Test business analysis from Gemini."
-        mock_model.generate_content.return_value = mock_response
-        mock_genai.GenerativeModel.return_value = mock_model
+        mock_client.models.generate_content.return_value = mock_response
+        mock_genai.Client.return_value = mock_client
 
         # Need to reset the class variable
         AnalyticsAIService._gemini_model = None
@@ -186,9 +186,9 @@ class TestGeminiIntegration:
 
     @patch("app.services.analytics_ai_service.genai")
     def test_ask_handles_gemini_error_gracefully(self, mock_genai):
-        mock_model = MagicMock()
-        mock_model.generate_content.side_effect = Exception("API timeout")
-        mock_genai.GenerativeModel.return_value = mock_model
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = Exception("API timeout")
+        mock_genai.Client.return_value = mock_client
         AnalyticsAIService._gemini_model = None
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):

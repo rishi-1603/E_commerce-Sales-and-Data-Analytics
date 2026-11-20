@@ -17,11 +17,11 @@ Evidence reviewed: `tests/test_live_vercel.py`, `docs/TEST_REPORT.md`, `docs/COM
 
 | Evidence stream | Result | Boundary |
 |---|---:|---|
-| Repository pytest suite | **VERIFIED — 272/272 passed** | `python -m pytest tests/ -q`; 272 tests collected. Local and GitHub Actions results are recorded in `docs/TEST_REPORT.md`. |
+| Repository pytest suite | **VERIFIED — 273/273 passed** | `python -m pytest tests/ -q`; 273 tests collected. Local and GitHub Actions results are recorded in `docs/TEST_REPORT.md`. |
 | Standalone live browser script | **VERIFIED — 96/96 checks passed** | `python tests/test_live_vercel.py`; a standalone script with no `test_*` functions. Pytest collects zero tests from it. |
 | Independent series reconciliation | **VERIFIED — 22/22 passed** | A separate source-artifact/raw-data reconciliation, not an additional pytest or browser-test count. |
 
-The **96 browser checks and 272 pytest tests are separate and are never added together**. The 22 reconciled series are likewise not added to either total.
+The **96 browser checks and 273 pytest tests are separate and are never added together**. The 22 reconciled series are likewise not added to either total.
 
 The 96-check total decomposes as three browsers × 32 counted checks: one page load, 15 KPI content checks, four initially visible Overview chart checks, and 12 navigation checks per browser. Responsive observations and hidden-canvas warnings do not increment that script's pass counter.
 

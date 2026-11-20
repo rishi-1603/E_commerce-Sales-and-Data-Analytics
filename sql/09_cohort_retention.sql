@@ -2,9 +2,11 @@
 --  09_cohort_retention.sql
 --  E-Commerce Analytics — Cohort Retention Matrix
 --
---  Purpose : Group customers by first-purchase month and measure
---            how many are still active k months later. The
---            retention view every growth review starts with.
+--  Business Question: How many customers from each first-purchase
+--            month are still active k months later?
+--  Why It Matters:   Retention compounds — a point of month-1
+--            retention is worth more than a point of acquisition
+--            at this scale.
 --
 --  Definition (must match data/metrics.json):
 --    purchase   = order with status Delivered or Returned
@@ -14,7 +16,7 @@
 --    retention  = % of cohort with >=1 purchase k months after
 --                 the cohort month (M0 = 100% by definition)
 --
---  Verified pattern (Python: scripts/decision_layer.py):
+--  Key Insight (Python: scripts/decision_layer.py):
 --    month-1 retention rises from ~15-28% (2023 cohorts) to
 --    55-88% (late 2024) — retention improves with business
 --    maturity. Decision: invest in the onboarding window that

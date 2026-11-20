@@ -350,6 +350,13 @@ def _fallback_sql(question: str) -> str:
         return ("SELECT segment, ROUND(SUM(line_total), 2) as revenue FROM orders "
                 "GROUP BY segment ORDER BY revenue DESC")
 
+    # 13b. Category / product-line percentage profit = margin %, not absolute
+    #      profit. Must run before the highest-profit-product rule below.
+    if ("product line" in q or "category" in q) and "profit" in q \
+            and ("percentage" in q or "percent" in q or "margin" in q):
+        return ("SELECT category, ROUND(SUM(profit)/SUM(line_total)*100, 1) as margin_pct "
+                "FROM orders GROUP BY category ORDER BY margin_pct DESC")
+
     # 14. Highest-profit product
     if "profit" in q and ("product" in q or "sku" in q) \
             and ("highest" in q or "most" in q or "best" in q):

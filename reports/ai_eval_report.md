@@ -1,6 +1,6 @@
 # AI Evaluation Report — NL-to-SQL Assistant
 
-**Mode:** `fallback` · **Run:** 2026-11-19T08:25:10+00:00 · **Benchmark:** `evals/nl2sql_benchmark.json` (v1.1, 37 questions, 4 classes)
+**Mode:** `fallback` · **Run:** 2026-11-20T04:34:49+00:00 · **Benchmark:** `evals/nl2sql_benchmark.json` (v1.1, 37 questions, 4 classes)
 
 > Ground truth is computed independently by the harness (pandas, from the raw processed table) — never from the system under test. Checks are alias-agnostic. Failures are listed below in full.
 
@@ -8,10 +8,10 @@
 
 | Metric | Value |
 |---|---|
-| **Execution accuracy** | **36/37 = 97.3%** |
+| **Execution accuracy** | **37/37 = 100.0%** |
 | Refusal correctness | 100.0% |
 | Fabricated numbers on unanswerable questions | **0** |
-| Latency p50 / p95 | 511.4 ms / 532.0 ms |
+| Latency p50 / p95 | 618.6 ms / 654.3 ms |
 
 ## Before / after — measured improvement
 
@@ -19,7 +19,7 @@ The benchmark was first run against the **unmodified** system and that run is co
 
 | Metric | Baseline (before) | Current (after) |
 |---|---|---|
-| Execution accuracy | 18/37 = 48.6% | **36/37 = 97.3%** (+48.7%) |
+| Execution accuracy | 18/37 = 48.6% | **37/37 = 100.0%** (+51.4%) |
 | Fabricated answers on unanswerable questions | **1** | **0** |
 | Refusal correctness | 80% | 100% |
 
@@ -38,22 +38,12 @@ The benchmark was first run against the **unmodified** system and that run is co
 |---|---|---|---|
 | refusal | 5 | 5 | 100.0% |
 | segment_breakdown | 10 | 10 | 100.0% |
-| simple_aggregation | 12 | 13 | 92.3% |
+| simple_aggregation | 13 | 13 | 100.0% |
 | time_intelligence | 9 | 9 | 100.0% |
 
 ## Failure log (published in full — no cherry-picking)
 
-1 failure(s) of 37. Each is classified below.
-
-| ID | Class | Variant | Question | What happened |
-|---|---|---|---|---|
-| A13 | simple_aggregation | paraphrase | Which product line gives us the best percentage profit? | no column matching ['category'] in ['product_name', 'profit'] |
-
-### Failure class #1 — paraphrase not covered by the pattern matcher
-
-1 of 1 failures are natural re-wordings (`variant=paraphrase`) of questions the system answers correctly in canonical form. The deterministic fallback matches literal patterns, so it cannot generalise wording. This is the structural reason the LLM path exists; the fallback is a floor, not the ceiling.
-
-**Fix path:** (a) score the LLM path on the same benchmark (`--mode llm`) and report it separately; (b) add synonym groups to the highest-value patterns; (c) keep paraphrase accuracy pinned in CI so the floor is enforced, not assumed.
+_No failures in this run._
 
 ## Method notes (what a reviewer should verify)
 

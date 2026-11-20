@@ -2,17 +2,19 @@
 --  10_mom_variance.sql
 --  E-Commerce Analytics — Month-over-Month Variance Engine
 --
---  Purpose : The "What changed?" engine. Monthly revenue,
---            orders, active customers and AOV with previous-
---            period values and deltas via LAG — the exact
---            numbers the dashboard's MoM chip row displays.
+--  Business Question: What changed month over month — revenue,
+--            orders, active customers and AOV, with previous-
+--            period deltas via LAG?
+--  Why It Matters:   These are the exact numbers the dashboard's
+--            MoM chip row displays; the same revenue growth can
+--            be volume-led, price-led, or customer-led.
 --
 --  Convention (test-pinned): revenue = SUM(line_total) over VALID
 --  orders only (Delivered + Processing — the valid_orders rule used
 --  across sql/ and the dashboard). Matches DATA.monthly_revenue and
 --  tests/test_dashboard_consistency.py exactly.
 --
---  Verified (Python: scripts/decision_layer.py):
+--  Key Insight (Python: scripts/decision_layer.py):
 --    2024-11 -> 2024-12: revenue +17.0%, orders +21.3%,
 --    active customers +8.2%, AOV -3.5%.
 --    Decision: growth is order-volume-led, not price-led.

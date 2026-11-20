@@ -29,7 +29,7 @@ Headline outcome:
 - **Two genuine high-severity engineering defects were found and fixed**: five dashboard pages were rendered outside the layout container (malformed DOM), and charts overflowed horizontally on mobile. Both are fixed and verified on production.
 - **One genuine security misconfiguration fixed**: CORS wildcard combined with `allow_credentials=True`. Removed, with a regression test.
 - **The claims registry had drifted from the data** (stale win-back audience, churn metrics quoted from the wrong evaluation protocol, an unsupported "temporal split" claim). Corrected and pinned by a new 7-test anti-drift gate.
-- **Test suite: 272 passed** locally (fresh regenerated data, CI-equivalent copy) **and in GitHub Actions** on the audit commit (Python 3.11, `test` check-run conclusion `success`). A later local full-suite attempt transiently failed only the AI wall-clock p95 floor (3,316.9 ms); an immediate standalone rerun measured 750.9 ms with 12/12 AI tests passing, and the next full run passed 272/272 without code or threshold changes. The exact external contention cause is NOT VERIFIED.
+- **Test suite: 273 passed** locally (fresh regenerated data, CI-equivalent copy) **and in GitHub Actions** on the audit commit (Python 3.11, `test` check-run conclusion `success`). A later local full-suite attempt transiently failed only the AI wall-clock p95 floor (3,316.9 ms); an immediate standalone rerun measured 750.9 ms with 12/12 AI tests passing, and the next full run passed 273/273 without code or threshold changes. The exact external contention cause is NOT VERIFIED.
 - **Live deployment after the fixes: 96/96 cross-browser checks passed**, 12 pages, 15 charts, 0 console errors, **22/22 chart series reconcile** with independent recomputation.
 
 ## B. Repository and architecture
@@ -81,7 +81,7 @@ Full detail in `DASHBOARD_TEST_REPORT.md`. All 12 actual pages (Executive Overvi
 
 ## F. AI Analyst report (summary)
 
-See `AI_ANALYST_EVALUATION.md`. The **live** analyst is a deterministic built-in question set and says so in the UI ("Built-in questions only (deterministic, no API key)", "No LLM key required") — it is not presented as a live LLM. All six live answers were numerically reconciled; refusal works. The FastAPI Gemini path (real NL-to-SQL + LLM interpretation) is not deployed and could not be executed without a key: **NOT VERIFIED** for real provider calls. Eval gate: **36/37 (97.3%), refusals 100%, 0 fabricated numbers**, p95 532 ms, exit 0.
+See `AI_ANALYST_EVALUATION.md`. The **live** analyst is a deterministic built-in question set and says so in the UI ("Built-in questions only (deterministic, no API key)", "No LLM key required") — it is not presented as a live LLM. All six live answers were numerically reconciled; refusal works. The FastAPI Gemini path (real NL-to-SQL + LLM interpretation) is not deployed and could not be executed without a key: **NOT VERIFIED** for real provider calls. Eval gate: **37/37 (100%), refusals 100%, 0 fabricated numbers**, p95 699 ms, exit 0.
 
 ## G. Vercel report (summary)
 
@@ -117,9 +117,9 @@ Full review in `PUBLIC_RELEASE_READINESS.md`. The credibility risks that actuall
 
 **Open defects:** none at P0/P1/P2. P3 open items: (1) two auto-generated Vercel hostnames return HTTP 200 non-application `Login – Vercel` HTML instead of the dashboard (protection/housekeeping — settings not inspected or changed); (2) four Vercel projects deploy this same repo (housekeeping); (3) `google.generativeai` is deprecated → migrate to `google.genai` (untestable without a key); (4) Node 20 deprecation warning in CI actions; (5) SQL scripts 09–12 use an alternate but equivalent contract-header wording; (6) NL-to-SQL refusal responses keep `is_safe=True` with empty SQL — semantically ambiguous, documented, functionally safe.
 
-**Unresolved pytest failures:** none. Final evidence: 272/272 local and CI; 96/96 live browser checks; 22/22 series. One transient local AI wall-clock latency-floor failure and its successful isolated/full reruns are disclosed in §A; no pytest accuracy assertion failed. Separately, the recorded 37-case offline AI benchmark remains **36/37 with A13 FAILED-UNRESOLVED**, as detailed in `AI_ANALYST_EVALUATION.md`.
+**Unresolved pytest failures:** none. Final evidence: 273/273 local and CI; 96/96 live browser checks; 22/22 series. One transient local AI wall-clock latency-floor failure and its successful isolated/full reruns are disclosed in §A; no pytest accuracy assertion failed. The recorded 37-case offline AI benchmark is now **37/37 after the A13 fix**, as detailed in `AI_ANALYST_EVALUATION.md`.
 
-**Skipped tests:** none in the pytest run. The live browser suite is a standalone script and is reported separately, never folded into the 272.
+**Skipped tests:** none in the pytest run. The live browser suite is a standalone script and is reported separately, never folded into the 273.
 
 **NOT VERIFIED (tool/credential/access limits):**
 1. PostgreSQL execution of `sql/` — local PG 17 requires `scram-sha-256`, no credential available, `psql -w` fails with `fe_sendauth`. Static audit only (PASS). No credentials guessed, no server config changed.

@@ -66,7 +66,7 @@ in `data/processed/` (see `data/DATA_DICTIONARY.md`).
 | Business-logic sanity (positive amounts, valid categories, age ranges) | `tests/test_data_quality.py` | No impossible values |
 | 243 pytest tests, run in CI | `.github/workflows/ci.yml` | Pipeline output is reproducible on a clean checkout |
 | Dashboard pinned to pipeline output | `tests/test_dashboard_consistency.py` | No hand-typed headline can drift from the data |
-| AI assistant gated on a benchmark | `evals/run_eval.py` | 36/37 execution accuracy; refusals and fabricated answers counted |
+| AI assistant gated on a benchmark | `evals/run_eval.py` | 37/37 execution accuracy; refusals and fabricated answers counted |
 | No target leakage in churn | CV selection + OOF scores in `03_churn_analysis.py`, `scripts/churn_data.py` | Metrics are honest, not inflated |
 | Temporal churn evidence | `reports/churn_temporal_backtest.json` | 5 rolling origins; not conflated with the 80/20 split |
 | Forecast evaluated out-of-sample | `scripts/forecast_backtest.py` | Forecast skill is measured against naive baselines |

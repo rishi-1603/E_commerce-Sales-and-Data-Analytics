@@ -2,8 +2,9 @@
 --  11_order_funnel.sql
 --  E-Commerce Analytics — Order-Status Funnel
 --
---  Purpose : Where do orders leave between placed and delivered?
---            The operational-leak view.
+--  Business Question: Where do orders leave between placed and delivered?
+--  Why It Matters:   The operational-leak view — returns and
+--            cancellations are revenue-quality problems, not noise.
 --
 --  Definitions (data/metrics.json):
 --    placed    = every order row (raw orders.csv, 12,000)
@@ -15,7 +16,7 @@
 --  it is NOT subtracted from 'Delivered'. Earlier versions used a
 --  non-mutually-exclusive 'kept' subtraction; that logic has been removed.
 --
---  Verified (Python: scripts/decision_layer.py, raw orders):
+--  Key Insight (Python: scripts/decision_layer.py, raw orders):
 --    12,000 placed -> 9,312 delivered (77.6%).
 --    Exits: 844 cancelled (7.0%), 621 processing (5.2%),
 --           1,223 returned (10.2%).

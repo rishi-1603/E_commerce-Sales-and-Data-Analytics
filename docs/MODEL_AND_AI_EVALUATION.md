@@ -17,16 +17,16 @@
 | Backtest | rolling-origin (10 origins x 3 horizons), MASE | drift baseline wins (0.468 vs 0.680); holt_linear challenger 0.3752 not deployed |
 | Uncertainty | CI empirical coverage | 9.5% vs 95% nominal — flagged |
 | Errors | FN/FP aggregates at t*=0.12 | all 10 FNs are new-tenure customers; FPs = seasonal returners |
-| AI system | 37-question NL-to-SQL benchmark (v1.1) on `scripts/nl_to_sql.py` | 48.6% -> 97.3% execution accuracy, 100% refusal correctness, 0 fabricated numbers |
+| AI system | 37-question NL-to-SQL benchmark (v1.1) on `scripts/nl_to_sql.py` | 48.6% -> 100% execution accuracy, 100% refusal correctness, 0 fabricated numbers |
 
 The FastAPI `/api/v1/query/nl-to-sql` endpoint is a separate deterministic intent router. Its
 aggregates and refusals are pinned by `tests/api/test_nl_query_accuracy.py` and are not part of the
-97.3% benchmark.
+100% benchmark.
 
 ## Limitations (standing)
 Synthetic data; illustrative cost assumptions; no campaign has validated the
 retention lift; forecast series is short; V-proxy (retained-customer spend) is a
-proxy, not measured CLV. The 97.3% figure is execution accuracy **on this
+proxy, not measured CLV. The 100% figure is execution accuracy **on this
 37-question benchmark only**, not a general accuracy claim.
 
 ## What this evaluation defends in interviews

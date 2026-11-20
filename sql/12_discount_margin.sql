@@ -2,10 +2,10 @@
 --  12_discount_margin.sql
 --  E-Commerce Analytics — Discount Cost, Margin Erosion & Break-Even
 --
---  Purpose : Answer the pricing question the sales dashboard
---            never asks — is the discount we give buying us
---            anything, and what would have to be true for it
---            to be worth giving?
+--  Business Question: Is the discount we give buying us anything,
+--            and what would have to be true for it to be worth giving?
+--  Why It Matters:   The sales dashboard reports revenue; this
+--            quantifies what each discount rung costs in margin.
 --
 --  Conventions (match 01_database_schema.sql):
 --    grain           = order line items (order_items)
@@ -23,7 +23,7 @@
 --    break_even_lift    = (margin_pct_of_list at 0%)
 --                         / (margin_pct_of_list at depth) - 1
 --
---  Verified pattern (Python: python/pricing/elasticity.py):
+--  Key Insight (Python: python/pricing/elasticity.py):
 --    Measured volume response to discount depth is NOT
 --    statistically significant overall (Kruskal-Wallis p=0.305).
 --    Break-even needs +10.6% / +23.1% / +38.1% / +59.2% volume at
