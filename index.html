@@ -2059,30 +2059,72 @@ function renderInsights(){
   feed.innerHTML = items.map(it=>'<div class="wc-box wc-info"><b>'+it.obs+'</b><br><span style="font-size:12px;color:var(--muted)">Evidence: '+it.ev+'<br>Impact: '+it.impact+'<br>Recommendation: '+it.rec+'<br>Measurement: '+it.meas+'</span></div>').join('');
 }
 
-/* ---- AI Data Analyst Chat ---- */
-const AI_API_BASE = 'https://ecomanalytics-dashboard.vercel.app/api/v1'; // Vercel-deployed FastAPI
-let aiConversationHistory = [];
-let aiIsProcessing = false;
+/* ---- Offline AI Data Analyst (Client-Side, No Backend) ---- */
+const AI_KNOWLEDGE = {
+  revenue: {
+    total: 59283619.32,
+    profit: 31997341.64,
+    margin_pct: 54.0,
+    orders: 9933,
+    customers: 1991,
+    aov: 5968.35,
+    top_category: 'Sports',
+    top_region: 'West',
+    by_category: { 'Sports': 13898423.41, 'Electronics': 13631986.91, 'Clothing': 12657101.96, 'Home & Garden': 11606496.68, 'Beauty': 7489610.36 },
+    by_region: { 'West': 12271074.64, 'Central': 12213786.61, 'South': 12205785.78, 'North': 11356701.06, 'East': 11236271.23 },
+    monthly: DATA.monthly_revenue,
+    labels: DATA.monthly_labels
+  },
+  categories: {
+    labels: DATA.cat_labels,
+    revenue: DATA.cat_revenue,
+    profit: DATA.cat_profit,
+    margin: DATA.cat_margin
+  },
+  rfm: {
+    segments: DATA.seg_labels,
+    counts: DATA.seg_values,
+    risk: { low: 1156, medium: 441 }
+  },
+  churn: {
+    rate: 23.5,
+    cooling_off_customers: 441,
+    cooling_off_spend: 12998872.58,
+    inactive_180d: 376
+  },
+  forecast: {
+    next_6m: DATA.forecast_vals,
+    labels: DATA.forecast_labels,
+    total: DATA.forecast_vals.reduce((a,b)=>a+b,0),
+    monthly_growth: 3.5
+  },
+  products: {
+    top10: DATA.top10,
+    bcg: DATA.bcg
+  },
+  status: {
+    labels: DATA.status_labels,
+    values: DATA.status_vals
+  }
+};
 
 function initAIChat() {
   const input = document.getElementById('aiInput');
   const sendBtn = document.getElementById('aiSendBtn');
   if (!input || !sendBtn) return;
 
-  // Auto-resize textarea
   input.addEventListener('input', () => {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 140) + 'px';
-    sendBtn.disabled = !input.value.trim() || aiIsProcessing;
+    sendBtn.disabled = !input.value.trim();
   });
 
-  // Focus input on page load when AI page is active
   document.addEventListener('aiPageActivated', () => {
     setTimeout(() => input.focus(), 100);
   });
 }
 
-async function sendAIQuestion(presetQuestion) {
+function sendAIQuestion(presetQuestion) {
   const input = document.getElementById('aiInput');
   const sendBtn = document.getElementById('aiSendBtn');
   const messagesEl = document.getElementById('aiChatMessages');
@@ -2092,56 +2134,294 @@ async function sendAIQuestion(presetQuestion) {
   if (!input || !messagesEl) return;
 
   const question = presetQuestion || input.value.trim();
-  if (!question || aiIsProcessing) return;
+  if (!question) return;
 
-  // Disable input while processing
-  aiIsProcessing = true;
   sendBtn.disabled = true;
   input.disabled = true;
   input.value = '';
   input.style.height = 'auto';
 
-  // Hide empty state and show suggestions on first message
   if (emptyState) emptyState.style.display = 'none';
   if (suggestions) suggestions.style.display = 'flex';
 
-  // Add user message
   appendAIMessage('user', question);
-  aiConversationHistory.push({ role: 'user', content: question });
 
-  // Show typing indicator
   const typingId = showAITyping();
 
-  try {
-    const response = await fetch(`${AI_API_BASE}/ai-analyst`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question })
-    });
-
+  setTimeout(() => {
     hideAITyping(typingId);
+    const answer = generateOfflineAnswer(question);
+    appendAIMessage('assistant', answer.text, answer.meta);
+  }, 300 + Math.random() * 400);
 
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({ detail: 'Request failed' }));
-      throw new Error(err.detail || `HTTP ${response.status}`);
-    }
+  sendBtn.disabled = !input.value.trim();
+  input.disabled = false;
+  input.focus();
+}
 
-    const data = await response.json();
+function generateOfflineAnswer(question) {
+  const q = question.toLowerCase();
+  const K = AI_KNOWLEDGE;
+  const fmt = (n) => '₹' + Math.round(n).toLocaleString();
+  const fmtCr = (n) => '₹' + (n/1e7).toFixed(2) + ' Cr';
+  const fmtL = (n) => '₹' + (n/1e5).toFixed(1) + ' L';
 
-    // Add assistant message with the AI response
-    const aiText = data.gemini_response || data.analysis || 'Analysis completed.';
-    appendAIMessage('assistant', aiText, data);
-    aiConversationHistory.push({ role: 'assistant', content: aiText, meta: data });
+  // Revenue overview
+  if (/(overview|summary|how is my business|business performance|total revenue|complete)/.test(q)) {
+    const r = K.revenue;
+    return {
+      text: `**Executive Summary (Jan 2022 – Dec 2024)**
 
-  } catch (error) {
-    hideAITyping(typingId);
-    appendAIError(error.message || 'Failed to get analysis. Please try again.');
-  } finally {
-    aiIsProcessing = false;
-    sendBtn.disabled = !input.value.trim();
-    input.disabled = false;
-    input.focus();
+Your e-commerce business generated **${fmtCr(r.total)}** in total revenue across **${r.orders.toLocaleString()}** eligible orders (Delivered + Processing), with **${r.customers.toLocaleString()}** active customers.
+
+**Key Metrics:**
+- Gross Profit: **${fmtCr(r.profit)}** (${r.margin_pct}% margin)
+- Average Order Value: **${fmt(r.aov)}**
+- Top Category: **${r.top_category}** (${fmtCr(K.categories.revenue[0])})
+- Top Region: **${r.top_region}** (${fmtCr(K.revenue.by_region[r.top_region])})
+
+**Revenue by Category:**
+${Object.entries(r.by_category).map(([cat, rev]) => `• ${cat}: ${fmtCr(rev)}`).join('\n')}
+
+**Monthly Trend:** Revenue grew from ${fmtL(r.monthly[0])} in ${r.labels[0]} to ${fmtCr(r.monthly[r.monthly.length-1])} in ${r.labels[r.labels.length-1]}.
+
+**Business Status:** All five health indicators (Revenue, Profitability, Customer, Sales, Operational) show **Positive** or **Stable** ratings.
+
+*Source: Synthetic seeded dataset (12K orders, 1,991 customers, 150 SKUs, 2022–2024). Offline analysis — no LLM used.*`,
+      meta: { source: 'offline', data_period: '2022-01 to 2024-12' }
+    };
   }
+
+  // Top categories
+  if (/(top.category|which.category|best.category|category.performance)/.test(q)) {
+    const cats = K.categories;
+    return {
+      text: `**Top-Performing Categories by Revenue**
+
+1. **Sports** — ${fmtCr(cats.revenue[0])} (${cats.margin[0]}% margin)
+2. **Electronics** — ${fmtCr(cats.revenue[1])} (${cats.margin[1]}% margin)
+3. **Clothing** — ${fmtCr(cats.revenue[2])} (${cats.margin[2]}% margin)
+4. **Home & Garden** — ${fmtCr(cats.revenue[3])} (${cats.margin[3]}% margin)
+5. **Beauty** — ${fmtCr(cats.revenue[4])} (${cats.margin[4]}% margin)
+
+**Key Insight:** Sports leads by revenue (${fmtCr(cats.revenue[0])}) and has the highest margin (${cats.margin[0]}%). Beauty has the lowest margin at ${cats.margin[4]}%.
+
+*Offline analysis — all figures from synthetic dataset (Delivered + Processing orders only).*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Revenue decline / MoM
+  if (/(declin|why.*revenue|mo.m|month.over|mom)/.test(q)) {
+    const mom = DATA.decision?.mom;
+    if (mom) {
+      return {
+        text: `**Month-over-Month Analysis (${mom.prev_label} → ${mom.label})**
+
+**Revenue:** ${mom.revenue_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.revenue_delta_pct)}% (${fmtCr(mom.revenue[0])} → ${fmtCr(mom.revenue[1])})
+**Orders:** ${mom.orders_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.orders_delta_pct)}% (${mom.orders[0].toLocaleString()} → ${mom.orders[1].toLocaleString()})
+**Active Customers:** ${mom.active_customers_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.active_customers_delta_pct)}% (${mom.active_customers[0].toLocaleString()} → ${mom.active_customers[1].toLocaleString()})
+**Avg Order Value:** ${mom.aov_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.aov_delta_pct)}% (${fmt(mom.aov[0])} → ${fmt(mom.aov[1])})
+
+**Interpretation:** ${mom.revenue_delta_pct >= 0 ? 'Revenue grew' : 'Revenue declined'} driven by ${mom.orders_delta_pct >= 0 ? 'more orders' : 'fewer orders'} (${Math.abs(mom.orders_delta_pct)}%) ${mom.aov_delta_pct >= 0 ? 'with larger baskets' : 'with smaller baskets'} (${Math.abs(mom.aov_delta_pct)}% AOV change).
+
+*Offline analysis from decision layer (scripts/decision_layer.py).*`,
+      meta: { source: 'offline' }
+    };
+  }
+  return {
+    text: `**Revenue is not declining** — Dec 2024 revenue was ${fmtCr(6117260.55)}, up **17.0% MoM** from Nov 2024 (${fmtCr(5226992.76)}). Growth was driven by **21.3% more orders** (1,027 vs 847), while AOV dipped slightly (-3.5%).
+
+*Offline analysis from decision layer.*`,
+    meta: { source: 'offline' }
+  };
+  }
+
+  // Top products
+  if (/(top.product|highest.profit|most.profit|profitable.product)/.test(q)) {
+    const top5 = K.products.top10.slice(0, 5);
+    return {
+      text: `**Top 5 Products by Gross Profit**
+
+${top5.map((p, i) => `${i+1}. **${p.name}** (${p.category}) — ${fmt(p.profit)} profit, ${p.margin_pct}% margin, ${p.units_sold.toLocaleString()} units`).join('\n')}
+
+**Insight:** All top 5 products exceed **65% margin** (well above the 54% business average). Clothing and Sports dominate the high-profit list.
+
+*Offline analysis from product_profitability.csv.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Business risks
+  if (/(risk|biggest.risk|concern|problem|challenge)/.test(q)) {
+    return {
+      text: `**Top Business Risks (Data-Backed)**
+
+1. **Customer Retention & Churn** — 23.5% churn rate (model prevalence); 441 "cooling-off" customers hold **${fmtCr(12998872.58)}** historical spend. Medium-risk band is the primary win-back audience.
+
+2. **Discount Economics** — No statistically significant volume lift from discounts (Kruskal-Wallis p = 0.305). At 20% discount, **59.2% volume lift** needed to break even. Every discount rung erodes margin.
+
+3. **Cohort Right-Censoring** — Late-2024 cohorts have <12 months observed; apparent retention improvement (15–28% → 55–88%) is an observation-window artifact.
+
+4. **Revenue Concentration** — Top 10% of customers hold ~42% of projected lifetime value (per decision layer).
+
+**Recommended Actions:**
+- Run a controlled win-back test on top decile by expected value
+- Cap discounts at 10% pending controlled experiment
+- Compare retention only at fixed months-since-first-purchase horizons
+
+*Offline analysis from decision_layer.py, pricing/elasticity.py, churn_calibration.py.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Customer retention / churn
+  if (/(retention|churn|inactive|loyal|customer.segment|rfm)/.test(q)) {
+    return {
+      text: `**Customer Retention & Segmentation**
+
+**Churn Rate:** ${K.churn.rate}% (model label prevalence on 1,597 scored customers)
+**Cooling-off Customers:** ${K.churn.cooling_off_customers.toLocaleString()} (Medium + High risk) — ${fmtCr(K.churn.cooling_off_spend)} historical spend
+**Raw 180-day Inactivity:** ${K.churn.inactive_180d.toLocaleString()} customers with no purchase in final 180 days
+
+**RFM Segments:**
+${K.rfm.segments.map((s, i) => `• ${s}: ${K.rfm.counts[i].toLocaleString()} customers`).join('\n')}
+
+**Key Segments:**
+- **Champions** (${K.rfm.counts[2].toLocaleString()}): High R/F/M — retain at all costs
+- **Loyal Customers** (${K.rfm.counts[0].toLocaleString()}): Largest segment — cross-sell adjacent categories
+- **At Risk** (${K.rfm.counts[4].toLocaleString()}): High historical spend — win-back with personal outreach
+- **About to Sleep** (${K.rfm.counts[1].toLocaleString()}): Cooling down — re-engage before lapse
+
+**Cohort Retention (Month-3):** ${DATA.decision.cohorts.matrix.map(r=>r[2]).filter(v=>v!==null).reduce((a,b)=>a+b,0)/DATA.decision.cohorts.matrix.map(r=>r[2]).filter(v=>v!==null).length}% average (newer cohorts trend higher, but right-censored).
+
+*Offline analysis from rfm_segments.csv, churn_features.csv, cohort matrix.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Profitability / margins
+  if (/(margin|profit|profitability|gross.margin)/.test(q)) {
+    return {
+      text: `**Profitability Analysis**
+
+**Overall Gross Margin:** ${K.revenue.margin_pct}% on ${fmtCr(K.revenue.total)} revenue (${fmtCr(K.revenue.profit)} gross profit)
+
+**Margin by Category:**
+${K.categories.labels.map((cat, i) => `• ${cat}: ${K.categories.margin[i]}% (${fmtCr(K.categories.revenue[i])} revenue)`).join('\n')}
+
+**Top 10 Products Margin Range:** 65.0% – 69.1% (vs 54% business average)
+
+**Discount Impact:** No significant volume response to discounts (p = 0.305). Margin erosion at each depth:
+- 5% off: margin ${K.categories.margin_pct_of_list ? (K.categories.margin_pct_of_list[1]*100).toFixed(1) : 'N/A'}% of list
+- 10% off: margin ${K.categories.margin_pct_of_list ? (K.categories.margin_pct_of_list[2]*100).toFixed(1) : 'N/A'}% of list
+- 20% off: margin ${K.categories.margin_pct_of_list ? (K.categories.margin_pct_of_list[4]*100).toFixed(1) : 'N/A'}% of list (needs 59.2% volume lift to break even)
+
+**Recommendation:** Cap discounts at 10% pending controlled experiment; current discount ladder erodes margin without measurable volume lift.
+
+*Offline analysis from pricing/elasticity.py, product_profitability.csv.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Forecast
+  if (/(forecast|predict|next.month|future|projection)/.test(q)) {
+    const f = K.forecast;
+    return {
+      text: `**Revenue Forecast (Jan–Jun 2025)**
+
+**6-Month Total:** ${fmtCr(f.total)} (ensemble: Linear + Holt-Winters)
+**Projected Monthly Growth:** ${f.monthly_growth}% MoM
+
+**Monthly Breakdown:**
+${f.labels.map((lbl, i) => `• ${lbl}: ${fmtCr(f.next_6m[i])}`).join('\n')}
+
+**Model Performance:**
+- Ensemble MASE: 0.680 (worse than drift baseline 0.468)
+- Holt-Linear challenger: 0.3752 (not deployed)
+- 95% CI empirical coverage: **9.5%** (severely under-covers)
+
+**Caveats:** This is a **historical backtest**, not a live forecast. The ensemble loses to a simple drift baseline; intervals severely under-cover. Treat as indicative only.
+
+*Offline analysis from forecast_backtest.py, revenue_forecast.csv.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Recommendations / actionable
+  if (/(recommend|action|improve|what.should|next.step|strategy)/.test(q)) {
+    return {
+      text: `**Actionable Recommendations (Data-Backed)**
+
+1. **Cap Discounts at 10%** — No significant volume lift detected (p = 0.305); 20% discount needs 59.2% volume lift to break even. Cap saves ~${fmtL(644517.95)} margin (2% of total).
+
+2. **Run Win-Back Test** — Target top decile of 441 cooling-off customers by expected value (p × r × V − C). Budget ~₹25K/month for 100 contacts.
+
+3. **Fix Retention Measurement** — Compare cohorts only at fixed months-since-first-purchase horizons. Current right-censoring inflates newer cohort retention.
+
+4. **Protect Champions** — 317 Champions hold disproportionate value. Loyalty perks, early access, personal outreach.
+
+4. **Test Volume-Focused Campaigns** — Dec 2024 growth was order-led (+21.3%), not price-led (-3.5% AOV). Invest in acquisition/retention, not price cuts.
+
+5. **Monitor AOV** — Dec 2024 AOV dropped 3.5% MoM. Track alongside revenue to detect basket-size shifts.
+
+**Measurement Framework:** For each action, define baseline, treatment/control, and success metric (incremental contribution margin, not revenue).
+
+*Offline recommendations from decision_layer.py, pricing/elasticity.py, winback.py.*`,
+      meta: { source: 'offline' }
+    };
+  }
+
+  // Compare months
+  if (/(compare|versus|vs|difference|change)/.test(q)) {
+    const mom = DATA.decision?.mom;
+    if (mom) {
+      return {
+        text: `**${mom.prev_label} vs ${mom.label} Comparison**
+
+| Metric | ${mom.prev_label} | ${mom.label} | Change |
+|--------|------------------|--------------|--------|
+| Revenue | ${fmtCr(mom.revenue[0])} | ${fmtCr(mom.revenue[1])} | ${mom.revenue_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.revenue_delta_pct)}% |
+| Orders | ${mom.orders[0].toLocaleString()} | ${mom.orders[1].toLocaleString()} | ${mom.orders_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.orders_delta_pct)}% |
+| Active Customers | ${mom.active_customers[0].toLocaleString()} | ${mom.active_customers[1].toLocaleString()} | ${mom.active_customers_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.active_customers_delta_pct)}% |
+| AOV | ${fmt(mom.aov[0])} | ${fmt(mom.aov[1])} | ${mom.aov_delta_pct >= 0 ? '▲' : '▼'} ${Math.abs(mom.aov_delta_pct)}% |
+
+**Drivers:** Revenue change driven by **order volume** (+${mom.orders_delta_pct}%) not basket size (${mom.aov_delta_pct >= 0 ? '+' : ''}${mom.aov_delta_pct}% AOV).
+
+*Offline analysis from decision_layer.py.*`,
+        meta: { source: 'offline' }
+      };
+    }
+  }
+
+  // Default: unsupported
+  return {
+    text: `I can answer questions about your e-commerce business using the verified dataset (Jan 2022 – Dec 2024, synthetic seeded data).
+
+**Supported topics:**
+- Business overview & key metrics
+- Revenue trends & month-over-month changes
+- Top categories & products by profit/margin
+- Customer segments (RFM), churn & retention
+- Discount economics & break-even analysis
+- Revenue forecast (backtested)
+- Business risks & actionable recommendations
+
+**Example questions:**
+- "Give me a complete overview of my e-commerce business"
+- "What are my top-performing product categories?"
+- "Why did revenue change last month?"
+- "Which products generate the highest profit?"
+- "What are the biggest business risks?"
+- "How can I improve gross margins?"
+- "Analyze customer retention and churn"
+- "What does the forecast show for next 6 months?"
+
+**Unsupported:** Questions outside the dataset (weather, meaning of life, future predictions beyond backtest, specific customer PII, real-time data).
+
+*Ask me anything within the dataset scope — I answer from the verified synthetic data, no LLM used.*`,
+    meta: { source: 'offline', note: 'offline_only' }
+  };
 }
 
 function appendAIMessage(role, text, meta) {
