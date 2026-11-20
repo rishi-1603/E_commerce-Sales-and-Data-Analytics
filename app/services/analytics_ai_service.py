@@ -380,13 +380,16 @@ Provide a professional business analysis following the structure above."""
             client = cls._get_gemini()
             system_prompt, user_prompt = cls._build_gemini_prompt(analysis)
 
+            # Correct format for google-genai SDK: list of ContentDicts with role and parts
+            contents = [
+                types.Content(role="user", parts=[types.Part(text=system_prompt)]),
+                types.Content(role="model", parts=[types.Part(text="Understood. I will provide professional business analysis based only on the verified numbers you provide.")]),
+                types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+            ]
+
             response = client.models.generate_content(
                 model="gemini-3.8-flash",
-                contents=[
-                    {"role": "user", "parts": [system_prompt]},
-                    {"role": "model", "parts": ["Understood. I will provide professional business analysis based only on the verified numbers you provide."]},
-                    {"role": "user", "parts": [user_prompt]},
-                ],
+                contents=contents,
                 config=types.GenerateContentConfig(
                     temperature=0.3,
                     max_output_tokens=2048,

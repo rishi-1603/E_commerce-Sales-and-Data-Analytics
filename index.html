@@ -244,6 +244,50 @@ tr:last-child td{border-bottom:0}
 .ins-item b{display:block;font-size:12.5px;margin-bottom:2px}
 .ins-item span{color:var(--muted)}
 
+/* ── AI Data Analyst Chat Interface ── */
+.ai-chat{display:flex;flex-direction:column;height:520px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.ai-chat-header{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.ai-chat-title{font-size:14px;font-weight:700;color:var(--text)}
+.ai-chat-subtitle{font-size:12px;color:var(--muted);margin-top:3px}
+.ai-chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.ai-message{display:flex;gap:10px;max-width:85%;animation:msg-in 0.25s ease}
+.ai-message.user{align-self:flex-end;flex-direction:row-reverse}
+.ai-message.assistant{align-self:flex-start}
+@keyframes msg-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.ai-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--bg4);border:1px solid var(--border)}
+.ai-message.user .ai-avatar{background:rgba(56,139,253,0.18);border-color:rgba(56,139,253,0.35);color:var(--blue)}
+.ai-message.assistant .ai-avatar{background:rgba(63,185,80,0.15);border-color:rgba(63,185,80,0.35);color:var(--green)}
+.ai-message-content{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;max-width:100%}
+.ai-message.user .ai-message-content{background:rgba(56,139,253,0.12);border-color:rgba(56,139,253,0.25);border-bottom-right-radius:4px}
+.ai-message.assistant .ai-message-content{border-bottom-left-radius:4px}
+.ai-message-text{font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.ai-message.assistant .ai-message-text{color:var(--text)}
+.ai-message.user .ai-message-text{color:var(--text)}
+.ai-message-meta{font-size:10.5px;color:var(--muted);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.ai-typing{display:flex;gap:4px;padding:8px 12px}
+.ai-typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:typing 1.4s infinite ease-in-out}
+.ai-typing span:nth-child(2){animation-delay:0.2s}
+.ai-typing span:nth-child(3){animation-delay:0.4s}
+@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-6px);opacity:1}}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-top:1px solid var(--border);background:var(--bg2)}
+.ai-suggestion-btn{padding:7px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);font-size:11.5px;font-weight:500;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.ai-suggestion-btn:hover{background:var(--bg4);border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
+.ai-input-area{display:flex;gap:10px;padding:14px 16px;border-top:1px solid var(--border);background:var(--bg2)}
+.ai-input-wrapper{flex:1;position:relative}
+.ai-input{width:100%;min-height:44px;max-height:140px;padding:10px 14px;border:1px solid var(--border);border-radius:24px;background:var(--bg3);color:var(--text);font-size:13.5px;font-family:var(--font-ui);line-height:1.5;resize:none;outline:none;transition:border-color 0.15s,box-shadow 0.15s}
+.ai-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(56,139,253,0.15)}
+.ai-input::placeholder{color:var(--muted2)}
+.ai-send-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--blue);background:linear-gradient(135deg,#1f6feb,#388bfd);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.1s,box-shadow 0.15s;flex-shrink:0}
+.ai-send-btn:hover{transform:scale(1.05);box-shadow:0 4px 14px -2px rgba(31,111,235,0.55)}
+.ai-send-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
+.ai-send-btn:active{transform:scale(0.95)}
+.ai-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;padding:24px}
+.ai-empty-icon{font-size:48px;margin-bottom:12px;opacity:0.6}
+.ai-empty-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
+.ai-empty-text{font-size:13px;line-height:1.5;max-width:360px}
+.ai-error{color:var(--red);font-size:12.5px;padding:10px 12px;background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.2);border-radius:8px;margin:8px 16px}
+.ai-disclaimer{font-size:10.5px;color:var(--muted2);padding:8px 16px;border-top:1px solid var(--border);background:var(--bg2);line-height:1.4}
+
 /* ── Mockup restyle: retention + forecast summary cards ── */
 .ret-big{font-size:30px;font-weight:800;font-family:var(--font-mono);letter-spacing:-.5px}
 .fc-total{font-size:30px;font-weight:800;font-family:var(--font-mono);letter-spacing:-.5px;color:var(--blue)}
@@ -848,24 +892,41 @@ tr:last-child td{border-bottom:0}
       </div>
     </div>
 
-    <!-- AI ANALYST -->
+    <!-- AI DATA ANALYST -->
     <div class="page" id="page-ai">
-      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>EcomAI Analyst</strong> — answers bounded questions from the dataset. Shows the SQL it would run; refuses questions it cannot ground. No LLM key required for the built-in questions.</div>
-      <div class="card" style="margin-bottom:12px">
-        <div class="card-header"><div><div class="card-title">Ask a question</div><div class="card-sub">Built-in questions only (deterministic, no API key)</div></div></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-          <button class="bv-button" onclick="askAI('revenue')">Total revenue</button>
-          <button class="bv-button" onclick="askAI('top_category')">Top category</button>
-          <button class="bv-button" onclick="askAI('churn')">Churn rate</button>
-          <button class="bv-button" onclick="askAI('inactive')">Inactive customers</button>
-          <button class="bv-button" onclick="askAI('forecast')">Forecast next 6M</button>
-          <button class="bv-button" onclick="askAI('margin')">Gross margin</button>
+      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>AI Data Analyst</strong> — Ask questions about your e-commerce business in natural language. Powered by verified project data and Gemini.</div>
+      <div class="card" style="margin-bottom:12px;overflow:hidden">
+        <div class="ai-chat" id="aiChat">
+          <div class="ai-chat-header">
+            <div class="ai-chat-title">AI Data Analyst</div>
+            <div class="ai-chat-subtitle">Connected · Analyzing your e-commerce data (Jan 2022 – Dec 2024)</div>
+          </div>
+          <div class="ai-chat-messages" id="aiChatMessages" role="log" aria-live="polite" aria-label="AI Analyst conversation">
+            <!-- Empty state shown when no messages -->
+            <div class="ai-empty-state" id="aiEmptyState">
+              <div class="ai-empty-icon">🤖</div>
+              <div class="ai-empty-title">Ask anything about your e-commerce business</div>
+              <div class="ai-empty-text">I can analyze revenue, profitability, customers, products, churn, forecasting, and more — all grounded in your verified dataset.</div>
+            </div>
+          </div>
+          <div class="ai-suggestions" id="aiSuggestions" style="display:none">
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('Give me a complete overview of my e-commerce business')">Analyze overall business performance</button>
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('What are my top-performing product categories?')">Top-performing categories</button>
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('Identify the biggest business risks')">Biggest business risks</button>
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('How can I improve profitability?')">Improve profitability</button>
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('Analyze customer retention')">Customer retention analysis</button>
+            <button class="ai-suggestion-btn" onclick="sendAIQuestion('Give me actionable business recommendations')">Actionable recommendations</button>
+          </div>
+          <div class="ai-input-area">
+            <div class="ai-input-wrapper">
+              <textarea class="ai-input" id="aiInput" placeholder="Ask anything about your e-commerce business..." rows="1" aria-label="Your question" onkeydown="handleAIKeydown(event)"></textarea>
+            </div>
+            <button class="ai-send-btn" id="aiSendBtn" onclick="sendAIQuestion()" aria-label="Send question" disabled>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+          <div class="ai-disclaimer">All figures from synthetic seeded dataset (12K orders, 1,991 customers, 150 SKUs, 2022–2024). AI interprets verified Python calculations — numbers are never invented.</div>
         </div>
-        <div id="ai_output" class="ai-output-box" aria-live="polite"></div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div><div class="card-title">How it works</div><div class="card-sub">Same pipeline as the server-side assistant, without the LLM</div></div></div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.6">Question → approved KPI definition → validated read-only SQL → result → evidence-backed answer. Built-in questions map to precomputed answers from the same dataset. Arbitrary questions are refused rather than answered from a model's memory.</p>
       </div>
     </div>
 
@@ -1998,60 +2059,190 @@ function renderInsights(){
   feed.innerHTML = items.map(it=>'<div class="wc-box wc-info"><b>'+it.obs+'</b><br><span style="font-size:12px;color:var(--muted)">Evidence: '+it.ev+'<br>Impact: '+it.impact+'<br>Recommendation: '+it.rec+'<br>Measurement: '+it.meas+'</span></div>').join('');
 }
 
-/* ---- EcomAI Analyst (built-in, deterministic) ---- */
-const AI_ANSWERS = {
-  revenue: {sql:`SELECT ROUND(SUM(oi.line_total), 2) AS total_revenue
-FROM order_items oi
-JOIN orders o ON o.order_id = oi.order_id
-WHERE o.status IN ('Delivered', 'Processing')`, ans:'Total recorded revenue is Rs 5.93 Cr across 9,933 eligible orders (Delivered + Processing).'},
-  top_category: {sql:`SELECT p.category, ROUND(SUM(oi.line_total), 2) AS revenue
-FROM order_items oi
-JOIN orders o ON o.order_id = oi.order_id
-JOIN products p ON p.product_id = oi.product_id
-WHERE o.status IN ('Delivered', 'Processing')
-GROUP BY p.category
-ORDER BY revenue DESC
-LIMIT 1`, ans:'Sports is the top category by revenue (Rs 1.39 Cr), just ahead of Electronics (Rs 1.36 Cr) and Clothing (Rs 1.27 Cr).'},
-  churn: {sql:`-- Raw end-of-data inactivity proxy: 376 of 1,995 purchasing customers (18.8%).
--- The 23.5% model prevalence is evaluated on the 1,597-customer modelling split.
-WITH last_valid AS (
-  SELECT customer_id, MAX(order_date) AS last_order_date
-  FROM orders
-  WHERE status IN ('Delivered', 'Returned')
-  GROUP BY customer_id
-)
-SELECT COUNT(*) AS inactive_customers
-FROM last_valid
-WHERE last_order_date < DATE('2024-12-30', '-180 days')`, ans:'The churn model evaluates at 23.5% prevalence on 1,597 customers with a full 180-day window. A raw end-of-data 180-day inactivity count is 376 of 1,995 purchasing customers (18.8%) - a different population, not the model metric.'},
-  inactive: {sql:`-- Raw 180-day inactivity at the dataset end: 376 customers.
-WITH last_valid AS (
-  SELECT customer_id, MAX(order_date) AS last_order_date
-  FROM orders
-  WHERE status IN ('Delivered', 'Returned')
-  GROUP BY customer_id
-)
-SELECT COUNT(*) AS inactive_customers
-FROM last_valid
-WHERE last_order_date < DATE('2024-12-30', '-180 days')`, ans:'376 customers have no purchase in the final 180 days. The 441 figure is the Medium Risk band of the churn model (n=1,597), not a raw inactivity count.'},
-  forecast: {sql:`-- Shipped: Holt-Winters + linear ensemble.
--- Rolling-origin backtest (10 origins x 3 horizons): shipped MASE 0.68 vs drift 0.468.
--- Challenger holt_linear scores 0.3752 but is not deployed.
--- The 95% bootstrap interval under-covers (9.5% empirical), so treat the band as indicative.`, ans:'The 6-month projection covers Jan-Jun 2025 and is a historical backtest, not a live forecast. The shipped ensemble scores MASE 0.68, worse than the drift baseline (0.468); the holt_linear challenger scores 0.3752 but is not deployed. Interval coverage is 9.5% against a 95% nominal band.'},
-  margin: {sql:`SELECT ROUND(100.0 * SUM(oi.line_total - oi.cost_total) / SUM(oi.line_total), 1) AS margin_pct
-FROM order_items oi
-JOIN orders o ON o.order_id = oi.order_id
-WHERE o.status IN ('Delivered', 'Processing')`, ans:'Gross margin is 54.0% on Rs 5.93 Cr of recorded revenue (revenue minus product cost; not net income).'},
-};
-function askAI(q){
-  const out = document.getElementById('ai_output');
-  if(!out) return;
-  const a = AI_ANSWERS[q];
-  if(!a){ out.innerHTML = '<span style="color:var(--red)">Question not supported. Only the listed questions are answered.</span>'; return; }
-  out.innerHTML = '<div style="margin-bottom:6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600">SQL</div>'
-    + '<pre>'+a.sql+'</pre>'
-    + '<div class="ai-answer"><b>Answer.</b> '+a.ans+'</div>'
-    + '<div style="margin-top:8px;font-size:11px;color:var(--muted)">Evidence-backed and bounded. Arbitrary questions are refused rather than answered from model memory.</div>';
+/* ---- AI Data Analyst Chat ---- */
+const AI_API_BASE = 'https://ecomanalytics-dashboard.vercel.app/api/v1'; // Vercel-deployed FastAPI
+let aiConversationHistory = [];
+let aiIsProcessing = false;
+
+function initAIChat() {
+  const input = document.getElementById('aiInput');
+  const sendBtn = document.getElementById('aiSendBtn');
+  if (!input || !sendBtn) return;
+
+  // Auto-resize textarea
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
+    sendBtn.disabled = !input.value.trim() || aiIsProcessing;
+  });
+
+  // Focus input on page load when AI page is active
+  document.addEventListener('aiPageActivated', () => {
+    setTimeout(() => input.focus(), 100);
+  });
 }
+
+async function sendAIQuestion(presetQuestion) {
+  const input = document.getElementById('aiInput');
+  const sendBtn = document.getElementById('aiSendBtn');
+  const messagesEl = document.getElementById('aiChatMessages');
+  const emptyState = document.getElementById('aiEmptyState');
+  const suggestions = document.getElementById('aiSuggestions');
+
+  if (!input || !messagesEl) return;
+
+  const question = presetQuestion || input.value.trim();
+  if (!question || aiIsProcessing) return;
+
+  // Disable input while processing
+  aiIsProcessing = true;
+  sendBtn.disabled = true;
+  input.disabled = true;
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Hide empty state and show suggestions on first message
+  if (emptyState) emptyState.style.display = 'none';
+  if (suggestions) suggestions.style.display = 'flex';
+
+  // Add user message
+  appendAIMessage('user', question);
+  aiConversationHistory.push({ role: 'user', content: question });
+
+  // Show typing indicator
+  const typingId = showAITyping();
+
+  try {
+    const response = await fetch(`${AI_API_BASE}/ai-analyst`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question })
+    });
+
+    hideAITyping(typingId);
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ detail: 'Request failed' }));
+      throw new Error(err.detail || `HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Add assistant message with the AI response
+    const aiText = data.gemini_response || data.analysis || 'Analysis completed.';
+    appendAIMessage('assistant', aiText, data);
+    aiConversationHistory.push({ role: 'assistant', content: aiText, meta: data });
+
+  } catch (error) {
+    hideAITyping(typingId);
+    appendAIError(error.message || 'Failed to get analysis. Please try again.');
+  } finally {
+    aiIsProcessing = false;
+    sendBtn.disabled = !input.value.trim();
+    input.disabled = false;
+    input.focus();
+  }
+}
+
+function appendAIMessage(role, text, meta) {
+  const messagesEl = document.getElementById('aiChatMessages');
+  if (!messagesEl) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = `ai-message ${role}`;
+
+  const avatar = role === 'user' ? '👤' : '🤖';
+  const metaHtml = meta ? buildAIMeta(meta) : '';
+
+  wrapper.innerHTML = `
+    <div class="ai-avatar">${avatar}</div>
+    <div class="ai-message-content">
+      <div class="ai-message-text">${escapeHtml(text)}</div>
+      ${metaHtml}
+    </div>
+  `;
+
+  messagesEl.appendChild(wrapper);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function buildAIMeta(data) {
+  const parts = [];
+  if (data.generated_at) parts.push(`Generated: ${data.generated_at}`);
+  if (data.data_period) parts.push(`Data: ${data.data_period.start} to ${data.data_period.end}`);
+  if (data.analysis?.kpis?.total_revenue) parts.push(`Revenue: ₹${(data.analysis.kpis.total_revenue/1e7).toFixed(2)} Cr`);
+  if (data.analysis?.kpis?.gross_margin_pct) parts.push(`Margin: ${data.analysis.kpis.gross_margin_pct}%`);
+  if (data.analysis?.kpis?.total_orders) parts.push(`Orders: ${data.analysis.kpis.total_orders.toLocaleString()}`);
+  if (data.analysis?.kpis?.active_customers) parts.push(`Customers: ${data.analysis.kpis.active_customers.toLocaleString()}`);
+  if (!parts.length) return '';
+  return `<div class="ai-message-meta">${parts.join(' · ')}</div>`;
+}
+
+function appendAIError(message) {
+  const messagesEl = document.getElementById('aiChatMessages');
+  if (!messagesEl) return;
+  const err = document.createElement('div');
+  err.className = 'ai-error';
+  err.textContent = message;
+  messagesEl.appendChild(err);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function showAITyping() {
+  const messagesEl = document.getElementById('aiChatMessages');
+  if (!messagesEl) return null;
+  const typingId = 'ai-typing-' + Date.now();
+  const typing = document.createElement('div');
+  typing.id = typingId;
+  typing.className = 'ai-message assistant';
+  typing.innerHTML = `
+    <div class="ai-avatar">🤖</div>
+    <div class="ai-message-content">
+      <div class="ai-typing"><span></span><span></span><span></span></div>
+    </div>
+  `;
+  messagesEl.appendChild(typing);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return typingId;
+}
+
+function hideAITyping(typingId) {
+  if (!typingId) return;
+  const el = document.getElementById(typingId);
+  if (el) el.remove();
+}
+
+function handleAIKeydown(event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendAIQuestion();
+  }
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Trigger when AI page becomes active
+const originalNav = window.nav;
+window.nav = function(id, el) {
+  originalNav(id, el);
+  if (id === 'ai') {
+    setTimeout(() => {
+      document.dispatchEvent(new Event('aiPageActivated'));
+      initAIChat();
+    }, 50);
+  }
+};
+
+// Initialize on DOM ready if AI page is already active
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('page-ai')?.classList.contains('active')) {
+    initAIChat();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', function(){ renderQuality(); renderInsights(); });
 // PRICING_JS_START
