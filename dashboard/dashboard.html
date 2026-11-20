@@ -908,7 +908,7 @@ tr:last-child td{border-bottom:0}
 
     <!-- AI DATA ANALYST -->
     <div class="page" id="page-ai">
-      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>AI Data Analyst</strong> — Ask questions about your e-commerce business in natural language. Powered by verified project data and Gemini.</div>
+      <div class="wc-box wc-info" style="margin-bottom:14px"><strong>AI Data Analyst</strong> — Ask questions about your e-commerce business in natural language. Powered by verified project data (offline, no LLM).</div>
       <div class="card" style="margin-bottom:12px;overflow:hidden">
         <div class="ai-chat" id="aiChat">
           <div class="ai-chat-header">
@@ -919,8 +919,9 @@ tr:last-child td{border-bottom:0}
             <!-- Empty state shown when no messages -->
             <div class="ai-empty-state" id="aiEmptyState">
               <div class="ai-empty-icon">🤖</div>
-              <div class="ai-empty-title">Ask anything about your e-commerce business</div>
-              <div class="ai-empty-text">I can analyze revenue, profitability, customers, products, churn, forecasting, and more — all grounded in your verified dataset.</div>
+              <div class="ai-empty-title">Hello! What would you like to understand about your business?</div>
+              <div class="ai-empty-text">I analyse your E-Commerce dataset and turn verified business metrics into meaningful insights and actionable recommendations.</div>
+              <div class="ai-empty-text" style="margin-top:8px;font-size:11px;color:var(--muted2)">Dataset: January 2022 – December 2024 · Synthetic data</div>
             </div>
           </div>
           <div class="ai-suggestions" id="aiSuggestions" style="display:none">
@@ -1532,13 +1533,13 @@ const titles = {
   customers:["Customer RFM Segmentation","Recency · Frequency · Monetary · K-Means"],
   cohorts:["Retention & Cohorts","Cohort Retention · Segment Playbook · Definitions"],
   churn:["Churn Analysis","Logistic Regression · Risk Scoring · Action Plan"],
-  products:["Product Profitability","BCG Matrix · Margin · Category Analysis"],
+  products:["Product Profitability","Portfolio Matrix · Margin · Category Analysis"],
   forecast:["Revenue Forecast","Holt-Winters + Linear Ensemble · Jan–Jun 2025"],
   pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"],
   winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"],
   quality:["Data Quality","Checks · Reconciliation · Status"],
   insights:["Business Insights","Observation · Evidence · Impact · Recommendation"],
-  ai:["AI Analyst","Questions · SQL · Evidence"]
+  ai:["AI Analyst","Natural-language business insights"]
 };
 
 function nav(id, el) {
@@ -2317,14 +2318,14 @@ function generateOfflineAnswer(question) {
     var top10 = K.products.top10;
     var bcg = K.products.bcg;
     var top5Lines = top5.map(function(p,i){
-      return (i+1) + '. **' + p.name + '** (' + p.category + ') \u2014 ' + fmt(p.profit) + ' profit | ' + p.margin_pct + '% margin | ' + p.units_sold.toLocaleString() + ' units | ' + fmt(p.revenue) + ' revenue';
+      return (i+1) + '. **' + p.product_name + '** (' + p.category + ') \u2014 ' + fmt(p.profit) + ' profit | ' + p.margin_pct + '% margin | ' + p.units_sold.toLocaleString() + ' units | ' + fmt(p.revenue) + ' revenue';
     }).join('\n');
     var above60 = top10.filter(function(p){return p.margin_pct>=60;}).length;
     return {
       text: '**Product Profitability Analysis**\n\n' +
         '**Top 5 Products by Gross Profit:**\n' + top5Lines + '\n\n' +
         '**Top 10 Margin Range:** ' + top10[0].margin_pct + '% \u2013 ' + top10[9].margin_pct + '% (all above business average of 54.0%)\n\n' +
-        '**BCG Matrix Classification (150 SKUs):**\n' +
+        '**Product Portfolio Matrix (150 SKUs):**\n' +
         '\u2022 **Stars**: ' + bcg.Star + ' (High volume, High margin) \u2014 Invest & protect\n' +
         '\u2022 **Cash Cows**: ' + bcg['Cash Cow'] + ' (High volume, Avg margin) \u2014 Harvest efficiently\n' +
         '\u2022 **Question Marks**: ' + bcg['Question Mark'] + ' (Low volume, High margin) \u2014 Evaluate for investment\n' +
@@ -2332,7 +2333,7 @@ function generateOfflineAnswer(question) {
         '**Margin Distribution:**\n' +
         '- Products above 60% margin: ' + top10.filter(function(p){return p.margin_pct>=60;}).length + ' of top 10\n' +
         '- Business average margin: **54.0%**\n' +
-        '- Top product margin: **' + top10[0].margin_pct + '%** (' + top10[0].name + ')\n\n' +
+        '- Top product margin: **' + top10[0].margin_pct + '%** (' + top10[0].product_name + ')\n\n' +
         '*Offline analysis from product_profitability.csv + BCG classification (scripts/decision_layer.py).*',
       meta: { source: 'offline' }
     };
@@ -2449,7 +2450,7 @@ function generateOfflineAnswer(question) {
         '- Every discount rung erodes margin without proven volume lift\n' +
         '- At 5% off: margin ' + m5 + '% of list (needs +' + l5 + '% volume to break even)\n' +
         '- At 20% off: margin ' + m20 + '% of list (needs +' + l20 + '% volume)\n\n' +
-        '**Recommendation:** Cap discounts at 10% pending controlled experiment. Current ladder destroys margin without measurable volume response.\n\n' +
+        '**Recommendation:** Cap discounts at 10% pending a controlled experiment. p=0.305 does not prove zero volume effect — only that no statistically significant effect was detected. Cap saves an estimated ~Rs 6.45L margin (2% of total) as a counterfactual, not guaranteed savings.\n\n' +
         '*Offline analysis from pricing/elasticity.py, discount_analysis.json (Delivered + Processing orders only).*',
       meta: { source: 'offline' }
     };
@@ -2475,7 +2476,7 @@ function generateOfflineAnswer(question) {
         '- **Contact Cost:** ' + fmt(W.contact_cost || 250) + '\n' +
         '- **Assumed Recovery Rate:** ' + ((W.recovery_rate*100).toFixed(0)) + '%\n' +
         '- **Retained Value per Reactivated:** ' + fmt(W.retained_value || 13292.2) + '\n' +
-        '- **Expected Net Revenue/Contact:** ' + fmt(W.ev_per_contact || 522.55) + ' (before COGS)\n' +
+        '- **Expected Gross Revenue/Contact:** ' + fmt(W.ev_per_contact || 522.55) + ' (before COGS and contact costs)\n' +
         '- **Break-even Churn Probability:** ' + ((W.break_even_p*100).toFixed(1)) + '% (matches Bayes threshold)\n\n' +
         '**Campaign Scenarios:**\n' + tierLines + '\n\n' +
         '**Sensitivity (Expected Net Revenue per Contact):**\n' +
