@@ -318,18 +318,30 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="nav-group">
-    <div class="nav-label">Dashboards</div>
+    <div class="nav-label">Overview</div>
     <div class="nav-item active" role="button" tabindex="0" onclick="nav('overview',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zm8 0A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm-8 8A1.5 1.5 0 012.5 9h3A1.5 1.5 0 017 10.5v3A1.5 1.5 0 015.5 15h-3A1.5 1.5 0 011 13.5v-3zm8 0A1.5 1.5 0 0110.5 9h3A1.5 1.5 0 0115 10.5v3A1.5 1.5 0 0113.5 15h-3A1.5 1.5 0 019 13.5v-3z"/></svg>
       Executive Overview
     </div>
+  </div>
+
+  <div class="nav-group" style="margin-top:12px">
+    <div class="nav-label">Sales &amp; Products</div>
     <div class="nav-item" role="button" tabindex="0" onclick="nav('sales',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 0h1v15h15v1H0V0zm14.817 3.113a.5.5 0 01.07.704l-4.5 5.5a.5.5 0 01-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 01-.808-.588l4-5.5a.5.5 0 01.758-.06l2.609 2.61 4.135-5.057a.5.5 0 01.72-.086z"/></svg>
       Sales Performance
     </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('products',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z"/></svg>
+      Product Profitability
+    </div>
+  </div>
+
+  <div class="nav-group" style="margin-top:12px">
+    <div class="nav-label">Customer Analytics</div>
     <div class="nav-item" role="button" tabindex="0" onclick="nav('customers',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zM5.216 14A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/><path d="M4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/></svg>
-      Customer RFM
+      Customer Segments
     </div>
     <div class="nav-item" role="button" tabindex="0" onclick="nav('cohorts',this)">
       <svg class="icon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>
@@ -340,21 +352,13 @@ tr:last-child td{border-bottom:0}
       Churn Analysis
       <span class="nav-count">441</span>
     </div>
-    <div class="nav-item" role="button" tabindex="0" onclick="nav('products',this)">
-      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8.186 1.113a.5.5 0 00-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 011.114 0l7.129 2.852A.5.5 0 0116 3.5v8.662a1 1 0 01-.629.928l-7.185 2.874a.5.5 0 01-.372 0L.63 13.09a1 1 0 01-.63-.928V3.5a.5.5 0 01.314-.464L7.443.184z"/></svg>
-      Product Profitability
-    </div>
+  </div>
+
+  <div class="nav-group" style="margin-top:12px">
+    <div class="nav-label">Intelligence</div>
     <div class="nav-item" role="button" tabindex="0" onclick="nav('forecast',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M6 10.5a.5.5 0 01.5-.5h3a.5.5 0 010 1h-3a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h7a.5.5 0 010 1h-7a.5.5 0 01-.5-.5zm-2-3a.5.5 0 01.5-.5h11a.5.5 0 010 1h-11a.5.5 0 01-.5-.5z"/></svg>
       Revenue Forecast
-    </div>
-  </div>
-
-  <div class="nav-group" style="margin-top:16px">
-    <div class="nav-label">Skills Used</div>
-    <div class="nav-item" role="button" tabindex="0" onclick="nav('quality',this)">
-      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm-.5 2.5h1v4h-1v-4zm0 5h1v1h-1v-1z"/></svg>
-      Data Quality
     </div>
     <div class="nav-item" role="button" tabindex="0" onclick="nav('insights',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v2H2V2zm0 4h8v2H2V6zm0 4h10v2H2v-2zm0 4h6v2H2v-2z"/></svg>
@@ -364,6 +368,10 @@ tr:last-child td{border-bottom:0}
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a3 3 0 00-3 3v1H4a2 2 0 00-2 2v5a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-1V4a3 3 0 00-3-3zm-1 4V4a1 1 0 112 0v1H7zm1 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg>
       AI Analyst
     </div>
+  </div>
+
+  <div class="nav-group" style="margin-top:12px">
+    <div class="nav-label">Business Tools</div>
 <!-- PRICING_NAV_START -->
     <div class="nav-item" role="button" tabindex="0" onclick="nav('pricing',this)">
       <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.5 1.5a.5.5 0 00-1 0v.6a3.5 3.5 0 00-2.6 3.35c0 1.6 1.02 2.6 2.66 2.98l.94.22c.7.16 1.1.55 1.1 1.15 0 .72-.66 1.2-1.6 1.2-.86 0-1.5-.36-1.75-.95a.5.5 0 00-.92.38c.36.88 1.18 1.42 2.17 1.54v.53a.5.5 0 001 0v-.55a3.4 3.4 0 002.55-3.28c0-1.6-1.05-2.55-2.62-2.92l-.94-.22c-.75-.18-1.14-.55-1.14-1.14 0-.68.6-1.16 1.5-1.16.78 0 1.35.3 1.62.82a.5.5 0 00.88-.47A2.9 2.9 0 008.5 2.2v-.7z"/></svg>
@@ -374,20 +382,26 @@ tr:last-child td{border-bottom:0}
       Win-Back Economics
     </div>
     <!-- PRICING_NAV_END -->
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python (Pandas, NumPy, scikit-learn)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🗄️ SQL (PostgreSQL · CTEs, window fns, cohorts)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📐 Statistics (SciPy · t-test, ANOVA, χ²)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🤖 ML (churn, CLV, forecasting)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🧪 Data Quality (pytest · analytical &amp; API checks in CI)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">✨ Grounded AI (deterministic · 6 built-in questions)</span></div>
-    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">📊 Data Viz (Chart.js)</span></div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('quality',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm-.5 2.5h1v4h-1v-4zm0 5h1v1h-1v-1z"/></svg>
+      Data Quality
+    </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('pricing',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.5 1.5a.5.5 0 00-1 0v.6a3.5 3.5 0 00-2.6 3.35c0 1.6 1.02 2.6 2.66 2.98l.94.22c.7.16 1.1.55 1.1 1.15 0 .72-.66 1.2-1.6 1.2-.86 0-1.5-.36-1.75-.95a.5.5 0 00-.92.38c.36.88 1.18 1.42 2.17 1.54v.53a.5.5 0 001 0v-.55a3.4 3.4 0 002.55-3.28c0-1.6-1.05-2.55-2.62-2.92l-.94-.22c-.75-.18-1.14-.55-1.14-1.14 0-.68.6-1.16 1.5-1.16.78 0 1.35.3 1.62.82a.5.5 0 00.88-.47A2.9 2.9 0 008.5 2.2v-.7z"/></svg>
+      Pricing Lab
+    </div>
+    <div class="nav-item" role="button" tabindex="0" onclick="nav('winback',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm7.25-3.5a.75.75 0 011.5 0v3.19l2.03 1.17a.75.75 0 11-.75 1.3L7.75 8.7A.75.75 0 017.25 8V4.5z"/></svg>
+      Win-Back Economics
+    </div>
   </div>
 
   <div class="sidebar-footer">
-    25,384 order lines · 150 products<br>
-    2,000 customer records · 1,991 active customers · 3 years data<br><br>
-    Every figure computed from the pipeline —<br>
-    Automated CI checks · definitions in data/metrics.json
+    <div style="font-size:11px;color:var(--muted2);font-family:var(--font-mono);line-height:1.6">
+      Jan 2022 – Dec 2024<br>
+      12,000 orders · 150 products<br>
+      2,000 customers · 3 years data
+    </div>
   </div>
 </nav>
 

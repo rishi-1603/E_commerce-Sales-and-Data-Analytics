@@ -230,8 +230,8 @@ def inject(path: str, data_block: str, pages: str) -> None:
     html = strip_pricing_key(html)
     html = strip_between(html, JS_START, JS_END)
 
-    # 2. nav — before the Skills group
-    nav_anchor = '    <div class="nav-item" style="cursor:default;opacity:0.7"><span style="font-size:11px">🐍 Python'
+    # 2. nav — before the Data Quality item in Business Tools group
+    nav_anchor = '    <div class="nav-item" role="button" tabindex="0" onclick="nav(\'quality\',this)">'
     assert nav_anchor in html, "nav anchor not found"
     html = html.replace(nav_anchor, NAV + "\n" + nav_anchor, 1)
 
