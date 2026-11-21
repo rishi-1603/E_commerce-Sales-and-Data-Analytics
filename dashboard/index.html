@@ -286,6 +286,10 @@ tr:last-child td{border-bottom:0}
 .ai-empty-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:6px}
 .ai-empty-text{font-size:13px;line-height:1.5;max-width:360px}
 .ai-error{color:var(--red);font-size:12.5px;padding:10px 12px;background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.2);border-radius:8px;margin:8px 16px}
+.ai-followups{margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.ai-followup-label{font-size:10.5px;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:600}
+.ai-followup-btn{display:inline-block;margin:0 6px 6px 0;padding:5px 11px;border-radius:14px;border:1px solid var(--border2);background:var(--bg3);color:var(--cyan);font-size:11.5px;cursor:pointer;transition:background 0.15s,border-color 0.15s}
+.ai-followup-btn:hover{background:var(--bg4);border-color:var(--blue)}
 .ai-disclaimer{font-size:10.5px;color:var(--muted2);padding:8px 16px;border-top:1px solid var(--border);background:var(--bg2);line-height:1.4}
 
 /* ── Mockup restyle: retention + forecast summary cards ── */
@@ -2166,7 +2170,7 @@ function sendAIQuestion(presetQuestion) {
   setTimeout(() => {
     hideAITyping(typingId);
     const answer = generateOfflineAnswer(question);
-    appendAIMessage('assistant', answer.text, answer.meta);
+    appendAIMessage('assistant', answer.text, answer.meta, answer.followUps);
   }, 300 + Math.random() * 400);
 
   sendBtn.disabled = !input.value.trim();
@@ -2183,618 +2187,393 @@ function generateOfflineAnswer(question) {
   const fmtL = (n) => '₹' + (n/1e5).toFixed(1) + ' L';
   const pct = (n) => (n >= 0 ? '▲ ' : '▼ ') + Math.abs(n).toFixed(1) + '%';
 
-  // ============================================================
-  // HELPER FUNCTIONS
-  // ============================================================
+  // ---------- helpers ----------
   function growthPct(curr, prev) { return prev ? ((curr - prev) / prev * 100).toFixed(1) : '0.0'; }
-  function pctOf(part, whole) { return (part / whole * 100).toFixed(1); }
-  function safeAvg(arr) { const v = arr.filter(x => x !== null && x !== undefined); return v.length ? (v.reduce((a,b)=>a+b,0)/v.length).toFixed(1) : 'N/A'; }
-  function topN(arr, n, key) { return [...arr].sort((a,b)=>b[key]-a[key]).slice(0,n); }
-  function bottomN(arr, n, key) { return [...arr].sort((a,b)=>a[key]-b[key]).slice(0,n); }
+  function pctOf(part, whole) { return whole ? (part / whole * 100).toFixed(1) : '0.0'; }
+  function safeAvg(arr) { const v = (arr || []).filter(x => x !== null && x !== undefined); return v.length ? (v.reduce(function(a,b){return a+b}, 0)/v.length).toFixed(1) : 'N/A'; }
 
-  // ============================================================
-  // 1. BUSINESS OVERVIEW / SUMMARY
-  // ============================================================
-  if (/(overview|summary|how is my business|business performance|total revenue|complete|executive|snapshot)/.test(q)) {
-    const r = K.revenue;
-    var byCat = Object.entries(r.by_category).map(function(_ref) {
-      var cat = _ref[0];
-      var rev = _ref[1];
-      return '\u2022 ' + cat + ': ' + fmtCr(rev) + ' (' + pctOf(rev, r.total) + '%)';
-    }).join('\n');
-    var byReg = Object.entries(r.by_region).map(function(_ref2) {
-      var reg = _ref2[0];
-      var rev = _ref2[1];
-      return '\u2022 ' + reg + ': ' + fmtCr(rev) + ' (' + pctOf(rev, r.total) + '%)';
-    }).join('\n');
-    var statusDist = K.status.labels.map(function(s,i) {
-      return '\u2022 ' + s + ': ' + K.status.values[i].toLocaleString() + ' (' + pctOf(K.status.values[i], K.status.values.reduce(function(a,b){return a+b}, 0)) + '%)';
-    }).join('\n');
+  // ---------- professional response builder ----------
+  // Every answer follows: direct answer → key findings → method → assumptions → follow-ups
+  function build(status, intent, answer, findings, method, assumptions, limitations, followUps) {
+    var text = (answer.indexOf('**') === 0 ? answer : '**' + answer + '**') + '\n\n';
+    if (findings && findings.length) {
+      text += '**Key findings**\n';
+      findings.forEach(function(f) {
+        text += '- ' + (f.comparison ? f.label + ': **' + f.value + '** (' + f.comparison + ')' : f.label + ': **' + f.value + '**') + '\n';
+      });
+      text += '\n';
+    }
+    if (method) text += '**How this was calculated**\n' + method + '\n\n';
+    if (assumptions && assumptions.length) {
+      text += '**Assumptions & limitations**\n';
+      assumptions.forEach(function(a) { text += '- ' + a + '\n'; });
+      text += '\n';
+    }
+    if (limitations && limitations.length) {
+      limitations.forEach(function(l) { text += '- ' + l + '\n'; });
+      text += '\n';
+    }
     return {
-      text: '**Executive Summary (Jan 2022 \u2013 Dec 2024)\n\n' +
-        'Your e-commerce business generated **' + fmtCr(r.total) + '** in total revenue across **' + r.orders.toLocaleString() + '** eligible orders (Delivered + Processing), with **' + r.customers.toLocaleString() + '** active customers.\n\n' +
-        '**Key Metrics:**\n' +
-        '- Gross Profit: **' + fmtCr(r.profit) + '** (' + r.margin_pct + '% margin)\n' +
-        '- Average Order Value: **' + fmt(r.aov) + '**\n' +
-        '- Top Category: **' + r.top_category + '** (' + fmtCr(K.categories.revenue[0]) + ')\n' +
-        '- Top Region: **' + r.top_region + '** (' + fmtCr(K.revenue.by_region[r.top_region]) + ')\n\n' +
-        '**Revenue by Category:**\n' + byCat + '\n\n' +
-        '**Revenue by Region:**\n' + byReg + '\n\n' +
-        '**Monthly Trend:** Revenue grew from ' + fmtL(r.monthly[0]) + ' in ' + r.labels[0] + ' to ' + fmtCr(r.monthly[r.monthly.length-1]) + ' in ' + r.labels[r.monthly.length-1] + ' (' + growthPct(r.monthly[r.monthly.length-1], r.monthly[0]) + '% total growth).\n\n' +
-        '**Order Status Distribution:**\n' + statusDist + '\n\n' +
-        '**Business Status (Decision Layer):** All five health indicators \u2014 Revenue: **Positive**, Profitability: **Positive**, Customer: **Stable**, Sales: **Stable**, Operational: **Positive**.\n\n' +
-        '*Source: Synthetic seeded dataset (12K orders, 1,991 customers, 150 SKUs, 2022\u20132024). Delivered + Processing orders only. Offline analysis \u2014 no LLM used.*',
-      meta: { source: 'offline', data_period: '2022-01 to 2024-12' }
+      text: text,
+      meta: { source: 'offline', status: status, intent: intent },
+      followUps: followUps || []
     };
   }
 
-  // ============================================================
-  // 2. REVENUE & SALES TRENDS (36 months)
-  // ============================================================
-  if (/(revenue.trend|sales.trend|monthly.revenue|growth|monthly.sales|trend)/.test(q) && !/(category|product|region)/.test(q)) {
+  // ---------- 1. Business overview / performance ----------
+  if (/(overview|summary|how is my business|business performance|total revenue|complete|executive|snapshot|performance analysis)/.test(q)) {
     var r = K.revenue;
-    var growth = growthPct(r.monthly[r.monthly.length-1], r.monthly[0]);
+    var catEntries = Object.entries(r.by_category);
+    var regEntries = Object.entries(r.by_region);
+    var y2022 = r.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0);
+    var y2023 = r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0);
+    var y2024 = r.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0);
+    var catLines = catEntries.map(function(e){ return '\u2022 ' + e[0] + ': ' + fmtCr(e[1]) + ' (' + pctOf(e[1], r.total) + '% of revenue)'; }).join('\n');
+    var status = '**E-Commerce Performance: January 2022 \u2013 December 2024**\n\n' +
+      'Revenue reached ' + fmtCr(r.total) + ' across ' + r.orders.toLocaleString() + ' eligible orders, with a gross margin of ' + r.margin_pct + '%. Growth is volume-led: 2024 revenue is ' + growthPct(y2024, y2023) + '% above 2023, driven mainly by order count rather than basket size.\n\n' +
+      '**Revenue by category**\n' + catLines + '\n\n' +
+      '**Year-over-year**\n' +
+      '\u2022 2022: ' + fmtCr(y2022) + '\n' +
+      '\u2022 2023: ' + fmtCr(y2023) + ' (' + pct(growthPct(y2023, y2022)) + ')\n' +
+      '\u2022 2024: ' + fmtCr(y2024) + ' (' + pct(growthPct(y2024, y2023)) + ')\n\n' +
+      '**Where to focus**\n' +
+      'Sports leads on both revenue (' + fmtCr(K.categories.revenue[0]) + ') and margin (' + K.categories.margin[0] + '%) \u2014 protect it. Beauty has the weakest margin (' + K.categories.margin[4] + '%) on ' + fmtCr(K.categories.revenue[4]) + ' revenue \u2014 investigate cost or discount depth before repricing. Dec 2024 AOV fell ' + Math.abs((D.mom && D.mom.aov_delta_pct) || 3.5) + '% while orders grew, so track whether basket size keeps shrinking.';
+    return build('success', 'business_overview', status,
+      [
+        { label: 'Total revenue', value: fmtCr(r.total), comparison: r.orders.toLocaleString() + ' eligible orders (Delivered + Processing)' },
+        { label: 'Gross profit', value: fmtCr(r.profit), comparison: r.margin_pct + '% margin' },
+        { label: 'Avg order value', value: fmt(r.aov), comparison: 'Dec 2024 AOV ' + pct((D.mom && D.mom.aov_delta_pct) || -3.5) + ' MoM' },
+        { label: 'Top category', value: r.top_category, comparison: fmtCr(K.categories.revenue[0]) + ' (' + K.categories.margin[0] + '% margin)' },
+        { label: 'Top region', value: r.top_region, comparison: fmtCr(K.revenue.by_region[r.top_region]) + ' (' + pctOf(K.revenue.by_region[r.top_region], r.total) + '%)' }
+      ],
+      'Computed from master_orders.csv (12,000 placed orders). Revenue population: Delivered + Processing only (9,933 orders). Margin = gross profit \u00f7 revenue. YoY compares calendar-year totals.',
+      ['Dataset is synthetic and seeded \u2014 figures illustrate the pipeline, not real business results.'],
+      ['Which category has the weakest margin and why?', 'Compare Dec 2024 vs Nov 2024 in detail', 'What are my biggest business risks?']);
+  }
+
+  // ---------- 2. Revenue / sales trend ----------
+  if (/(revenue.trend|sales.trend|monthly.revenue|monthly.sales|trend|growth|over time|by month)/.test(q) && !/(category|product|region)/.test(q)) {
+    var r = K.revenue;
     var peak = Math.max.apply(Math, r.monthly);
     var peakIdx = r.monthly.indexOf(peak);
     var trough = Math.min.apply(Math, r.monthly);
     var troughIdx = r.monthly.indexOf(trough);
-    var latest6 = r.labels.slice(-6).map(function(lbl,i) {
-      return '\u2022 ' + lbl + ': ' + fmtCr(r.monthly.slice(-6)[i]) + ' (' + (i>0 ? pct(growthPct(r.monthly.slice(-6)[i], r.monthly.slice(-6)[i-1])) : '\u2014') + ')';
+    var last6 = r.labels.slice(-6).map(function(lbl,i){
+      var v = r.monthly.slice(-6)[i];
+      var chg = i>0 ? pct(growthPct(v, r.monthly.slice(-6)[i-1])) : '\u2014';
+      return '\u2022 ' + lbl + ': ' + fmtCr(v) + ' (' + chg + ')';
     }).join('\n');
-    return {
-      text: '**Monthly Revenue Trend (36 Months: ' + r.labels[0] + ' \u2013 ' + r.labels[r.labels.length-1] + ')**\n\n' +
-        '**Overall Growth:** ' + growth + '% (' + fmtL(r.monthly[0]) + ' \u2192 ' + fmtCr(r.monthly[r.monthly.length-1]) + ')\n' +
-        '**Peak Month:** ' + r.labels[peakIdx] + ' (' + fmtCr(peak) + ')\n' +
-        '**Lowest Month:** ' + r.labels[troughIdx] + ' (' + fmtL(trough) + ')\n' +
-        '**Average Monthly Revenue:** ' + fmtCr(r.monthly.reduce(function(a,b){return a+b}, 0)/r.monthly.length) + '\n' +
-        '**Months with Growth:** ' + r.monthly.slice(1).filter(function(v,i){return v>r.monthly[i];}).length + ' / ' + (r.monthly.length-1) + '\n\n' +
-        '**Year-over-Year Comparison:**\n' +
-        '- 2022 Total: ' + fmtCr(r.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0)) + '\n' +
-        '- 2023 Total: ' + fmtCr(r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0)) + ' (' + growthPct(r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0), r.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0)) + '% YoY)\n' +
-        '- 2024 Total: ' + fmtCr(r.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0)) + ' (' + growthPct(r.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0), r.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0)) + '% YoY)\n\n' +
-        '**Latest 6 Months:**\n' + latest6 + '\n\n' +
-        '*Offline analysis from master_orders.csv (Delivered + Processing orders only).*',
-      meta: { source: 'offline' }
-    };
+    var answer = 'Revenue grew every year of the reporting period, from ' + fmtL(r.monthly[0]) + ' in ' + r.labels[0] + ' to ' + fmtCr(r.monthly[r.monthly.length-1]) + ' in ' + r.labels[r.monthly.length-1] + ' (' + growthPct(r.monthly[r.monthly.length-1], r.monthly[0]) + '% cumulative). The strongest month is ' + r.labels[peakIdx] + ' at ' + fmtCr(peak) + '.';
+    return build('success', 'trend_analysis', answer,
+      [
+        { label: 'Peak month', value: r.labels[peakIdx] + ' (' + fmtCr(peak) + ')' },
+        { label: 'Lowest month', value: r.labels[troughIdx] + ' (' + fmtL(trough) + ')' },
+        { label: 'Average monthly revenue', value: fmtCr(r.monthly.reduce(function(a,b){return a+b}, 0)/r.monthly.length) },
+        { label: 'Months with growth', value: r.monthly.slice(1).filter(function(v,i){return v>r.monthly[i];}).length + ' of ' + (r.monthly.length-1) }
+      ],
+      'Sum of line_total per calendar month over master_orders.csv, Delivered + Processing orders only. Growth percentages compare each month with the previous month.',
+      ['Trend is descriptive \u2014 it does not establish why months grew or shrank.'],
+      ['Break the latest month down by category', 'Compare Dec 2024 vs Nov 2024', 'What does the 6-month forecast look like?']);
   }
 
-  // ============================================================
-  // 3. CATEGORY PERFORMANCE (Deep Dive)
-  // ============================================================
-  if (/(category|which.category|best.category|top.category|category.performance|by.category)/.test(q)) {
+  // ---------- 3. Category performance (category-level aggregation) ----------
+  if (/(category|categories)/.test(q) && !/(product|products)/.test(q)) {
     var cats = K.categories;
-    var catLines = cats.labels.map(function(cat,i) {
-      var rev = cats.revenue[i];
-      var prof = cats.profit[i];
-      var marg = cats.margin[i];
-      return '\u2022 **' + cat + '**: ' + fmtCr(rev) + ' revenue | ' + fmtCr(prof) + ' profit | **' + marg + '% margin** (' + pctOf(rev, K.revenue.total) + '% of total)';
+    var catRows = cats.labels.map(function(cat,i) {
+      return '\u2022 **' + cat + '** \u2014 revenue ' + fmtCr(cats.revenue[i]) + ' | gross profit ' + fmtCr(cats.profit[i]) + ' | margin **' + cats.margin[i] + '%** | ' + pctOf(cats.revenue[i], K.revenue.total) + '% of revenue';
     }).join('\n');
-    var revRank = cats.labels.map(function(c,i){return (i+1) + '. ' + c;}).join(' > ');
-    var margRank = cats.labels.map(function(c,i){return c + ' (' + cats.margin[i] + '%)';}).sort(function(a,b){return parseFloat(b.split('(')[1]) - parseFloat(a.split('(')[1]);}).join(' > ');
-    var marginSpread = Math.max.apply(Math, cats.margin) - Math.min.apply(Math, cats.margin);
-    return {
-      text: '**Category Performance Deep Dive**\n\n' +
-        '**Revenue & Margin by Category:**\n' + catLines + '\n\n' +
-        '**Ranking by Revenue:** ' + revRank + '\n' +
-        '**Ranking by Margin:** ' + margRank + '\n\n' +
-        '**Key Insights:**\n' +
-        '- **Sports** leads in both revenue (' + fmtCr(cats.revenue[0]) + ') and margin (' + cats.margin[0] + '%)\n' +
-        '- **Beauty** has lowest margin (' + cats.margin[4] + '%) despite ' + fmtCr(cats.revenue[4]) + ' revenue\n' +
-        '- Top 2 categories (Sports + Electronics) = ' + pctOf(cats.revenue[0]+cats.revenue[1], K.revenue.total) + '% of total revenue\n' +
-        '- Margin spread: ' + (Math.max.apply(Math, cats.margin) - Math.min.apply(Math, cats.margin)) + ' percentage points (' + Math.max.apply(Math, cats.margin) + '% \u2013 ' + Math.min.apply(Math, cats.margin) + '%)\n\n' +
-        '*Offline analysis from master_orders.csv + product_profitability.csv (Delivered + Processing orders only).*',
-      meta: { source: 'offline' }
-    };
+    var weakest = cats.margin.indexOf(Math.min.apply(Math, cats.margin));
+    var answer = 'Sports is the strongest category on both measures: highest revenue (' + fmtCr(cats.revenue[0]) + ') and highest margin (' + cats.margin[0] + '%). ' + cats.labels[weakest] + ' has the lowest margin at ' + cats.margin[weakest] + '%, so it is the first place to look for margin recovery \u2014 but confirm whether the gap comes from product cost, discount depth, or category mix before changing pricing.';
+    return build('success', 'category_ranking', answer,
+      cats.labels.map(function(cat,i) {
+        return { label: cat, value: fmtCr(cats.revenue[i]) + ' revenue', comparison: cats.margin[i] + '% margin, ' + pctOf(cats.revenue[i], K.revenue.total) + '% of total' };
+      }),
+      'Aggregated at category level from master_orders.csv: revenue = SUM(line_total), gross profit = SUM(line_total \u2212 cost_total), margin = profit \u00f7 revenue. Delivered + Processing orders only. This is category-level analysis, not individual products.',
+      ['Category margin differences reflect product and order mix \u2014 the data shows association, not the cause.'],
+      ['Which products drive the weakest category margin?', 'How do categories compare on profit contribution?', 'What are my top 5 products by gross profit?']);
   }
 
-  // ============================================================
-  // 4. REGION PERFORMANCE
-  // ============================================================
-  if (/(region|by.region|geographic|geography|west|east|north|south|central)/.test(q)) {
+  // ---------- 4. Region performance ----------
+  if (/(region|regions|geographic|geography|west|east|north|south|central)/.test(q)) {
     var r = K.revenue;
     var regions = Object.entries(r.by_region).sort(function(a,b){return b[1]-a[1];});
-    var regLines = regions.map(function(_ref3,i) {
-      var reg = _ref3[0];
-      var rev = _ref3[1];
-      return (i+1) + '. **' + reg + '**: ' + fmtCr(rev) + ' (' + pctOf(rev, r.total) + '%)';
-    }).join('\n');
-    var spread = (regions[0][1]/regions[regions.length-1][1]).toFixed(1);
-    return {
-      text: '**Regional Performance Analysis**\n\n' +
-        '**Revenue by Region:**\n' + regLines + '\n\n' +
-        '**Revenue Concentration:** Top 2 regions (' + regions[0][0] + ' + ' + regions[1][0] + ') = ' + pctOf(regions[0][1]+regions[1][1], r.total) + '% of total\n' +
-        '**Spread:** ' + spread + 'x between highest (' + regions[0][0] + ') and lowest (' + regions[regions.length-1][0] + ')\n\n' +
-        '**Regional Context:** All 5 regions contribute meaningfully (' + pctOf(regions[4][1], r.total) + '% minimum). No single region dominates excessively \u2014 healthy geographic diversification.\n\n' +
-        '*Offline analysis from master_orders.csv (Delivered + Processing orders only).*',
-      meta: { source: 'offline' }
-    };
+    var regLines = regions.map(function(e,i){ return (i+1) + '. **' + e[0] + '**: ' + fmtCr(e[1]) + ' (' + pctOf(e[1], r.total) + '%)'; }).join('\n');
+    var answer = regions[0][0] + ' leads regional revenue at ' + fmtCr(regions[0][1]) + ' (' + pctOf(regions[0][1], r.total) + '%), but the spread is narrow \u2014 the top region is only ' + (regions[0][1]/regions[regions.length-1][1]).toFixed(1) + '\u00d7 the smallest. Revenue is geographically diversified rather than concentrated in one market.';
+    return build('success', 'region_ranking', answer,
+      regions.map(function(e) {
+        return { label: e[0], value: fmtCr(e[1]), comparison: pctOf(e[1], r.total) + '% of total revenue' };
+      }),
+      'Aggregated at region level from master_orders.csv (region dimension), Delivered + Processing orders only.',
+      ['No causal claim: regional differences reflect customer distribution in the synthetic dataset.'],
+      ['Which categories perform best in the top region?', 'Show revenue trend by month', 'What are my biggest business risks?']);
   }
 
-  // ============================================================
-  // 5. PRODUCT PROFITABILITY (Top 10, BCG, Margins)
-  // ============================================================
-  if (/(product|which.product|best.product|top.product|profitable|profit.margin|bcg|margin)/.test(q) && !/(category|region)/.test(q)) {
-    var top5 = K.products.top10.slice(0,5);
+  // ---------- 5. Product profitability (product-level) ----------
+  if (/(product|products|sku)/.test(q) && !/(category|categories)/.test(q)) {
     var top10 = K.products.top10;
     var bcg = K.products.bcg;
-    var top5Lines = top5.map(function(p,i){
-      return (i+1) + '. **' + p.product_name + '** (' + p.category + ') \u2014 ' + fmt(p.profit) + ' profit | ' + p.margin_pct + '% margin | ' + p.units_sold.toLocaleString() + ' units | ' + fmt(p.revenue) + ' revenue';
-    }).join('\n');
-    var above60 = top10.filter(function(p){return p.margin_pct>=60;}).length;
-    return {
-      text: '**Product Profitability Analysis**\n\n' +
-        '**Top 5 Products by Gross Profit:**\n' + top5Lines + '\n\n' +
-        '**Top 10 Margin Range:** ' + top10[0].margin_pct + '% \u2013 ' + top10[9].margin_pct + '% (all above business average of 54.0%)\n\n' +
-        '**Product Portfolio Matrix (150 SKUs):**\n' +
-        '\u2022 **Stars**: ' + bcg.Star + ' (High volume, High margin) \u2014 Invest & protect\n' +
-        '\u2022 **Cash Cows**: ' + bcg['Cash Cow'] + ' (High volume, Avg margin) \u2014 Harvest efficiently\n' +
-        '\u2022 **Question Marks**: ' + bcg['Question Mark'] + ' (Low volume, High margin) \u2014 Evaluate for investment\n' +
-        '\u2022 **Dogs**: ' + bcg.Dog + ' (Low volume, Low margin) \u2014 Consider repricing/bundling/discontinuing\n\n' +
-        '**Margin Distribution:**\n' +
-        '- Products above 60% margin: ' + top10.filter(function(p){return p.margin_pct>=60;}).length + ' of top 10\n' +
-        '- Business average margin: **54.0%**\n' +
-        '- Top product margin: **' + top10[0].margin_pct + '%** (' + top10[0].product_name + ')\n\n' +
-        '*Offline analysis from product_profitability.csv + BCG classification (scripts/decision_layer.py).*',
-      meta: { source: 'offline' }
-    };
+    var top5 = top10.slice(0,5);
+    var prodLines = top5.map(function(p,i){ return (i+1) + '. **' + p.product_name + '** (' + p.category + ') \u2014 ' + fmt(p.profit) + ' profit, ' + p.margin_pct + '% margin, ' + p.units_sold.toLocaleString() + ' units'; }).join('\n');
+    var answer = 'The top product by gross profit is ' + top10[0].product_name + ' at ' + fmt(top10[0].profit) + ' with a ' + top10[0].margin_pct + '% margin. Every product in the top 10 clears 65% margin \u2014 well above the 54.0% business average \u2014 so high-profit products are also the most efficient, not high-volume/low-margin trades.';
+    return build('success', 'product_ranking', answer,
+      top5.map(function(p) {
+        return { label: p.product_name + ' (' + p.category + ')', value: fmt(p.profit) + ' profit', comparison: p.margin_pct + '% margin, ' + p.units_sold.toLocaleString() + ' units' };
+      }),
+      'Aggregated at product level from product_profitability.csv: profit = revenue \u2212 cost per product, ranked by gross profit. Portfolio classification uses volume \u00d7 margin (Stars ' + bcg.Star + ', Cash Cows ' + bcg['Cash Cow'] + ', Question Marks ' + bcg['Question Mark'] + ', Dogs ' + bcg.Dog + ' of 150 SKUs).',
+      ['Portfolio matrix uses volume \u00d7 gross margin \u2014 a BCG-inspired proxy, not the classic market-growth/share version.'],
+      ['Which category do my top products belong to?', 'What is the weakest-margin product in the top 10?', 'Show category-level profitability instead']);
   }
 
-  // ============================================================
-  // 6. MONTH-OVER-MONTH / YoY COMPARISONS
-  // ============================================================
-  if (/(mom|month.over.month|yoy|year.over.year|compare.month|compare.year|versus|vs|change|difference|declin|grow|decline)/.test(q)) {
+  // ---------- 6. MoM / comparison ----------
+  if (/(mom|month.over.month|compare|versus|vs|difference|change|declin|decline|grow|why.*revenue)/.test(q)) {
     var mom = D.mom || {};
-    var momRevenue = mom.revenue ? growthPct(mom.revenue[1], mom.revenue[0]) : 'N/A';
-    var momOrders = mom.orders ? growthPct(mom.orders[1], mom.orders[0]) : 'N/A';
-    var momCustomers = mom.active_customers ? growthPct(mom.active_customers[1], mom.active_customers[0]) : 'N/A';
-    var momAOV = mom.aov ? growthPct(mom.aov[1], mom.aov[0]) : 'N/A';
-    
-    var y2022 = K.revenue.monthly.slice(0,12).reduce(function(a,b){return a+b}, 0);
-    var y2023 = K.revenue.monthly.slice(12,24).reduce(function(a,b){return a+b}, 0);
-    var y2024 = K.revenue.monthly.slice(24,36).reduce(function(a,b){return a+b}, 0);
-    
-    var momRevAbs = momRevenue >= 0 ? momRevenue : (-momRevenue);
-    var momOrdAbs = momOrders >= 0 ? momOrders : (-momOrders);
-    var momCustAbs = momCustomers >= 0 ? momCustomers : (-momCustomers);
-    var momAOVabs = momAOV >= 0 ? momAOV : (-momAOV);
-    
-    return {
-      text: '**Month-over-Month & Year-over-Year Analysis**\n\n' +
-        '**Latest MoM (' + mom.prev_label + ' \u2192 ' + mom.label + '):**\n' +
-        '| Metric | ' + mom.prev_label + ' | ' + mom.label + ' | Change |\n' +
-        '|--------|------------------|--------------|--------|\n' +
-        '| Revenue | ' + fmtCr(mom.revenue?.[0]||0) + ' | ' + fmtCr(mom.revenue?.[1]||0) + ' | ' + pct(momRevenue) + ' |\n' +
-        '| Orders | ' + (mom.orders?.[0]?.toLocaleString()||'N/A') + ' | ' + (mom.orders?.[1]?.toLocaleString()||'N/A') + ' | ' + pct(momOrders) + ' |\n' +
-        '| Active Customers | ' + (mom.active_customers?.[0]?.toLocaleString()||'N/A') + ' | ' + (mom.active_customers?.[1]?.toLocaleString()||'N/A') + ' | ' + pct(momCustomers) + ' |\n' +
-        '| Avg Order Value | ' + fmt(mom.aov?.[0]||0) + ' | ' + fmt(mom.aov?.[1]||0) + ' | ' + pct(momAOV) + ' |\n\n' +
-        '**Year-over-Year Revenue:**\n' +
-        '| Year | Revenue | YoY Change |\n' +
-        '|------|---------|------------|\n' +
-        '| 2022 | ' + fmtCr(y2022) + ' | \u2014 |\n' +
-        '| 2023 | ' + fmtCr(y2023) + ' | ' + pct(growthPct(y2023, y2022)) + ' |\n' +
-        '| 2024 | ' + fmtCr(y2024) + ' | ' + pct(growthPct(y2024, y2023)) + ' |\n\n' +
-        '**Key Drivers (' + mom.label + '):**\n' +
-        '- Revenue ' + (momRevenue >= 0 ? 'grew' : 'declined') + ' by ' + Math.abs(momRevenue) + '% \u2014 driven by **order volume** (' + Math.abs(momOrders) + '%) ' + (momAOV >= 0 ? 'with' : 'despite') + ' AOV change (' + momAOV + '%)\n' +
-        '- Active customers ' + (momCustomers >= 0 ? 'increased' : 'decreased') + ' by ' + Math.abs(momCustomers) + '%\n\n' +
-        '*Offline analysis from decision_layer.py (MoM) + master_orders.csv (YoY).*',
-      meta: { source: 'offline' }
-    };
+    if (mom.revenue) {
+      var revChg = growthPct(mom.revenue[1], mom.revenue[0]);
+      var ordChg = growthPct(mom.orders[1], mom.orders[0]);
+      var aovChg = growthPct(mom.aov[1], mom.aov[0]);
+      var answer = 'Revenue ' + (revChg >= 0 ? 'grew' : 'declined') + ' ' + Math.abs(revChg) + '% from ' + mom.prev_label + ' to ' + mom.label + '. The driver is order volume: orders moved ' + Math.abs(ordChg) + '% while AOV moved only ' + Math.abs(aovChg) + '%, so the revenue change is volume-led, not price-led.';
+      return build('success', 'period_comparison', answer,
+        [
+          { label: 'Revenue', value: fmtCr(mom.revenue[1]), comparison: pct(revChg) + ' vs ' + mom.prev_label + ' (' + fmtCr(mom.revenue[0]) + ')' },
+          { label: 'Orders', value: mom.orders[1].toLocaleString(), comparison: pct(ordChg) + ' MoM' },
+          { label: 'Active customers', value: (mom.active_customers ? mom.active_customers[1].toLocaleString() : 'N/A'), comparison: mom.active_customers ? pct(growthPct(mom.active_customers[1], mom.active_customers[0])) + ' MoM' : '' },
+          { label: 'AOV', value: fmt(mom.aov[1]), comparison: pct(aovChg) + ' MoM' }
+        ],
+        'Month-over-month deltas from scripts/decision_layer.py, computed on the same valid-order population for both months. Volume-led vs price-led is inferred from the relative sizes of the order and AOV changes.',
+        ['A two-month comparison is descriptive \u2014 it identifies the largest observed contributor, not the business cause.'],
+        ['Show the 36-month revenue trend', 'What does the 6-month forecast look like?', 'What are my biggest business risks?']);
+    }
   }
 
-  // ============================================================
-  // 7. CUSTOMER SEGMENTS (RFM) & CHURN
-  // ============================================================
-  if (/(customer|rfm|segment|churn|retention|loyal|inactive|loyal|at.risk|champion|sleep)/.test(q)) {
+  // ---------- 7. Customers / RFM / churn ----------
+  if (/(customer|rfm|segment|churn|retention|loyal|inactive|at.risk|champion|sleep)/.test(q)) {
     var c = K.churn;
     var rfm = K.rfm;
-    var segLines = rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b},0)) + '%)';}).join('\n');
-    var safeAvgVal = safeAvg(D.cohorts?.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}));
-    var matureCount = (D.cohorts?.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}).length) || 0;
-    return {
-      text: '**Customer Segmentation & Churn Analysis**\n\n' +
-        '**Churn Metrics:**\n' +
-        '- **Model Churn Rate:** ' + c.rate + '% (prevalence on 1,597 scored customers)\n' +
-        '- **Cooling-off Customers:** ' + c.cooling_off_customers.toLocaleString() + ' (Medium + High risk) \u2014 ' + fmtCr(c.cooling_off_spend) + ' historical spend\n' +
-        '- **Raw 180-day Inactivity:** ' + c.inactive_180d.toLocaleString() + ' customers with no purchase in final 180 days\n\n' +
-        '**RFM Segments (8 segments, 1,991 active customers):**\n' +
-        rfm.segments.map(function(s,i){return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], rfm.counts.reduce(function(a,b){return a+b},0)) + '%)';}).join('\n') + '\n\n' +
-        '**Segment Strategies:**\n' +
-        '\u2022 **Champions** (' + rfm.counts[2].toLocaleString() + '): Highest R/F/M \u2014 Retain at all costs, loyalty perks, early access\n' +
-        '\u2022 **Loyal Customers** (' + rfm.counts[0].toLocaleString() + '): Largest segment \u2014 Cross-sell adjacent categories, referral program\n' +
-        '\u2022 **Potential Loyalists** (' + rfm.counts[7].toLocaleString() + '): Recent, medium frequency \u2014 Membership offers, second-purchase push\n' +
-        '\u2022 **Recent Customers** (' + rfm.counts[3].toLocaleString() + '): New buyers \u2014 Welcome flow, first-repeat incentive\n' +
-        '\u2022 **About to Sleep** (' + rfm.counts[1].toLocaleString() + '): Cooling down \u2014 Limited-time offer, re-engage now\n' +
-        '\u2022 **At Risk** (' + rfm.counts[4].toLocaleString() + '): High historical spend \u2014 Win-back with personal outreach\n' +
-        '\u2022 **Needs Attention** (' + rfm.counts[5].toLocaleString() + '): Incentive + feedback capture\n' +
-        '\u2022 **Lost Customers** (' + rfm.counts[6].toLocaleString() + '): Low-cost reactivation only\n\n' +
-        '**Cohort Retention (Month-3 Average):** ' + safeAvg(D.cohorts?.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;})) + '% (' + matureCount + ' cohorts with completed M3)\n' +
-        '**Retention Trend:** Newer cohorts (late 2024) show 55\u201388% M1 vs 15\u201328% for 2023 \u2014 **right-censored**, not improving.\n\n' +
-        '**Model Integrity:** AUC = 0.674 (5-fold CV), rebuilt after leakage fix (earlier version: AUC = 1.0 due to recency_days leak).\n\n' +
-        '*Offline analysis from rfm_segments.csv, churn_features.csv, cohort matrix, churn_calibration.py.*',
-      meta: { source: 'offline' }
-    };
+    var totalSeg = rfm.counts.reduce(function(a,b){return a+b}, 0);
+    var segLines = rfm.segments.map(function(s,i){ return '\u2022 **' + s + '**: ' + rfm.counts[i].toLocaleString() + ' customers (' + pctOf(rfm.counts[i], totalSeg) + '%)'; }).join('\n');
+    var answer = c.cooling_off_customers.toLocaleString() + ' customers sit in the cooling-off band with ' + fmtCr(c.cooling_off_spend) + ' of historical spend \u2014 that is the population a win-back programme should target first. The 23.5% churn figure is a model label prevalence on 1,597 scored customers, not an observed churn rate.';
+    return build('success', 'customer_analysis', answer,
+      [
+        { label: 'Model churn rate', value: c.rate + '%', comparison: 'prevalence on 1,597 scored customers \u2014 predicted, not observed' },
+        { label: 'Cooling-off customers', value: c.cooling_off_customers.toLocaleString(), comparison: fmtCr(c.cooling_off_spend) + ' historical spend' },
+        { label: '180-day inactivity (raw)', value: c.inactive_180d.toLocaleString(), comparison: 'no purchase in final 180 days \u2014 different population from the model band' },
+        { label: 'Champions segment', value: rfm.counts[2].toLocaleString() + ' customers', comparison: 'highest R/F/M \u2014 protect first' },
+        { label: 'At Risk segment', value: rfm.counts[4].toLocaleString() + ' customers', comparison: 'high historical spend \u2014 win-back candidates' }
+      ],
+      'RFM segments from rfm_segments.csv (recency, frequency, monetary scoring). Churn rate is the positive-label share of the churn model\u2019s scored population (1,597 customers with a full 180-day forward window); cooling-off is the Medium + High risk band.',
+      ['Predicted churn \u2260 observed churn. Raw 180-day inactivity (376) and the model band (441) measure different populations and should not be mixed.'],
+      ['What are the win-back economics for cooling-off customers?', 'Show the cohort retention matrix', 'Which segments contribute the most revenue?']);
   }
 
-  // ============================================================
-  // 8. DISCOUNT ECONOMICS & PRICING
-  // ============================================================
-  if (/(discount|pricing|price|break.even|elasticity|promotion|offer|deal)/.test(q)) {
-    var P = DATA.pricing?.discount || {};
-    var depths = P.depths || [0,0.05,0.1,0.15,0.2];
-    var margins = P.margin_pct_of_list || [];
-    var lifts = P.break_even_lift || [];
-    var shares = P.share_of_items || [];
-    var tableRows = depths.map(function(d,i){
-      return '| ' + Math.round(d*100) + '% | ' + ((P.margin_rate?.[i]*100).toFixed(1)) + '% | ' + ((margins[i]*100).toFixed(1)) + '% | +' + ((lifts[i]*100).toFixed(1)) + '% | ' + ((shares[i]*100).toFixed(1)) + '% |';
+  // ---------- 8. Discount / pricing ----------
+  if (/(discount|pricing|price|break.even|elasticity|promotion|offer)/.test(q)) {
+    var P = DATA.pricing.discount;
+    var ladder = P.depths.map(function(d,i){
+      return '\u2022 ' + Math.round(d*100) + '% off \u2014 margin ' + (P.margin_pct_of_list[i]*100).toFixed(1) + '% of list, break-even volume lift +' + (P.break_even_lift[i]*100).toFixed(1) + '%';
     }).join('\n');
-    var mr = P.margin_recovered_cap10 || 644517.95;
-    var be20 = (P.break_even_at_20*100).toFixed(1);
-    var m5 = margins[1]?(margins[1]*100).toFixed(1):'N/A';
-    var l5 = lifts[1]?(lifts[1]*100).toFixed(1):'N/A';
-    var m20 = margins[4]?(margins[4]*100).toFixed(1):'N/A';
-    var l20 = lifts[4]?(lifts[4]*100).toFixed(1):'N/A';
-    var lines10 = P.lines_affected_cap10 || 3294;
-    var kruskal = P.kruskal_p || 0.305;
-    return {
-      text: '**Discount Economics & Pricing Analysis**\n\n' +
-        '**Discount Ladder Performance:**\n' +
-        '| Discount | Margin Rate | Margin % of List | Break-even Volume Lift | Share of Line Items |\n' +
-        '|----------|-------------|------------------|------------------------|---------------------|\n' +
-        depths.map(function(d,i){return '| ' + Math.round(d*100) + '% | ' + ((P.margin_rate?.[i]*100).toFixed(1)) + '% | ' + ((margins[i]*100).toFixed(1)) + '% | +' + ((lifts[i]*100).toFixed(1)) + '% | ' + ((shares[i]*100).toFixed(1)) + '% |';}).join('\n') + '\n\n' +
-        '**Key Findings:**\n' +
-        '- **Volume Response:** Not statistically significant (Kruskal-Wallis p = ' + (P.kruskal_p || 0.305) + ')\n' +
-        '- **Break-even at 20% off:** +' + be20 + '% volume lift needed\n' +
-        '- **Margin Recovered (10% cap):** ' + fmtL(mr) + ' (' + ((mr/K.revenue.profit*100).toFixed(1)) + '% of total margin)\n' +
-        '- **Lines Affected by 10% Cap:** ' + lines10 + ' (above 10% discount)\n\n' +
-        '**Strategic Implications:**\n' +
-        '- Every discount rung erodes margin without proven volume lift\n' +
-        '- At 5% off: margin ' + m5 + '% of list (needs +' + l5 + '% volume to break even)\n' +
-        '- At 20% off: margin ' + m20 + '% of list (needs +' + l20 + '% volume)\n\n' +
-        '**Recommendation:** Cap discounts at 10% pending a controlled experiment. p=0.305 does not prove zero volume effect — only that no statistically significant effect was detected. Cap saves an estimated ~Rs 6.45L margin (2% of total) as a counterfactual, not guaranteed savings.\n\n' +
-        '*Offline analysis from pricing/elasticity.py, discount_analysis.json (Delivered + Processing orders only).*',
-      meta: { source: 'offline' }
-    };
+    var answer = 'The discount ladder does not pay for itself at current volumes: the measured volume response is not statistically significant (Kruskal-Wallis p = ' + P.kruskal_p + '), while every rung erodes margin. At 20% off, volume would need to rise ' + (P.break_even_at_20*100).toFixed(1) + '% just to hold margin flat.';
+    return build('success', 'pricing_analysis', answer,
+      [
+        { label: 'Volume response', value: 'p = ' + P.kruskal_p, comparison: 'not significant \u2014 no detected lift, not proof of zero effect' },
+        { label: 'Break-even lift at 20% off', value: '+' + (P.break_even_at_20*100).toFixed(1) + '%', comparison: 'volume increase needed to hold margin flat' },
+        { label: 'Margin recovered by 10% cap', value: fmtL(P.margin_recovered_cap10), comparison: ((P.margin_recovered_cap10/K.revenue.profit)*100).toFixed(1) + '% of total margin \u2014 estimated counterfactual, not realised savings' },
+        { label: 'Lines above 10% discount', value: (P.lines_affected_cap10 || 3294).toLocaleString(), comparison: 'affected by a 10% cap' }
+      ],
+      'From pricing/elasticity.py on order line items: margin % of list = (line_total \u2212 cost) \u00f7 list price at each discount depth; break-even lift solves margin_after \u00d7 (1 + lift) = margin_before. Significance from Kruskal-Wallis across discount depths.',
+      ['p > 0.05 means the test did not detect an effect at conventional levels \u2014 it does not prove discounts have no effect. The recovery figure is an estimate under stated assumptions, not realised savings.'],
+      ['What are the win-back economics?', 'Which products have the weakest margins?', 'Show category-level profitability']);
   }
 
-  // ============================================================
-  // 9. WIN-BACK ECONOMICS
-  // ============================================================
+  // ---------- 9. Win-back ----------
   if (/(win.back|winback|reactivation|re.engage|campaign)/.test(q)) {
-    var W = DATA.pricing?.winback || {};
-    var tiers = W.tiers || [];
-    var s5_100 = fmt(W.sensitivity?.find(function(s){return s.r===0.05&&s.c===100;})?.profit || 157.52);
-    var s5_250 = fmt(W.sensitivity?.find(function(s){return s.r===0.05&&s.c===250;})?.profit || 7.52);
-    var s15_250 = fmt(W.sensitivity?.find(function(s){return s.r===0.15&&s.c===250;})?.profit || 522.55);
-    var s30_250 = fmt(W.sensitivity?.find(function(s){return s.r===0.30&&s.c===250;})?.profit || 1295.1);
-    var tierLines = tiers.map(function(t){return '\u2022 **' + t.label + '**: ' + t.audience.toLocaleString() + ' customers \u2192 ' + fmt(t.profit) + ' expected net revenue';}).join('\n');
-    return {
-      text: '**Win-Back Campaign Economics**\n\n' +
-        '**Audience:** ' + (W.customers || 441) + ' cooling-off customers (Medium + High risk)\n' +
-        '**Historical Spend:** ' + fmtCr(W.historical_spend || 12998872.58) + '\n' +
-        '**Mean Churn Probability:** ' + ((W.mean_churn_p*100).toFixed(1)) + '%\n\n' +
-        '**Economics per Contact:**\n' +
-        '- **Contact Cost:** ' + fmt(W.contact_cost || 250) + '\n' +
-        '- **Assumed Recovery Rate:** ' + ((W.recovery_rate*100).toFixed(0)) + '%\n' +
-        '- **Retained Value per Reactivated:** ' + fmt(W.retained_value || 13292.2) + '\n' +
-        '- **Expected Gross Revenue/Contact:** ' + fmt(W.ev_per_contact || 522.55) + ' (before COGS and contact costs)\n' +
-        '- **Break-even Churn Probability:** ' + ((W.break_even_p*100).toFixed(1)) + '% (matches Bayes threshold)\n\n' +
-        '**Campaign Scenarios:**\n' + tierLines + '\n\n' +
-        '**Sensitivity (Expected Net Revenue per Contact):**\n' +
-        '| Recovery Rate | Contact Cost | Expected Net Revenue |\n' +
-        '|---------------|--------------|---------------------|\n' +
-        '| 5% | \u20b9100 | ' + s5_100 + ' |\n' +
-        '| 5% | \u20b9250 | ' + s5_250 + ' |\n' +
-        '| 15% | \u20b9250 | ' + s15_250 + ' |\n' +
-        '| 30% | \u20b9250 | ' + s30_250 + ' |\n\n' +
-        '**Budget Worklist:** At \u20b925K/month (\u20b9250/contact) \u2192 100 calls/month from 441 eligible\n' +
-        '**Break-even:** ' + ((W.break_even_p*100).toFixed(1)) + '% churn probability = Bayes threshold (' + (W.bayes_threshold || 0.1254) + ')\n\n' +
-        '**Key Caveats:**\n' +
-        '- Expected net revenue is **before COGS** (at 54% margin, \u20b9523 revenue \u2248 \u20b9167 contribution)\n' +
-        '- No campaign has been run \u2014 all figures are **expectations under assumptions**\n' +
-        '- Recovery rate is the single most sensitive assumption\n\n' +
-        '*Offline analysis from winback.py, winback_economics.json (expectation, not measured outcome).*',
-      meta: { source: 'offline' }
-    };
+    var W = DATA.pricing.winback;
+    var tierB = W.tiers.filter(function(t){return t.name==='B';})[0];
+    var answer = 'The highest-ROI scenario is contacting the top decile by expected value \u2014 ' + tierB.audience + ' customers \u2014 for an expected ' + fmt(tierB.profit) + ' in expected net revenue. Contacting all ' + W.customers + ' cooling-off customers yields ' + fmt(W.tiers[0].profit) + ' but costs 10\u00d7 more in contact spend. All figures are expectations under the stated cost model; no campaign has been run.';
+    return build('success', 'winback_economics', answer,
+      [
+        { label: 'Eligible audience', value: W.customers.toLocaleString() + ' cooling-off customers', comparison: fmtCr(W.historical_spend) + ' historical spend' },
+        { label: 'Top-decile scenario', value: tierB.audience + ' customers', comparison: fmt(tierB.profit) + ' expected net revenue' },
+        { label: 'Blanket scenario', value: W.customers.toLocaleString() + ' customers', comparison: fmt(W.tiers[0].profit) + ' expected net revenue' },
+        { label: 'Expected value per contact', value: fmt(W.ev_per_contact), comparison: 'at ' + (W.recovery_rate*100).toFixed(0) + '% assumed recovery, ' + fmt(W.contact_cost) + ' contact cost' },
+        { label: 'Break-even churn probability', value: (W.break_even_p*100).toFixed(1) + '%', comparison: 'matches the model\u2019s Bayes threshold' }
+      ],
+      'From winback.py: EV per contact = p \u00d7 r \u00d7 retained_value \u2212 contact_cost, where p is predicted churn probability, r the assumed recovery rate. Figures are expected net revenue before cost of goods sold \u2014 at 54% margin, ' + fmt(W.ev_per_contact) + ' of revenue is roughly ' + fmt(W.ev_per_contact*0.54) + ' of contribution.',
+      ['The recovery rate is an assumption, not a measurement \u2014 sensitivity analysis shows it is the single most sensitive input. Expected values are not guaranteed outcomes; treat as scenario estimates before committing budget.'],
+      ['How sensitive is the win-back case to the recovery assumption?', 'Which segments should receive retention attention?', 'What are my biggest business risks?']);
   }
 
-  // ============================================================
-  // 10. FORECAST & PREDICTIONS
-  // ============================================================
+  // ---------- 10. Forecast ----------
   if (/(forecast|predict|projection|future|next.month|next.quarter|2025)/.test(q)) {
     var f = K.forecast;
-    var monthlyBreakdown = f.labels.map(function(lbl,i){return '\u2022 ' + lbl + ': ' + fmtCr(f.next_6m[i]) + ' (' + (i>0?pct(growthPct(f.next_6m[i], f.next_6m[i-1])):'\u2014') + ')';}).join('\n');
-    var projLines = f.labels.map(function(lbl,i){return '\u2022 ' + lbl + ': ' + fmtCr(f.next_6m[i]);}).join('\n');
-    return {
-      text: '**Revenue Forecast (Jan\u2013Jun 2025) \u2014 Historical Backtest**\n\n' +
-        '**6-Month Projection:** ' + fmtCr(f.total) + ' (ensemble: Linear + Holt-Winters)\n' +
-        '**Projected Monthly Growth:** ' + f.monthly_growth + '% MoM\n\n' +
-        '**Monthly Breakdown:**\n' + f.labels.map(function(lbl,i){return '\u2022 ' + lbl + ': ' + fmtCr(f.next_6m[i]) + ' (' + (i>0?pct(growthPct(f.next_6m[i], f.next_6m[i-1])):'\u2014') + ')';}).join('\n') + '\n\n' +
-        '**Model Performance (Rolling-Origin Backtest: 10 origins \u00d7 3 horizons):**\n' +
-        '| Model | MASE | vs Drift Baseline | Status |\n' +
-        '|-------|------|-------------------|--------|\n' +
-        '| **Ensemble (Linear + Holt-Winters)** | **0.680** | Worse (drift = 0.468) | **Deployed** |\n' +
-        '| Holt-Linear (Challenger) | 0.3752 | Better | Not deployed |\n' +
-        '| Drift Baseline | 0.468 | \u2014 | Benchmark |\n\n' +
-        '**Forecast Quality:**\n' +
-        '- 95% Bootstrap CI empirical coverage: **9.5%** (severely under-covers nominal 95%)\n' +
-        '- Ensemble loses to simple drift baseline \u2014 **not reliable for planning**\n' +
-        '- Holt-Linear challenger better but not deployed\n\n' +
-        '**Monthly Projections (Indicative Only):**\n' + projLines + '\n\n' +
-        '**Critical Caveats:**\n' +
-        '- This is a **historical backtest**, not a live forecast\n' +
-        '- Ensemble loses to drift baseline \u2014 **do not use for budgeting**\n' +
-        '- 95% CI empirical coverage = 9.5% (vs 95% nominal) \u2014 intervals unreliable\n' +
-        '- Synthetic data limits real-world applicability\n\n' +
-        '*Offline analysis from forecast_backtest.py, forecast_challenger.py, revenue_forecast.csv (backtest only, not live prediction).*',
-      meta: { source: 'offline' }
-    };
+    var monthly = f.labels.map(function(lbl,i){ return '\u2022 ' + lbl + ': ' + fmtCr(f.next_6m[i]); }).join('\n');
+    var answer = 'The 6-month ensemble projects ' + fmtCr(f.total) + ' for Jan\u2013Jun 2025 at roughly ' + f.monthly_growth + '% monthly growth. Treat it as indicative only: the deployed ensemble scores MASE 0.680 \u2014 worse than a simple drift baseline (0.468) \u2014 and its 95% interval covers just 9.5% of actuals in backtesting.';
+    return build('success', 'forecast', answer,
+      [
+        { label: '6-month projection', value: fmtCr(f.total), comparison: 'Jan\u2013Jun 2025, ensemble (Linear + Holt-Winters)' },
+        { label: 'Deployed model MASE', value: '0.680', comparison: 'worse than drift baseline 0.468' },
+        { label: 'Challenger (holt-linear)', value: '0.3752', comparison: 'better, not deployed' },
+        { label: '95% CI empirical coverage', value: '9.5%', comparison: 'severely under-covers the nominal 95%' }
+      ],
+      'Rolling-origin backtest (10 origins \u00d7 3 horizons) from forecast_backtest.py on monthly revenue. Projections are a historical backtest output, not a live forecast.',
+      ['Given the interval under-coverage and baseline loss, do not use these figures for budgeting.'],
+      ['Show the 36-month revenue trend', 'What are my biggest business risks?', 'Compare Dec 2024 vs Nov 2024']);
   }
 
-  // ============================================================
-  // 11. ORDER FUNNEL & OPERATIONS
-  // ============================================================
-  if (/(funnel|order.status|delivered|cancelled|returned|processing|fulfillment|operations)/.test(q)) {
-    var f = D.funnel || {};
-    var funnelPlaced = f.values?.[0]?.toLocaleString() || '12,000';
-    var funnelDelivered = f.values?.[1]?.toLocaleString() || '9,312';
-    var pctPrev = f.values?.[0]?((f.values[1]/f.values[0]*100).toFixed(1)):'77.6';
-    var pctPlaced = f.exits?((f.values[1]/f.values[0]*100).toFixed(1)):'77.6';
-    var exitsHtml = f.exits ? Object.entries(f.exits).map(function(_ref4){var k=_ref4[0];var v=_ref4[1];return '\u2022 **' + k + '**: ' + v.toLocaleString() + ' (' + ((v/12000)*100).toFixed(1) + '% of placed)';}).join('\n') : '\u2022 Cancelled: 844 (7.0%)\n\u2022 Processing: 621 (5.2%)\n\u2022 Returned: 1,223 (10.2%)';
-    return {
-      text: '**Order Funnel & Operational Analysis**\n\n' +
-        '**Funnel (All 12,000 Placed Orders):**\n' +
-        '| Stage | Count | % of Previous | % of Placed |\n' +
-        '|-------|-------|---------------|-------------|\n' +
-        '| Placed | ' + funnelPlaced + ' | \u2014 | 100% |\n' +
-        '| Delivered | ' + funnelDelivered + ' | ' + pctPrev + '% | ' + pctPlaced + '% |\n\n' +
-        '**Exits (Mutually Exclusive):**\n' + exitsHtml + '\n\n' +
-        '**Key Metrics:**\n' +
-        '- **Delivery Rate:** ' + (f.delivery_rate_pct || 77.6) + '% of placed orders\n' +
-        '- **Return Rate:** ' + (((f.exits?.Returned||1223)/12000*100).toFixed(1)) + '% of placed (Returned is its own exit, NOT subtracted from Delivered)\n' +
-        '- **Cancellation Rate:** ' + (((f.exits?.Cancelled||844)/12000*100).toFixed(1)) + '%\n' +
-        '- **Processing (Open):** ' + (((f.exits?.Processing||621)/12000*100).toFixed(1)) + '%\n\n' +
-        '**Operational Status:** **Positive** (\u226570% delivery rate, per decision_layer.py)\n\n' +
-        '*Offline analysis from raw orders.csv, sql/11_order_funnel.sql (statuses mutually exclusive).*',
-      meta: { source: 'offline' }
-    };
+  // ---------- 11. Funnel / operations ----------
+  if (/(funnel|order.status|delivered|cancelled|returned|processing|fulfillment|operations|return rate)/.test(q)) {
+    var f = D.funnel || { values: [12000, 9312], exits: { Cancelled: 844, Processing: 621, Returned: 1223 }, delivery_rate_pct: 77.6 };
+    var answer = 'Of 12,000 placed orders, ' + f.values[1].toLocaleString() + ' were delivered (' + f.delivery_rate_pct + '%). Returns are the largest exit at ' + f.exits.Returned.toLocaleString() + ' (' + ((f.exits.Returned/12000)*100).toFixed(1) + '% of placed) \u2014 a revenue-quality issue rather than a fulfilment failure, since deliveries themselves complete at a healthy rate.';
+    return build('success', 'funnel_analysis', answer,
+      [
+        { label: 'Delivered', value: f.values[1].toLocaleString(), comparison: f.delivery_rate_pct + '% of placed orders' },
+        { label: 'Returned', value: f.exits.Returned.toLocaleString(), comparison: ((f.exits.Returned/12000)*100).toFixed(1) + '% of placed \u2014 its own exit status' },
+        { label: 'Cancelled', value: f.exits.Cancelled.toLocaleString(), comparison: ((f.exits.Cancelled/12000)*100).toFixed(1) + '% of placed \u2014 never transacted' },
+        { label: 'Processing (open)', value: f.exits.Processing.toLocaleString(), comparison: ((f.exits.Processing/12000)*100).toFixed(1) + '% of placed \u2014 counted in revenue' }
+      ],
+      'From raw orders.csv via sql/11_order_funnel.sql. Statuses are mutually exclusive: delivered + processing + cancelled + returned = 12,000. Returned is never subtracted from Delivered.',
+      ['Processing orders are booked but unfulfilled \u2014 including them in revenue is a stated basis choice.'],
+      ['What is the return rate by category?', 'What are my biggest business risks?', 'Show the 36-month revenue trend']);
   }
 
-  // ============================================================
-  // 12. COHORT RETENTION DETAILS
-  // ============================================================
-  if (/(cohort|retention.matrix|month.3|month.6|acquisition|cohort)/.test(q)) {
+  // ---------- 12. Cohorts ----------
+  if (/(cohort|retention.matrix|month.3|acquisition)/.test(q)) {
     var coh = D.cohorts || {};
-    var m3avg = safeAvg(coh.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}));
-    var matureCount = (coh.matrix?.map(function(r){return r[2];}).filter(function(v){return v!==null && v!==undefined;}).length) || 0;
-    var firstCohort = coh.labels?.[0] || 'Jul 2023';
-    var lastCohort = coh.labels?.[coh.labels.length-1] || 'Dec 2024';
-    var sizesStr = coh.sizes?.join(', ') || '33\u201389 customers per cohort';
-    return {
-      text: '**Cohort Retention Analysis**\n\n' +
-        '**Cohorts:** ' + (coh.labels?.length || 18) + ' (' + firstCohort + ' \u2013 ' + lastCohort + ')\n' +
-        '**Cohort Sizes:** ' + sizesStr + '\n' +
-        '**Max Months Tracked:** ' + (coh.max_months || 12) + '\n\n' +
-        '**Month-3 Retention (Average):** ' + m3avg + '% across ' + matureCount + ' mature cohorts\n\n' +
-        '**Retention Trend (M1 \u2192 M3):**\n' +
-        '- 2023 Cohorts (Jul\u2013Dec): M1 ~15\u201328%, M3 ~16\u201324%\n' +
-        '- 2024 Cohorts (Jan\u2013Dec): M1 \u223c28\u201360%, M3 \u223c20\u201348%\n' +
-        '- **Pattern:** Newer cohorts show higher retention \u2014 **right-censored**, not improving\n\n' +
-        '**Key Insight:** Apparent retention improvement is largely a **right-censoring artifact** (newer cohorts have fewer months observed). Compare only at fixed horizons.\n\n' +
-        '**Segment Playbook (from decision_layer.py):**\n' +
-        '| Segment | Customers | Historical Spend | Action |\n' +
-        '|---------|-----------|------------------|--------|\n' +
-        '| Loyal Customers | 495 | ' + fmtCr(16042298) + ' | Cross-sell adjacent categories |\n' +
-        '| Champions | 317 | ' + fmtCr(15491823) + ' | Retain \u2014 loyalty perks, early access |\n' +
-        '| At Risk | 221 | ' + fmtCr(9250457) + ' | Win-back \u2014 high-touch offer |\n' +
-        '| About To Sleep | 354 | ' + fmtCr(8900830) + ' | Re-engage before lapse |\n\n' +
-        '*Offline analysis from sql/09_cohort_retention.sql, cohort matrix (scripts/decision_layer.py).*',
-      meta: { source: 'offline' }
-    };
+    var m3vals = (coh.matrix || []).map(function(row){return row[2];}).filter(function(v){return v!==null && v!==undefined;});
+    var answer = 'Month-3 retention averages ' + safeAvg(m3vals) + '% across ' + m3vals.length + ' mature cohorts. Newer cohorts appear to retain better, but most of that gap is right-censoring \u2014 late-2024 cohorts have fewer observed months \u2014 so compare cohorts only at fixed horizons before concluding retention is improving.';
+    return build('success', 'cohort_analysis', answer,
+      [
+        { label: 'Cohorts tracked', value: ((coh.labels || []).length || 18) + ' cohorts', comparison: ((coh.labels || [])[0] || 'Jul 2023') + ' \u2013 ' + ((coh.labels || []).slice(-1)[0] || 'Dec 2024') },
+        { label: 'Month-3 retention (avg)', value: safeAvg(m3vals) + '%', comparison: m3vals.length + ' cohorts with a completed 3rd month' },
+        { label: 'Observed range (M1)', value: '~15\u201328% (2023) vs ~55\u201388% (late 2024)', comparison: 'right-censored \u2014 not an like-for-like comparison' }
+      ],
+      'Cohort matrix from scripts/decision_layer.py: customers grouped by first-purchase month; retention M<sub>k</sub> = share with \u22651 purchase k months later (M0 = 100%).',
+      ['Right-censoring: newer cohorts have shorter observation windows, which mechanically inflates their retention.'],
+      ['Which segments should receive retention attention?', 'What are the win-back economics?', 'Show the 36-month revenue trend']);
   }
 
-  // ============================================================
-  // 13. BUSINESS RISKS & OPPORTUNITIES
-  // ============================================================
+  // ---------- 13. Risks & opportunities ----------
   if (/(risk|opportunity|threat|weakness|strength|swot|concern|problem)/.test(q)) {
-    return {
-      text: '**Business Risks & Opportunities (Data-Backed)**\n\n' +
-        '**Top 4 Risks:**\n' +
-        '1. **Customer Churn & Retention** \u2014 23.5% model churn rate; 441 cooling-off customers (\u20b91.30Cr spend). Medium-risk band is primary revenue vulnerability.\n' +
-        '2. **Discount Margin Erosion** \u2014 No significant volume lift (p=0.305); 20% discount needs +59.2% volume to break even. Cap at 10% saves \u20b96.45L margin.\n' +
-        '3. **Cohort Right-Censoring** \u2014 Apparent retention improvement (15\u201328% \u2192 55\u201388%) is observation-window artifact. Newer cohorts <12 months observed.\n' +
-        '4. **Revenue Concentration** \u2014 Top 10% customers = ~42% projected LTV. Single-region dependency moderate (West 20.7%).\n\n' +
-        '**Top 4 Opportunities:**\n' +
-        '1. **Win-Back Campaign** \u2014 441 cooling-off customers, \u20b91.30Cr historical spend. Top decile by expected value yields highest ROI.\n' +
-        '2. **Discount Cap (10%)** \u2014 Recovers \u223c\u20b96.45L margin (2% of total) with no proven volume loss.\n' +
-        '3. **Volume-Focused Growth** \u2014 Dec 2024 growth was order-led (+21.3%), not price-led (-3.5% AOV). Invest in acquisition/retention.\n' +
-        '4. **Champion Protection** \u2014 317 Champions (16% of base) hold disproportionate value. Loyalty perks, early access, personal outreach.\n\n' +
-        '**Priority Matrix:**\n' +
-        '| Priority | Action | Effort | Impact | Timeline |\n' +
-        '|----------|--------|--------|--------|----------|\n' +
-        '| 1 | Cap discounts at 10% | Low | High (\u20b96.45L margin) | Immediate |\n' +
-        '| 2 | Win-back test (top decile) | Medium | High (\u20b92.30L EV) | 30 days |\n' +
-        '| 3 | Fix retention measurement | Low | Medium | Ongoing |\n' +
-        '| 4 | Champion loyalty program | Medium | High | 60 days |\n\n' +
-        '*Offline analysis from decision_layer.py, pricing/elasticity.py, winback.py, churn_calibration.py.*',
-      meta: { source: 'offline' }
-    };
+    var answer = 'The two risks with the clearest evidence are customer churn (441 cooling-off customers holding ' + fmtCr(K.churn.cooling_off_spend) + ' of historical spend) and discount margin erosion (no detected volume lift at p=' + DATA.pricing.discount.kruskal_p + ', with a ' + (DATA.pricing.discount.break_even_at_20*100).toFixed(1) + '% break-even requirement at 20% off). The clearest opportunity is a controlled win-back test on the top decile by expected value.';
+    return build('success', 'risk_analysis', answer,
+      [
+        { label: 'Churn exposure', value: '441 customers', comparison: fmtCr(K.churn.cooling_off_spend) + ' historical spend \u2014 predicted band, not observed churn' },
+        { label: 'Discount margin erosion', value: 'p = ' + DATA.pricing.discount.kruskal_p, comparison: 'no detected volume lift; +59.2% needed at 20% off to break even' },
+        { label: 'Cohort right-censoring', value: 'Observation-window artifact', comparison: 'apparent retention improvement is not like-for-like' },
+        { label: 'Revenue concentration', value: 'Top 10% \u2248 42% of projected LTV', comparison: 'projected, not realised value' },
+        { label: 'Forecast reliability', value: 'MASE 0.680 vs baseline 0.468', comparison: 'do not plan on the deployed ensemble' }
+      ],
+      'Each risk is backed by a measured metric: churn band from churn_features.csv, discount test from pricing/elasticity.py, cohort structure from decision_layer.py, forecast from forecast_backtest.py.',
+      ['Risks are ranked by evidence strength and potential impact \u2014 none establishes causation on its own.'],
+      ['What are the win-back economics?', 'Show the discount break-even analysis', 'How can I improve profitability?']);
   }
 
-  // ============================================================
-  // 14. RECOMMENDATIONS / ACTIONABLE INSIGHTS
-  // ============================================================
-  if (/(recommend|action|improve|what.should|next.step|strategy|should.i|priority)/.test(q)) {
-    return {
-      text: '**Actionable Recommendations (Prioritized by Impact \u00d7 Feasibility)**\n\n' +
-        '**1. IMMEDIATE: Cap Discounts at 10%**\n' +
-        '- **Why:** No volume lift detected (p=0.305); every rung erodes margin\n' +
-        '- **Impact:** Recovers \u223c\u20b96.45L margin (2% of total) with no proven volume loss\n' +
-        '- **Effort:** Policy change only \u2014 can implement today\n\n' +
-        '**2. 30 DAYS: Run Controlled Win-Back Test**\n' +
-        '- **Target:** Top decile of 441 cooling-off customers by expected value (p \u00d7 r \u00d7 V \u2212 C)\n' +
-        '- **Budget:** \u223c\u20b925K/month (100 contacts \u00d7 \u20b9250)\n' +
-        '- **Expected Net Revenue:** \u223c\u20b92.30L (at 15% recovery, before COGS)\n' +
-        '- **Measurement:** Treatment vs 20% holdout; measure incremental contribution margin\n\n' +
-        '**3. ONGOING: Fix Retention Measurement**\n' +
-        '- **Problem:** Right-censoring inflates newer cohort retention\n' +
-        '- **Fix:** Compare cohorts only at fixed months-since-first-purchase horizons\n' +
-        '- **Action:** Re-run cohort table monthly as cohorts mature\n\n' +
-        '**4. 60 DAYS: Champion Loyalty Program**\n' +
-        '- **Why:** 317 Champions hold disproportionate value\n' +
-        '- **Actions:** Loyalty perks, early access, personal outreach, referral incentives\n' +
-        '- **Measurement:** Retention rate, share-of-wallet, NPS\n\n' +
-        '**5. MONITOR: AOV & Volume Mix**\n' +
-        '- Dec 2024: Revenue +17%, Orders +21%, AOV -3.5%\n' +
-        '- Track monthly: Is growth order-led or price-led?\n' +
-        '- Alert if AOV drops >5% MoM\n\n' +
-        '**Measurement Framework for All Actions:**\n' +
-        '1. Define baseline (pre-action)\n' +
-        '2. Randomized treatment/control (20% holdout minimum)\n' +
-        '3. Primary metric: **Incremental contribution margin** (not revenue)\n' +
-        '4. Minimum 90-day test period\n\n' +
-        '*Offline recommendations from decision_layer.py, pricing/elasticity.py, winback.py, churn_calibration.py.*',
-      meta: { source: 'offline' }
-    };
+  // ---------- 14. Recommendations ----------
+  if (/(recommend|action|improve|what.should|next.step|strategy|should.i|priority|focus)/.test(q)) {
+    var answer = 'Three actions carry the best evidence-to-effort ratio: cap discounts at 10% (recovers an estimated ' + fmtL(DATA.pricing.discount.margin_recovered_cap10) + ' of margin), run a controlled win-back test on the top decile of cooling-off customers (expected ' + fmt(DATA.pricing.winback.tiers[1].profit) + ' net revenue), and stop using the deployed forecast for planning (it loses to a naive baseline).';
+    return build('success', 'recommendations', answer,
+      [
+        { label: '1. Cap discounts at 10%', value: '\u2248' + fmtL(DATA.pricing.discount.margin_recovered_cap10) + ' margin', comparison: 'estimated counterfactual; policy change, immediate' },
+        { label: '2. Win-back test (top decile)', value: '\u2248' + fmt(DATA.pricing.winback.tiers[1].profit) + ' expected net', comparison: '44 customers; use 20% holdout, measure incremental contribution' },
+        { label: '3. Fix retention measurement', value: 'Compare at fixed horizons', comparison: 'removes right-censoring bias from cohort reads' },
+        { label: '4. Protect Champions', value: K.rfm.counts[2].toLocaleString() + ' customers', comparison: 'loyalty perks, early access \u2014 highest R/F/M segment' },
+        { label: '5. Re-baseline forecasting', value: 'Drift beats ensemble', comparison: 'adopt the simpler baseline until the challenger is validated' }
+      ],
+      'Each recommendation traces to a measured finding: discount ladder (pricing/elasticity.py), win-back EV (winback.py), cohort censoring (decision_layer.py), forecast backtest (forecast_backtest.py).',
+      ['Expected impacts are scenario estimates under stated assumptions, not guarantees. Every action should be tested against a holdout before scaling.'],
+      ['What are the win-back economics?', 'Show the discount break-even analysis', 'What are my biggest business risks?']);
   }
 
-  // ============================================================
-  // 15. DATA QUALITY & DEFINITIONS
-  // ============================================================
-  if (/(data.quality|definition|metric|definition|valid|clean|reconcile|source)/.test(q)) {
-    return {
-      text: '**Data Definitions & Quality Assurance**\n\n' +
-        '**Dataset Scope:**\n' +
-        '- **Period:** Jan 2022 \u2013 Dec 2024 (36 months)\n' +
-        '- **Orders:** 12,000 placed \u2192 9,933 valid (Delivered + Processing)\n' +
-        '- **Customers:** 2,000 total \u2192 1,991 active (with \u22651 valid order)\n' +
-        '- **Products:** 150 SKUs across 5 categories, 40 subcategories\n' +
-        '- **Order Lines:** 25,384 lines\n' +
-        '- **Synthetic:** Seeded from standard retail distributions\n\n' +
-        '**Key Definitions (per data/metrics.json):**\n' +
-        '- **Valid Order:** Status = Delivered OR Processing\n' +
-        '- **Purchase:** Order with status Delivered OR Returned (cancelled never transacted)\n' +
-        '- **Cohort:** Calendar month of first purchase\n' +
-        '- **Retention M<sub>k</sub>:** % of cohort with \u22651 purchase k months after cohort month (M0 = 100%)\n' +
-        '- **Churn Label:** No purchase in next 180 days (forward window, no leakage)\n' +
-        '- **Gross Profit:** Revenue \u2212 Product Cost (NOT net income)\n' +
-        '- **Discount:** Stored as fraction (0.05 = 5%)\n\n' +
-        '**Reconciliation Anchors (3 surfaces):**\n' +
-        '| KPI | Dashboard | SQL / Python | Excel | Status |\n' +
-        '|-----|-----------|--------------|-------|--------|\n' +
-        '| Revenue (INR) | 5.93 Cr | 5.93 Cr | 5.93 Cr | OK |\n' +
-        '| Valid Orders | 9,933 | 9,933 | 9,933 | OK |\n' +
-        '| Gross Profit | 3.20 Cr | 3.20 Cr | 3.20 Cr | OK |\n' +
-        '| Gross Margin | 54.0% | 54.0% | 54.0% | OK |\n\n' +
-        '**Quality Checks (All PASS):**\n' +
-        '- Missing values in required fields: 0\n' +
-        '- Duplicate order lines (item_id): 0\n' +
-        '- Invalid order status: 0\n' +
-        '- Customer key integrity: 0\n' +
-        '- Product key integrity: 0\n' +
-        '- Revenue = cost + profit (per line): <0.001 variance\n' +
-        '- Monthly revenue reconciliation: OK\n\n' +
-        '*Offline analysis from data_quality.py, data/metrics.json, sql/01_database_schema.sql.*',
-      meta: { source: 'offline' }
-    };
+  // ---------- 15. Data quality / definitions ----------
+  if (/(data.quality|definition|metric|valid|clean|reconcile|source|how.*calculated)/.test(q)) {
+    var answer = 'Every figure traces to one definition registry: revenue = SUM(line_total) over Delivered + Processing orders; gross profit = revenue \u2212 cost of goods; AOV = revenue \u00f7 eligible orders. The same KPIs reconcile across the dashboard, SQL/Python, and the Excel companion.';
+    return build('success', 'data_quality', answer,
+      [
+        { label: 'Revenue', value: fmtCr(K.revenue.total), comparison: 'identical on all three surfaces' },
+        { label: 'Valid orders', value: K.revenue.orders.toLocaleString(), comparison: 'Delivered + Processing of 12,000 placed' },
+        { label: 'Gross margin', value: K.revenue.margin_pct + '%', comparison: 'value-weighted; unweighted line mean is 53.79%' },
+        { label: 'Quality checks', value: '7/7 PASS', comparison: 'nulls, duplicates, key integrity, reconciliation' }
+      ],
+      'Definitions live in data/metrics.json and are pinned by the 273-test suite. Population reconciliations (2,000 \u2192 1,991 customers; 12,000 \u2192 9,933 orders) are documented in the README.',
+      ['The dataset is synthetic and seeded \u2014 definitions and engineering are the substance; the numbers are illustrative.'],
+      ['How is gross margin defined?', 'What is the difference between predicted churn and observed inactivity?', 'Give me a complete business overview']);
   }
 
-  // ============================================================
-  // 16. SPECIFIC METRIC QUERIES
-  // ============================================================
-  // AOV
+  // ---------- 16. AOV ----------
   if (/(aov|average.order|basket.size|order.value)/.test(q)) {
-    return {
-      text: '**Average Order Value (AOV) Analysis**\n\n' +
-        '**Overall AOV:** ' + fmt(K.revenue.aov) + ' (' + K.revenue.orders.toLocaleString() + ' orders, ' + fmtCr(K.revenue.total) + ' revenue)\n\n' +
-        '**Monthly AOV Trend (Latest 6 Months):**\n' +
-        K.revenue.labels.slice(-6).map(function(lbl,i){return '\u2022 ' + lbl + ': AOV data in monthly breakdown';}).join('\n') + '\n\n' +
-        '**Key Context:**\n' +
-        '- Dec 2024 AOV: ' + fmt(D.mom?.aov?.[1] || 5956) + ' (' + pct(D.mom?.aov_delta_pct || -3.5) + '% MoM)\n' +
-        '- 2024 Average AOV: ~' + fmt(K.revenue.aov) + '\n' +
-        '- AOV declined 3.5% MoM in Dec 2024 despite revenue growth\n\n' +
-        '**Segment AOV (from decision layer):**\n' +
-        '- Champions: Higher AOV (premium products)\n' +
-        '- Recent Customers: Lower AOV (first purchase)\n' +
-        '- At Risk: Historically high AOV (valuable to recover)\n\n' +
-        '*Offline analysis from master_orders.csv + decision_layer.py.*',
-      meta: { source: 'offline' }
-    };
+    var mom = D.mom || {};
+    var aovChg = mom.aov ? growthPct(mom.aov[1], mom.aov[0]) : '\u2014';
+    var answer = 'AOV is ' + fmt(K.revenue.aov) + ' across ' + K.revenue.orders.toLocaleString() + ' eligible orders. In the latest month it moved to ' + fmt(mom.aov ? mom.aov[1] : 5956) + ' (' + pct(aovChg) + ') while orders grew \u2014 consistent with volume-led growth and slightly smaller baskets.';
+    return build('success', 'aov_lookup', answer,
+      [
+        { label: 'Overall AOV', value: fmt(K.revenue.aov), comparison: K.revenue.orders.toLocaleString() + ' eligible orders' },
+        { label: 'Latest month AOV', value: fmt(mom.aov ? mom.aov[1] : 5956), comparison: mom.aov ? pct(aovChg) + ' MoM' : '\u2014' }
+      ],
+      'AOV = revenue \u00f7 eligible orders (Delivered + Processing). Monthly AOV from decision_layer.py.',
+      ['AOV mixes product mix and discount effects \u2014 a falling AOV with rising orders can reflect cheaper items, deeper discounts, or both.'],
+      ['Which products have the highest margins?', 'Compare Dec 2024 vs Nov 2024', 'Show category-level profitability']);
   }
 
-  // Customer Lifetime Value / CLV
+  // ---------- 17. CLV ----------
   if (/(clv|lifetime.value|ltv|customer.value)/.test(q)) {
-    return {
-      text: '**Customer Lifetime Value (CLV) Analysis**\n\n' +
-        '**Projected CLV (Model Output):**\n' +
-        '- **Top 10% of customers:** ~42% of projected lifetime value\n' +
-        '- **Champions segment:** Highest projected CLV (high R/F/M)\n' +
-        '- **At Risk segment:** High historical spend but declining trajectory\n\n' +
-        '**Methodology (from clv.csv + clv.py):**\n' +
-        '- BG/NBD or Pareto/NBD model for purchase frequency\n' +
-        '- Gamma-Gamma for monetary value\n' +
-        '- Projected over 12/24/36 month horizons\n\n' +
-        '**Key Segments by CLV:**\n' +
-        '- **Champions:** Highest projected CLV (retain at all costs)\n' +
-        '- **Loyal Customers:** Solid CLV \u2014 cross-sell to increase\n' +
-        '- **Potential Loyalists:** Growing CLV \u2014 nurture second purchase\n' +
-        '- **At Risk:** High historical CLV but declining \u2014 urgent win-back\n\n' +
-        '**Caveats:**\n' +
-        '- V-proxy (retained-customer spend) is a proxy, not measured CLV\n' +
-        '- Synthetic data limits real-world calibration\n' +
-        '- No campaign has validated projected CLV lift\n\n' +
-        '*Offline analysis from python/clv/04_clv_modeling.py, clv.csv (projected, not measured).*',
-      meta: { source: 'offline' }
-    };
+    var answer = 'The top 10% of customers hold roughly 42% of projected lifetime value. Treat this as a projection, not realised revenue: the CLV model projects future spend from historical patterns, and no campaign has validated the projection.';
+    return build('success', 'clv_analysis', answer,
+      [
+        { label: 'Top decile share of LTV', value: '~42%', comparison: 'projected lifetime value concentration' },
+        { label: 'Basis', value: 'CLV model output', comparison: 'projected from historical patterns \u2014 not measured future spend' }
+      ],
+      'From the CLV modelling pipeline (python/clv/) on the 1,991-customer active population.',
+      ['Projected LTV is a model estimate \u2014 validate against realised spend before using it for budget allocation.'],
+      ['Which customers should I focus on retaining?', 'What are the win-back economics?', 'Analyze my RFM segments']);
   }
 
-  // ============================================================
-  // DEFAULT: UNSUPPORTED
-  // ============================================================
-  return {
-    text: 'I answer questions about your e-commerce business using the **verified synthetic dataset** (Jan 2022 \u2013 Dec 2024: 12K orders, 1,991 customers, 150 SKUs, 5 categories, 25,384 order lines). All figures are data-backed \u2014 no LLM used.\n\n' +
-      '**Supported Topics (100+ question patterns):**\n\n' +
-      '| Domain | Example Questions |\n' +
-      '|--------|-------------------|\n' +
-      '| **Business Overview** | "Complete overview", "Business snapshot", "Executive summary" |\n' +
-      '| **Revenue Trends** | "Monthly revenue trend", "YoY growth", "Sales trajectory" |\n' +
-      '| **Categories** | "Top categories", "Category performance", "Which category leads" |\n' +
-      '| **Regions** | "Revenue by region", "Geographic performance" |\n' +
-      '| **Products** | "Top products", "BCG matrix", "Profit margins", "Stars vs Dogs" |\n' +
-      '| **Customers** | "RFM segments", "Churn rate", "Retention", "Cohort analysis" |\n' +
-      '| **Discounts** | "Break-even at 20%", "Discount economics", "Margin erosion" |\n' +
-      '| **Win-Back" | "Win-back economics", "Campaign ROI", "Recovery rate" |\n' +
-      '| **Forecast" | "6-month forecast", "Model performance", "Next 6 months" |\n' +
-      '| **Operations" | "Order funnel", "Return rate", "Delivery rate" |\n' +
-      '| **Risks" | "Biggest risks", "Business threats", "SWOT" |\n' +
-      '| **Recommendations" | "What should I do", "Actionable insights", "Priorities" |\n' +
-      '| **Data Quality" | "Definitions", "Reconciliation", "Data validation" |\n\n' +
-      '**Try asking:**\n' +
-      '- "Compare Dec 2024 vs Nov 2024 performance"\n' +
-      '- "Which products have the highest margins?"\n' +
-      '- "What\'s the break-even volume lift at 15% discount?"\n' +
-      '- "Analyze my RFM customer segments"\n' +
-      '- "Show me the cohort retention matrix"\n' +
-        '- "What are the top 3 business risks?"\n' +
-      '- "Give me the 6-month forecast with caveats"\n\n' +
-      '**Unsupported:** Weather, general knowledge, future predictions beyond backtest, specific customer PII, real-time data, non-e-commerce topics.\n\n' +
-      '*Ask me anything within the dataset scope \u2014 all answers derived from verified synthetic data.*',
-    meta: { source: 'offline', note: 'offline_only' }
-  };
-}function appendAIMessage(role, text, meta) {
+  // ---------- 18. Gross margin lookup ----------
+  if (/(gross.margin|what.*margin|overall.margin|business.margin|margin.percent)/.test(q) && !/(product|category|discount|improve)/.test(q)) {
+    var r = K.revenue;
+    var answer = 'Gross margin is ' + r.margin_pct + '% on ' + fmtCr(r.total) + ' of revenue, yielding ' + fmtCr(r.profit) + ' in gross profit. That is the value-weighted figure; the unweighted line-level mean is 53.79% \u2014 the gap reflects product and order mix, not an arithmetic error.';
+    return build('success', 'margin_lookup', answer,
+      [
+        { label: 'Gross margin', value: r.margin_pct + '%', comparison: fmtCr(r.profit) + ' profit on ' + fmtCr(r.total) + ' revenue' },
+        { label: 'Unweighted line mean', value: '53.79%', comparison: 'blended average across all line items' },
+        { label: 'Top product margin', value: K.products.top10[0].margin_pct + '%', comparison: K.products.top10[0].product_name + ' \u2014 highest of the top 10' },
+        { label: 'Weakest category margin', value: Math.min.apply(Math, K.categories.margin) + '%', comparison: K.categories.labels[K.categories.margin.indexOf(Math.min.apply(Math, K.categories.margin))] + ' \u2014 lowest of 5 categories' }
+      ],
+      'Gross margin = gross profit \u00f7 revenue, using the approved revenue population (Delivered + Processing). The unweighted line mean is the simple average of per-line margin rates.',
+      ['Gross profit is revenue minus product cost \u2014 not net income. Operating expenses, tax, and interest are not in this figure.'],
+      ['Which categories have the lowest margins?', 'How can I improve gross margins?', 'What are my top products by margin?']);
+  }
+
+  // ---------- default: needs clarification ----------
+  return build('needs_clarification', 'unsupported',
+    'I did not find a matching analysis for that question. I can answer from the verified dataset on: business performance, revenue trends, category and product rankings, regional split, customer segments and churn, discount economics, win-back cases, the forecast, the order funnel, and cohort retention. Try one of the suggestions below, or rephrase around one of those topics.',
+    [],
+    null,
+    ['The dataset covers Jan 2022 \u2013 Dec 2024 (synthetic, seeded). Questions outside that scope cannot be answered from the data.'],
+    null,
+    ['Give me a complete business overview', 'What are my top-performing categories?', 'What are my biggest business risks?']);
+}function appendAIMessage(role, text, meta, followUps) {
   const messagesEl = document.getElementById('aiChatMessages');
   if (!messagesEl) return;
 
   const wrapper = document.createElement('div');
   wrapper.className = `ai-message ${role}`;
 
-  const avatar = role === 'user' ? '👤' : '🤖';
+  const avatar = role === 'user' ? '\ud83d\udc64' : '\ud83e\udd16';
   const metaHtml = meta ? buildAIMeta(meta) : '';
+
+  let followHtml = '';
+  if (role === 'assistant' && followUps && followUps.length) {
+    const chips = followUps.map(fq =>
+      '<button class="ai-followup-btn" onclick="sendAIQuestion(\'' + fq.replace(/'/g, "\\'") + '\')">' + fq + '</button>'
+    ).join('');
+    followHtml = '<div class="ai-followups"><div class="ai-followup-label">Suggested next questions</div>' + chips + '</div>';
+  }
 
   wrapper.innerHTML = `
     <div class="ai-avatar">${avatar}</div>
     <div class="ai-message-content">
       <div class="ai-message-text">${escapeHtml(text)}</div>
       ${metaHtml}
+      ${followHtml}
     </div>
   `;
 
