@@ -127,7 +127,7 @@ This README shows sixteen dashboard views in total — the four Power BI pages a
 | **Data Quality** | **Business Insights** |
 | ![Web dashboard Data Quality: reconciliation checks all passing](docs/screenshots/web_quality.png) | ![Web dashboard Business Insights: insight feed following observation, evidence, impact, recommendation and measurement](docs/screenshots/web_insights.png) |
 | **AI Analyst** | **Pricing Lab** |
-| ![Web dashboard AI Analyst: grounded built-in question showing the SQL and the evidence-backed answer](docs/screenshots/web_ai.png) | ![Web dashboard Pricing Lab: discount break-even analysis with margin erosion chart](docs/screenshots/web_pricing.png) |
+| ![Web dashboard AI Analyst: offline conversational analyst answering 100+ question patterns across 16 domains with professional structured responses](docs/screenshots/web_ai.png) | ![Web dashboard Pricing Lab: discount break-even analysis with margin erosion chart](docs/screenshots/web_pricing.png) |
 | **Win-Back Economics** | |
 | ![Web dashboard Win-Back Economics: expected-value campaign economics and sensitivity analysis](docs/screenshots/web_winback.png) | |
 
@@ -144,7 +144,7 @@ This README shows sixteen dashboard views in total — the four Power BI pages a
 - **Revenue Forecast** — a **historical backtest**, not a live projection: the ensemble is fitted through Dec 2024 and evaluated on Jan–Jun 2025. Shipped MASE 0.68 loses to the drift baseline (0.468); the 95% bootstrap band covered 9.5% of actuals. A `holt_linear` challenger scores 0.3752 but is not deployed.
 - **Data Quality** — automated reconciliation checks all pass: 0 duplicate keys, 0 nulls, 0 orphan rows, 0 non-positive line totals, 0 invalid statuses, discounts within 0–20%. The 9 customers with no revenue-eligible order are disclosed, not silently dropped.
 - **Business Insights** — every insight follows Observation → Evidence → Impact → Recommendation → Measurement, with no invented figures.
-- **AI Analyst** — built-in grounded questions show the SQL and refuse unanswerable ones; "Total revenue" returns ₹5.93 Cr across 9,933 eligible orders (Delivered + Processing).
+- **AI Analyst** — offline, client-side analyst answering 100+ question patterns across 16 domains (revenue, categories, products, customers, churn, forecasting, pricing, win-back, cohorts, risks, recommendations) with professional structured responses; no SQL shown to users, no LLM required. All figures from the verified dataset.
 - **Pricing Lab** — no statistically detectable volume lift across discount depths (Kruskal-Wallis H = 4.834, df = 4, p = 0.305); the 20% rung would need +59.24% volume to hold margin flat. Capping discounts at 10% recovers ₹644,518 of margin (2.0%).
 - **Win-Back Economics** — 441 Medium Risk customers (₹1.30 Cr historical spend); ₹523 **expected net revenue before COGS** per contact at 15% recovery, i.e. ≈₹167 of contribution at the 54.0% gross margin. Revenue break-even churn probability 12.54%; margin-adjusted ≈23.2%.
 
