@@ -330,3 +330,5 @@ Next steps: run the win-back experiment as designed and measure incremental lift
 Rishi — [GitHub](https://github.com/rishi-1603) · [Repository](https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics)
 
 Supporting documents: [metric dictionary](data/DATA_DICTIONARY.md) · [data-quality scorecard](docs/DATA_QUALITY_SCORECARD.md) · [statistical methodology](reports/methodology.md) · [model card](docs/MODEL_CARD.md) · [model & AI evaluation](docs/MODEL_AND_AI_EVALUATION.md) · [SQL showcase](sql/README.md) · [architecture](docs/ARCHITECTURE_AND_INTERFACES.md) · [audit](docs/AUDIT_2026-11-18.md)
+ 
+ 
