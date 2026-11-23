@@ -78,6 +78,28 @@ PAGES = """<!-- PRICING_PAGES_START -->
           </table>
         </div>
       </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><div class="card-title">Pricing Lab -- Q&A</div></div>
+        <div style="padding:16px;line-height:1.7">
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q1</span><strong> Does the discount ladder pay for itself?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> No. The Kruskal-Wallis test across discount depths gives p=__P_KW__, meaning the volume response is not statistically significant. Every rung erodes margin without a detected volume lift.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q2</span><strong> What would it take for a 20% discount to break even?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> Volume would need to rise +__P_BE20__% just to hold total margin flat. The current data shows no evidence of such a lift.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q3</span><strong> How much margin could be recovered by capping discounts at 10%?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> __P_MREC__ (__P_MPCT__% of total margin) across __P_LINES__ line items currently above 10% discount. This is an estimated counterfactual, not realised savings.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q4</span><strong> What should we do?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> Cap discounts at 10% as a policy change, then run a controlled test on any deeper discounts before scaling. The break-even simulator lets you stress-test any depth + lift combination.
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="page" id="page-winback">
@@ -116,6 +138,32 @@ PAGES = """<!-- PRICING_PAGES_START -->
             <thead><tr><th>Scenario</th><th class="num-right">Audience</th><th class="num-right">Expected net revenue</th></tr></thead>
             <tbody id="winback_tbody"></tbody>
           </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-header"><div class="card-title">Win-Back Economics -- Q&A</div></div>
+        <div style="padding:16px;line-height:1.7">
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q1</span><strong> Who is the win-back audience?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> The 441 cooling-off customers in the Medium + High churn-risk band (predicted churn probability &ge; 12.5%), holding __W_HIST__ of historical spend. These are modelled predictions, not observed churn.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q2</span><strong> What is the expected value per contact?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> __W_EVPC__ at __W_RATE__% assumed recovery (Rs 250 contact cost, Rs 13,292 retained value). This is expected net revenue before cost of goods -- at 54% gross margin it translates to roughly Rs 167 of contribution per contact.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q3</span><strong> Which scenario gives the best ROI?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> Contacting the top decile by expected value (44 customers) yields ~Rs 24K expected net revenue for 10x less contact spend than the blanket approach. The blanket scenario (all 441) yields ~Rs 2.3 L but costs 10x more.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q4</span><strong> What is the break-even threshold?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> __W_BEP__% churn probability -- this equals the churn model's Bayes threshold. Only customers above this probability should be contacted to expect positive net revenue.
+          </div>
+          <div style="margin-bottom:24px">
+            <span class="q-badge">Q5</span><strong> What should we do?</strong><br>
+            <span style="color:var(--blue);font-weight:600">Answer:</span> Run a controlled win-back test on the top decile (44 customers) with a 20% holdout, measure incremental contribution margin, then decide whether to scale. Use the budget worklist to size the programme.
+          </div>
         </div>
       </div>
     </div>
