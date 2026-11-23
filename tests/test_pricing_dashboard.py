@@ -233,7 +233,8 @@ class TestInjectorIdempotency:
         )
 
     def test_titles_key_appears_once(self, html):
-        assert html.count('pricing:["Pricing Lab & Win-Back"') == 1
+        assert html.count('pricing:["Pricing Lab"') == 1
+        assert 'Pricing Lab & Win-Back' not in html
 
     def test_no_duplicate_data_keys(self, dash_data):
         # json.loads already guarantees no duplicate keys, but the raw text can

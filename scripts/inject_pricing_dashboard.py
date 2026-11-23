@@ -280,9 +280,10 @@ def inject(path: str, data_block: str, pages: str) -> None:
     html = head + "\nconst C = {" + tail
 
     # 5. Each injected navigation page needs a title; remove both before reinjection.
-    pricing_title = 'pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]'
+    legacy_pricing_title = 'pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]'
+    pricing_title = 'pricing:["Pricing Lab","Discount Cost · Break-Even · Campaign Economics"]'
     winback_title = 'winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"]'
-    for title in (winback_title, pricing_title):
+    for title in (winback_title, pricing_title, legacy_pricing_title):
         while title in html:
             i = html.index(title)
             start = i
