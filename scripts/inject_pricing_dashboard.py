@@ -254,7 +254,11 @@ def inject(path: str, data_block: str, pages: str) -> None:
     head = head[:idx + 1] + data_block + head[idx + 1:]
     html = head + "\nconst C = {" + tail
 
-    # 5. Each injected navigation page needs a title; remove both before reinjection.
+    # 5. Remove the old combined "Pricing Lab & Win-Back" nav item before injecting new ones
+    old_combined_nav = '    <div class="nav-item" role="button" tabindex="0" onclick="nav(\'pricing\',this)">\n      <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.5 1.5a.5.5 0 00-1 0v.6a3.5 3.5 0 00-2.6 3.35c0 1.6 1.02 2.6 2.66 2.98l.94.22c.7.16 1.1.55 1.1 1.15 0 .72-.66 1.2-1.6 1.2-.86 0-1.5-.36-1.75-.95a.5.5 0 00-.92.38c.36.88 1.18 1.42 2.17 1.54v.53a.5.5 0 001 0v-.55a3.4 3.4 0 002.55-3.28c0-1.6-1.05-2.55-2.62-2.92l-.94-.22c-.75-.18-1.14-.55-1.14-1.14 0-.68.6-1.16 1.5-1.16.78 0 1.35.3 1.62.82a.5.5 0 00.88-.47A2.9 2.9 0 008.5 2.2v-.7z"/></svg>\n      Pricing Lab & Win-Back\n    </div>'
+    html = html.replace(old_combined_nav, "", 1)
+
+    # 5b. Each injected navigation page needs a title; remove both before reinjection.
     pricing_title = 'pricing:["Pricing Lab & Win-Back","Discount Cost · Break-Even · Campaign Economics"]'
     winback_title = 'winback:["Win-Back Economics","Campaign Value · Break-Even · Sensitivity"]'
     for title in (winback_title, pricing_title):
