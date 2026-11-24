@@ -325,6 +325,48 @@ class TestFrontendHelpers:
                     f"{rel} inline block {i} has a syntax error: {result.stderr[:500]}"
                 )
 
+    # Business financial questions ("business profit or loss", "total profit",
+    # "business revenue") must hit the financial routing branch, not fall through
+    # to the needs_clarification default.
+    FINANCIAL_ROUTE_RE = re.compile(
+        r"(profit|loss|net income|earnings|profitable|unprofitable|bottom line|financial|revenue)"
+    )
+
+    @pytest.mark.parametrize("question", [
+        "What is the business profit or loss?",
+        "How is the business profit or loss looking?",
+        "What is the total profit?",
+        "What is the business revenue?",
+        "What is the business revenue and profit?",
+        "Is the business profitable?",
+        "How profitable is the business?",
+        "Give me a business profit and loss statement.",
+    ])
+    def test_offline_ai_financial_questions_match_financial_route(self, question):
+        assert self.FINANCIAL_ROUTE_RE.search(question) is not None, question
+
+    @pytest.mark.parametrize("question", [
+        "What is the weather tomorrow?",
+        "What is the meaning of life?",
+    ])
+    def test_offline_ai_non_financial_questions_do_not_match_financial_route(self, question):
+        assert self.FINANCIAL_ROUTE_RE.search(question) is None, question
+
+    def test_offline_ai_financial_branch_precedes_default_fallback(self):
+        """The financial answer branch must exist and be evaluated before the
+        terminal needs_clarification fallback."""
+        for rel in DASHBOARD_COPIES:
+            with open(os.path.join(BASE, rel), encoding="utf-8") as f:
+                html = f.read()
+            assert self.FINANCIAL_ROUTE_RE.search(html), f"{rel}: no financial routing branch"
+            default_idx = html.find("needs_clarification")
+            branch_idx = html.find("profit_loss")
+            assert branch_idx != -1, f"{rel}: no financial intent branch before the fallback"
+            assert default_idx != -1, f"{rel}: fallback marker missing"
+            assert branch_idx < default_idx, (
+                f"{rel}: financial branch must precede the default fallback"
+            )
+
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

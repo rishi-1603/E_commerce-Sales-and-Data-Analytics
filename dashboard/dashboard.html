@@ -2605,6 +2605,21 @@ function generateOfflineAnswer(question) {
       ['Which categories have the lowest margins?', 'How can I improve gross margins?', 'What are my top products by margin?']);
   }
 
+  // ---------- 19. Business profit / loss / financial performance ----------
+  if (/(profit|loss|net income|earnings|profitable|unprofitable|bottom line|financial|revenue)/.test(q)) {
+    var r = K.revenue;
+    var answer = 'Across the verified dataset (Jan 2022 to Dec 2024, Delivered + Processing orders), total revenue was ' + fmtCr(r.total) + ' against gross profit of ' + fmtCr(r.profit) + ', a gross margin of ' + r.margin_pct + '%. That margin is the financial bottom line for the period: revenue minus product cost. Net profit would subtract operating expenses and tax, which are not modeled in this dataset.';
+    return build('success', 'profit_loss', answer,
+      [
+        { label: 'Gross revenue', value: fmtCr(r.total), comparison: r.orders.toLocaleString() + ' eligible orders (Delivered + Processing)' },
+        { label: 'Gross profit', value: fmtCr(r.profit), comparison: r.margin_pct + '% margin' },
+        { label: 'Gross margin', value: r.margin_pct + '%', comparison: fmtCr(r.profit) + ' profit on ' + fmtCr(r.total) + ' revenue' }
+      ],
+      'Gross profit = SUM(line_total - cost_total) over Delivered + Processing orders; margin = gross profit / revenue. Net income = gross profit - operating expenses - tax, not modeled in this dataset.',
+      ['Gross profit is revenue minus product cost, not net income. Operating expenses, tax and interest are outside this dataset.'],
+      ['How is the business revenue trending?', 'What is the overall business margin?', 'What are my biggest business risks?']);
+  }
+
   // ---------- default: needs clarification ----------
   return build('needs_clarification', 'unsupported',
     'I did not find a matching analysis for that question. I can answer from the verified dataset on: business performance, revenue trends, category and product rankings, regional split, customer segments and churn, discount economics, win-back cases, the forecast, the order funnel, and cohort retention. Try one of the suggestions below, or rephrase around one of those topics.',
