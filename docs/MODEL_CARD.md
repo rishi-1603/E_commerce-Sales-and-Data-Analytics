@@ -36,7 +36,7 @@ This is documented in `reports/methodology.md` and enforced by the pipeline code
 | ROC-AUC (5-fold CV, training split) | **0.6742 ± 0.0303** | Model-selection metric; realistic for churn |
 | ROC-AUC (untouched 20% holdout) | **0.6621** | Honest post-leakage number |
 | PR-AUC (holdout) | **0.3322** | vs prevalence 0.2354 — the ranking metric that matters on this imbalance |
-| Brier (holdout, raw → isotonic on 1,278 OOF rows) | 0.1726 → **0.1715** | Small, genuine improvement from a larger calibration sample |
+| Brier (holdout, raw → isotonic on 1,277 OOF rows) | 0.1726 → **0.1715** | Small, genuine improvement from a larger calibration sample |
 | Gains/lift | top decile concentrates churners | The targeting story that makes a campaign profitable (see `docs/figures/11b_churn_lift.png`) |
 | Rolling-origin CV AUC | 0.5611 → 0.6710 over 5 cutoffs | Published separately; early cutoffs are weaker |
 
@@ -56,7 +56,7 @@ metrics pinned by `tests/test_churn_calibration.py`.
 | Isotonic (256-row calibration slice) | 0.1815 | 0.0774 | 0.1299 |
 
 **Operational rule:** use the pipeline in `03_churn_analysis.py`, which fits isotonic on
-1,278 out-of-fold training predictions and improves holdout Brier 0.1726 → 0.1715.
+1,277 out-of-fold training predictions and improves holdout Brier 0.1726 → 0.1715.
 The separate calibration script's isotonic fit on only 256 rows **overfits** (Brier
 0.172 → 0.1815, slope 0.13); both results are reported rather than averaged away.
 Raw probabilities are also retained as `churn_probability_raw`.

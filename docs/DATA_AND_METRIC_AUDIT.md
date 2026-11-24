@@ -23,7 +23,7 @@ read the generated `reports/*_metrics.json` and pin values). Key entries:
 ## Audit findings (published, not hidden)
 1. Shipped forecast ensemble LOSES to the drift baseline on MASE.
 2. Shipped bootstrap CI covers 9.5% of actuals vs 95% nominal.
-3. Raw churn probabilities are over-confident (slope 0.7875). Isotonic helps on 1,278 OOF rows (Brier 0.1726 → 0.1715) but hurts on the 256-row calibration slice (0.172 → 0.1815) — both published.
+3. Raw churn probabilities are over-confident (slope 0.7875). Isotonic helps on 1,277 OOF rows (Brier 0.1726 → 0.1715) but hurts on the 256-row calibration slice (0.172 → 0.1815) — both published.
 4. The 80/20 holdout is random, not temporal; a separate 5-origin rolling backtest is published in `reports/churn_temporal_backtest.json`.
 5. Profit figures are expected values under stated assumptions — no campaign run.
 

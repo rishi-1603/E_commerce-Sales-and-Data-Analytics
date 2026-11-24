@@ -284,12 +284,13 @@ class QueryService:
                 data=rows,
                 explanation=explanation
             )
-        except Exception as e:
+        except Exception:
+            logger.exception("NL query execution failed")
             return NLQueryResponse(
                 question=question,
                 generated_sql=sanitized_sql,
                 is_safe=False,
                 row_count=0,
                 data=[],
-                explanation=f"Execution error: {str(e)}"
+                explanation="Execution error."
             )

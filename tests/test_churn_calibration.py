@@ -102,7 +102,7 @@ def test_small_slice_isotonic_overfits_here(metrics):
 
     On this slice isotonic makes both Brier and ECE worse (0.172 -> 0.1815,
     0.032 -> 0.0774) and collapses the calibration slope to 0.13. The pipeline
-    in 03_churn_analysis.py fits isotonic on 1,278 out-of-fold predictions
+    in 03_churn_analysis.py fits isotonic on 1,277 out-of-fold predictions
     instead and improves holdout Brier 0.1726 -> 0.1715. Both facts are
     published; neither is hidden behind an averaging claim.
     """

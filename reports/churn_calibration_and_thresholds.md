@@ -19,7 +19,7 @@ Reference: always predicting the base rate gives Brier **0.2344**; the model mus
 | platt | 0.1734 | 0.0482 | -0.308 | 0.6761 |
 | isotonic | 0.1815 | 0.0774 | -0.9003 | 0.1299 |
 
-**Reading the table:** a slope < 1 means predictions are too extreme (over-confident); a slope > 1 means too timid. Calibration only helps when it improves the held-out Brier/ECE — on this split the raw model is already close to calibrated, and the calibrators fit on the 256-row calibration slice overfit. `03_churn_analysis.py` therefore fits isotonic on 1,278 out-of-fold rows instead of a small slice.
+**Reading the table:** a slope < 1 means predictions are too extreme (over-confident); a slope > 1 means too timid. Calibration only helps when it improves the held-out Brier/ECE — on this split the raw model is already close to calibrated, and the calibrators fit on the 256-row calibration slice overfit. `03_churn_analysis.py` therefore fits isotonic on 1,277 out-of-fold rows instead of a small slice.
 
 ### Reliability table (isotonic, test slice)
 

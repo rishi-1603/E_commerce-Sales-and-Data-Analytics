@@ -431,7 +431,7 @@ def write_report(metrics):
       "a slope > 1 means too timid. Calibration only helps when it improves the held-out "
       "Brier/ECE — on this split the raw model is already close to calibrated, and the "
       "calibrators fit on the 256-row calibration slice overfit. `03_churn_analysis.py` "
-      "therefore fits isotonic on 1,278 out-of-fold rows instead of a small slice.")
+      "therefore fits isotonic on 1,277 out-of-fold rows instead of a small slice.")
     a("")
     a("### Reliability table (isotonic, test slice)")
     a("")

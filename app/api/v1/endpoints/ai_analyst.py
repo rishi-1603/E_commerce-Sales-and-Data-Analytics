@@ -3,9 +3,14 @@ AI Analyst endpoint — simple, grounded business analysis.
 =========================================================
 User asks question → Python calculates KPIs → Gemini explains → response.
 """
+import logging
+
 from fastapi import APIRouter, HTTPException
+
 from app.schemas.query import AIAnalystRequest, AIAnalystResponse
 from app.services.analytics_ai_service import AnalyticsAIService
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -32,6 +37,8 @@ async def ask_ai_analyst(request: AIAnalystRequest):
                 status_code=503,
                 detail="AI Analyst unavailable: GEMINI_API_KEY not configured on server"
             )
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+        logger.warning("AI analyst validation error: %s", e)
+        raise HTTPException(status_code=400, detail="Invalid request.")
+    except Exception:
+        logger.exception("AI analyst failed")
+        raise HTTPException(status_code=500, detail="Analysis failed.")

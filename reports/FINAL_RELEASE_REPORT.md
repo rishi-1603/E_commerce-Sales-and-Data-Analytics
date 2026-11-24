@@ -67,7 +67,7 @@ Live: https://ecomanalytics-dashboard.vercel.app/ (verified 200 after release)
 | Model selection by 5-fold CV on the training split; one held-out 20% evaluation | LR CV ROC-AUC 0.6742 ± 0.0303; holdout ROC-AUC 0.6621, PR-AUC 0.3322 |
 | Published per-customer scores are out-of-fold (train) and holdout (test) — no in-sample refits | `reports/churn_model_metrics.json`; `churn_probability_raw` retained |
 | Real temporal evidence, separated from the random 80/20 split | `reports/churn_temporal_backtest.json` — 5 origins, CV AUC 0.5611–0.6710 |
-| Honest calibration reporting | OOF isotonic (1,278 rows): Brier 0.1726 → 0.1715; 256-row slice isotonic overfits: 0.172 → 0.1815 |
+| Honest calibration reporting | OOF isotonic (1,277 rows): Brier 0.1726 → 0.1715; 256-row slice isotonic overfits: 0.172 → 0.1815 |
 | Win-back economics recomputed on the new band | 441 customers, ₹1.30 Cr historical spend, ₹523/contact, ₹2.30 L campaign, break-even 12.54% |
 | Experiment design updated | core baseline 38.8%, 441 pool, MDE +13.3 pp; expanded union pool 772, MDE +10.0 pp |
 

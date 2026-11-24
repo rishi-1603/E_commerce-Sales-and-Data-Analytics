@@ -90,12 +90,21 @@ FORBIDDEN = re.compile(
 )
 
 def validate_sql(sql: str) -> tuple[bool, str]:
-    """Ensure the SQL is a read-only SELECT query."""
+    """Ensure the SQL is a single, read-only SELECT query (no set ops, bounded)."""
     sql_clean = sql.strip().rstrip(';')
-    if not sql_clean.upper().startswith('SELECT') and not sql_clean.upper().startswith('WITH'):
+    if not sql_clean:
+        return False, "Empty SQL is not permitted."
+    if ';' in sql_clean:
+        return False, "Multiple statements are not permitted."
+    upper = sql_clean.upper()
+    if not (upper.startswith('SELECT') or upper.startswith('WITH')):
         return False, "Only SELECT or WITH queries are allowed."
     if FORBIDDEN.search(sql_clean):
         return False, "Destructive SQL operations are not permitted."
+    if re.search(r'\b(UNION|INTERSECT|EXCEPT)\b', upper):
+        return False, "Set operations are not permitted."
+    if not re.search(r'\bLIMIT\b', upper):
+        sql_clean = sql_clean + " LIMIT 100"
     return True, sql_clean
 
 
