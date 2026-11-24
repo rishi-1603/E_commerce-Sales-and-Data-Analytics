@@ -159,11 +159,20 @@ tr:last-child td{border-bottom:0}
 .band-col .val{font-size:13px;font-weight:600;font-family:var(--font-mono)}
 .band-col .gr{font-size:11px;margin-top:3px}
 
+/* PAGE INTRO (full-width two-column business context) */
+.page-intro{display:grid;grid-template-columns:minmax(260px,0.85fr) minmax(0,2fr);gap:32px;width:100%;min-width:0;box-sizing:border-box;padding:24px 28px;margin:20px 0 24px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;align-items:center}
+.page-intro__label{display:block;margin-bottom:10px;font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--blue);text-transform:uppercase}
+.page-intro__question h2{margin:0;font-size:clamp(20px,1.5vw,25px);line-height:1.35;font-weight:650;color:var(--text)}
+.page-intro__content{min-width:0;max-width:900px}
+.page-intro__content p{margin:0;font-size:15px;line-height:1.75;color:var(--muted)}
+.page-intro__note{display:flex;align-items:flex-start;gap:9px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;line-height:1.6;color:var(--muted2)}
+
 /* RESPONSIVE */
 @media (max-width:1080px){
   .kpi-grid{grid-template-columns:repeat(2,1fr)}
   .c2,.seg-chips{grid-template-columns:1fr}
   .band{grid-template-columns:repeat(3,1fr);row-gap:10px}
+  .page-intro{grid-template-columns:1fr;gap:14px;padding:20px}
 }
 @media (max-width:900px){
   .hamburger{display:flex}
@@ -179,6 +188,7 @@ tr:last-child td{border-bottom:0}
   .kpi-value{font-size:20px}
   .topbar-pills .pill:not(:first-child){display:none}
   .band{grid-template-columns:repeat(2,1fr)}
+  .page-intro{grid-template-columns:1fr;gap:12px;padding:18px}
 }
 
 /* ── Day-2 decision layer ── */
@@ -947,18 +957,22 @@ tr:last-child td{border-bottom:0}
 
 <!-- PRICING_PAGES_START -->
     <div class="page" id="page-pricing">
-      <div class="band" style="margin-bottom:12px">
-        <strong>Is the discount ladder buying us anything?</strong>
-        In this dataset, no. Volume response to discount depth is not statistically
-        significant (Kruskal-Wallis p=0.305), while every rung costs margin. The
-        break-even table shows what would have to be true for each depth to pay for itself.
+      <div class="page-intro">
+        <div class="page-intro__question">
+          <span class="page-intro__label">BUSINESS CONTEXT</span>
+          <h2>Do deeper discounts generate enough additional order volume to offset the margin they give up?</h2>
+        </div>
+        <div class="page-intro__content">
+          <p>Across the discount-depth groups in this dataset, the Kruskal-Wallis test did not find a statistically significant difference in order volume (p = 0.305). This analysis calculates the additional volume required for each discount level to break even.</p>
+          <div class="page-intro__note"><span>&#9432;</span><span>Observational findings and scenario-based estimates; not proof of causal discount impact.</span></div>
+        </div>
       </div>
 
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Volume response detected</div><div class="kpi-value" style="color:var(--red)">NO</div><div class="kpi-delta neu">p = 0.305</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even lift at 20% off</div><div class="kpi-value" style="color:var(--amber)">+59.2%</div><div class="kpi-delta neu">volume needed</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Margin recovered (10% cap)</div><div class="kpi-value" style="color:var(--green)">₹6.45 L</div><div class="kpi-delta up">2.0% of total margin</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Lines affected by cap</div><div class="kpi-value" style="color:var(--blue)">3,294</div><div class="kpi-delta neu">above 10% discount</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Statistically significant volume difference</div><div class="kpi-value" style="color:var(--red)">NO</div><div class="kpi-delta neu">p = 0.305</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Required volume lift at 20% discount</div><div class="kpi-value" style="color:var(--amber)">+59.2%</div><div class="kpi-delta neu">volume needed</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Estimated margin preserved by 10% discount cap</div><div class="kpi-value" style="color:var(--green)">₹6.45 L</div><div class="kpi-delta up">2.0% of total margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Orders above 10% discount</div><div class="kpi-value" style="color:var(--blue)">3,294</div><div class="kpi-delta neu">above 10% discount</div></div>
       </div>
 
       <div class="card" style="margin-bottom:12px">
@@ -1024,19 +1038,24 @@ tr:last-child td{border-bottom:0}
     </div>
 
     <div class="page" id="page-winback">
-      <div class="band" style="margin-bottom:12px">
-        <strong>Who is worth saving, and what does it return?</strong>
-        Expected-value economics on the 441 cooling-off customers. Every figure is an
-        <em>expectation</em> under the stated cost model -- no campaign has been run.
+      <div class="page-intro">
+        <div class="page-intro__question">
+          <span class="page-intro__label">BUSINESS CONTEXT</span>
+          <h2>Which cooling-off customers are worth contacting, and what could a win-back campaign return?</h2>
+        </div>
+        <div class="page-intro__content">
+          <p>Expected-value analysis of 441 cooling-off customers, estimating the potential financial return of a win-back campaign under different recovery-rate and contact-cost assumptions.</p>
+          <div class="page-intro__note"><span>&#9432;</span><span>No campaign has been executed. Figures represent modeled expectations, not realized revenue.</span></div>
+        </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cooling-off customers</div><div class="kpi-value" style="color:var(--blue)">441</div><div class="kpi-delta neu">₹1.30 Cr historical spend</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue / contact</div><div class="kpi-value" style="color:var(--green)">₹523</div><div class="kpi-delta up">at 15% recovery</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign net revenue</div><div class="kpi-value" style="color:var(--green)">₹2.30 L</div><div class="kpi-delta neu">contact all 441</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">12.5%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue per contact</div><div class="kpi-value" style="color:var(--green)">₹523</div><div class="kpi-delta up">at 15% recovery</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected campaign net revenue</div><div class="kpi-value" style="color:var(--green)">₹2.30 L</div><div class="kpi-delta neu">contact all 441</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability threshold</div><div class="kpi-value" style="color:var(--amber)">12.5%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
       </div>
-      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 523 per contact is about Rs 167 of contribution.</div>
+      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. Contribution (gross profit after COGS and contact cost) = expected recovered revenue Rs 772.55 x 54.0% gross margin - Rs 250 contact cost = Rs 167 per contact. The simple product Rs 523 x 54% = Rs 282 is not the right calculation.</div>
 
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected net revenue per contact (before cost of goods) across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
@@ -1071,7 +1090,7 @@ tr:last-child td{border-bottom:0}
           </div>
           <div style="margin-bottom:24px">
             <span class="q-badge">Q2</span><strong> What is the expected value per contact?</strong><br>
-            <span style="color:var(--blue);font-weight:600">Answer:</span> ₹523 at 15% assumed recovery (Rs 250 contact cost, Rs 13,292 retained value). This is expected net revenue before cost of goods -- at 54% gross margin it translates to roughly Rs 167 of contribution per contact.
+            <span style="color:var(--blue);font-weight:600">Answer:</span> ₹523 at 15% assumed recovery (Rs 250 contact cost, Rs 13,292 retained value). This is expected net revenue before cost of goods. Contribution (gross profit after COGS and contact cost) = Rs 772.55 x 54.0% - Rs 250 = Rs 167 per contact.
           </div>
           <div style="margin-bottom:24px">
             <span class="q-badge">Q3</span><strong> Which scenario gives the best ROI?</strong><br>

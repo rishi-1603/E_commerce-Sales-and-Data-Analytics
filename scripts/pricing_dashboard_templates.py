@@ -26,18 +26,22 @@ NAV = """<!-- PRICING_NAV_START -->
 
 PAGES = """<!-- PRICING_PAGES_START -->
     <div class="page" id="page-pricing">
-      <div class="band" style="margin-bottom:12px">
-        <strong>Is the discount ladder buying us anything?</strong>
-        In this dataset, no. Volume response to discount depth is not statistically
-        significant (Kruskal-Wallis p=__P_KW__), while every rung costs margin. The
-        break-even table shows what would have to be true for each depth to pay for itself.
+      <div class="page-intro">
+        <div class="page-intro__question">
+          <span class="page-intro__label">BUSINESS CONTEXT</span>
+          <h2>Do deeper discounts generate enough additional order volume to offset the margin they give up?</h2>
+        </div>
+        <div class="page-intro__content">
+          <p>Across the discount-depth groups in this dataset, the Kruskal-Wallis test did not find a statistically significant difference in order volume (p = __P_KW__). This analysis calculates the additional volume required for each discount level to break even.</p>
+          <div class="page-intro__note"><span>&#9432;</span><span>Observational findings and scenario-based estimates; not proof of causal discount impact.</span></div>
+        </div>
       </div>
 
       <div class="kpi-grid">
-        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Volume response detected</div><div class="kpi-value" style="color:var(--red)">__P_VOL__</div><div class="kpi-delta neu">p = __P_KW__</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even lift at 20% off</div><div class="kpi-value" style="color:var(--amber)">+__P_BE20__%</div><div class="kpi-delta neu">volume needed</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Margin recovered (10% cap)</div><div class="kpi-value" style="color:var(--green)">__P_MREC__</div><div class="kpi-delta up">__P_MPCT__% of total margin</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Lines affected by cap</div><div class="kpi-value" style="color:var(--blue)">__P_LINES__</div><div class="kpi-delta neu">above 10% discount</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#f85149"></div><div class="kpi-label">Statistically significant volume difference</div><div class="kpi-value" style="color:var(--red)">__P_VOL__</div><div class="kpi-delta neu">p = __P_KW__</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Required volume lift at 20% discount</div><div class="kpi-value" style="color:var(--amber)">+__P_BE20__%</div><div class="kpi-delta neu">volume needed</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Estimated margin preserved by 10% discount cap</div><div class="kpi-value" style="color:var(--green)">__P_MREC__</div><div class="kpi-delta up">__P_MPCT__% of total margin</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Orders above 10% discount</div><div class="kpi-value" style="color:var(--blue)">__P_LINES__</div><div class="kpi-delta neu">above 10% discount</div></div>
       </div>
 
       <div class="card" style="margin-bottom:12px">
@@ -103,19 +107,24 @@ PAGES = """<!-- PRICING_PAGES_START -->
     </div>
 
     <div class="page" id="page-winback">
-      <div class="band" style="margin-bottom:12px">
-        <strong>Who is worth saving, and what does it return?</strong>
-        Expected-value economics on the __W_CUST__ cooling-off customers. Every figure is an
-        <em>expectation</em> under the stated cost model -- no campaign has been run.
+      <div class="page-intro">
+        <div class="page-intro__question">
+          <span class="page-intro__label">BUSINESS CONTEXT</span>
+          <h2>Which cooling-off customers are worth contacting, and what could a win-back campaign return?</h2>
+        </div>
+        <div class="page-intro__content">
+          <p>Expected-value analysis of __W_CUST__ cooling-off customers, estimating the potential financial return of a win-back campaign under different recovery-rate and contact-cost assumptions.</p>
+          <div class="page-intro__note"><span>&#9432;</span><span>No campaign has been executed. Figures represent modeled expectations, not realized revenue.</span></div>
+        </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi-card"><div class="kpi-accent" style="background:#388bfd"></div><div class="kpi-label">Cooling-off customers</div><div class="kpi-value" style="color:var(--blue)">__W_CUST__</div><div class="kpi-delta neu">__W_HIST__ historical spend</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue / contact</div><div class="kpi-value" style="color:var(--green)">__W_EVPC__</div><div class="kpi-delta up">at __W_RATE__% recovery</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Campaign net revenue</div><div class="kpi-value" style="color:var(--green)">__W_EVTOT__</div><div class="kpi-delta neu">contact all __W_CUST__</div></div>
-        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability</div><div class="kpi-value" style="color:var(--amber)">__W_BEP__%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected net revenue per contact</div><div class="kpi-value" style="color:var(--green)">__W_EVPC__</div><div class="kpi-delta up">at __W_RATE__% recovery</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#3fb950"></div><div class="kpi-label">Expected campaign net revenue</div><div class="kpi-value" style="color:var(--green)">__W_EVTOT__</div><div class="kpi-delta neu">contact all __W_CUST__</div></div>
+        <div class="kpi-card"><div class="kpi-accent" style="background:#d29922"></div><div class="kpi-label">Break-even churn probability threshold</div><div class="kpi-value" style="color:var(--amber)">__W_BEP__%</div><div class="kpi-delta neu">equals churn model Bayes threshold</div></div>
       </div>
-      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. At the 54.0% gross margin, Rs 523 per contact is about Rs 167 of contribution.</div>
+      <div class="card-sub" style="margin:-4px 0 12px">Values are expected <em>net revenue</em> after contact cost but before cost of goods, not profit. Contribution (gross profit after COGS and contact cost) = expected recovered revenue Rs 772.55 x 54.0% gross margin - Rs 250 contact cost = Rs 167 per contact. The simple product Rs 523 x 54% = Rs 282 is not the right calculation.</div>
 
       <div class="card" style="margin-bottom:12px">
         <div class="card-header"><div><div class="card-title">Sensitivity -- how wrong can the assumptions be?</div><div class="card-sub">Expected net revenue per contact (before cost of goods) across recovery rate and offer cost. The recovery rate is the single most sensitive assumption, which is why it is shown as a range rather than a point</div></div></div>
@@ -150,7 +159,7 @@ PAGES = """<!-- PRICING_PAGES_START -->
           </div>
           <div style="margin-bottom:24px">
             <span class="q-badge">Q2</span><strong> What is the expected value per contact?</strong><br>
-            <span style="color:var(--blue);font-weight:600">Answer:</span> __W_EVPC__ at __W_RATE__% assumed recovery (Rs 250 contact cost, Rs 13,292 retained value). This is expected net revenue before cost of goods -- at 54% gross margin it translates to roughly Rs 167 of contribution per contact.
+            <span style="color:var(--blue);font-weight:600">Answer:</span> __W_EVPC__ at __W_RATE__% assumed recovery (Rs 250 contact cost, Rs 13,292 retained value). This is expected net revenue before cost of goods. Contribution (gross profit after COGS and contact cost) = Rs 772.55 x 54.0% - Rs 250 = Rs 167 per contact.
           </div>
           <div style="margin-bottom:24px">
             <span class="q-badge">Q3</span><strong> Which scenario gives the best ROI?</strong><br>
