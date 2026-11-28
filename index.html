@@ -593,7 +593,7 @@ tr:last-child td{border-bottom:0}
             <div class="fc-total" id="fcTotal">—</div>
             <div class="hero-sub" style="margin-top:4px"><span class="up" id="fcGrowth">—</span> avg monthly growth · Jan–Jun 2025</div>
             <div class="fc-list" id="fcList"></div>
-            <div class="hero-sub" style="margin-top:10px;color:var(--muted)">Projected, not realised — the ensemble was chosen because it beat the drift baseline (MASE on the Forecast page).</div>
+            <div class="hero-sub" style="margin-top:10px;color:var(--muted)">Projected, not realised — the rolling-origin backtest shows the drift baseline beating this ensemble (MASE 0.468 vs 0.680), so do not use it for budgeting.</div>
           </div>
         </div>
         <div class="card">
@@ -2556,7 +2556,7 @@ function generateOfflineAnswer(question) {
         { label: 'Gross margin', value: K.revenue.margin_pct + '%', comparison: 'value-weighted; unweighted line mean is 53.79%' },
         { label: 'Quality checks', value: '7/7 PASS', comparison: 'nulls, duplicates, key integrity, reconciliation' }
       ],
-      'Definitions live in data/metrics.json and are pinned by the 273-test suite. Population reconciliations (2,000 \u2192 1,991 customers; 12,000 \u2192 9,933 orders) are documented in the README.',
+      'Definitions live in data/metrics.json and are pinned by the 284-test suite. Population reconciliations (2,000 \u2192 1,991 customers; 12,000 \u2192 9,933 orders) are documented in the README.',
       ['The dataset is synthetic and seeded \u2014 definitions and engineering are the substance; the numbers are illustrative.'],
       ['How is gross margin defined?', 'What is the difference between predicted churn and observed inactivity?', 'Give me a complete business overview']);
   }

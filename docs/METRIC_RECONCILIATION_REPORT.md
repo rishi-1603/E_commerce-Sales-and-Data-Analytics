@@ -1,5 +1,9 @@
 # Metric Reconciliation Report
 
+> **Historical snapshot (2026-11-19).** The 273-test evidence below describes that
+> audit commit. Current suite: **284 tests**; current KPI values live in
+> `data/metrics.json`.
+
 **Date:** 2026-11-19<br>
 **Scope:** synthetic, seeded INR dataset; raw-CSV reconciliation, recorded automated-test evidence, recorded live-dashboard evidence, and PostgreSQL verification boundaries.
 

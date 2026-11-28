@@ -1,5 +1,9 @@
 # Complete Project QA Report — EcomAnalytics
 
+> **Historical snapshot (2026-11-19).** Test counts and figures below describe that
+> audit commit. The suite has since grown to **284 tests**; current KPI values live in
+> `data/metrics.json` and `reports/ai_eval_report.md`.
+
 | Field | Value |
 |---|---|
 | Project | E-Commerce Sales & Customer Analytics Platform (EcomAnalytics) |

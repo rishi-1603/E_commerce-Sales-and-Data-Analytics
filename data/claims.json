@@ -1,8 +1,8 @@
 {
   "project": "E-Commerce Sales & Customer Analytics Platform",
   "repository": "https://github.com/rishi-1603/E_commerce-Sales-and-Data-Analytics",
-  "last_updated": "2026-11-20",
-  "verified_ci_tests": 273,
+  "last_updated": "2026-11-27",
+  "verified_ci_tests": 284,
   "claims": [
     {
       "metric_id": "ecom_sales_revenue",
@@ -103,8 +103,8 @@
     {
       "metric_id": "ecom_automated_ci_tests",
       "display_name": "Automated CI Test Suite",
-      "value": 273,
-      "formatted_value": "273 Passing Tests",
+      "value": 284,
+      "formatted_value": "284 Passing Tests",
       "unit": "Tests",
       "population": "Full automated test suite",
       "definition": "pytest tests/ execution in GitHub Actions CI (Python 3.11)",

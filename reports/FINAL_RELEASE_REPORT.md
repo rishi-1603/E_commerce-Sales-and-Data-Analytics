@@ -33,7 +33,7 @@
 ## F. Known issues / disclosed limitations
 1. Synthetic data — methods transfer, numbers don't
 2. Win-back experiment is design-only (no results claimed)
-3. ₹1.24 Cr is historical spend of the cooling-off band, not revenue at risk
+3. ₹1.24 Cr is historical spend of the cooling-off band, not revenue at risk (superseded in v3: 441 customers, ₹1.30 Cr — see the v3 table below)
 
 ## H. Deployment
 Live: https://ecomanalytics-dashboard.vercel.app/ (verified 200 after release)

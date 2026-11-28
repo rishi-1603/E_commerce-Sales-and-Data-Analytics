@@ -1,5 +1,8 @@
 # Vercel Deployment Audit — EcomAnalytics
 
+> **Historical snapshot (2026-11-19).** The 273-test count below describes the audited
+> commit. Current suite: **284 tests**.
+
 **Audit date:** 2026-11-19<br>
 **Code commit:** `890f66ffd21e5cfb7cf64358a9b56f01a3659747`<br>
 **Branch:** `main`; commit pushed to `origin/main`<br>

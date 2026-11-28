@@ -1,5 +1,8 @@
 # Dashboard Test Report — EcomAnalytics
 
+> **Historical snapshot (2026-11-19).** The 273-test count below describes that audit
+> commit. Current suite: **284 tests** (see `docs/TEST_REPORT.md`).
+
 **Audit date:** 2026-11-19<br>
 **Production URL:** https://ecomanalytics-dashboard.vercel.app/<br>
 **Audited code commit:** `890f66ffd21e5cfb7cf64358a9b56f01a3659747`<br>

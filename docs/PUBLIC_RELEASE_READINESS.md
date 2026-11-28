@@ -1,5 +1,8 @@
 # Public Release Readiness
 
+> **Historical snapshot (2026-11-20).** Test counts below describe that release
+> commit. Current suite: **284 tests**; current KPI values live in `data/metrics.json`.
+
 **Date:** 2026-11-20<br>
 **Overall verdict:** **RELEASE-READY WITH DISCLOSURES** for the public synthetic-data portfolio scope<br>
 **Known unresolved P0/P1:** **none**<br>

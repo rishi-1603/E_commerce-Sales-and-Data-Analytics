@@ -1,3 +1,5 @@
+// Captures the 12 dashboard pages to docs/screenshots/ from the deployed Vercel URL.
+// Usage: npm i -D playwright && npx playwright install chromium && node scripts/capture_dashboard_screenshots.js
 const { chromium } = require('playwright');
 const fs = require('fs');
 

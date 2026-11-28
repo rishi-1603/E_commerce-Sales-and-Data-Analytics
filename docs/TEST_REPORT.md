@@ -1,5 +1,6 @@
 # TEST REPORT — E-Commerce
-### Last full local run: 2026-11-20 — 273/273 passed (131.71s, Python 3.12 venv, `pytest tests/ -q`)
+### Latest run: 2026-11-27 — 284/284 passed (86.48s, `pytest tests/ -q`, 56 statsmodels ConvergenceWarnings)
+### Previous full local run: 2026-11-20 — 273/273 passed (131.71s, Python 3.12 venv, `pytest tests/ -q`)
 
 The run was executed on a CI-equivalent copy (tracked files only, no `.env`, no `.venv`)
 after regenerating the dataset and every analytics artifact from source, mirroring the

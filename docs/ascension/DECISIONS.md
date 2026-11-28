@@ -37,6 +37,10 @@ Full test suite:                96 passed (84 baseline + 12 new)
 p95 latency (fallback path):    ~216 ms
 ```
 
+> **Superseded:** a later fix (A13) brought the benchmark to **37/37**; the
+> current result is in `reports/ai_eval_report.md`. The counts above are the
+> historical U1 measurement.
+
 ### Bugs the harness found (both fixed and pinned by tests)
 1. **Fabricated answer** — "What will total revenue be next year?" returned all-time revenue as a forecast. Fix: `FORECAST_GUARD` refuses future/forecast questions in this SQL layer.
 2. **Silently wrong answer** — "total revenue in 2024" dropped the year filter and returned all-time revenue. Fix: filter-aware patterns precede all-time patterns.
@@ -178,6 +182,10 @@ pytest → **119 passed**. Registry, artifact and pins now agree to 1e-9.
 C/r/V cost model as the churn calibration (₹250 / 15% / ₹12,931).
 
 **Result:** ₹541 expected profit per contact, **₹2.42 L** for the full pool.
+
+> **Superseded by the 2026-11-18 rework:** 441 customers, ₹523 expected
+> profit per contact, ₹2.30 L for the full pool. Current values:
+> `reports/winback_economics.json`.
 
 **The strongest check in this pack:** the campaign break-even churn probability
 (**12.89%**) equals the churn model's independently-computed Bayes threshold
